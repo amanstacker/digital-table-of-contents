@@ -1,1 +1,1 @@
-# digital-table-of-contents
+# Digital Table Of Contents
