@@ -1,7 +1,7 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
 
 <div class="wrap">
-    <h1><?php esc_html_e( 'Digital Table of Contents Settings', 'digital-table-of-contents' ); ?></h1>
+    <h1><?php esc_html_e( 'Digital Table Of Contents Settings', 'digital-table-of-contents' ); ?></h1>
     <form method="post" action="options.php">
         <?php
         // Display settings fields
