@@ -60,7 +60,7 @@ private function generate_toc( $content, $options ) {
     $toc .= '<h2>' . esc_html( $title ) . '</h2>';
 
     if ( $toggle ) {
-        $toc .= '<button class="toggle-toc">' . __( 'Show TOC', 'dtoc' ) . '</button></div>';
+        $toc .= '<button class="toggle-toc">' . esc_html__( 'Show TOC', 'digital-table-of-contents' ) . '</button></div>';
     }
 
     $toc .= '<ul class="toc-list' . ( $toggle ? ' hidden' : '' ) . '">';
@@ -85,7 +85,7 @@ private function generate_toc( $content, $options ) {
             $id = 'toc-item-' . $index;
             $items[] = [
                 'id'   => $id,
-                'text' => strip_tags( $matches[2][ $index ][0] ),
+                'text' => wp_strip_all_tags( $matches[2][ $index ][0] ),
             ];
         }
 
