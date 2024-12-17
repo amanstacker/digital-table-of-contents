@@ -36,6 +36,10 @@ A plugin to automatically add table of contents on posts and pages or via shortc
 	[digital_toc headings="h2,h3" toggle="true" hierarchy="true" title="My Custom TOC"]
 	This will render a TOC that includes H2 and H3 headings, with toggle and hierarchy enabled, and a custom title "My Custom TOC."
 
+### Report Bug or Contribute fix
+
+Encounter an issue with Digital Table Of Contents? or wanted to contribute. Kindly visit Digital Table Of Contents repository on [GitHub](https://github.com/amanstacker/digital-table-of-contents). Please be aware that GitHub is not a support forum, but rather a streamlined platform for effectively addressing and solving problems.
+
 ### Installation
 
 1. Upload the plugin folder to the `/wp-content/plugins/` directory.
