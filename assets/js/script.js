@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const toggleButtons = document.querySelectorAll(".digital-toc .toggle-toc");
+    const toggleButtons = document.querySelectorAll(".dtoc-list .toggle-toc");
 
     toggleButtons.forEach((button) => {
         button.addEventListener("click", function () {
-            const tocList = this.parentElement.parentElement.querySelector('.digital-toc .toc-list');
+            const tocList = this.parentElement.parentElement.querySelector('.dtoc-list .toc-list');
 
             if (tocList.classList.contains("hidden")) {
                 tocList.classList.remove("hidden");

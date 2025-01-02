@@ -11,7 +11,7 @@ class DTOC_Assets {
     }
 
     public function dtoc_enqueue_assets() {
-        wp_enqueue_style( 'digital-toc-style', DTOC_PLUGIN_URL.'assets/css/style.css' ,[], DTOC_VERSION ,'all');
-        wp_enqueue_script( 'digital-toc-script', DTOC_PLUGIN_URL.'assets/js/script.js', [ 'jquery' ], DTOC_VERSION , true );
+        wp_enqueue_style( 'dtoc-list-style', DTOC_PLUGIN_URL.'assets/css/style.css' ,[], DTOC_VERSION ,'all');
+        wp_enqueue_script( 'dtoc-list-script', DTOC_PLUGIN_URL.'assets/js/script.js', [ 'jquery' ], DTOC_VERSION , true );
     }
 }

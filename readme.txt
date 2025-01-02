@@ -20,7 +20,7 @@ A plugin to automatically add table of contents on posts and pages or via shortc
 
 2. **Using the Shortcode:**
 
-   - You can manually insert a Table of Contents using the `[digital_toc]` shortcode. 
+   - You can manually insert a Table of Contents using the `[dtoc_list]` shortcode. 
    - The shortcode supports the following arguments:
    
      **Arguments:**
@@ -31,7 +31,7 @@ A plugin to automatically add table of contents on posts and pages or via shortc
 
    **Example:**
    
-	[digital_toc headings="h2,h3" toggle="true" hierarchy="true" title="My Custom TOC"]
+	[dtoc_list headings="h2,h3" toggle="true" hierarchy="true" title="My Custom TOC"]
 	This will render a TOC that includes H2 and H3 headings, with toggle and hierarchy enabled, and a custom title "My Custom TOC."
 
 == Report Bug or Contribute fix ==

@@ -5,7 +5,7 @@
     <form method="post" action="options.php">
         <?php
         // Display settings fields
-        settings_fields( 'digital_toc_settings' );
+        settings_fields( 'dtoc_settings_fields' );
         $options = get_option( 'dtoc_toc_options', [
             'post_types' => [ 'post' ],
             'headings'   => [ 'h2' ],
@@ -87,7 +87,7 @@
     <div style="margin-top: 40px; padding: 20px; background-color: #f9f9f9; border: 1px solid #ddd;">
         <h2><?php esc_html_e( 'How to Use the Shortcode', 'digital-table-of-contents' ); ?></h2>
         <p><?php esc_html_e( 'You can use the following shortcode to manually insert a TOC into any content:', 'digital-table-of-contents' ); ?></p>
-        <pre style="background: #f1f1f1; padding: 10px; border-radius: 4px;">[digital_toc headings="h2,h3" toggle="true" hierarchy="true" title="My Custom TOC"]</pre>
+        <pre style="background: #f1f1f1; padding: 10px; border-radius: 4px;">[dtoc_list headings="h2,h3" toggle="true" hierarchy="true" title="My Custom TOC"]</pre>
         <p><?php esc_html_e( 'Supported arguments:', 'digital-table-of-contents' ); ?></p>
         <ul>
             <li><strong><?php esc_html_e( 'headings', 'digital-table-of-contents' ); ?>:</strong> <?php esc_html_e( 'Specify heading levels to include (e.g., h2,h3,h4).', 'digital-table-of-contents' ); ?></li>
@@ -96,6 +96,6 @@
             <li><strong><?php esc_html_e( 'title', 'digital-table-of-contents' ); ?>:</strong> <?php esc_html_e( 'Customize the TOC title.', 'digital-table-of-contents' ); ?></li>
         </ul>
         <p><?php esc_html_e( 'Example usage:', 'digital-table-of-contents' ); ?></p>
-        <pre style="background: #f1f1f1; padding: 10px; border-radius: 4px;">[digital_toc headings="h2,h3" toggle="true" hierarchy="true" title="Table of Contents"]</pre>
+        <pre style="background: #f1f1f1; padding: 10px; border-radius: 4px;">[dtoc_list headings="h2,h3" toggle="true" hierarchy="true" title="Table of Contents"]</pre>
     </div>
 </div>

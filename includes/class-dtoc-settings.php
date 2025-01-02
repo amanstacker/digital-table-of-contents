@@ -13,7 +13,7 @@ class DTOC_Settings {
 
     public function dtoc_register_settings() {
         register_setting(
-            'digital_toc_settings', 
+            'dtoc_settings_fields', 
             'dtoc_toc_options', 
             [
                 'type'              => 'array',
@@ -55,7 +55,7 @@ class DTOC_Settings {
             __( 'Digital Table of Contents Settings', 'digital-table-of-contents' ),
             __( 'Digital TOC', 'digital-table-of-contents' ),
             'manage_options',
-            'digital_toc_settings',
+            'dtoc_settings_fields',
             [ $this, 'dtoc_render_settings_page' ]
         );
     }

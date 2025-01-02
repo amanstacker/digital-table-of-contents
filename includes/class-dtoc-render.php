@@ -8,7 +8,7 @@ class DTOC_Render {
 
     public function __construct() {
         add_action( 'the_content', [ $this, 'dtoc_auto_insert_toc' ] );
-        add_shortcode( 'digital_toc', [ $this, 'dtoc_render_toc_shortcode' ] );
+        add_shortcode( 'dtoc_list', [ $this, 'dtoc_render_toc_shortcode' ] );
     }
 
     public function dtoc_auto_insert_toc( $content ) {
@@ -29,7 +29,7 @@ class DTOC_Render {
         // Replace the original heading with the modified one
         $content = str_replace(
             $match[0],
-            '<' . $headingTag . '><span class="digital-toc-span" id="' . esc_attr($id) . '"></span>' . esc_html($headingText) . '</' . $headingTag . '>',
+            '<' . $headingTag . '><span class="dtoc-list-span" id="' . esc_attr($id) . '"></span>' . esc_html($headingText) . '</' . $headingTag . '>',
             $content
         );
         
@@ -64,7 +64,7 @@ private function dtoc_generate_toc( $content, $options ) {
     $toggle    = $options['toggle'] ? $options['toggle'] : false;
     $title     = $options['title'] ? $options['title'] : 'Table of Contents';
 
-    $toc = '<div class="digital-toc"><div class="digital-toc-header">';
+    $toc = '<div class="dtoc-list"><div class="dtoc-list-header">';
     $toc .= '<h2>' . esc_html( $title ) . '</h2>';
 
     if ( $toggle ) {

@@ -1,4 +1,4 @@
-.digital-toc {
+.dtoc-list {
     border: 1px solid #ddd;
     background-color: #f9f9f9;
     padding: 15px;
@@ -7,20 +7,20 @@
     font-size: 14px;
 }
 
-.digital-toc-header {
+.dtoc-list-header {
     display: flex;
     align-items: center;
     justify-content: space-between; /* Push the toggle button to the right */
     margin-bottom: 10px;
 }
 
-.digital-toc-header h2 {
+.dtoc-list-header h2 {
     margin: 0;
     font-size: 18px;
     font-weight: 500;
 }
 
-.digital-toc .toggle-toc {
+.dtoc-list .toggle-toc {
     padding: 5px 10px;
     font-size: 14px;
     background-color: #1976d2;
@@ -31,31 +31,31 @@
     transition: background-color 0.3s ease;
 }
 
-.digital-toc .toggle-toc:hover {
+.dtoc-list .toggle-toc:hover {
     background-color: #1565c0;
 }
 
-.digital-toc ul {
+.dtoc-list ul {
     margin: 0;
     padding: 0 0 0 20px;
     list-style-type: none;
 }
 
-.digital-toc ul li {
+.dtoc-list ul li {
     margin: 5px 0;
 }
 
-.digital-toc ul li a {
+.dtoc-list ul li a {
     text-decoration: none;
     color: #1976d2;
     transition: color 0.3s ease;
 }
 
-.digital-toc ul li a:hover {
+.dtoc-list ul li a:hover {
     color: #0d47a1;
 }
 
-.digital-toc .hidden{
+.dtoc-list .hidden{
 	display:none;
 }
 html {
