@@ -21,8 +21,9 @@ class DTOC_Render {
 		$toc = $this->dtoc_generate_toc( $content, $options );
 		
 	if (preg_match_all('/<(' . implode('|', $headings) . ')\b[^>]*>(.*?)<\/\1>/', $content, $matches, PREG_OFFSET_CAPTURE)) {
+        
     foreach ($matches[0] as $index => $match) {
-        $index_cnt = $index_cnt+1;
+        
         $headingTag = $matches[1][$index][0];
         $headingText = $matches[2][$index][0];
         $id = 'toc-item-' . esc_attr($index);

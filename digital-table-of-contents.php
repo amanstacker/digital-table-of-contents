@@ -4,7 +4,7 @@ Plugin Name: Digital Table Of Contents
 Description: A plugin to automatically add table of contents on posts and pages or via shortcode.
 Version: 1.0.0
 Text Domain: digital-table-of-contents
-Author: Aman Kumar Sharma
+Author: amanstacker
 Author URI: https://profiles.wordpress.org/amanstacker/
 License: GPLv2 or later
 Requires at least: 5.0

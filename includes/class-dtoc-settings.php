@@ -52,8 +52,8 @@ class DTOC_Settings {
 
     public function dtoc_create_settings_page() {
         add_options_page(
-            __( 'Digital Table of Contents Settings', 'digital-table-of-contents' ),
-            __( 'Digital TOC', 'digital-table-of-contents' ),
+            esc_html__( 'Digital Table of Contents Settings', 'digital-table-of-contents' ),
+            esc_html__( 'Digital TOC', 'digital-table-of-contents' ),
             'manage_options',
             'dtoc_settings_fields',
             [ $this, 'dtoc_render_settings_page' ]
