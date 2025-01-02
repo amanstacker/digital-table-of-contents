@@ -7,6 +7,8 @@ Text Domain: digital-table-of-contents
 Author: Aman Kumar Sharma
 Author URI: https://profiles.wordpress.org/amanstacker/
 License: GPLv2 or later
+Requires at least: 5.0
+Requires PHP: 5.6.20
 */
 
 // Exit if accessed directly.
@@ -20,7 +22,7 @@ require_once plugin_dir_path( __FILE__ ) . 'includes/class-dtoc-settings.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/class-dtoc-render.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/class-dtoc-assets.php';
 
-class DigitalTableOfContents {
+class DTOC_Main {
 
     public function __construct() {
         // Initialize plugin
@@ -30,4 +32,4 @@ class DigitalTableOfContents {
     }
 }
 
-new DigitalTableOfContents();
+new DTOC_Main();

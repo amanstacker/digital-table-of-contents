@@ -6,7 +6,7 @@
         <?php
         // Display settings fields
         settings_fields( 'digital_toc_settings' );
-        $options = get_option( 'digital_toc_options', [
+        $options = get_option( 'dtoc_toc_options', [
             'post_types' => [ 'post' ],
             'headings'   => [ 'h2' ],
             'hierarchy'  => false,
@@ -27,7 +27,7 @@
 						}
                         ?>
                         <label>
-                            <input type="checkbox" name="digital_toc_options[post_types][]" value="<?php echo esc_attr( $post_type->name ); ?>" <?php checked( $checked ); ?>>
+                            <input type="checkbox" name="dtoc_toc_options[post_types][]" value="<?php echo esc_attr( $post_type->name ); ?>" <?php checked( $checked ); ?>>
                             <?php echo esc_html( $post_type->label ); ?>
                         </label><br>
                         <?php
@@ -47,7 +47,7 @@
 						}
                         ?>
                         <label>
-                            <input type="checkbox" name="digital_toc_options[headings][]" value="<?php echo esc_attr( $heading ); ?>" <?php checked( $checked ); ?>>
+                            <input type="checkbox" name="dtoc_toc_options[headings][]" value="<?php echo esc_attr( $heading ); ?>" <?php checked( $checked ); ?>>
                             <?php echo esc_html( strtoupper( $heading ) ); ?>
                         </label><br>
                         <?php
@@ -59,7 +59,7 @@
                 <th scope="row"><?php esc_html_e( 'Enable Hierarchy', 'digital-table-of-contents' ); ?></th>
                 <td>
                     <label>
-                        <input type="checkbox" name="digital_toc_options[hierarchy]" value="1" <?php checked( $options['hierarchy'], 1 ); ?>>
+                        <input type="checkbox" name="dtoc_toc_options[hierarchy]" value="1" <?php checked( $options['hierarchy'], 1 ); ?>>
                         <?php esc_html_e( 'Enable nested hierarchy for TOC', 'digital-table-of-contents' ); ?>
                     </label>
                 </td>
@@ -68,7 +68,7 @@
                 <th scope="row"><?php esc_html_e( 'Enable TOC Toggle', 'digital-table-of-contents' ); ?></th>
                 <td>
                     <label>
-                        <input type="checkbox" name="digital_toc_options[toggle]" value="1" <?php checked( $options['toggle'], 1 ); ?>>
+                        <input type="checkbox" name="dtoc_toc_options[toggle]" value="1" <?php checked( $options['toggle'], 1 ); ?>>
                         <?php esc_html_e( 'Enable toggle for TOC', 'digital-table-of-contents' ); ?>
                     </label>
                 </td>
@@ -76,7 +76,7 @@
             <tr valign="top">
                 <th scope="row"><?php esc_html_e( 'TOC Title', 'digital-table-of-contents' ); ?></th>
                 <td>
-                    <input type="text" name="digital_toc_options[title]" value="<?php echo esc_attr( $options['title'] ); ?>" class="regular-text">
+                    <input type="text" name="dtoc_toc_options[title]" value="<?php echo esc_attr( $options['title'] ); ?>" class="regular-text">
                 </td>
             </tr>
         </table>
