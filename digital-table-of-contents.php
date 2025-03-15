@@ -2,12 +2,12 @@
 /*
 Plugin Name: Digital Table of Contents
 Description: Show automated table of contents generated from the post content.
-Version: 1.0
-Author: scriptcel
-Author URI: https://scriptcel.com/
+Version: 1.0.1
 Text Domain: digital-table-of-contents
 Domain Path: /languages
-License: GPL2
+Author: amanstacker
+Author URI: https://profiles.wordpress.org/amanstacker/
+License: GPLv2 or later
 */
 
 // Exit if accessed directly.
