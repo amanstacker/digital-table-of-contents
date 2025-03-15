@@ -1,0 +1,292 @@
+<?php
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+add_action( 'admin_menu', 'dtoc_add_dashboard_menu_links');
+function dtoc_add_dashboard_menu_links(){
+    add_menu_page(
+		__( 'Digital Table Of Contents', 'digital-table-of-contents' ),
+		'Digital TOC',
+		'manage_options',
+		'dtoc',
+		'dtoc_dashboard_page_render',
+		'dashicons-index-card',
+		70
+	);
+    add_submenu_page(
+		'dtoc',
+		'Dashboard',
+        'Dashboard',
+		'manage_options',
+		'dtoc',
+        'dtoc_dashboard_page_render',				
+	);
+    // add_submenu_page(
+	// 	'dtoc',
+	// 	'Digital Table Of Contents Help & Support',
+    //     'Help & Support',
+	// 	'manage_options',
+	// 	'dtoc_support',
+    //     'dtoc_compatibility_page_render'
+	// );
+}
+
+
+function dtoc_dashboard_page_render(){
+
+    // Authentication
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+    // Handing save settings
+	if ( isset( $_GET['settings-updated'] ) ) {
+		settings_errors();               
+	}
+
+    $tab = dtoc_admin_get_tab('modules', array('modules', 'import_export','tools', 'support'));
+    ?>
+    <div class="wrap dtoc-main-container">
+    <h1 class="wp-heading-inline"><?php echo esc_html__('Digital Table Of Contents', 'digital-table-of-contents'); ?></h1>    
+    <!-- setting form start here -->
+    <div class="dtoc-dashboard-wrapper">
+     
+    <h2 class="nav-tab-wrapper dtoc-tabs">
+					<?php					                        
+                        echo '<a href="' . esc_url(dtoc_admin_tab_link('modules', 'dtoc')) . '" class="nav-tab ' . esc_attr( $tab == 'modules' ? 'nav-tab-active' : '') . '"> ' . esc_html__('Modules','digital-table-of-contents') . '</a>';                        
+                        echo '<a href="' . esc_url(dtoc_admin_tab_link('import_export', 'dtoc')) . '" class="nav-tab ' . esc_attr( $tab == 'import_export' ? 'nav-tab-active' : '') . '"> ' . esc_html__('Import/Export','digital-table-of-contents') . '</a>';
+                        echo '<a href="' . esc_url(dtoc_admin_tab_link('tools', 'dtoc')) . '" class="nav-tab ' . esc_attr( $tab == 'tools' ? 'nav-tab-active' : '') . '"> ' . esc_html__('Tools','digital-table-of-contents') . '</a>';
+                        echo '<a href="' . esc_url(dtoc_admin_tab_link('support', 'dtoc')) . '" class="nav-tab ' . esc_attr( $tab == 'support' ? 'nav-tab-active' : '') . '"> ' . esc_html__('Support','digital-table-of-contents') . '</a>';                                                                        
+					?>
+				</h2>
+    <form action="options.php" method="post" enctype="multipart/form-data" class="dtoc-settings-form">
+			<div class="dtoc-settings-form-wrap">
+			<?php
+                settings_fields( 'dtoc_dashboard_options_group' );	                
+                //Digital tab
+                echo "<div class='dtoc-modules' ".( $tab != 'modules' ? 'style="display:none;"' : '').">"; 
+                    dtoc_dashboard_modules();                                                  
+                echo "</div>"; 
+                //Import & Export tab
+                echo "<div class='dtoc-import_export' ".( $tab != 'import_export' ? 'style="display:none;"' : '').">";                
+                    do_settings_sections( 'dtoc_dashboard_import_export_setting_section' );	
+                echo "</div>";                               
+                //Tools tab
+                echo "<div class='dtoc-tools' ".( $tab != 'tools' ? 'style="display:none;"' : '').">";
+                    do_settings_sections( 'dtoc_dashboard_tools_setting_section' );	
+                echo "</div>";
+                //Support tab
+                echo "<div class='dtoc-support' ".( $tab != 'support' ? 'style="display:none;"' : '').">";                
+                    do_settings_sections( 'dtoc_dashboard_support_setting_section' );	
+                echo "</div>";                
+			?>
+		</div>
+
+			<div class="button-wrapper">                                                                
+                <?php submit_button( esc_html__('Save Settings', 'digital-table-of-contents') ); ?>                                
+			</div>  
+            
+		</form>
+    </div>
+    <!-- setting form ends here -->
+    </div>
+    <?php
+
+}
+
+function dtoc_dashboard_modules(){
+
+	global $dtoc_dashboard;
+
+    $modules = array(
+        array(
+            'icon'  => DTOC_URL.'/assets/admin/images/list_icon.png',
+            'title' => 'In-Content Mobile',
+            'desc'  => 'Enable this module if you want to customize mobile TOC on advanced level',
+            'name'  => 'incontent_mobile',
+            'url'   => admin_url( 'admin.php?page=dtoc_incontent_mobile')
+        ),
+        array(
+            'icon'  => DTOC_URL.'/assets/admin/images/list_icon.png',
+            'title' => 'In-Content Tablet',
+            'desc'  => 'Enable this module if you want to customize Tablet TOC on advanced level',
+            'name'  => 'incontent_tablet',
+            'url'   => admin_url( 'admin.php?page=dtoc_incontent_tablet')
+        ),
+        array(
+            'icon'  => DTOC_URL.'/assets/admin/images/list_icon.png',
+            'title' => 'Sticky',
+            'desc'  => 'Enable this module if you want to customize Mobile TOC on advanced level',
+            'name'  => 'sticky',
+            'url'   => admin_url( 'admin.php?page=dtoc_sticky')
+        ),
+        array(
+            'icon'  => DTOC_URL.'/assets/admin/images/list_icon.png',
+            'title' => 'Sticky Mobile',
+            'desc'  => 'Enable this module if you want to customize Mobile TOC on advanced level',
+            'name'  => 'sticky_mobile',
+            'url'   => admin_url( 'admin.php?page=dtoc_sticky_mobile')
+        ),
+        array(
+            'icon'  => DTOC_URL.'/assets/admin/images/list_icon.png',
+            'title' => 'Sticky Tablet',
+            'desc'  => 'Enable this module if you want to customize Tablet TOC on advanced level',
+            'name'  => 'sticky_tablet',
+            'url'   => admin_url( 'admin.php?page=dtoc_sticky_tablet')
+        ),
+        array(
+            'icon'  => DTOC_URL.'/assets/admin/images/list_icon.png',
+            'title' => 'Floating',
+            'desc'  => 'Enable this module if you want to customize mobile TOC on advanced level',
+            'name'  => 'floating',
+            'url'   => admin_url( 'admin.php?page=dtoc_floating')
+        ),
+        array(
+            'icon'  => DTOC_URL.'/assets/admin/images/list_icon.png',
+            'title' => 'Floating Mobile',
+            'desc'  => 'Enable this module if you want to customize mobile TOC on advanced level',
+            'name'  => 'floating_mobile',
+            'url'   => admin_url( 'admin.php?page=dtoc_floating_mobile')
+        ),
+        array(
+            'icon'  => DTOC_URL.'/assets/admin/images/list_icon.png',
+            'title' => 'Floating Tablet',
+            'desc'  => 'Enable this module if you want to customize mobile TOC on advanced level',
+            'name'  => 'floating_tablet',
+            'url'   => admin_url( 'admin.php?page=dtoc_floating_tablet')
+        ),
+        array(
+            'icon'  => DTOC_URL.'/assets/admin/images/list_icon.png',
+            'title' => 'Shortcode',
+            'desc'  => 'Enable this module if you want to customize mobile TOC on advanced level',
+            'name'  => 'shortcode',
+            'url'   => admin_url( 'admin.php?page=dtoc_shortcode')
+        ),
+        array(
+            'icon'  => DTOC_URL.'/assets/admin/images/list_icon.png',
+            'title' => 'Shortcode Mobile',
+            'desc'  => 'Enable this module if you want to customize mobile TOC on advanced level',
+            'name'  => 'shortcode_mobile',
+            'url'   => admin_url( 'admin.php?page=dtoc_shortcode_mobile')
+        ),
+        array(
+            'icon'  => DTOC_URL.'/assets/admin/images/list_icon.png',
+            'title' => 'Shortcode Tablet',
+            'desc'  => 'Enable this module if you want to customize mobile TOC on advanced level',
+            'name'  => 'shortcode_tablet',
+            'url'   => admin_url( 'admin.php?page=dtoc_shortcode_tablet')
+        ),
+        array(
+            'icon'  => DTOC_URL.'/assets/admin/images/list_icon.png',
+            'title' => 'Compatibility',
+            'desc'  => 'Enable this module if you want to customize mobile TOC on advanced level',
+            'name'  => 'compatibility',
+            'url'   => admin_url( 'admin.php?page=dtoc_compatibility')
+        )        
+    );
+    ?> <div class="dtoc-grid-container"> <?php
+    foreach ($modules as $value) {
+        ?>
+            <div class="dtoc-grid-item">    
+            <div class="dtoc-grid-header">
+                <img class="dtoc-grid-image" src="<?php echo esc_url($value['icon'])?>">
+                <h3><?php esc_html_e($value['title'], 'digital-table-of-contents'); ?></h3>
+                <p><?php esc_html_e($value['desc'], 'digital-table-of-contents'); ?></p>
+            </div>
+            <hr>
+            <div class="dtoc-grid-footer">
+            <div class="dtoc-switch-block">
+            <div class="dtoc-loader"></div>
+            <label class="dtoc-switch">
+                <input type="checkbox" class="dtoc-grid-checkbox" name="<?php echo esc_attr($value['name']) ?>" <?php if($dtoc_dashboard['modules'][$value['name']] == true){ echo 'checked';}?> >
+                <span class="dtoc-slider"></span>
+            </label>
+            </div>
+            <a class="button dtoc-grid-settings" <?php if($dtoc_dashboard['modules'][$value['name']] == true){ echo 'style="display:block"';}?> href="<?php echo esc_url($value['url']); ?>"><?php esc_html_e('Settings', 'digital-table-of-contents'); ?></a>
+            </div>
+        </div>
+        <?php      
+    }    
+    ?>
+    </div>
+    <?php
+}
+
+add_action('admin_init', 'dtoc_dashboard_settings_initiate');
+
+function dtoc_dashboard_settings_initiate(){
+
+    register_setting( 'dtoc_dashboard_options_group', 'dtoc_dashboard_options' );
+    // Modules
+    
+    add_settings_section('dtoc_dashboard_setting_section', __return_false(), '__return_false', 'dtoc_dashboard_setting_section');
+    
+    //Import/Export
+    add_settings_section('dtoc_dashboard_import_export_setting_section', __return_false(), '__return_false', 'dtoc_dashboard_import_export_setting_section');                                    
+    add_settings_field(
+        'dtoc_dashboard_export',
+         esc_html__('Export Settings', 'digital-table-of-contents'),
+        'dtoc_dashboard_export_cb',		
+        'dtoc_dashboard_import_export_setting_section',
+        'dtoc_dashboard_import_export_setting_section',
+    );
+	    add_settings_field(
+        'dtoc_dashboard_import',
+         esc_html__('Import Settings', 'digital-table-of-contents'),
+        'dtoc_dashboard_import_cb',		
+        'dtoc_dashboard_import_export_setting_section',
+        'dtoc_dashboard_import_export_setting_section',
+    );
+    // support
+    add_settings_section('dtoc_dashboard_tools_setting_section', __return_false(), '__return_false', 'dtoc_dashboard_tools_setting_section');
+    add_settings_field(
+        'dtoc_dashboard_tools',
+         '',
+        'dtoc_dashboard_tools_cb',		
+        'dtoc_dashboard_tools_setting_section',
+        'dtoc_dashboard_tools_setting_section'
+    );
+    // support
+    add_settings_section('dtoc_dashboard_support_setting_section', __return_false(), '__return_false', 'dtoc_dashboard_support_setting_section');                                
+    add_settings_field(
+        'dtoc_dashboard_support',
+         '',
+        'dtoc_dashboard_support_cb',		
+        'dtoc_dashboard_support_setting_section',
+        'dtoc_dashboard_support_setting_section',
+    );
+
+}
+function dtoc_dashboard_export_cb(){
+    global $dtoc_dashboard;	
+    ?>  
+         <div class="wrap">
+			
+            <button type="button" name="export" class="button" id="dtoc-export-button"><?php echo esc_html__('Export Options', 'digital-table-of-contents'); ?></button>
+			<div id="dtoc-export-loader" style="display: none;"><?php echo esc_html__('Loading...', 'digital-table-of-contents'); ?></div>
+   
+		</div>
+    <?php
+}
+
+function dtoc_dashboard_import_cb(){
+    global $dtoc_dashboard;	
+    ?>  
+         <div class="wrap">
+            <input type="file" name="import_file" accept=".json" required><br>
+            <button type="submit" name="import" class="button"id="dtoc-import-button"><?php echo esc_html__('Import Options', 'digital-table-of-contents'); ?></button>
+			 <div id="dtoc-import-loader" style="display: none;"><?php echo esc_html__('Uploading...', 'digital-table-of-contents'); ?></div>
+		</div>
+    <?php
+}
+function dtoc_dashboard_support_cb(){
+    global $dtoc_dashboard; 
+    ?>  
+        comming soon support
+    <?php
+}
+function dtoc_dashboard_tools_cb(){
+    global $dtoc_dashboard; 
+    ?>  
+        tools and cache toc post wise will come soon here
+    <?php
+}

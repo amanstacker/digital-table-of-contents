@@ -1,35 +1,42 @@
 <?php
 /*
-Plugin Name: Digital Table Of Contents
-Description: A plugin to automatically add table of contents on posts and pages or via shortcode.
-Version: 1.0.0
+Plugin Name: Digital Table of Contents
+Description: Show automated table of contents generated from the post content.
+Version: 1.0
+Author: scriptcel
+Author URI: https://scriptcel.com/
 Text Domain: digital-table-of-contents
-Author: amanstacker
-Author URI: https://profiles.wordpress.org/amanstacker/
-License: GPLv2 or later
-Requires at least: 5.0
-Requires PHP: 5.6.20
+Domain Path: /languages
+License: GPL2
 */
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'DTOC_VERSION', '1.0.0' );
-define( 'DTOC_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define('DTOC_VERSION', '1.0');
+define('DTOC_DIR_NAME', plugin_basename( dirname( __FILE__ ) ) );
+define('DTOC_BASE_NAME', plugin_basename( __FILE__ ) );
+define('DTOC_PATH', dirname( __FILE__ ) );
+define('DTOC_URL', plugin_dir_url( __FILE__ ) );
 
-// Include required files
-require_once plugin_dir_path( __FILE__ ) . 'includes/class-dtoc-settings.php';
-require_once plugin_dir_path( __FILE__ ) . 'includes/class-dtoc-render.php';
-require_once plugin_dir_path( __FILE__ ) . 'includes/class-dtoc-assets.php';
+//shared
+require_once( DTOC_PATH . '/shared/functions.php' );
 
-class DTOC_Main {
+//admin
+require_once( DTOC_PATH . '/admin/misc.php' );
+require_once( DTOC_PATH . '/admin/generic_functions.php' );
+require_once( DTOC_PATH . '/admin/class-digital-toc-settings.php' );
+require_once( DTOC_PATH . '/admin/dashboard_page.php' );
+require_once( DTOC_PATH . '/admin/compatibility_page.php' );
 
-    public function __construct() {
-        // Initialize plugin
-        new DTOC_Settings();
-        new DTOC_Render();
-        new DTOC_Assets();
-    }
-}
+require_once( DTOC_PATH . '/admin/class-digital-toc-posts-metaboxes.php' );
+require_once( DTOC_PATH . '/admin/class-digital-toc-taxonomies-metaboxes.php' );
 
-new DTOC_Main();
+
+//includes
+require_once( DTOC_PATH . '/includes/misc.php' );
+require_once( DTOC_PATH . '/includes/generic_functions.php' );
+require_once( DTOC_PATH . '/includes/incontent/in_content.php' );
+require_once( DTOC_PATH . '/includes/sticky/sticky.php' );
+require_once( DTOC_PATH . '/includes/floating/floating.php' );
+require_once( DTOC_PATH . '/includes/shortcode/shortcode.php' );

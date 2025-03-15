@@ -1,0 +1,78 @@
+.dtoc-meta-tabs {
+    margin-top: 10px;
+}
+.dtoc-meta-tab-titles {
+    list-style: none;
+    padding: 0;
+    display: flex;
+	margin:0;
+}
+.dtoc-meta-tab-titles li {
+    margin-right: 0;
+}
+.dtoc-meta-tab-titles a {
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    background: #f1f1f1;
+	margin:0;
+}
+.dtoc-meta-tab-titles a.active {
+    background: #fff;
+    border-bottom: 1px solid #fff;
+}
+.dtoc-meta-tab-content {
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+/* Container styling */
+.dtoc-meta-tabs .options-types {
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+/* Individual option group styling */
+.dtoc-meta-tabs .option-group {
+    margin-bottom: 15px;
+}
+
+/* Label styling */
+.dtoc-meta-tabs .option-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+	float: left;
+    padding-right: 10px;
+}
+
+/* Checkbox and radio inputs */
+.dtoc-meta-tabs .option-group input[type="checkbox"],
+.dtoc-meta-tabs .option-group input[type="radio"] {
+    margin-right: 8px;
+}
+
+/* Inline label for radio buttons and checkboxes */
+.dtoc-meta-tabs .option-group label > label {
+    font-weight: normal;
+    display: inline;
+    margin-right: 15px;
+    color: #555;
+}
+
+/* Checkbox and radio labels positioning */
+.dtoc-meta-tabs .option-group input[type="radio"] + label,
+.dtoc-meta-tabs .option-group input[type="checkbox"] + label {
+    display: inline;
+    font-weight: normal;
+    color: #555;
+}
+
+/* Style on hover and focus */
+.dtoc-meta-tabs .option-group input[type="checkbox"]:hover,
+.dtoc-meta-tabs .option-group input[type="radio"]:hover {
+    cursor: pointer;
+}

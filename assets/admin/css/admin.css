@@ -1,0 +1,388 @@
+.dtoc_child_opt th label{
+    padding-left: 15px;
+}
+.dtoc-settings-form-wrap label{
+  cursor: pointer;
+}
+.dtoc-main-wrapper{
+    display: flex;
+    width: 100%;
+}
+.dtoc-form-options{
+    flex: 1;
+    padding: 15px;
+    background: whitesmoke;
+    border-radius: 5px;    
+    
+}
+.dtoc-preview-wrapper{
+    flex: 1;
+    padding: 15px;
+    background: white;
+    border-radius: 5px;    
+    margin-left: 10px;
+}
+.dtoc-preview-heading{
+    text-align: center;
+}
+.dtoc-placement tr th{
+    width: 0px;
+    padding: 0;
+}
+.dtoc-preview-container{
+	position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+}
+
+/* accordion css */
+.dtoc-accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 12px;    
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
+  }
+  
+  .dtoc-active, .dtoc-accordion:hover {
+    background-color: #ccc;
+  }
+  
+  .dtoc-accordion:after {
+    content: '\002B';
+    color: #777;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+    font-size: 20px;
+  }
+  
+  .dtoc-active:after {
+    content: "\2212";
+  }
+  
+  .dtoc-panel {
+    padding: 0 0px;    
+    max-height: 0;
+    overflow: hidden;
+    overflow-y: scroll;
+    transition: max-height 0.2s ease-out;
+  }
+  .dtoc-panel-body{
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  .dtoc-acc-cont-body{
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;    
+  }
+   .dtoc-acc-cont-h{
+    width: 30%;
+  }
+  .dtoc-acc-cont-s{
+    width: 70%;
+  }
+  .dtoc-or-and{
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .dtoc-or-and:before,.dtoc-or-and:after{
+    content:" ";
+    width: 45%;
+    height: 1px;
+    /* margin: 0 10px; */
+    vertical-align: -webkit-baseline-middle;
+    background-color:grey;
+    display:inline-block;
+  }
+  .dtoc-hr:before{
+    content:" ";
+    width: 100%;
+    height: 1px;    
+    vertical-align: -webkit-baseline-middle;
+    background-color:grey;
+    display:inline-block;
+  }
+/* accordion css ends here */
+
+.dtoc-grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;  
+  padding: 10px;
+  gap: .9375rem;
+}
+.dtoc-grid-header{
+  padding:  20px 20px 0px 20px;
+}
+.dtoc-grid-footer{
+padding: 10px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+flex-direction: row-reverse;
+}
+
+.dtoc-grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid #b5bfc9;
+  /* padding: 20px; */
+  font-size: 30px;
+  text-align: center;
+  border-radius: 6px;
+}
+.dtoc-grid-item h3{
+  font-size: 1.0625rem;
+}
+.dtoc-grid-toggle{
+  float: right;
+}
+
+
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid #b5bfc9;
+  /* padding: 20px; */
+  font-size: 30px;
+  text-align: center;
+  border-radius: 6px;
+}
+.grid-item h3{
+  font-size: 1.0625rem;
+}
+.grid-settings{
+  float: left;
+  margin: 10px !important;
+}
+.grid-toggle{
+  float: right;
+}
+/* Preview laptop css starts here */
+.dtoc-pre-laptop {  
+  width: 515px;
+  height: 400px;
+  border-radius: 6px;
+  border-style: solid;
+  border-color: black;
+  border-width: 12px 12px 40px;
+  background-color: white;
+
+}
+
+/* The keyboard of the laptop */
+
+/* The top of the keyboard */
+.dtoc-pre-laptop:before {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 250px;
+  height: 30px;
+  bottom: -110px;
+  left: 50%;
+  -webkit-transform: translate(-50%);
+  transform: translate(-50%);
+  background: #f1f1f1;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  z-index: 1;
+}
+
+/* The screen (or content) of the device */
+.dtoc-pre-laptop .dtoc-pre-laptop-content {	  
+    padding-left: 5px;
+    padding-top: 5px;
+    height: 400px;
+    border: none;
+    overflow-y: scroll;
+}
+/* Preview laptop css end here */
+
+/* Preview tablet css starts here */
+.dtoc-pre-tablet {
+  position: relative;
+  width: 500px;
+  height: 624px;
+  margin: auto;
+  border: 16px black solid;
+  border-top-width: 60px;
+  border-bottom-width: 60px;
+  border-radius: 36px;
+}
+.dtoc-pre-tablet:before {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 5px;
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #333;
+  border-radius: 10px;
+}
+.dtoc-pre-tablet:after {
+  content: '';
+  display: block;
+  width: 35px;
+  height: 35px;
+  position: absolute;
+  left: 50%;
+  bottom: -65px;
+  transform: translate(-50%, -50%);
+  background: #333;
+  border-radius: 50%;
+}
+.dtoc-pre-tablet .dtoc-pre-tablet-content {
+  padding-left: 5px;
+  padding-top: 5px;
+  width: 500px;
+  height: 624px;
+  background: white;
+  margin: -1px;
+  overflow-y:scroll;
+}
+/* Preview tablet css ends here */
+
+/* Preview mobile css starts here */
+
+.dtoc-pre-mobile {
+  position: relative;
+  width: 360px;
+  height: 640px;
+  margin: auto;
+  border: 16px black solid;
+  border-top-width: 60px;
+  border-bottom-width: 60px;
+  border-radius: 36px;
+}
+.dtoc-pre-mobile:before {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 5px;
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #333;
+  border-radius: 10px;
+}
+.dtoc-pre-mobile:after {
+  content: '';
+  display: block;
+  width: 35px;
+  height: 35px;
+  position: absolute;
+  left: 50%;
+  bottom: -65px;
+  transform: translate(-50%, -50%);
+  background: #333;
+  border-radius: 50%;
+}
+.dtoc-pre-mobile .dtoc-pre-mobile-content {
+  width: 355px;
+  height: 640px;
+  background: white;
+  padding-left:5px;
+  padding-top: 5px;
+  overflow-y:scroll;
+}
+
+/* Preview mobile css ends here */
+
+/* The switch - the box around the slider */
+.dtoc-switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.dtoc-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.dtoc-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.dtoc-slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .dtoc-slider {
+  background-color: #2196F3;
+}
+
+input:focus + .dtoc-slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .dtoc-slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+.dtoc-grid-item .dtoc-grid-settings{
+	font-size: 16px;
+	display:none;
+	line-height:2;
+}
+.dtoc-grid-item hr{
+	margin:0;
+}
+.dtoc-loader {
+	border: 4px solid #f3f3f3; /* Light grey */
+	border-top: 4px solid #3498db; /* Blue */
+	border-radius: 50%;
+	width: 10px;
+	height: 10px;
+	animation: dtoc-spin 1s linear infinite;
+	display: none;
+	margin: 0 5px;
+}
+
+@keyframes dtoc-spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
+
+.dtoc-switch-block {
+	display: flex;
+	align-items: center;
+}
+/* The switch - the box around the slider */
+
+.dtoc_custom_styles{
+  height:300px;
+}
+.dtoc-import_export{
+	margin:0 0 0 10px;
+}

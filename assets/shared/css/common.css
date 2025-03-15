@@ -1,0 +1,32 @@
+/* TOC General CSS*/
+.dtoc-box-container{                    
+    display: table;              
+    overflow: hidden;
+}
+
+#dtoc-toggle-check{
+    display: none;
+}
+.dtoc-toggle-label{
+    display: flex;
+    cursor: pointer;
+    padding: 3px;
+    padding-bottom: 5px;
+    font-weight: 600;
+    font-size: 110%;    
+}
+.dtoc-box-container ul{
+    margin: auto;
+}
+.dtoc-box-container ul li{
+    font-size: 95%;
+    margin-bottom: 0;
+}
+.dtoc-box-container a{
+    color: #444; 
+    box-shadow: none;
+    text-decoration: none;
+    text-shadow: none;
+    display: inline-flex;    
+    flex-wrap: nowrap;
+}

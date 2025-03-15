@@ -1,0 +1,296 @@
+
+function getParameterByName(name, url) {
+    if (!url){
+    url = window.location.href;    
+    } 
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return "";
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+jQuery(document).ready(function($){
+
+  // Hide and show child options based on parent selection starts here
+    $(".dtoc_parent_option").on("change", function(e){
+        var id = $(this).attr('id');
+        if($(this).prop("checked")){
+          $(".dtoc_"+id).show();
+        }else{
+          $(".dtoc_"+id).hide();
+        }
+    }).change();
+  // Hide and show child options based on parent selection ends here
+
+  //
+  jQuery(".dtoc-colorpicker").wpColorPicker();
+  // 
+
+  // accordion js starts here
+
+    var acc = document.getElementsByClassName("dtoc-accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+      acc[i].addEventListener("click", function(e) {
+        e.preventDefault();
+        this.classList.toggle("dtoc-active");
+        var panel = this.nextElementSibling;
+        if (panel.style.maxHeight) {
+          panel.style.maxHeight = null;
+        } else {
+          panel.style.maxHeight = panel.scrollHeight + "px";
+        } 
+      });
+    }
+  // accordion js ends here
+
+    $(".dtoc-tabs a").click(function(e){
+        e.preventDefault();
+        var href = $(this).attr('href');     
+                   
+        var currentTab = getParameterByName('tab',href);
+        console.log(currentTab);
+        if(!currentTab){
+          currentTab = "general";
+        }                                                                
+        $(this).siblings().removeClass("nav-tab-active");
+        $(this).addClass("nav-tab-active");
+        $(".dtoc-settings-form-wrap").find(".dtoc-"+currentTab).siblings().hide();
+        $(".dtoc-settings-form-wrap .dtoc-"+currentTab).show();
+        window.history.pushState("", "", href);
+    }); 
+
+    $(".dtoc-placement-checked").on("click", function(e){
+      e.stopPropagation();
+    });
+
+    // Select2 starts here
+
+        $(".dtoc-placement-ope").on("click", function(e){
+          e.preventDefault();
+          var opt_text = $(this).text();          
+          if(opt_text === 'OR'){
+            $(this).text('AND');
+            $(this).parent().find('input').val('AND');
+          }
+          if(opt_text === 'AND'){
+            $(this).text('OR');
+            $(this).parent().find('input').val('OR');
+          }          
+        });
+   
+        $('.dtoc-placement-select2').select2({
+            ajax: {                
+                url: dtoc_admin_cdata.ajaxurl,
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                  console.log($(this).find(":selected").data("name"));
+                  return {
+                    action: 'dtoc_categories_action', // AJAX action for admin-ajax.php
+                    security: dtoc_admin_cdata.dtoc_ajax_nonce,
+                    q: params.term, // search term                    
+                  };
+                },
+                processResults: function (data, params) {                              
+                  return {
+                    results: data.results                    
+                  };
+                },
+                cache: true
+            },
+            minimumInputLength: 1, // the minimum of symbols to input before perform a search
+            maximumSelectionLength: 100,
+            placeholder: "Search...",
+        });
+    
+    // Select2 ends here
+});
+
+
+
+
+jQuery(function($) {
+	
+	$('.dtoc-grid-checkbox').change(function(e){
+    let checkbox = $(this);
+    let checked = checkbox.prop('checked');
+    let module_name = $(this).attr('name');
+	let loader = $(this).parent().parent().children(".dtoc-loader");
+	let settings = $(this).parent().parent().parent().children(".dtoc-grid-settings");
+	loader.show();
+    $.ajax({
+        type: "post",
+        dataType: "json",
+        url: dtoc_admin_cdata.ajaxurl,
+        data: {
+            action: 'dtoc_update_modules_status', 
+            module: module_name,
+            status: checked,
+			security:dtoc_admin_cdata.dtoc_ajax_nonce
+        },
+        success: function(response){
+            if(response.status == 'success'){
+                loader.hide();
+				if(checked){
+					settings.show();
+					$('a[href="admin.php?page=dtoc_'+module_name+'"]').css('display','block');
+				}else{
+					settings.hide();
+					$('a[href="admin.php?page=dtoc_'+module_name+'"]').css('display','none');
+				}
+            }else{
+				 loader.hide();
+			     checkbox.prop('checked',!checked);
+			}
+        },
+        error: function(xhr, status, error){
+            alert('Error occured while saving option');
+            loader.hide();
+			checkbox.prop('checked',!checked);
+        }
+    });
+});
+
+
+    $( ".dtoc-grid-checkbox" ).each(function( index ) {
+		let name = $(this).attr('name');
+		if($(this).prop("checked")){
+			$(this).children('.dtoc-grid-settings').css('display','block');
+			$('a[href="admin.php?page=dtoc_'+name+'"]').css('display','block');
+		}else{
+			$(this).children('.dtoc-grid-settings').css('display','none');
+			$('a[href="admin.php?page=dtoc_'+name+'"]').css('display','none');
+		}
+	});
+	
+	if(dtoc_admin_cdata.dtoc_modules_status){
+		$.each(dtoc_admin_cdata.dtoc_modules_status, function( index, value ) {
+			if(value){
+				$('a[href="admin.php?page=dtoc_'+index+'"]').css('display','block');
+			}else{
+				$('a[href="admin.php?page=dtoc_'+index+'"]').css('display','none');
+			}
+		});		
+	}
+	    $( ".dtoc-grid-checkbox" ).each(function( index ) {
+		let name = $(this).attr('name');
+		if($(this).prop("checked")){
+			$(this).children('.dtoc-grid-settings').css('display','block');
+		}else{
+			$(this).children('.dtoc-grid-settings').css('display','none');
+		}
+	});
+
+});
+
+ document.addEventListener('DOMContentLoaded', function () {
+         var editors = document.querySelectorAll('.dtoc_custom_styles');
+         if(editors.length){
+           editors.forEach(function(editorElement) {
+                var editor = ace.edit(editorElement);
+                editor.setTheme("ace/theme/monokai");
+                editor.session.setMode("ace/mode/css");
+
+                // Enable autocompletion
+                   ace.require("ace/ext/language_tools");
+                    editor.setOptions({
+                        enableBasicAutocompletion: true,
+                        enableLiveAutocompletion: true,
+                        enableSnippets: true
+                    });
+      editor.session.on('change', function(delta) {
+      // delta.start, delta.end, delta.lines, delta.action
+      var custom_css_target = document.getElementById('custom_css');
+          if(custom_css_target){
+            console.log(editor.session.getValue());
+            custom_css_target.value = editor.session.getValue(); 
+          }
+  });
+
+            });
+
+       
+         }
+  
+
+
+    
+});
+
+jQuery(document).ready(function($) {
+    $('#dtoc-export-button').on('click', function(e) {
+        e.preventDefault();
+		 $('#dtoc-export-loader').show();
+        $.ajax({
+            url: dtoc_admin_cdata.ajaxurl,
+            method: 'POST',
+            data: {
+                action: 'dtoc_export_options',
+                nonce: dtoc_admin_cdata.dtoc_ajax_nonce // Include the nonce in the request
+            },
+            success: function(response) {
+                if (response.success) {
+                    const blob = new Blob([JSON.stringify(response.data, null, 2)], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'dtoc-settings.json';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+	
+                } else {
+                    alert(response.data); // Handle error
+                }
+				$('#dtoc-export-loader').hide();
+            },
+            error: function() {
+				$('#dtoc-export-loader').hide();
+                alert('An error occurred while exporting the settings.');
+            }
+        });
+    });
+
+    // Import functionality
+    $('#dtoc-import-button').on('click', function(e) {
+        e.preventDefault();
+        const fileInput = $('input[name="import_file"]')[0];
+
+        if (fileInput.files.length === 0) {
+            alert('Please select a file to upload.');
+            return;
+        }
+
+        // Show the loader
+        $('#dtoc-import-loader').show();
+
+        const formData = new FormData();
+        formData.append('action', 'dtoc_import_options');
+        formData.append('nonce', dtoc_admin_cdata.dtoc_ajax_nonce);
+        formData.append('import_file', fileInput.files[0]);
+
+        $.ajax({
+            url: dtoc_admin_cdata.ajaxurl,
+            method: 'POST',
+            data: formData,
+            processData: false, // Important for file uploads
+            contentType: false, // Important for file uploads
+            success: function(response) {
+                $('#dtoc-import-loader').hide();
+                if (response.success) {
+                    alert(response.data); 
+                } else {
+                    alert(response.data); 
+                }
+            },
+            error: function() {
+                $('#dtoc-import-loader').hide();
+                alert('An error occurred while importing the settings.');
+            }
+        });
+    });
+});
