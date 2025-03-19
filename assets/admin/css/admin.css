@@ -112,12 +112,12 @@
 
 .dtoc-grid-container {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;  
+  grid-template-columns: 1fr 1fr 1fr 1fr;  
   padding: 10px;
   gap: .9375rem;
 }
 .dtoc-grid-header{
-  padding:  20px 20px 0px 20px;
+  padding:  10px;
 }
 .dtoc-grid-footer{
 padding: 10px;

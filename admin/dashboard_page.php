@@ -98,97 +98,85 @@ function dtoc_dashboard_modules(){
 	global $dtoc_dashboard;
 
     $modules = array(
-        array(
-            'icon'  => DTOC_URL.'/assets/admin/images/list_icon.png',
-            'title' => 'In-Content Mobile',
-            'desc'  => 'Enable this module if you want to customize mobile TOC on advanced level',
-            'name'  => 'incontent_mobile',
-            'url'   => admin_url( 'admin.php?page=dtoc_incontent_mobile')
-        ),
-        array(
-            'icon'  => DTOC_URL.'/assets/admin/images/list_icon.png',
-            'title' => 'In-Content Tablet',
-            'desc'  => 'Enable this module if you want to customize Tablet TOC on advanced level',
-            'name'  => 'incontent_tablet',
-            'url'   => admin_url( 'admin.php?page=dtoc_incontent_tablet')
-        ),
-        array(
-            'icon'  => DTOC_URL.'/assets/admin/images/list_icon.png',
+        array(            
             'title' => 'Sticky',
             'desc'  => 'Enable this module if you want to customize Mobile TOC on advanced level',
             'name'  => 'sticky',
             'url'   => admin_url( 'admin.php?page=dtoc_sticky')
         ),
-        array(
-            'icon'  => DTOC_URL.'/assets/admin/images/list_icon.png',
-            'title' => 'Sticky Mobile',
-            'desc'  => 'Enable this module if you want to customize Mobile TOC on advanced level',
-            'name'  => 'sticky_mobile',
-            'url'   => admin_url( 'admin.php?page=dtoc_sticky_mobile')
-        ),
-        array(
-            'icon'  => DTOC_URL.'/assets/admin/images/list_icon.png',
-            'title' => 'Sticky Tablet',
-            'desc'  => 'Enable this module if you want to customize Tablet TOC on advanced level',
-            'name'  => 'sticky_tablet',
-            'url'   => admin_url( 'admin.php?page=dtoc_sticky_tablet')
-        ),
-        array(
-            'icon'  => DTOC_URL.'/assets/admin/images/list_icon.png',
+        array(            
             'title' => 'Floating',
             'desc'  => 'Enable this module if you want to customize mobile TOC on advanced level',
             'name'  => 'floating',
             'url'   => admin_url( 'admin.php?page=dtoc_floating')
         ),
-        array(
-            'icon'  => DTOC_URL.'/assets/admin/images/list_icon.png',
-            'title' => 'Floating Mobile',
-            'desc'  => 'Enable this module if you want to customize mobile TOC on advanced level',
-            'name'  => 'floating_mobile',
-            'url'   => admin_url( 'admin.php?page=dtoc_floating_mobile')
-        ),
-        array(
-            'icon'  => DTOC_URL.'/assets/admin/images/list_icon.png',
-            'title' => 'Floating Tablet',
-            'desc'  => 'Enable this module if you want to customize mobile TOC on advanced level',
-            'name'  => 'floating_tablet',
-            'url'   => admin_url( 'admin.php?page=dtoc_floating_tablet')
-        ),
-        array(
-            'icon'  => DTOC_URL.'/assets/admin/images/list_icon.png',
+        array(            
             'title' => 'Shortcode',
             'desc'  => 'Enable this module if you want to customize mobile TOC on advanced level',
             'name'  => 'shortcode',
             'url'   => admin_url( 'admin.php?page=dtoc_shortcode')
         ),
-        array(
-            'icon'  => DTOC_URL.'/assets/admin/images/list_icon.png',
+        array(            
+            'title' => 'Compatibility',
+            'desc'  => 'Enable this module if you want to customize mobile TOC on advanced level',
+            'name'  => 'compatibility',
+            'url'   => admin_url( 'admin.php?page=dtoc_compatibility')
+        ),
+        array(            
+            'title' => 'In-Content Mobile',
+            'desc'  => 'Enable this module if you want to customize mobile TOC on advanced level',
+            'name'  => 'incontent_mobile',
+            'url'   => admin_url( 'admin.php?page=dtoc_incontent_mobile')
+        ),
+        array(            
+            'title' => 'In-Content Tablet',
+            'desc'  => 'Enable this module if you want to customize Tablet TOC on advanced level',
+            'name'  => 'incontent_tablet',
+            'url'   => admin_url( 'admin.php?page=dtoc_incontent_tablet')
+        ),        
+        array(            
+            'title' => 'Sticky Mobile',
+            'desc'  => 'Enable this module if you want to customize Mobile TOC on advanced level',
+            'name'  => 'sticky_mobile',
+            'url'   => admin_url( 'admin.php?page=dtoc_sticky_mobile')
+        ),
+        array(            
+            'title' => 'Sticky Tablet',
+            'desc'  => 'Enable this module if you want to customize Tablet TOC on advanced level',
+            'name'  => 'sticky_tablet',
+            'url'   => admin_url( 'admin.php?page=dtoc_sticky_tablet')
+        ),        
+        array(            
+            'title' => 'Floating Mobile',
+            'desc'  => 'Enable this module if you want to customize mobile TOC on advanced level',
+            'name'  => 'floating_mobile',
+            'url'   => admin_url( 'admin.php?page=dtoc_floating_mobile')
+        ),
+        array(            
+            'title' => 'Floating Tablet',
+            'desc'  => 'Enable this module if you want to customize mobile TOC on advanced level',
+            'name'  => 'floating_tablet',
+            'url'   => admin_url( 'admin.php?page=dtoc_floating_tablet')
+        ),        
+        array(            
             'title' => 'Shortcode Mobile',
             'desc'  => 'Enable this module if you want to customize mobile TOC on advanced level',
             'name'  => 'shortcode_mobile',
             'url'   => admin_url( 'admin.php?page=dtoc_shortcode_mobile')
         ),
-        array(
-            'icon'  => DTOC_URL.'/assets/admin/images/list_icon.png',
+        array(            
             'title' => 'Shortcode Tablet',
             'desc'  => 'Enable this module if you want to customize mobile TOC on advanced level',
             'name'  => 'shortcode_tablet',
             'url'   => admin_url( 'admin.php?page=dtoc_shortcode_tablet')
-        ),
-        array(
-            'icon'  => DTOC_URL.'/assets/admin/images/list_icon.png',
-            'title' => 'Compatibility',
-            'desc'  => 'Enable this module if you want to customize mobile TOC on advanced level',
-            'name'  => 'compatibility',
-            'url'   => admin_url( 'admin.php?page=dtoc_compatibility')
-        )        
+        )                
     );
     ?> <div class="dtoc-grid-container"> <?php
     foreach ($modules as $value) {
         ?>
             <div class="dtoc-grid-item">    
             <div class="dtoc-grid-header">
-                <img class="dtoc-grid-image" src="<?php echo esc_url($value['icon'])?>">
+                <img class="dtoc-grid-image" src="<?php echo esc_url( DTOC_URL.'/assets/admin/images/'.$value['name'].'.svg' ); ?>">
                 <h3><?php esc_html_e($value['title'], 'digital-table-of-contents'); ?></h3>
                 <p><?php esc_html_e($value['desc'], 'digital-table-of-contents'); ?></p>
             </div>
