@@ -100,73 +100,73 @@ function dtoc_dashboard_modules(){
     $modules = array(
         array(            
             'title' => 'Sticky',
-            'desc'  => 'Enable this module if you want to customize Mobile TOC on advanced level',
+            'desc'  => 'A Sticky TOC is a fixed navigation element that stays within a defined container, typically in the sidebar or at the top, while scrolling.',
             'name'  => 'sticky',
             'url'   => admin_url( 'admin.php?page=dtoc_sticky')
         ),
         array(            
             'title' => 'Floating',
-            'desc'  => 'Enable this module if you want to customize mobile TOC on advanced level',
+            'desc'  => 'A Floating TOC is a movable, draggable, or collapsible navigation element that isn\'t fixed, allowing repositioning and enhanced interaction',
             'name'  => 'floating',
             'url'   => admin_url( 'admin.php?page=dtoc_floating')
         ),
         array(            
             'title' => 'Shortcode',
-            'desc'  => 'Enable this module if you want to customize mobile TOC on advanced level',
+            'desc'  => 'TOC shortcode generates a structured list of headings for a specific post or page, allowing you to place it at a desired position within the content.',
             'name'  => 'shortcode',
             'url'   => admin_url( 'admin.php?page=dtoc_shortcode')
         ),
         array(            
             'title' => 'Compatibility',
-            'desc'  => 'Enable this module if you want to customize mobile TOC on advanced level',
+            'desc'  => 'For Table of Contents plugin works smoothly with third-party plugins, maintaining functionality and formatting across different tools and environments.',
             'name'  => 'compatibility',
             'url'   => admin_url( 'admin.php?page=dtoc_compatibility')
         ),
         array(            
             'title' => 'In-Content Mobile',
-            'desc'  => 'Enable this module if you want to customize mobile TOC on advanced level',
+            'desc'  => 'Enable for advanced, separate customization of the In-Content TOC in mobile. If disabled, the TOC will display by default based on the In-Content module.',
             'name'  => 'incontent_mobile',
             'url'   => admin_url( 'admin.php?page=dtoc_incontent_mobile')
         ),
         array(            
             'title' => 'In-Content Tablet',
-            'desc'  => 'Enable this module if you want to customize Tablet TOC on advanced level',
+            'desc'  => 'Enable for advanced, separate customization of the In-Content TOC in tablet. If disabled, the TOC will display by default based on the In-Content module.',
             'name'  => 'incontent_tablet',
             'url'   => admin_url( 'admin.php?page=dtoc_incontent_tablet')
         ),        
         array(            
             'title' => 'Sticky Mobile',
-            'desc'  => 'Enable this module if you want to customize Mobile TOC on advanced level',
+            'desc'  => 'Enable for advanced, separate customization of the Sticky TOC in mobile. If disabled, the TOC will display by default based on the Sticky module.',
             'name'  => 'sticky_mobile',
             'url'   => admin_url( 'admin.php?page=dtoc_sticky_mobile')
         ),
         array(            
             'title' => 'Sticky Tablet',
-            'desc'  => 'Enable this module if you want to customize Tablet TOC on advanced level',
+            'desc'  => 'Enable for advanced, separate customization of the Sticky TOC in tablet. If disabled, the TOC will display by default based on the Sticky module.',
             'name'  => 'sticky_tablet',
             'url'   => admin_url( 'admin.php?page=dtoc_sticky_tablet')
         ),        
         array(            
             'title' => 'Floating Mobile',
-            'desc'  => 'Enable this module if you want to customize mobile TOC on advanced level',
+            'desc'  => 'Enable for advanced, separate customization of the Floating TOC in mobile. If disabled, the TOC will display by default based on the floating module.',
             'name'  => 'floating_mobile',
             'url'   => admin_url( 'admin.php?page=dtoc_floating_mobile')
         ),
         array(            
             'title' => 'Floating Tablet',
-            'desc'  => 'Enable this module if you want to customize mobile TOC on advanced level',
+            'desc'  => 'Enable for advanced, separate customization of the Floating TOC in tablet. If disabled, the TOC will display by default based on the floating module.',
             'name'  => 'floating_tablet',
             'url'   => admin_url( 'admin.php?page=dtoc_floating_tablet')
         ),        
         array(            
             'title' => 'Shortcode Mobile',
-            'desc'  => 'Enable this module if you want to customize mobile TOC on advanced level',
+            'desc'  => 'Enable for advanced, separate customization of the Shortcode in mobile. If disabled, the TOC will display by default based on the Shortcode module.',
             'name'  => 'shortcode_mobile',
             'url'   => admin_url( 'admin.php?page=dtoc_shortcode_mobile')
         ),
         array(            
             'title' => 'Shortcode Tablet',
-            'desc'  => 'Enable this module if you want to customize mobile TOC on advanced level',
+            'desc'  => 'Enable for advanced, separate customization of the Shortcode in tablet. If disabled, the TOC will display by default based on the Shortcode module.',
             'name'  => 'shortcode_tablet',
             'url'   => admin_url( 'admin.php?page=dtoc_shortcode_tablet')
         )                
