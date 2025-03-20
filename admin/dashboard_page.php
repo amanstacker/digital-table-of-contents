@@ -54,7 +54,7 @@ function dtoc_dashboard_page_render(){
 					<?php					                        
                         echo '<a href="' . esc_url(dtoc_admin_tab_link('modules', 'dtoc')) . '" class="nav-tab ' . esc_attr( $tab == 'modules' ? 'nav-tab-active' : '') . '"> ' . esc_html__('Modules','digital-table-of-contents') . '</a>';                                                
                         echo '<a href="' . esc_url(dtoc_admin_tab_link('tools', 'dtoc')) . '" class="nav-tab ' . esc_attr( $tab == 'tools' ? 'nav-tab-active' : '') . '"> ' . esc_html__('Tools','digital-table-of-contents') . '</a>';
-                        echo '<a href="' . esc_url(dtoc_admin_tab_link('support', 'dtoc')) . '" class="nav-tab ' . esc_attr( $tab == 'support' ? 'nav-tab-active' : '') . '"> ' . esc_html__('Support','digital-table-of-contents') . '</a>';                                                                        
+                        echo '<a href="' . esc_url(dtoc_admin_tab_link('support', 'dtoc')) . '" class="nav-tab ' . esc_attr( $tab == 'support' ? 'nav-tab-active' : '') . '"> ' . esc_html__('Support Center','digital-table-of-contents') . '</a>';                                                                        
 					?>
 				</h2>
     <form action="options.php" method="post" enctype="multipart/form-data" class="dtoc-settings-form">
