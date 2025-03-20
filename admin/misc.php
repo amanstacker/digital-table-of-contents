@@ -280,3 +280,41 @@ function dtoc_export_options_ajax() {
     wp_send_json_success($options);
 }
 
+function dtoc_handle_support_request() {
+	// Verify nonce for security
+	check_ajax_referer( 'dtoc_ajax_nonce_string', 'security' );
+
+	// Sanitize input data
+	$name    = isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
+	$email   = isset( $_POST['email'] ) ? sanitize_email( wp_unslash( $_POST['email'] ) ) : '';
+	$message = isset( $_POST['message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['message'] ) ) : '';
+
+	// Check for empty fields
+	if ( empty( $name ) || empty( $email ) || empty( $message ) ) {
+		wp_send_json_error( __( 'All fields are required.', 'digital-table-of-contents' ) );
+	}
+
+	// Process the support request (e.g., send an email)
+	
+	$subject     = __( 'New Support Request', 'digital-table-of-contents' );
+	$headers     = array( 'Content-Type: text/html; charset=UTF-8', 'From: ' . $name . ' <' . $email . '>' );
+
+	$body = sprintf(
+		__( 'Name: %s <br>Email: %s <br>Message: %s', 'digital-table-of-contents' ),
+		esc_html( $name ),
+		esc_html( $email ),
+		nl2br( esc_html( $message ) )
+	);
+
+	$mail_sent = wp_mail( $email, $subject, $body, $headers );
+
+	if ( $mail_sent ) {
+		wp_send_json_success( __( 'Your support request has been submitted successfully.', 'digital-table-of-contents' ) );
+	} else {
+		wp_send_json_error( __( 'Something went wrong. Please try again.', 'digital-table-of-contents' ) );
+	}
+}
+
+// Register AJAX actions for both logged-in and non-logged-in users
+add_action( 'wp_ajax_dtoc_submit_support', 'dtoc_handle_support_request' );
+add_action( 'wp_ajax_nopriv_dtoc_submit_support', 'dtoc_handle_support_request' );

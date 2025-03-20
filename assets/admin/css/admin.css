@@ -384,3 +384,44 @@ input:checked + .dtoc-slider:before {
 .dtoc-import_export{
 	margin:0 0 0 10px;
 }
+/* Support tab desing css starts here */
+.dtoc-support-container {
+  display: flex;
+  gap: 20px;
+}
+.dtoc-support-form {
+  flex: 3;
+}
+.dtoc-support-resources, .dtoc-upgrade-to-pro {
+  flex: 1;
+}
+.postbox {
+  background: #fff;
+  border: 1px solid #ccd0d4;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+.inside {
+  padding: 15px;
+}
+.hndle {
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+.dtoc-support-resources ul, .dtoc-upgrade-to-pro ul {
+  list-style: disc;
+  padding-left: 20px;
+}
+.dtoc-support-resources ul li, .dtoc-upgrade-to-pro ul li {
+  margin-bottom: 5px;
+}
+/* Responsive Input Fields */
+.dtoc-support-form input[type="text"],
+.dtoc-support-form input[type="email"],
+.dtoc-support-form textarea {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+/* Support tab desing css ends here */
+

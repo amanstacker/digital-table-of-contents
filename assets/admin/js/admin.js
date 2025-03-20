@@ -294,3 +294,48 @@ jQuery(document).ready(function($) {
         });
     });
 });
+
+/* support form request starts here */
+jQuery(document).ready(function($) {
+  $('#dtoc_support_submit').on('click', function(e) {
+      e.preventDefault();
+
+      var name = $('#dtoc_support_name').val();
+      var email = $('#dtoc_support_email').val();
+      var message = $('#dtoc_support_message').val();
+      var security = dtoc_admin_cdata.dtoc_ajax_nonce;
+
+      if (name === '' || email === '' || message === '') {
+          $('#dtoc_support_response').html('<div class="notice notice-error is-dismissible"><p>All fields are required.</p></div>');
+          return;
+      }
+
+      $.ajax({
+          url: ajaxurl,
+          type: 'POST',
+          data: {
+              action: 'dtoc_submit_support',
+              security: security,
+              name: name,
+              email: email,
+              message: message
+          },
+          beforeSend: function() {
+              $('#dtoc_support_response').html('<div class="notice notice-info"><p>Submitting your request...</p></div>');
+          },
+          success: function(response) {
+              if (response.success) {
+                  $('#dtoc_support_response').html('<div class="notice notice-success is-dismissible"><p>' + response.data + '</p></div>');
+                  $('#dtoc_support_name, #dtoc_support_email, #dtoc_support_message').val('');
+              } else {
+                  $('#dtoc_support_response').html('<div class="notice notice-error is-dismissible"><p>' + response.data + '</p></div>');
+              }
+          },
+          error: function() {
+              $('#dtoc_support_response').html('<div class="notice notice-error is-dismissible"><p>Submission failed. Please try again.</p></div>');
+          }
+      });
+  });
+});
+
+/* support form request ends here */

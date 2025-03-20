@@ -43,7 +43,7 @@ function dtoc_dashboard_page_render(){
 		settings_errors();               
 	}
 
-    $tab = dtoc_admin_get_tab('modules', array('modules', 'import_export','tools', 'support'));
+    $tab = dtoc_admin_get_tab('modules', array('modules','tools', 'support'));
     ?>
     <div class="wrap dtoc-main-container">
     <h1 class="wp-heading-inline"><?php echo esc_html__('Digital Table Of Contents', 'digital-table-of-contents'); ?></h1>    
@@ -52,8 +52,7 @@ function dtoc_dashboard_page_render(){
      
     <h2 class="nav-tab-wrapper dtoc-tabs">
 					<?php					                        
-                        echo '<a href="' . esc_url(dtoc_admin_tab_link('modules', 'dtoc')) . '" class="nav-tab ' . esc_attr( $tab == 'modules' ? 'nav-tab-active' : '') . '"> ' . esc_html__('Modules','digital-table-of-contents') . '</a>';                        
-                        echo '<a href="' . esc_url(dtoc_admin_tab_link('import_export', 'dtoc')) . '" class="nav-tab ' . esc_attr( $tab == 'import_export' ? 'nav-tab-active' : '') . '"> ' . esc_html__('Import/Export','digital-table-of-contents') . '</a>';
+                        echo '<a href="' . esc_url(dtoc_admin_tab_link('modules', 'dtoc')) . '" class="nav-tab ' . esc_attr( $tab == 'modules' ? 'nav-tab-active' : '') . '"> ' . esc_html__('Modules','digital-table-of-contents') . '</a>';                                                
                         echo '<a href="' . esc_url(dtoc_admin_tab_link('tools', 'dtoc')) . '" class="nav-tab ' . esc_attr( $tab == 'tools' ? 'nav-tab-active' : '') . '"> ' . esc_html__('Tools','digital-table-of-contents') . '</a>';
                         echo '<a href="' . esc_url(dtoc_admin_tab_link('support', 'dtoc')) . '" class="nav-tab ' . esc_attr( $tab == 'support' ? 'nav-tab-active' : '') . '"> ' . esc_html__('Support','digital-table-of-contents') . '</a>';                                                                        
 					?>
@@ -65,18 +64,14 @@ function dtoc_dashboard_page_render(){
                 //Digital tab
                 echo "<div class='dtoc-modules' ".( $tab != 'modules' ? 'style="display:none;"' : '').">"; 
                     dtoc_dashboard_modules();                                                  
-                echo "</div>"; 
-                //Import & Export tab
-                echo "<div class='dtoc-import_export' ".( $tab != 'import_export' ? 'style="display:none;"' : '').">";                
-                    do_settings_sections( 'dtoc_dashboard_import_export_setting_section' );	
-                echo "</div>";                               
+                echo "</div>";                 
                 //Tools tab
                 echo "<div class='dtoc-tools' ".( $tab != 'tools' ? 'style="display:none;"' : '').">";
                     do_settings_sections( 'dtoc_dashboard_tools_setting_section' );	
                 echo "</div>";
                 //Support tab
                 echo "<div class='dtoc-support' ".( $tab != 'support' ? 'style="display:none;"' : '').">";                
-                    do_settings_sections( 'dtoc_dashboard_support_setting_section' );	
+                    dtoc_dashboard_support();   
                 echo "</div>";                
 			?>
 		</div>
@@ -207,41 +202,23 @@ function dtoc_dashboard_settings_initiate(){
     // Modules
     
     add_settings_section('dtoc_dashboard_setting_section', __return_false(), '__return_false', 'dtoc_dashboard_setting_section');
-    
-    //Import/Export
-    add_settings_section('dtoc_dashboard_import_export_setting_section', __return_false(), '__return_false', 'dtoc_dashboard_import_export_setting_section');                                    
+                    
+    add_settings_section( 'dtoc_dashboard_tools_setting_section', esc_html__( 'Import / Export', 'digital-table-of-contents' ), '__return_false', 'dtoc_dashboard_tools_setting_section' );
     add_settings_field(
         'dtoc_dashboard_export',
          esc_html__('Export Settings', 'digital-table-of-contents'),
         'dtoc_dashboard_export_cb',		
-        'dtoc_dashboard_import_export_setting_section',
-        'dtoc_dashboard_import_export_setting_section',
+        'dtoc_dashboard_tools_setting_section',
+        'dtoc_dashboard_tools_setting_section',
     );
 	    add_settings_field(
         'dtoc_dashboard_import',
          esc_html__('Import Settings', 'digital-table-of-contents'),
         'dtoc_dashboard_import_cb',		
-        'dtoc_dashboard_import_export_setting_section',
-        'dtoc_dashboard_import_export_setting_section',
-    );
-    // support
-    add_settings_section('dtoc_dashboard_tools_setting_section', __return_false(), '__return_false', 'dtoc_dashboard_tools_setting_section');
-    add_settings_field(
-        'dtoc_dashboard_tools',
-         '',
-        'dtoc_dashboard_tools_cb',		
         'dtoc_dashboard_tools_setting_section',
-        'dtoc_dashboard_tools_setting_section'
+        'dtoc_dashboard_tools_setting_section',
     );
-    // support
-    add_settings_section('dtoc_dashboard_support_setting_section', __return_false(), '__return_false', 'dtoc_dashboard_support_setting_section');                                
-    add_settings_field(
-        'dtoc_dashboard_support',
-         '',
-        'dtoc_dashboard_support_cb',		
-        'dtoc_dashboard_support_setting_section',
-        'dtoc_dashboard_support_setting_section',
-    );
+    
 
 }
 function dtoc_dashboard_export_cb(){
@@ -249,32 +226,119 @@ function dtoc_dashboard_export_cb(){
     ?>  
          <div class="wrap">
 			
-            <button type="button" name="export" class="button" id="dtoc-export-button"><?php echo esc_html__('Export Options', 'digital-table-of-contents'); ?></button>
+            <button type="button" name="export" class="button button-primary" id="dtoc-export-button"><?php echo esc_html__('Export Options', 'digital-table-of-contents'); ?></button>
 			<div id="dtoc-export-loader" style="display: none;"><?php echo esc_html__('Loading...', 'digital-table-of-contents'); ?></div>
    
 		</div>
     <?php
 }
 
-function dtoc_dashboard_import_cb(){
-    global $dtoc_dashboard;	
-    ?>  
-         <div class="wrap">
-            <input type="file" name="import_file" accept=".json" required><br>
-            <button type="submit" name="import" class="button"id="dtoc-import-button"><?php echo esc_html__('Import Options', 'digital-table-of-contents'); ?></button>
-			 <div id="dtoc-import-loader" style="display: none;"><?php echo esc_html__('Uploading...', 'digital-table-of-contents'); ?></div>
-		</div>
+function dtoc_dashboard_import_cb() {
+    ?>
+    <div class="wrap">
+    
+        <div style="display: flex; align-items: center; gap: 10px; max-width: 600px;">
+            <input type="file" name="import_file" id="dtoc-import-file" accept=".json" required 
+                style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+            
+            <button type="button" id="dtoc-import-button" class="button button-primary">
+                <?php esc_html_e('Import Options', 'digital-table-of-contents'); ?>
+            </button>
+        </div>
+
+        <div id="dtoc-import-loader" style="display: none; margin-top: 10px;">
+            <span class="spinner is-active"></span>
+            <p style="margin-top: 5px; color: #555;"><?php esc_html_e('Uploading...', 'digital-table-of-contents'); ?></p>
+        </div>
+
+        <div id="dtoc-import-message" style="margin-top: 15px; font-weight: bold;"></div>
+    </div>
     <?php
 }
-function dtoc_dashboard_support_cb(){
+
+function dtoc_dashboard_support() {
     global $dtoc_dashboard; 
-    ?>  
-        comming soon support
-    <?php
-}
-function dtoc_dashboard_tools_cb(){
-    global $dtoc_dashboard; 
-    ?>  
-        tools and cache toc post wise will come soon here
+    ?>
+    <div class="wrap">
+        <h1 class="wp-heading-inline"><?php esc_html_e('Support Center: Get Help, Resources & Pro Features', 'digital-table-of-contents'); ?></h1>
+        <p class="description"><?php esc_html_e('Need assistance? Submit a support request, explore helpful resources, or upgrade to Pro for premium features.', 'digital-table-of-contents'); ?></p>
+
+        <div class="metabox-holder">
+            <div class="meta-box-sortables">
+                <div class="dtoc-support-container">
+                    
+                    <!-- Left Side: Support Form -->
+                    <div class="dtoc-support-form postbox">
+                        <h2 class="hndle"><span><?php esc_html_e('Submit a Support Request', 'digital-table-of-contents'); ?></span></h2>
+                        <div class="inside">
+                            <table class="form-table">
+                                <tr>
+                                    <th scope="row">
+                                        <label for="dtoc_support_name"><?php esc_html_e('Name', 'digital-table-of-contents'); ?></label>
+                                    </th>
+                                    <td>
+                                        <input type="text" id="dtoc_support_name" class="regular-text" placeholder="<?php esc_attr_e('Enter your name', 'digital-table-of-contents'); ?>">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <label for="dtoc_support_email"><?php esc_html_e('Email', 'digital-table-of-contents'); ?></label>
+                                    </th>
+                                    <td>
+                                        <input type="email" id="dtoc_support_email" class="regular-text" placeholder="<?php esc_attr_e('Enter your email', 'digital-table-of-contents'); ?>">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <label for="dtoc_support_message"><?php esc_html_e('Message', 'digital-table-of-contents'); ?></label>
+                                    </th>
+                                    <td>
+                                        <textarea id="dtoc_support_message" class="large-text code" rows="5" placeholder="<?php esc_attr_e('Describe your issue', 'digital-table-of-contents'); ?>"></textarea>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <p class="submit">
+                                <button id="dtoc_support_submit" class="button button-primary"><?php esc_html_e('Submit Support Request', 'digital-table-of-contents'); ?></button>
+                            </p>
+
+                            <div id="dtoc_support_response"></div>
+                        </div>
+                    </div>
+
+                    <!-- Middle Column: Support Links -->
+                    <div class="dtoc-support-resources postbox">
+                        <h2 class="hndle"><span><?php esc_html_e('Help & Resources', 'digital-table-of-contents'); ?></span></h2>
+                        <div class="inside">
+                            <ul>
+                                <li><a href="#" target="_blank"><?php esc_html_e('Documentation', 'digital-table-of-contents'); ?></a></li>
+                                <li><a href="#" target="_blank"><?php esc_html_e('FAQs', 'digital-table-of-contents'); ?></a></li>
+                                <li><a href="#" target="_blank"><?php esc_html_e('Community Forum', 'digital-table-of-contents'); ?></a></li>
+                                <li><a href="#" target="_blank"><?php esc_html_e('Feature Requests', 'digital-table-of-contents'); ?></a></li>
+                                <li><a href="#" target="_blank"><?php esc_html_e('Contact Support', 'digital-table-of-contents'); ?></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Column: Upgrade to Pro -->
+                    <div class="dtoc-upgrade-to-pro postbox">
+                        <h2 class="hndle"><span><?php esc_html_e('Upgrade to Pro: Unlock Premium Features', 'digital-table-of-contents'); ?></span></h2>
+                        <div class="inside">
+                            <p><?php esc_html_e('Get access to exclusive premium features and priority support.', 'digital-table-of-contents'); ?></p>
+                            <ul>
+                                <li><?php esc_html_e('Advanced customization options', 'digital-table-of-contents'); ?></li>
+                                <li><?php esc_html_e('Premium support', 'digital-table-of-contents'); ?></li>
+                                <li><?php esc_html_e('Extra integrations', 'digital-table-of-contents'); ?></li>
+                            </ul>
+                            <p>
+                                <a href="#" class="button button-primary"><?php esc_html_e('Upgrade Now', 'digital-table-of-contents'); ?></a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
     <?php
 }
