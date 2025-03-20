@@ -244,62 +244,74 @@ public function dtoc_settings_page_render(){
                  //Digital tab
                  echo "<div class='dtoc-customization' ".( $tab != 'customization' ? 'style="display:none;"' : '').">";                
 
-                 echo "<div class='dtoc-accordion'>";                 
-                 echo 'Container';
+                 echo "<div class='dtoc-accordion'>";
+                 echo "<div class='dtoc-accordion-header'>";                 
+                 echo '<label>'. esc_html__( 'Container', 'digital-table-of-contents' ). '</label>';
                  echo "</div>";
-                 echo "<div class='dtoc-panel'>";                 
+                 echo "<div class='dtoc-accordion-panel'>";                 
                  do_settings_sections( 'dtoc_customization_container_section' );
                  echo "</div>";
-
-                 echo "<div class='dtoc-accordion'>";                 
-                 echo 'Title';
                  echo "</div>";
-                 echo "<div class='dtoc-panel'>";                 
+
+                 echo "<div class='dtoc-accordion'>";
+                 echo "<div class='dtoc-accordion-header'>";                 
+                 echo '<label>'. esc_html__( 'Title', 'digital-table-of-contents' ). '</label>';
+                 echo "</div>";
+                 echo "<div class='dtoc-accordion-panel'>";                 
                  do_settings_sections( 'dtoc_customization_title_section' );
                  echo "</div>";
-
-                 echo "<div class='dtoc-accordion'>";                 
-                 echo 'Icon';
                  echo "</div>";
-                 echo "<div class='dtoc-panel'>";                 
+
+                 echo "<div class='dtoc-accordion'>";
+                 echo "<div class='dtoc-accordion-header'>";                 
+                 echo '<label>'. esc_html__( 'Icon', 'digital-table-of-contents' ). '</label>';
+                 echo "</div>";
+                 echo "<div class='dtoc-accordion-panel'>";                 
                  do_settings_sections( 'dtoc_customization_icon_section' );
                  echo "</div>";
-
-                 echo "<div class='dtoc-accordion'>";                 
-                 echo 'Border';
                  echo "</div>";
-                 echo "<div class='dtoc-panel'>";                 
+
+                 echo "<div class='dtoc-accordion'>";
+                 echo "<div class='dtoc-accordion-header'>";                                  
+                 echo '<label>'. esc_html__( 'Border', 'digital-table-of-contents' ). '</label>';
+                 echo "</div>";
+                 echo "<div class='dtoc-accordion-panel'>";                 
                  do_settings_sections( 'dtoc_customization_border_section' );
                  echo "</div>";
-
-                 echo "<div class='dtoc-accordion'>";                 
-                 echo 'Link';
                  echo "</div>";
-                 echo "<div class='dtoc-panel'>";                 
+
+                 echo "<div class='dtoc-accordion'>";
+                 echo "<div class='dtoc-accordion-header'>";                 
+                 echo '<label>'. esc_html__( 'Link', 'digital-table-of-contents' ). '</label>';
+                 echo "</div>";
+                 echo "<div class='dtoc-accordion-panel'>";                 
                  do_settings_sections( 'dtoc_customization_link_section' );
                  echo "</div>";
-
-                 echo "<div class='dtoc-accordion'>";                 
-                 echo 'Custom CSS';
                  echo "</div>";
-                 echo "<div class='dtoc-panel'>";                 
+
+                 echo "<div class='dtoc-accordion'>";
+                 echo "<div class='dtoc-accordion-header'>";                                  
+                 echo '<label>'. esc_html__( 'Custom CSS', 'digital-table-of-contents' ). '</label>';
+                 echo "</div>";
+                 echo "<div class='dtoc-accordion-panel'>";                 
                  $this->dtoc_customization_custom_css_cb();                                    
                  echo "</div>";
-                                                                                     
+                 echo "</div>";                                                                                     
                      
                  echo "</div>";                 
 
-                 if(in_array($this->_setting_name, $this->_shortcode_modules)){
+                 if ( in_array( $this->_setting_name, $this->_shortcode_modules ) ) {
                     //Shortcode Source
                  echo "<div class='dtoc-shortcode_source' ".( $tab != 'shortcode_source' ? 'style="display:none;"' : '').">";
                      do_settings_sections( 'dtoc_shortcode_source_setting_section' );
                  echo "</div>"; 
+
                  }
              ?>
          </div>
  
              <div class="button-wrapper">                                                                
-                 <?php submit_button( esc_html__('Save Settings', 'digital-table-of-contents') ); ?>                                
+                 <?php submit_button( esc_html__('Save Settings', 'digital-table-of-contents') ); ?>
              </div>  
              
          </form>
@@ -1228,10 +1240,10 @@ public function dtoc_placement_setting_section_cb(){
 
         foreach ($result as $key => $value) {
             
-            echo '<div>';
-            echo '<div class="dtoc-accordion"><label class="dtoc-placement-checked" for=singular-'.esc_attr($key).'><input class="dtoc-placement-checked" id=singular-'.esc_attr($key).' type="checkbox" name="'.esc_attr($this->_setting_name).'[placement]['.esc_attr($key).'][is_enabled]" value="1" '.(isset($this->_setting_option["placement"][$key]["is_enabled"]) ? "checked": "").' />All ' . esc_html($value).'</label></div>';
-            echo '<div class="dtoc-panel">';
-            echo '<div class="dtoc-panel-body">';
+            echo '<div class="dtoc-accordion">';
+            echo '<div class="dtoc-accordion-header"><label class="dtoc-placement-checked" for=singular-'.esc_attr($key).'><input class="dtoc-placement-checked" id=singular-'.esc_attr($key).' type="checkbox" name="'.esc_attr($this->_setting_name).'[placement]['.esc_attr($key).'][is_enabled]" value="1" '.(isset($this->_setting_option["placement"][$key]["is_enabled"]) ? "checked": "").' />All ' . esc_html($value).'</label></div>';
+            echo '<div class="dtoc-accordion-panel">';
+            echo '<div class="dtoc-accordion-panel-body">';
                                 
                 $taxonomy_objects = get_object_taxonomies( $key, 'objects' );
                 if(!empty($taxonomy_objects)){
@@ -1269,7 +1281,7 @@ public function dtoc_placement_setting_section_cb(){
                             
                             echo '<div class="dtoc-acc-cont-body">';
                             echo '<div class="dtoc-acc-cont-h">';
-                            echo '<h5>Belong to '.esc_html($tvalue->label).'</h5>';
+                            echo '<h4>Belong to '.esc_html($tvalue->label).'</h4>';
                             echo '</div>';
                             echo '<div class="dtoc-acc-cont-s">';
                             echo '<select multiple class="dtoc-placement-select2" data-ajax--url="'.admin_url( 'admin-ajax.php' ).'?type='.esc_attr($tvalue->name).'" name="'.esc_attr($this->_setting_name).'[placement]['.esc_attr($key).'][taxonomy]['.esc_attr($tvalue->name).'][ids][]">';
@@ -1294,7 +1306,7 @@ public function dtoc_placement_setting_section_cb(){
                                                 
                 echo '<div class="dtoc-acc-cont-body">';
                 echo '<div class="dtoc-acc-cont-h">';
-                echo '<h5>Skip '.esc_html($value).'</h5>';  
+                echo '<h4>Skip '.esc_html($value).'</h4>';  
                 echo '</div>';
                 echo '<div class="dtoc-acc-cont-s">';
                 echo '<select multiple class="dtoc-placement-select2" data-ajax--url="'.admin_url( 'admin-ajax.php' ).'?skip_type='.esc_attr($key).'" name="'.esc_attr($this->_setting_name).'[placement]['.esc_attr($key).'][skip][]">';

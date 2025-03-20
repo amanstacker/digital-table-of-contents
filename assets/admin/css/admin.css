@@ -29,6 +29,9 @@
     width: 0px;
     padding: 0;
 }
+.dtoc-placement, .dtoc-customization{
+  padding: 7px;
+}
 .dtoc-preview-container{
 	position: -webkit-sticky;
     position: sticky;
@@ -36,7 +39,7 @@
 }
 
 /* accordion css */
-.dtoc-accordion {
+.dtoc-accordion-header {
     background-color: #eee;
     color: #444;
     cursor: pointer;
@@ -47,12 +50,19 @@
     font-size: 15px;
     transition: 0.4s;
   }
-  
-  .dtoc-active, .dtoc-accordion:hover {
+  .dtoc-accordion-header label{
+    font-weight: 600;
+  }
+  .dtoc-active, .dtoc-accordion-header:hover {
     background-color: #ccc;
   }
-  
-  .dtoc-accordion:after {
+  .dtoc-accordion{
+    margin-bottom: 10px;
+  }
+  .dtoc-placement-select2{
+    width: 95%;
+  }
+  .dtoc-accordion-header:after {
     content: '\002B';
     color: #777;
     font-weight: bold;
@@ -65,19 +75,19 @@
     content: "\2212";
   }
   
-  .dtoc-panel {
+  .dtoc-accordion-panel {
     padding: 0 0px;    
     max-height: 0;
     overflow: hidden;
     overflow-y: scroll;
     transition: max-height 0.2s ease-out;
   }
-  .dtoc-panel-body{
+  .dtoc-accordion-panel-body{
     padding-top: 12px;
     padding-bottom: 12px;
   }
   .dtoc-acc-cont-body{
-    display: flex;
+    display: ruby;
     flex-wrap: wrap;
     margin-bottom: 10px;    
   }

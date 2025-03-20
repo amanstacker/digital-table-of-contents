@@ -30,7 +30,7 @@ jQuery(document).ready(function($){
 
   // accordion js starts here
 
-    var acc = document.getElementsByClassName("dtoc-accordion");
+    var acc = document.getElementsByClassName("dtoc-accordion-header");
     var i;
 
     for (i = 0; i < acc.length; i++) {
