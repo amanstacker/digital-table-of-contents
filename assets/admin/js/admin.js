@@ -339,3 +339,49 @@ jQuery(document).ready(function($) {
 });
 
 /* support form request ends here */
+
+/* reset plugin data starts here */
+
+jQuery(document).ready(function ($) {
+
+    let resetInput = $("#dtoc-reset-input");
+    let resetButton = $("#dtoc-reset-button");
+    let resetMessage = $("#dtoc-reset-message");
+    let security = dtoc_admin_cdata.dtoc_ajax_nonce;
+
+    resetInput.on("input", function () {
+        if ($.trim(resetInput.val().toLowerCase()) === "reset") {
+            resetButton.prop("disabled", false);
+        } else {
+            resetButton.prop("disabled", true);
+        }
+    });
+
+    resetButton.on("click", function () {
+        if (confirm("Are you sure you want to reset all options? This action cannot be undone.")) {
+            $.ajax({
+                url: ajaxurl, // WordPress AJAX URL
+                type: "POST",
+                data: {
+                    action: "dtoc_reset_options",
+                    security: security,
+                },
+                beforeSend: function () {
+                    resetButton.prop("disabled", true);
+                    resetMessage.html('<p style="color: blue;">Resetting options...</p>');
+                },
+                success: function (response) {
+                     resetMessage.html('<p style="color: green;">' + response.data.message + '</p>');
+                        setTimeout(function () {
+                            location.reload(); // Reload page after 2 seconds
+                        }, 2000);
+                },
+                error: function () {
+                    resetMessage.html('<p style="color: red;">An error occurred while resetting.</p>');
+                },
+            });
+        }
+    });
+});
+    
+/* reset plugin data ends here */

@@ -67,7 +67,7 @@ function dtoc_dashboard_page_render(){
                 echo "</div>";                 
                 //Tools tab
                 echo "<div class='dtoc-tools' ".( $tab != 'tools' ? 'style="display:none;"' : '').">";
-                    do_settings_sections( 'dtoc_dashboard_tools_setting_section' );	
+                    do_settings_sections( 'dtoc_dashboard_tools_setting_section_hook' );	
                 echo "</div>";
                 //Support tab
                 echo "<div class='dtoc-support' ".( $tab != 'support' ? 'style="display:none;"' : '').">";                
@@ -197,27 +197,40 @@ function dtoc_dashboard_modules(){
 add_action('admin_init', 'dtoc_dashboard_settings_initiate');
 
 function dtoc_dashboard_settings_initiate(){
-
+    // need sanitization of registered option
     register_setting( 'dtoc_dashboard_options_group', 'dtoc_dashboard_options' );
-    // Modules
-    
-    add_settings_section('dtoc_dashboard_setting_section', __return_false(), '__return_false', 'dtoc_dashboard_setting_section');
-                    
-    add_settings_section( 'dtoc_dashboard_tools_setting_section', esc_html__( 'Import / Export', 'digital-table-of-contents' ), '__return_false', 'dtoc_dashboard_tools_setting_section' );
-    add_settings_field(
-        'dtoc_dashboard_export',
-         esc_html__('Export Settings', 'digital-table-of-contents'),
-        'dtoc_dashboard_export_cb',		
-        'dtoc_dashboard_tools_setting_section',
-        'dtoc_dashboard_tools_setting_section',
-    );
+                                
+    add_settings_section( 'dtoc_dashboard_tools_import_export_section', esc_html__( 'Import / Export', 'digital-table-of-contents' ), '__return_false', 'dtoc_dashboard_tools_setting_section_hook' );
+        add_settings_field(
+            'dtoc_dashboard_export',
+            esc_html__('Export Settings', 'digital-table-of-contents'),
+            'dtoc_dashboard_export_cb',		
+            'dtoc_dashboard_tools_setting_section_hook',
+            'dtoc_dashboard_tools_import_export_section',
+        );
 	    add_settings_field(
         'dtoc_dashboard_import',
          esc_html__('Import Settings', 'digital-table-of-contents'),
         'dtoc_dashboard_import_cb',		
-        'dtoc_dashboard_tools_setting_section',
-        'dtoc_dashboard_tools_setting_section',
+        'dtoc_dashboard_tools_setting_section_hook',
+        'dtoc_dashboard_tools_import_export_section',
     );
+
+    add_settings_section( 'dtoc_dashboard_tools_delete_reset_section', esc_html__( 'Delete Plugin Data & Reset', 'digital-table-of-contents' ), '__return_false', 'dtoc_dashboard_tools_setting_section_hook' );
+        add_settings_field(
+            'dtoc_dashboard_export',
+            esc_html__('Delete Data', 'digital-table-of-contents'),
+            'dtoc_dashboard_delete_cb',		
+            'dtoc_dashboard_tools_setting_section_hook',
+            'dtoc_dashboard_tools_delete_reset_section',
+        );
+	    add_settings_field(
+        'dtoc_dashboard_import',
+         esc_html__('Reset Data', 'digital-table-of-contents'),
+        'dtoc_dashboard_reset_cb',		
+        'dtoc_dashboard_tools_setting_section_hook',
+        'dtoc_dashboard_tools_delete_reset_section',
+        );
     
 
 }
@@ -232,14 +245,38 @@ function dtoc_dashboard_export_cb(){
 		</div>
     <?php
 }
+function dtoc_dashboard_reset_cb(){    
+    ?>  
+    <div class="wrap">                        
+        <input type="text" id="dtoc-reset-input" placeholder="Type 'reset' here">
+        <button type="button" id="dtoc-reset-button" class="button button-secondary" disabled>
+            <?php echo esc_html__('Reset Options', 'digital-table-of-contents'); ?>
+        </button>
+        <p><?php echo esc_html__('Type "reset" in the box above to enable the reset button.', 'digital-table-of-contents'); ?></p>
+        <div id="dtoc-reset-message"></div>
+    </div>
+    <?php
+}
+function dtoc_dashboard_delete_cb(){    
+    global $dtoc_dashboard;	
+    ?>  
+    <div class="dtoc-setting-field">
+        <label for="dtoc_dashboard">
+            <input type="checkbox" id="delete_plugin_data" name="dtoc_dashboard[delete_plugin_data]" value="1" <?php checked(1, $dtoc_dashboard['delete_plugin_data']); ?> />
+            <?php esc_html_e('Enable this feature', 'text-domain'); ?>
+        </label>
+    </div>
+    
+    <?php
+}
+
 
 function dtoc_dashboard_import_cb() {
     ?>
     <div class="wrap">
     
         <div style="display: flex; align-items: center; gap: 10px; max-width: 600px;">
-            <input type="file" name="import_file" id="dtoc-import-file" accept=".json" required 
-                style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+            <input type="file" name="import_file" id="dtoc-import-file" accept=".json" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
             
             <button type="button" id="dtoc-import-button" class="button button-primary">
                 <?php esc_html_e('Import Options', 'digital-table-of-contents'); ?>

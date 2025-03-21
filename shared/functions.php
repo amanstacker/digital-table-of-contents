@@ -92,6 +92,7 @@ function dtoc_default_compatibility_options() {
 function dtoc_default_dashboard_options() {
 
         $default = [
+             'delete_plugin_data'  => false,   
              'modules' => [
                 'incontent_mobile' => false,
                 'incontent_tablet' => false,

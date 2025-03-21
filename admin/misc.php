@@ -318,3 +318,33 @@ function dtoc_handle_support_request() {
 // Register AJAX actions for both logged-in and non-logged-in users
 add_action( 'wp_ajax_dtoc_submit_support', 'dtoc_handle_support_request' );
 add_action( 'wp_ajax_nopriv_dtoc_submit_support', 'dtoc_handle_support_request' );
+
+add_action('wp_ajax_dtoc_reset_options', 'dtoc_reset_options_cb');
+
+function dtoc_reset_options_cb() {
+
+    check_ajax_referer( 'dtoc_ajax_nonce_string', 'security' );
+    
+    if (!current_user_can('manage_options')) {
+        wp_send_json_success(['message' => esc_html__('You do not have sufficient permissions to perform this action.', 'digital-table-of-contents')]);        
+        wp_die();
+    }
+
+    delete_option('dtoc_dashboard');
+    delete_option('dtoc_incontent');
+    delete_option('dtoc_incontent_mobile');
+    delete_option('dtoc_incontent_tablet');
+    delete_option('dtoc_shortcode');
+    delete_option('dtoc_shortcode_mobile');
+    delete_option('dtoc_shortcode_tablet');
+    delete_option('dtoc_sticky');
+    delete_option('dtoc_sticky_mobile');
+    delete_option('dtoc_sticky_tablet');
+    delete_option('dtoc_floating');
+    delete_option('dtoc_floating_mobile');
+    delete_option('dtoc_floating_tablet');
+    delete_option('dtoc_compatibility');    
+
+    wp_send_json_success(['message' => esc_html__('Options have been reset successfully.', 'digital-table-of-contents')]);
+    
+}
