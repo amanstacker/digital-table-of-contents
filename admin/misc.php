@@ -6,7 +6,7 @@ add_filter( 'plugin_action_links_' . DTOC_BASE_NAME, 'dtoc_plugin_action_links')
 
 function dtoc_plugin_action_links( $actions ) {
 
-     $url = add_query_arg( 'page', 'digital-table-of-contents', self_admin_url( 'options-general.php' ) );
+     $url = add_query_arg( 'page', 'dtoc', self_admin_url( 'options-general.php' ) );
      $actions[]  = '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Settings', 'digital-table-of-contents' ) . '</a>';     
     return $actions;
 }
@@ -346,5 +346,5 @@ function dtoc_reset_options_cb() {
     delete_option('dtoc_compatibility');    
 
     wp_send_json_success(['message' => esc_html__('Options have been reset successfully.', 'digital-table-of-contents')]);
-    
+
 }
