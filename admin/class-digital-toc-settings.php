@@ -246,7 +246,7 @@ public function dtoc_settings_page_render(){
 
                  echo "<div class='dtoc-accordion'>";
                  echo "<div class='dtoc-accordion-header'>";                 
-                 echo '<label>'. esc_html__( 'Container', 'digital-table-of-contents' ). '</label>';
+                 echo '<span>'. esc_html__( 'Container', 'digital-table-of-contents' ). '</span>';
                  echo "</div>";
                  echo "<div class='dtoc-accordion-panel'>";                 
                  do_settings_sections( 'dtoc_customization_container_section' );
@@ -255,7 +255,7 @@ public function dtoc_settings_page_render(){
 
                  echo "<div class='dtoc-accordion'>";
                  echo "<div class='dtoc-accordion-header'>";                 
-                 echo '<label>'. esc_html__( 'Title', 'digital-table-of-contents' ). '</label>';
+                 echo '<span>'. esc_html__( 'Title', 'digital-table-of-contents' ). '</span>';
                  echo "</div>";
                  echo "<div class='dtoc-accordion-panel'>";                 
                  do_settings_sections( 'dtoc_customization_title_section' );
@@ -264,7 +264,7 @@ public function dtoc_settings_page_render(){
 
                  echo "<div class='dtoc-accordion'>";
                  echo "<div class='dtoc-accordion-header'>";                 
-                 echo '<label>'. esc_html__( 'Icon', 'digital-table-of-contents' ). '</label>';
+                 echo '<span>'. esc_html__( 'Icon', 'digital-table-of-contents' ). '</span>';
                  echo "</div>";
                  echo "<div class='dtoc-accordion-panel'>";                 
                  do_settings_sections( 'dtoc_customization_icon_section' );
@@ -273,7 +273,7 @@ public function dtoc_settings_page_render(){
 
                  echo "<div class='dtoc-accordion'>";
                  echo "<div class='dtoc-accordion-header'>";                                  
-                 echo '<label>'. esc_html__( 'Border', 'digital-table-of-contents' ). '</label>';
+                 echo '<span>'. esc_html__( 'Border', 'digital-table-of-contents' ). '</span>';
                  echo "</div>";
                  echo "<div class='dtoc-accordion-panel'>";                 
                  do_settings_sections( 'dtoc_customization_border_section' );
@@ -282,7 +282,7 @@ public function dtoc_settings_page_render(){
 
                  echo "<div class='dtoc-accordion'>";
                  echo "<div class='dtoc-accordion-header'>";                 
-                 echo '<label>'. esc_html__( 'Link', 'digital-table-of-contents' ). '</label>';
+                 echo '<span>'. esc_html__( 'Link', 'digital-table-of-contents' ). '</span>';
                  echo "</div>";
                  echo "<div class='dtoc-accordion-panel'>";                 
                  do_settings_sections( 'dtoc_customization_link_section' );
@@ -291,7 +291,7 @@ public function dtoc_settings_page_render(){
 
                  echo "<div class='dtoc-accordion'>";
                  echo "<div class='dtoc-accordion-header'>";                                  
-                 echo '<label>'. esc_html__( 'Custom CSS', 'digital-table-of-contents' ). '</label>';
+                 echo '<span>'. esc_html__( 'Custom CSS', 'digital-table-of-contents' ). '</span>';
                  echo "</div>";
                  echo "<div class='dtoc-accordion-panel'>";                 
                  $this->dtoc_customization_custom_css_cb();                                    
@@ -364,7 +364,7 @@ public function dtoc_settings_initiate(){
 		 [$this, 'dtoc_general_loading_type_cb'],        		
         'dtoc_general_setting_section',
         'dtoc_general_setting_section',
-        array( 'label_for' => 'loading_type', 'class' => 'dtoc_child_opt dtoc_jump_links')
+        array( 'class' => 'dtoc_child_opt dtoc_jump_links' )
     );
     add_settings_field(
         'dtoc_general_scroll_behavior',
@@ -372,7 +372,7 @@ public function dtoc_settings_initiate(){
 		 [$this, 'dtoc_general_scroll_behavior_cb'],        
         'dtoc_general_setting_section',
         'dtoc_general_setting_section',
-        array( 'label_for' => 'scroll_behavior', 'class' => 'dtoc_child_opt dtoc_jump_links')
+        array( 'class' => 'dtoc_child_opt dtoc_jump_links' )
     );
     add_settings_field(
         'dtoc_general_scroll_back_to_toc',
@@ -913,8 +913,8 @@ public function dtoc_customization_design_type_cb(){
 public function dtoc_customization_custom_css_cb(){
     $this->dtoc_resolve_meta_settings_name(); 		
     ?>
-  <div class="dtoc_custom_styles"><?php  echo isset($this->_setting_option['custom_css'])?$this->_setting_option['custom_css']:'';?></div>
-  <textarea id="custom_css" name="<?php echo $this->_setting_name; ?>[custom_css]" style="display: none"></textarea>  
+    <div class="dtoc_custom_styles"><?php  echo isset($this->_setting_option['custom_css']) ? $this->_setting_option['custom_css']: ''; ?></div>
+    <textarea id="custom_css" name="<?php echo $this->_setting_name; ?>[custom_css]" style="display: none"></textarea>  
 	<?php
 }
 public function dtoc_customization_icon_size_cb(){
@@ -924,13 +924,13 @@ public function dtoc_customization_icon_size_cb(){
         <li>
         <input type="number" class="small-text" id="icon_width" name="<?php echo $this->_setting_name; ?>[icon_width]" value="<?php echo isset( $this->_setting_option['icon_width'] ) ? esc_attr( $this->_setting_option['icon_width']) : '25'; ?>">
         <br>
-        <label><?php echo esc_html__('Width', 'digital-table-of-contents'); ?></label>
+        <span><?php echo esc_html__('Width', 'digital-table-of-contents'); ?></span>
         </li>
 
         <li>
         <input type="number" class="small-text" id="icon_height" name="<?php echo $this->_setting_name; ?>[icon_height]" value="<?php echo isset( $this->_setting_option['icon_height'] ) ? esc_attr( $this->_setting_option['icon_height']) : '25'; ?>">
         <br>
-        <label><?php echo esc_html__('Height', 'digital-table-of-contents'); ?></label>
+        <span><?php echo esc_html__('Height', 'digital-table-of-contents'); ?></span>
         </li>
         
         <li>
@@ -940,7 +940,7 @@ public function dtoc_customization_icon_size_cb(){
             <option value="%" <?php echo (isset($this->_setting_option['icon_size_unit']) && $this->_setting_option['icon_size_unit'] == '%' ? 'selected' : '' ) ?>><?php echo esc_html__('%', 'digital-table-of-contents'); ?></option>
             <option value="em" <?php echo (isset($this->_setting_option['icon_size_unit']) && $this->_setting_option['icon_size_unit'] == 'em' ? 'selected' : '' ) ?>><?php echo esc_html__('em', 'digital-table-of-contents'); ?></option>        
         </select>
-        <label><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></label>
+        <span><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></span>
         </li>
     </ul>    	    
     <?php
@@ -951,19 +951,19 @@ public function dtoc_customization_border_radius_cb(){
     <ul style="display: flex;">
         <li>
         <input type="number" class="small-text" id="border_radius_top_left" name="<?php echo $this->_setting_name; ?>[border_radius_top_left]" value="<?php echo isset( $this->_setting_option['border_radius_top_left'] ) ? esc_attr( $this->_setting_option['border_radius_top_left']) : '0'; ?>">
-        <label><?php echo esc_html__('Top Left', 'digital-table-of-contents'); ?></label>
+        <span><?php echo esc_html__('Top Left', 'digital-table-of-contents'); ?></span>
         </li>
         <li>
         <input type="number" class="small-text" id="border_radius_top_right" name="<?php echo $this->_setting_name; ?>[border_radius_top_right]" value="<?php echo isset( $this->_setting_option['border_radius_top_right'] ) ? esc_attr( $this->_setting_option['border_radius_top_right']) : '0'; ?>">
-        <label><?php echo esc_html__('Top Right', 'digital-table-of-contents'); ?></label>
+        <span><?php echo esc_html__('Top Right', 'digital-table-of-contents'); ?></span>
         </li>
         <li>
         <input type="number" class="small-text" id="border_radius_bottom_left" name="<?php echo $this->_setting_name; ?>[border_radius_bottom_left]" value="<?php echo isset( $this->_setting_option['border_radius_bottom_left'] ) ? esc_attr( $this->_setting_option['border_radius_bottom_left']) : '0'; ?>">
-        <label><?php echo esc_html__('Bottom Left', 'digital-table-of-contents'); ?></label>
+        <span><?php echo esc_html__('Bottom Left', 'digital-table-of-contents'); ?></span>
         </li>
         <li>
         <input type="number" class="small-text" id="border_radius_bottom_right" name="<?php echo $this->_setting_name; ?>[border_radius_bottom_right]" value="<?php echo isset( $this->_setting_option['border_radius_bottom_right'] ) ? esc_attr( $this->_setting_option['border_radius_bottom_right']) : '0'; ?>">
-        <label><?php echo esc_html__('Bottom Right', 'digital-table-of-contents'); ?></label>
+        <span><?php echo esc_html__('Bottom Right', 'digital-table-of-contents'); ?></span>
         </li>
         <li>
         <select name="<?php echo $this->_setting_name; ?>[border_radius_unit]" id="border_radius_unit">
@@ -972,7 +972,7 @@ public function dtoc_customization_border_radius_cb(){
             <option value="%" <?php echo (isset($this->_setting_option['border_radius_unit']) && $this->_setting_option['border_radius_unit'] == '%' ? 'selected' : '' ) ?>><?php echo esc_html__('%', 'digital-table-of-contents'); ?></option>
             <option value="em" <?php echo (isset($this->_setting_option['border_radius_unit']) && $this->_setting_option['border_radius_unit'] == 'em' ? 'selected' : '' ) ?>><?php echo esc_html__('em', 'digital-table-of-contents'); ?></option>        
         </select>
-        <label><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></label>
+        <span><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></span>
         </li>
     </ul>    	    
     <?php
@@ -983,19 +983,19 @@ public function dtoc_customization_icon_border_radius_cb(){
     <ul style="display: flex;">
         <li>
         <input type="number" class="small-text" id="icon_border_radius_top_left" name="<?php echo $this->_setting_name; ?>[icon_border_radius_top_left]" value="<?php echo isset( $this->_setting_option['icon_border_radius_top_left'] ) ? esc_attr( $this->_setting_option['icon_border_radius_top_left']) : '0'; ?>">
-        <label><?php echo esc_html__('Top Left', 'digital-table-of-contents'); ?></label>
+        <span><?php echo esc_html__('Top Left', 'digital-table-of-contents'); ?></span>
         </li>
         <li>
         <input type="number" class="small-text" id="icon_border_radius_top_right" name="<?php echo $this->_setting_name; ?>[icon_border_radius_top_right]" value="<?php echo isset( $this->_setting_option['icon_border_radius_top_right'] ) ? esc_attr( $this->_setting_option['icon_border_radius_top_right']) : '0'; ?>">
-        <label><?php echo esc_html__('Top Right', 'digital-table-of-contents'); ?></label>
+        <span><?php echo esc_html__('Top Right', 'digital-table-of-contents'); ?></span>
         </li>
         <li>
         <input type="number" class="small-text" id="icon_border_radius_bottom_left" name="<?php echo $this->_setting_name; ?>[icon_border_radius_bottom_left]" value="<?php echo isset( $this->_setting_option['icon_border_radius_bottom_left'] ) ? esc_attr( $this->_setting_option['icon_border_radius_bottom_left']) : '0'; ?>">
-        <label><?php echo esc_html__('Bottom Left', 'digital-table-of-contents'); ?></label>
+        <span><?php echo esc_html__('Bottom Left', 'digital-table-of-contents'); ?></span>
         </li>
         <li>
         <input type="number" class="small-text" id="icon_border_radius_bottom_right" name="<?php echo $this->_setting_name; ?>[icon_border_radius_bottom_right]" value="<?php echo isset( $this->_setting_option['icon_border_radius_bottom_right'] ) ? esc_attr( $this->_setting_option['icon_border_radius_bottom_right']) : '0'; ?>">
-        <label><?php echo esc_html__('Bottom Right', 'digital-table-of-contents'); ?></label>
+        <span><?php echo esc_html__('Bottom Right', 'digital-table-of-contents'); ?></span>
         </li>
         <li>
         <select name="<?php echo $this->_setting_name; ?>[icon_border_radius_unit]" id="icon_border_radius_unit">
@@ -1004,7 +1004,7 @@ public function dtoc_customization_icon_border_radius_cb(){
             <option value="%" <?php echo (isset($this->_setting_option['icon_border_radius_unit']) && $this->_setting_option['icon_border_radius_unit'] == '%' ? 'selected' : '' ) ?>><?php echo esc_html__('%', 'digital-table-of-contents'); ?></option>
             <option value="em" <?php echo (isset($this->_setting_option['icon_border_radius_unit']) && $this->_setting_option['icon_border_radius_unit'] == 'em' ? 'selected' : '' ) ?>><?php echo esc_html__('em', 'digital-table-of-contents'); ?></option>        
         </select>
-        <label><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></label>
+        <span><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></span>
         </li>
     </ul>    	    
     <?php
@@ -1034,7 +1034,7 @@ public function dtoc_customization_container_width_cb(){
         <option value="%" <?php echo (isset($this->_setting_option['container_width_unit']) && $this->_setting_option['container_width_unit'] == '%' ? 'selected' : '' ) ?>><?php echo esc_html__('%', 'digital-table-of-contents'); ?></option>
         <option value="em" <?php echo (isset($this->_setting_option['container_width_unit']) && $this->_setting_option['container_width_unit'] == 'em' ? 'selected' : '' ) ?>><?php echo esc_html__('em', 'digital-table-of-contents'); ?></option>        
         </select>
-        <label><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></label>
+        <span><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></span>
     <?php
 }
 public function dtoc_customization_title_font_size_cb(){
@@ -1047,7 +1047,7 @@ public function dtoc_customization_title_font_size_cb(){
         <option value="%" <?php echo (isset($this->_setting_option['title_font_size_unit']) && $this->_setting_option['title_font_size_unit'] == '%' ? 'selected' : '' ) ?>><?php echo esc_html__('%', 'digital-table-of-contents'); ?></option>
         <option value="em" <?php echo (isset($this->_setting_option['title_font_size_unit']) && $this->_setting_option['title_font_size_unit'] == 'em' ? 'selected' : '' ) ?>><?php echo esc_html__('em', 'digital-table-of-contents'); ?></option>        
         </select>
-        <label><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></label>
+        <span><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></span>
     <?php
 }
 public function dtoc_customization_title_font_weight_cb(){
@@ -1060,7 +1060,7 @@ public function dtoc_customization_title_font_weight_cb(){
         <option value="%" <?php echo (isset($this->_setting_option['title_font_weight_unit']) && $this->_setting_option['title_font_weight_unit'] == '%' ? 'selected' : '' ) ?>><?php echo esc_html__('%', 'digital-table-of-contents'); ?></option>
         <option value="em" <?php echo (isset($this->_setting_option['title_font_weight_unit']) && $this->_setting_option['title_font_weight_unit'] == 'em' ? 'selected' : '' ) ?>><?php echo esc_html__('em', 'digital-table-of-contents'); ?></option>        
         </select>
-        <label><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></label>
+        <span><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></span>
     <?php
 }
 public function dtoc_customization_container_height_cb(){
@@ -1073,7 +1073,7 @@ public function dtoc_customization_container_height_cb(){
         <option value="%" <?php echo (isset($this->_setting_option['design_type']) && $this->_setting_option['design_type'] == 'white' ? 'selected' : '' ) ?>><?php echo esc_html__('%', 'digital-table-of-contents'); ?></option>
         <option value="em" <?php echo (isset($this->_setting_option['design_type']) && $this->_setting_option['design_type'] == 'black' ? 'selected' : '' ) ?>><?php echo esc_html__('em', 'digital-table-of-contents'); ?></option>        
         </select>
-        <label>Unit</label>
+        <span><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></span>
     <?php
     
 }

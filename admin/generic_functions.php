@@ -218,7 +218,7 @@ function dtoc_different_four_sides_html($setting_name, $setting_options, $css_ty
 		?>
 		<li>
 			<input type="number" class="small-text" id="<?php echo $section_type.'_'.$css_type.'_'.$key; ?>" name="<?php echo $setting_name.'['.$section_type,'_'.$css_type.'_'.$key.']'; ?>" value="<?php echo isset( $setting_options[$section_type.'_'.$css_type.'_'.$key] ) ? esc_attr( $setting_options[$section_type.'_'.$css_type.'_'.$key]) : '0'; ?>">
-			<label><?php echo esc_html__($value, 'digital-table-of-contents'); ?></label>
+			<span><?php echo esc_html__($value, 'digital-table-of-contents'); ?></span>
         </li>
 		<?php
 	}
@@ -231,7 +231,7 @@ function dtoc_different_four_sides_html($setting_name, $setting_options, $css_ty
 				}
 			 ?>                                
         </select>
-        <label><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></label>
+        <span><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></span>
         </li>
     </ul>    	    
     <?php
