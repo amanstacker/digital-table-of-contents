@@ -6,7 +6,7 @@ add_action( 'plugins_loaded', 'dtoc_options_init' );
 
 function dtoc_options_init(){
     
-	global $dtoc_dashboard, $dtoc_incontent, $dtoc_incontent_mobile,$dtoc_incontent_tablet, $dtoc_sticky, $dtoc_sticky_mobile, $dtoc_sticky_tablet, $dtoc_floating, $dtoc_floating_mobile, $dtoc_floating_tablet, $dtoc_shortcode, $dtoc_shortcode_mobile, $dtoc_shortcode_tablet, $dtoc_compatibility;
+	global $dtoc_dashboard, $dtoc_incontent, $dtoc_incontent_mobile, $dtoc_incontent_tablet, $dtoc_sticky, $dtoc_sticky_mobile, $dtoc_sticky_tablet, $dtoc_floating, $dtoc_floating_mobile, $dtoc_floating_tablet, $dtoc_shortcode, $dtoc_shortcode_mobile, $dtoc_shortcode_tablet, $dtoc_compatibility;
 
         $dtoc_dashboard          = get_option( 'dtoc_dashboard', dtoc_default_dashboard_options() );
 
@@ -401,7 +401,7 @@ function dtoc_option_types ( $tab = 'all' , $settings = [] , $type ="default" ) 
             'after_first_heading' => 'After First Heading',
             'top_of_the_content' => 'Top Of The Content',
             'bottom_of_the_content' => 'Bottom Of The Content',
-            'middle_of_the_content' => 'Middle Of The Content'
+            'after_paragraph_number' => 'Middle Of The Content'
         ],
         'selected' => '',
 		'value' => 'top_of_the_content',

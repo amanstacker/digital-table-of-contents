@@ -205,7 +205,8 @@ function dtoc_get_device_type(){
 
         return $device_type;
 }
-function dtoc_get_options_by_device($option = "incontent"){
+function dtoc_get_options_by_device( $option = "incontent" ) {
+        
         $option = "dtoc_{$option}"; $option_mobile = "dtoc_{$option}_mobile"; $option_tablet = "dtoc_{$option}_tablet";
         $options     = isset($GLOBALS[$option]) ? $GLOBALS[$option] : [];
         $device_type = dtoc_get_device_type();

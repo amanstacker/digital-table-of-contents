@@ -14,14 +14,15 @@ function getParameterByName(name, url) {
 jQuery(document).ready(function($){
 
   // Hide and show child options based on parent selection starts here
-    $(".dtoc_parent_option").on("change", function(e){
-        var id = $(this).attr('id');
-        if($(this).prop("checked")){
-          $(".dtoc_"+id).show();
-        }else{
-          $(".dtoc_"+id).hide();
-        }
-    }).change();
+  $(".dtoc_parent_option").on("change", function (e) {
+    var id = $(this).attr("id");
+    if ($(this).prop("checked")) {
+        $(".dtoc_" + id).fadeIn(600); // 600ms slow motion effect
+    } else {
+        $(".dtoc_" + id).fadeOut(600);
+    }
+}).change();
+
   // Hide and show child options based on parent selection ends here
 
   //
@@ -385,3 +386,16 @@ jQuery(document).ready(function ($) {
 });
     
 /* reset plugin data ends here */
+
+jQuery(document).ready(function($) {
+    function toggleParagraphNumber() {
+        if ($('#display_position').val() === 'after_paragraph_number') {
+            $('.dtoc_paragraph_number').fadeIn(600);
+        } else {
+            $('.dtoc_paragraph_number').fadeOut(600);
+        }
+    }
+
+    $('#display_position').on('change', toggleParagraphNumber);
+    toggleParagraphNumber();
+});

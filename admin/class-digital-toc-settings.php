@@ -351,6 +351,46 @@ public function dtoc_settings_initiate(){
     // general
     add_settings_section('dtoc_general_setting_section', __return_false(), '__return_false', 'dtoc_general_setting_section');                                
     add_settings_field(
+        'dtoc_display_title',
+         esc_html__('Title ( Heading )', 'digital-table-of-contents'),
+         [$this, 'dtoc_display_title_cb'],            
+        'dtoc_general_setting_section',
+        'dtoc_general_setting_section',
+         array( 'label_for' => 'display_title')
+    );
+    add_settings_field(
+        'dtoc_general_header_text',
+         esc_html__('Title Text', 'digital-table-of-contents'),
+		 [$this, 'dtoc_general_header_text_cb'],        
+        'dtoc_general_setting_section',
+        'dtoc_general_setting_section',
+        array( 'class' => 'dtoc_child_opt dtoc_display_title' )
+    );
+    add_settings_field(
+        'dtoc_general_header_icon',
+         esc_html__('Title Icon', 'digital-table-of-contents'),
+		 [$this, 'dtoc_general_header_icon_cb'],        
+        'dtoc_general_setting_section',
+        'dtoc_general_setting_section',
+        array( 'class' => 'dtoc_child_opt dtoc_display_title' )
+    );
+    add_settings_field(
+        'dtoc_display_toggle_body',
+         esc_html__('Toggle Panel', 'digital-table-of-contents'),
+		 [$this, 'dtoc_display_toggle_body_cb'],        		        
+        'dtoc_general_setting_section',
+        'dtoc_general_setting_section',
+        array( 'class' => 'dtoc_child_opt dtoc_display_title' )
+    );
+    add_settings_field(
+        'dtoc_display_toggle_initial',
+         esc_html__('Toggle Panel Initial View', 'digital-table-of-contents'),
+		 [$this, 'dtoc_display_toggle_initial_cb'],        
+        'dtoc_general_setting_section',
+        'dtoc_general_setting_section',
+        array( 'class' => 'dtoc_child_opt dtoc_display_title' )
+    );
+    add_settings_field(
         'dtoc_general_jump_links',
          esc_html__('Jump Links', 'digital-table-of-contents'),
         [$this, 'dtoc_general_jump_links_cb'],
@@ -376,26 +416,12 @@ public function dtoc_settings_initiate(){
     );
     add_settings_field(
         'dtoc_general_scroll_back_to_toc',
-         esc_html__('Scroll Back TO TOC', 'digital-table-of-contents'),
+         esc_html__('Scroll Back to TOC', 'digital-table-of-contents'),
 		 [$this, 'dtoc_general_scroll_back_to_toc_cb'],        		        
         'dtoc_general_setting_section',
         'dtoc_general_setting_section',
          array( 'label_for' => 'scroll_back_to_toc', 'class' => 'dtoc_child_opt dtoc_jump_links')
-    );
-    add_settings_field(
-        'dtoc_general_header_text',
-         esc_html__('Header Text', 'digital-table-of-contents'),
-		 [$this, 'dtoc_general_header_text_cb'],        
-        'dtoc_general_setting_section',
-        'dtoc_general_setting_section',
-    );
-    add_settings_field(
-        'dtoc_general_header_icon',
-         esc_html__('Header Icon', 'digital-table-of-contents'),
-		 [$this, 'dtoc_general_header_icon_cb'],        
-        'dtoc_general_setting_section',
-        'dtoc_general_setting_section',
-    );
+    );        
     add_settings_field(
         'dtoc_general_alignment',
          esc_html__('Alignment', 'digital-table-of-contents'),
@@ -412,27 +438,27 @@ public function dtoc_settings_initiate(){
          array( 'label_for' => 'wrap_content')
     );
     add_settings_field(
-        'dtoc_general_hierarchy',
+        'dtoc_display_hierarchy',
          esc_html__('Hierarchy', 'digital-table-of-contents'),
-		 [$this, 'dtoc_general_hierarchy_cb'],        		        
-        'dtoc_general_setting_section',
-        'dtoc_general_setting_section',
+		 [$this, 'dtoc_display_hierarchy_cb'],        		        
+        'dtoc_display_setting_section',
+        'dtoc_display_setting_section',
         array( 'label_for' => 'hierarchy')
     );    
     add_settings_field(                
-        'dtoc_general_exp_col_subheadings',
+        'dtoc_display_exp_col_subheadings',
          esc_html__('Expand / Collapse', 'digital-table-of-contents'),
-		 [$this, 'dtoc_general_exp_col_subheadings_cb'],        		        
-        'dtoc_general_setting_section',
-        'dtoc_general_setting_section',
+		 [$this, 'dtoc_display_exp_col_subheadings_cb'],        		        
+        'dtoc_display_setting_section',
+        'dtoc_display_setting_section',
         array( 'label_for' => 'exp_col_subheadings', 'class' => 'dtoc_child_opt dtoc_hierarchy')
     );
     add_settings_field(
-        'dtoc_general_show_more',
+        'dtoc_display_show_more',
          esc_html__('Show More', 'digital-table-of-contents'),
-		 [$this, 'dtoc_general_show_more_cb'],        		        
-        'dtoc_general_setting_section',
-        'dtoc_general_setting_section',
+		 [$this, 'dtoc_display_show_more_cb'],        		        
+        'dtoc_display_setting_section',
+        'dtoc_display_setting_section',
          array( 'label_for' => 'show_more')
     );        
     add_settings_field(
@@ -443,21 +469,14 @@ public function dtoc_settings_initiate(){
         'dtoc_general_setting_section',
     );    
     add_settings_field(
-        'dtoc_general_combine_page_break',
+        'dtoc_display_combine_page_break',
          esc_html__('Combine Page Break', 'digital-table-of-contents'),
-		 [$this, 'dtoc_general_combine_page_break_cb'],        		        
-        'dtoc_general_setting_section',
-        'dtoc_general_setting_section',
+		 [$this, 'dtoc_display_combine_page_break_cb'],        		        
+        'dtoc_display_setting_section',
+        'dtoc_display_setting_section',
         array( 'label_for' => 'combine_page_break')
     );
-    add_settings_field(
-        'dtoc_general_headings_include',
-         esc_html__('Select Heading Tags', 'digital-table-of-contents'),
-		 [$this, 'dtoc_general_headings_include_cb'],        
-        'dtoc_general_setting_section',
-        'dtoc_general_setting_section',
-    );
-    
+        
     // Customization
 
 	// Customization
@@ -689,45 +708,36 @@ public function dtoc_settings_initiate(){
     add_settings_field(
             'dtoc_display_When',
              esc_html__('Display When', 'digital-table-of-contents'),
-			 [$this, 'dtoc_display_when_cb'],        		            
-            'dtoc_display_setting_section',
-            'dtoc_display_setting_section'
+			 [$this, 'dtoc_general_when_cb'],        		            
+            'dtoc_general_setting_section',
+            'dtoc_general_setting_section'
     );    
     add_settings_field(
-            'dtoc_display_position',
-             esc_html__('Display Position', 'digital-table-of-contents'),
-			 [$this, 'dtoc_display_position_cb'],            
-            'dtoc_display_setting_section',
-            'dtoc_display_setting_section'
+            'dtoc_position',
+             esc_html__('Position', 'digital-table-of-contents'),
+			 [$this, 'dtoc_general_position_cb'],            
+            'dtoc_general_setting_section',
+            'dtoc_general_setting_section'
     );
     add_settings_field(
-            'dtoc_display_title',
-             esc_html__('Display Title', 'digital-table-of-contents'),
-			 [$this, 'dtoc_display_title_cb'],            
-            'dtoc_display_setting_section',
-            'dtoc_display_setting_section',
-             array( 'label_for' => 'display_title')
-    );
+        'dtoc_paragraph_number',
+         esc_html__('Paragraph Number', 'digital-table-of-contents'),
+         [$this, 'dtoc_general_paragraph_number_cb'],            
+        'dtoc_general_setting_section',
+        'dtoc_general_setting_section',
+        array( 'label_for' => 'paragraph_number', 'class' => 'dtoc_child_opt dtoc_paragraph_number')
+    );    
     add_settings_field(
-        'dtoc_display_toggle_body',
-         esc_html__('Toggle Body', 'digital-table-of-contents'),
-		 [$this, 'dtoc_display_toggle_body_cb'],        		        
-        'dtoc_display_setting_section',
-        'dtoc_display_setting_section',
-         array( 'label_for' => 'toggle_body', 'class' => 'dtoc_child_opt')
-    );
-    add_settings_field(
-        'dtoc_display_toggle_initial',
-         esc_html__('Toggle Initial', 'digital-table-of-contents'),
-		 [$this, 'dtoc_display_toggle_initial_cb'],        
-        'dtoc_display_setting_section',
-        'dtoc_display_setting_section',
-         array( 'label_for' => 'toggle_initial', 'class' => 'dtoc_child_opt')
+        'dtoc_general_headings_include',
+         esc_html__('Select Heading Tags', 'digital-table-of-contents'),
+		 [$this, 'dtoc_general_headings_include_cb'],        
+        'dtoc_general_setting_section',
+        'dtoc_general_setting_section',
     );    
 
 }
 
-public function dtoc_general_combine_page_break_cb(){
+public function dtoc_display_combine_page_break_cb(){
 	$this->dtoc_resolve_meta_settings_name(); 	
     ?>  
         <input name="<?php echo $this->_setting_name; ?>[combine_page_break]" id="combine_page_break" type="checkbox" value="1" <?php echo (isset($this->_setting_option['combine_page_break']) && $this->_setting_option['combine_page_break'] == 1 ? 'checked' : '' ) ?>>
@@ -735,13 +745,13 @@ public function dtoc_general_combine_page_break_cb(){
     <?php
 }
 
-public function dtoc_general_hierarchy_cb(){
+public function dtoc_display_hierarchy_cb(){
     $this->dtoc_resolve_meta_settings_name(); 		
     ?>  
         <input class="dtoc_parent_option" name="<?php echo $this->_setting_name; ?>[hierarchy]" id="hierarchy" type="checkbox" value="1" <?php echo (isset($this->_setting_option['hierarchy']) && $this->_setting_option['hierarchy'] == 1 ? 'checked' : '' ) ?>>
     <?php
 }
-public function dtoc_general_exp_col_subheadings_cb(){
+public function dtoc_display_exp_col_subheadings_cb(){
     $this->dtoc_resolve_meta_settings_name(); 		
     ?>  
         <input name="<?php echo $this->_setting_name; ?>[exp_col_subheadings]" id="exp_col_subheadings" type="checkbox" value="1" <?php echo (isset($this->_setting_option['exp_col_subheadings']) && $this->_setting_option['exp_col_subheadings'] == 1 ? 'checked' : '' ) ?>>
@@ -823,7 +833,7 @@ public function dtoc_general_list_style_type_cb(){
 	
     <?php
 }
-public function dtoc_general_show_more_cb(){
+public function dtoc_display_show_more_cb(){
     $this->dtoc_resolve_meta_settings_name(); 		
     ?>  
         <input name="<?php echo $this->_setting_name; ?>[show_more]" id="show_more" type="checkbox" value="1" <?php echo (isset($this->_setting_option['show_more']) && $this->_setting_option['show_more'] == 1 ? 'checked' : '' ) ?>>
@@ -1121,40 +1131,45 @@ public function dtoc_customization_icon_border_type_cb(){
 }
 public function dtoc_general_loading_type_cb(){ 
     $this->dtoc_resolve_meta_settings_name(); 	   	                
-    ?>    
-    
-    <input type="radio" id="js_loading_type" name="<?php echo $this->_setting_name; ?>[loading_type]" value="js"<?php echo (isset($this->_setting_option['loading_type']) && $this->_setting_option['loading_type'] == 'js' ? 'checked' : '' ) ?>>
-    <label for="js_loading_type"><?php echo esc_html__('JS', 'digital-table-of-contents'); ?></label>
-    <input type="radio" id="css_loading_type" name="<?php echo $this->_setting_name; ?>[loading_type]" value="css" <?php echo (isset($this->_setting_option['loading_type']) && $this->_setting_option['loading_type'] == 'css' ? 'checked' : '' ) ?>>
-    <label for="css_loading_type"><?php echo esc_html__('CSS', 'digital-table-of-contents'); ?></label>	
-    
+    ?>        
+        <input type="radio" id="js_loading_type" name="<?php echo esc_attr( $this->_setting_name ); ?>[loading_type]" value="js" 
+            <?php checked( isset( $this->_setting_option['loading_type'] ) && $this->_setting_option['loading_type'] === 'js' ); ?>>
+        <label for="js_loading_type" style="margin-right: 15px;"><?php esc_html_e( 'JS', 'digital-table-of-contents' ); ?></label>
+
+        <input type="radio" id="css_loading_type" name="<?php echo esc_attr( $this->_setting_name ); ?>[loading_type]" value="css" 
+            <?php checked( isset( $this->_setting_option['loading_type'] ) && $this->_setting_option['loading_type'] === 'css' ); ?>>
+        <label for="css_loading_type"><?php esc_html_e( 'CSS', 'digital-table-of-contents' ); ?></label>        
     <?php
 }
 public function dtoc_general_scroll_behavior_cb(){ 
     $this->dtoc_resolve_meta_settings_name(); 	   	                
-    ?>    
-    
-    <input type="radio" id="auto_scroll_behavior" name="<?php echo $this->_setting_name; ?>[scroll_behavior]" value="auto"<?php echo (isset($this->_setting_option['scroll_behavior']) && $this->_setting_option['scroll_behavior'] == 'auto' ? 'checked' : '' ) ?>>
-    <label for="auto_scroll_behavior"><?php echo esc_html__('Auto', 'digital-table-of-contents'); ?></label>
-    <input type="radio" id="smooth_scroll_behavior" name="<?php echo $this->_setting_name; ?>[scroll_behavior]" value="smooth" <?php echo (isset($this->_setting_option['scroll_behavior']) && $this->_setting_option['scroll_behavior'] == 'smooth' ? 'checked' : '' ) ?>>
-    <label for="smooth_scroll_behavior"><?php echo esc_html__('Smooth', 'digital-table-of-contents'); ?></label>	
-    
+    ?>            
+    <input type="radio" id="auto_scroll_behavior" name="<?php echo esc_attr( $this->_setting_name ); ?>[scroll_behavior]" value="auto" 
+        <?php checked( isset( $this->_setting_option['scroll_behavior'] ) && $this->_setting_option['scroll_behavior'] === 'auto' ); ?>>
+    <label for="auto_scroll_behavior" style="margin-right: 15px;"><?php esc_html_e( 'Auto', 'digital-table-of-contents' ); ?></label>
+
+    <input type="radio" id="smooth_scroll_behavior" name="<?php echo esc_attr( $this->_setting_name ); ?>[scroll_behavior]" value="smooth" 
+        <?php checked( isset( $this->_setting_option['scroll_behavior'] ) && $this->_setting_option['scroll_behavior'] === 'smooth' ); ?>>
+    <label for="smooth_scroll_behavior"><?php esc_html_e( 'Smooth', 'digital-table-of-contents' ); ?></label>        
+
     <?php
 }
-public function dtoc_general_alignment_cb(){
-    $this->dtoc_resolve_meta_settings_name(); 		
-    ?> 
-    
-    <input type="radio" id="left_alignment" name="<?php echo $this->_setting_name; ?>[alignment]" value="left"<?php echo (isset($this->_setting_option['alignment']) && $this->_setting_option['alignment'] == 'left' ? 'checked' : '' ) ?>>
-    <label for="left_alignment"><?php echo esc_html__('Left', 'digital-table-of-contents'); ?></label>
-    <input type="radio" id="center_alignment" name="<?php echo $this->_setting_name; ?>[alignment]" value="center"<?php echo (isset($this->_setting_option['alignment']) && $this->_setting_option['alignment'] == 'center' ? 'checked' : '' ) ?>>
-    <label for="center_alignment"><?php echo esc_html__('Center', 'digital-table-of-contents'); ?></label>
-    <input type="radio" id="right_alignment" name="<?php echo $this->_setting_name; ?>[alignment]" value="right"<?php echo (isset($this->_setting_option['alignment']) && $this->_setting_option['alignment'] == 'right' ? 'checked' : '' ) ?>>
-    <label for="right_alignment"><?php echo esc_html__('Right', 'digital-table-of-contents'); ?></label>    
-    
-	
-    <?php
+public function dtoc_general_alignment_cb() {
+	$this->dtoc_resolve_meta_settings_name();
+	?>
+
+	<input type="radio" id="left_alignment" name="<?php echo esc_attr( $this->_setting_name ); ?>[alignment]" value="left" <?php checked( isset( $this->_setting_option['alignment'] ) && $this->_setting_option['alignment'] === 'left' ); ?>>
+	<label  for="left_alignment" style="margin-right: 15px;"><?php esc_html_e( 'Left', 'digital-table-of-contents' ); ?></label>
+
+	<input type="radio" id="center_alignment" name="<?php echo esc_attr( $this->_setting_name ); ?>[alignment]" value="center" <?php checked( isset( $this->_setting_option['alignment'] ) && $this->_setting_option['alignment'] === 'center' ); ?>>
+	<label for="center_alignment" style="margin-right: 15px;"><?php esc_html_e( 'Center', 'digital-table-of-contents' ); ?></label>
+
+	<input type="radio" id="right_alignment" name="<?php echo esc_attr( $this->_setting_name ); ?>[alignment]" value="right" <?php checked( isset( $this->_setting_option['alignment'] ) && $this->_setting_option['alignment'] === 'right' ); ?> >
+	<label for="right_alignment"><?php esc_html_e( 'Right', 'digital-table-of-contents' ); ?></label>
+
+	<?php
 }
+
 public function dtoc_general_header_icon_cb(){
 	$this->dtoc_resolve_meta_settings_name(); 	
     ?>    
@@ -1180,7 +1195,7 @@ public function dtoc_general_header_text_cb(){
 public function dtoc_display_title_cb(){  
     $this->dtoc_resolve_meta_settings_name(); 	  	                        
     ?>  
-        <input name="<?php echo $this->_setting_name; ?>[display_title]" id="display_title" type="checkbox" value="1" <?php echo (isset($this->_setting_option['display_title']) && $this->_setting_option['display_title'] == 1 ? 'checked' : '' ) ?>>
+        <input class="dtoc_parent_option" name="<?php echo $this->_setting_name; ?>[display_title]" id="display_title" type="checkbox" value="1" <?php echo (isset($this->_setting_option['display_title']) && $this->_setting_option['display_title'] == 1 ? 'checked' : '' ) ?>>
     <?php
 }
 public function dtoc_general_scroll_back_to_toc_cb(){  
@@ -1338,14 +1353,14 @@ public function dtoc_placement_setting_section_cb(){
     ?>                	
     <?php
 }
-public function dtoc_display_when_cb(){   
+public function dtoc_general_when_cb(){   
     $this->dtoc_resolve_meta_settings_name(); 	                
     ?>
-        <input type="number" min="1" max="1000" id="display_when" name="<?php echo $this->_setting_name; ?>[display_when]" value="<?php echo (isset($this->_setting_option['display_when']) ? esc_attr($this->_setting_option['display_when']) : 1 ) ?>" />
+        <input type="number" min="1" max="200" id="display_when" name="<?php echo $this->_setting_name; ?>[display_when]" value="<?php echo (isset($this->_setting_option['display_when']) ? esc_attr($this->_setting_option['display_when']) : 1 ) ?>" />
         <p><?php echo esc_html__('Headings is greater or equal to above number.', 'digital-table-of-contents'); ?></p>		
     <?php
 }
-public function dtoc_display_position_cb(){ 
+public function dtoc_general_position_cb(){ 
     $this->dtoc_resolve_meta_settings_name();     
     ?>    
 	<select name="<?php echo $this->_setting_name; ?>[display_position]" id="display_position">
@@ -1353,28 +1368,41 @@ public function dtoc_display_position_cb(){
         <option value="after_first_heading" <?php echo (isset($this->_setting_option['display_position']) && $this->_setting_option['display_position'] == 'after_first_heading' ? 'selected' : '' ) ?>><?php echo esc_html__('After First Heading', 'digital-table-of-contents'); ?></option>
         <option value="top_of_the_content" <?php echo (isset($this->_setting_option['display_position']) && $this->_setting_option['display_position'] == 'top_of_the_content' ? 'selected' : '' ) ?>><?php echo esc_html__('Top Of The Content', 'digital-table-of-contents'); ?></option>
         <option value="bottom_of_the_content" <?php echo (isset($this->_setting_option['display_position']) && $this->_setting_option['display_position'] == 'bottom_of_the_content' ? 'selected' : '' ) ?>><?php echo esc_html__('Bottom Of The Content', 'digital-table-of-contents'); ?></option>
-        <option value="middle_of_the_content" <?php echo (isset($this->_setting_option['display_position']) && $this->_setting_option['display_position'] == 'middle_of_the_content' ? 'selected' : '' ) ?>><?php echo esc_html__('Middle Of The Content', 'digital-table-of-contents'); ?></option>
+        <option value="after_paragraph_number" <?php echo (isset($this->_setting_option['display_position']) && $this->_setting_option['display_position'] == 'after_paragraph_number' ? 'selected' : '' ) ?>><?php echo esc_html__('After Paragraph Number', 'digital-table-of-contents'); ?></option>
     </select>	
     <?php
 }
-public function dtoc_display_toggle_initial_cb(){
-    $this->dtoc_resolve_meta_settings_name();	
+public function dtoc_general_paragraph_number_cb(){ 
+    $this->dtoc_resolve_meta_settings_name();     
     ?>    
-	<select name="<?php echo $this->_setting_name; ?>[toggle_initial]" id="toggle_initial">
-        <option value="show" <?php echo (isset($this->_setting_option['toggle_initial']) && $this->_setting_option['toggle_initial'] == 'show' ? 'selected' : '' ) ?>><?php echo esc_html__('Show', 'digital-table-of-contents'); ?></option>
-        <option value="hide" <?php echo (isset($this->_setting_option['toggle_initial']) && $this->_setting_option['toggle_initial'] == 'hide' ? 'selected' : '' ) ?>><?php echo esc_html__('Hide', 'digital-table-of-contents'); ?></option>        
-    </select>	
+        <input type="number" min="1" max="200" id="paragraph_number" name="<?php echo $this->_setting_name; ?>[paragraph_number]" value="<?php echo (isset($this->_setting_option['paragraph_number']) ? esc_attr($this->_setting_option['paragraph_number']) : 1 ) ?>" />	
     <?php
+}
+public function dtoc_display_toggle_initial_cb() {
+	$this->dtoc_resolve_meta_settings_name();
+	?>
+	<input type="radio" id="toggle_initial_show" name="<?php echo esc_attr( $this->_setting_name ); ?>[toggle_initial]" value="show" 
+		<?php checked( isset( $this->_setting_option['toggle_initial'] ) && $this->_setting_option['toggle_initial'] === 'show' ); ?>>
+	<label for="toggle_initial_show" style="margin-right: 15px;"><?php esc_html_e( 'Show', 'digital-table-of-contents' ); ?></label>
+
+	<input type="radio" id="toggle_initial_hide" name="<?php echo esc_attr( $this->_setting_name ); ?>[toggle_initial]" value="hide" 
+		<?php checked( isset( $this->_setting_option['toggle_initial'] ) && $this->_setting_option['toggle_initial'] === 'hide' ); ?>>
+	<label for="toggle_initial_hide"><?php esc_html_e( 'Hide', 'digital-table-of-contents' ); ?></label>
+	<?php
 }
 
-public function dtoc_resolve_meta_settings_name(){
-	$dtoc_meta_type = get_transient('dtoc_meta_type');
-	if($dtoc_meta_type){
+
+
+public function dtoc_resolve_meta_settings_name() {
+
+	$dtoc_meta_type = get_transient( 'dtoc_meta_type' );
+
+	if ( $dtoc_meta_type ) {
 		$this->_setting_name = $dtoc_meta_type;
 	}
 }
 
 }
-if (class_exists('Digital_TOC_Settings')) {
+if ( class_exists( 'Digital_TOC_Settings' ) ) {
 	new Digital_TOC_Settings();
 };

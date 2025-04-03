@@ -14,7 +14,7 @@ jQuery(document).ready(function($){
       $(".dtoc-box-on-js-body a").on('click', function(event) {
 
          // Make sure this.hash has a value before overriding default behavior
-         if (this.hash !== "") {
+      if (this.hash !== "") {
 		
 		var hash = this.hash;
 		

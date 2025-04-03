@@ -1,6 +1,15 @@
-.dtoc_child_opt th label{
-    padding-left: 15px;
+.dtoc-hidden {
+  display: none;
 }
+
+.dtoc_child_opt th{
+    padding-left: 10px;    
+}
+.dtoc_child_opt th::before{  
+  content: "↳";
+  margin-right: 5px;  
+}
+
 .dtoc-settings-form-wrap label{
   cursor: pointer;
 }
