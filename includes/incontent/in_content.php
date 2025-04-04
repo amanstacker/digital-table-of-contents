@@ -17,15 +17,19 @@ function dtoc_in_content_callback( $content ) {
             if ( ! empty( $matches ) ) {
 
                 $headings    = dtoc_get_headings( $matches );
+                
+                if ( count( $headings ) >= $options['display_when'] ) {
 
-				if ( isset( $options['jump_links']) && $options['jump_links'] == true ) {
+                    if ( isset( $options['jump_links']) && $options['jump_links'] == true ) {
 
-					$anchors     = dtoc_get_headings_with_anchors( $matches );
-					$content     = dtoc_add_jumb_ids( $headings, $anchors, $content ); 
+                        $anchors     = dtoc_get_headings_with_anchors( $matches );
+                        $content     = dtoc_add_jumb_ids( $headings, $anchors, $content ); 
+    
+                    }   
+    
+                    $content     = dtoc_position_inside_content( $content, $matches, $options );
 
-				}   
-
-                $content     = dtoc_position_inside_content( $content, $matches, $options );
+                }				
                 
             }
         }                    
@@ -66,8 +70,11 @@ function dtoc_position_inside_content( $content, $matches, $options ) {
                 $content = $content.$dtocbox;
                 break;            
             case 'after_paragraph_number':
-
-                $after_paragraph = 3; 
+                $after_paragraph = 1;
+                if ( ! empty( $options['paragraph_number'] ) ) {
+                    $after_paragraph = $options['paragraph_number']; 
+                }
+                
                 $closing_p        = '</p>';
                 
                 if ( strpos( $content, $closing_p ) !== false ) {
@@ -87,8 +94,7 @@ function dtoc_position_inside_content( $content, $matches, $options ) {
                 }
             
                 break;
-                
-            
+                            
             default:
                 $content = $dtocbox.$content;
                 break;
@@ -100,7 +106,9 @@ function dtoc_position_inside_content( $content, $matches, $options ) {
 
  
  add_filter('dtoc_regex_filter_incontent','dtoc_regex_heading_include',10,1);
- function dtoc_regex_heading_include($regex){
+
+ function dtoc_regex_heading_include( $regex ) {
+
 	global $dtoc_dashboard, $dtoc_incontent, $dtoc_incontent_mobile, $dtoc_incontent_tablet;
     $options     = $dtoc_incontent;
 	$device_type = dtoc_get_device_type();

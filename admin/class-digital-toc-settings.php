@@ -384,7 +384,7 @@ public function dtoc_settings_initiate(){
     );
     add_settings_field(
         'dtoc_display_toggle_initial',
-         esc_html__('Toggle Panel Initial View', 'digital-table-of-contents'),
+         esc_html__('Panel Initial View', 'digital-table-of-contents'),
 		 [$this, 'dtoc_display_toggle_initial_cb'],        
         'dtoc_general_setting_section',
         'dtoc_general_setting_section',

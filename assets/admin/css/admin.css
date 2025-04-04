@@ -41,6 +41,9 @@
 .dtoc-placement, .dtoc-customization{
   padding: 7px;
 }
+.dtoc-customization .dtoc-accordion-header{
+  font-weight: 600;
+} 
 .dtoc-preview-container{
 	position: -webkit-sticky;
     position: sticky;
