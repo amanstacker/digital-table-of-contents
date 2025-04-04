@@ -38,6 +38,7 @@ function dtoc_enqueue_admin_assets( $hook ) {
         $data = apply_filters('dtoc_localize_admin_assets_filter', $data, 'dtoc_admin_cdata');
         wp_enqueue_style( 'wp-color-picker' );
 		wp_enqueue_script( 'wp-color-picker' );
+        wp_enqueue_media();
         wp_register_script( 'dtoc-admin', DTOC_URL . 'assets/admin/js/admin.js', array('jquery'), DTOC_VERSION , true );
 
                         

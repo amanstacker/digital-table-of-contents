@@ -194,7 +194,7 @@ public function dtoc_settings_page_render(){
     
     $tab_array         = [];
     $tab_array[]       = 'general';
-    $tab_array[]       = 'display';        
+    $tab_array[]       = 'advanced';        
     if(!in_array($this->_setting_name, $this->_shortcode_modules)){
         $tab_array[]       = 'placement';    
     }    
@@ -213,7 +213,7 @@ public function dtoc_settings_page_render(){
      <h2 class="nav-tab-wrapper dtoc-tabs">
                      <?php					
                          echo '<a href="' . esc_url(dtoc_admin_tab_link('general', $this->_setting_name)) . '" class="nav-tab ' . esc_attr( $tab == 'general' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-welcome-view-site"></span> ' . esc_html__('General','digital-table-of-contents') . '</a>';                                                
-                         echo '<a href="' . esc_url(dtoc_admin_tab_link('display', $this->_setting_name)) . '" class="nav-tab ' . esc_attr( $tab == 'display' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-visibility"></span> ' . esc_html__('Display','digital-table-of-contents') . '</a>';		                                    
+                         echo '<a href="' . esc_url(dtoc_admin_tab_link('advanced', $this->_setting_name)) . '" class="nav-tab ' . esc_attr( $tab == 'advanced' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-admin-tools"></span> ' . esc_html__('Advanced','digital-table-of-contents') . '</a>';		                                    
                          if(!in_array($this->_setting_name, $this->_shortcode_modules)){
                             echo '<a href="' . esc_url(dtoc_admin_tab_link('placement', $this->_setting_name)) . '" class="nav-tab ' . esc_attr( $tab == 'placement' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-location"></span> ' . esc_html__('Placement','digital-table-of-contents') . '</a>';		                                    
                          }                         
@@ -232,8 +232,8 @@ public function dtoc_settings_page_render(){
                      do_settings_sections( 'dtoc_general_setting_section' );	
                  echo "</div>";
                  //Display tab
-                 echo "<div class='dtoc-display' ".( $tab != 'display' ? 'style="display:none;"' : '').">";                
-                     do_settings_sections( 'dtoc_display_setting_section' );	
+                 echo "<div class='dtoc-advanced' ".( $tab != 'advanced' ? 'style="display:none;"' : '').">";                
+                     do_settings_sections( 'dtoc_advanced_setting_section' );	
                  echo "</div>"; 
                  if(!in_array($this->_setting_name, $this->_shortcode_modules)){
                     //Placement
@@ -438,44 +438,41 @@ public function dtoc_settings_initiate(){
          array( 'label_for' => 'wrap_content')
     );
     add_settings_field(
-        'dtoc_display_hierarchy',
-         esc_html__('Hierarchy', 'digital-table-of-contents'),
-		 [$this, 'dtoc_display_hierarchy_cb'],        		        
-        'dtoc_display_setting_section',
-        'dtoc_display_setting_section',
-        array( 'label_for' => 'hierarchy')
+        'dtoc_display_When',
+         esc_html__('Display When', 'digital-table-of-contents'),
+         [$this, 'dtoc_general_when_cb'],        		            
+        'dtoc_general_setting_section',
+        'dtoc_general_setting_section'
     );    
-    add_settings_field(                
-        'dtoc_display_exp_col_subheadings',
-         esc_html__('Expand / Collapse', 'digital-table-of-contents'),
-		 [$this, 'dtoc_display_exp_col_subheadings_cb'],        		        
-        'dtoc_display_setting_section',
-        'dtoc_display_setting_section',
-        array( 'label_for' => 'exp_col_subheadings', 'class' => 'dtoc_child_opt dtoc_hierarchy')
+    add_settings_field(
+        'dtoc_position',
+         esc_html__('Position', 'digital-table-of-contents'),
+         [$this, 'dtoc_general_position_cb'],            
+        'dtoc_general_setting_section',
+        'dtoc_general_setting_section'
     );
     add_settings_field(
-        'dtoc_display_show_more',
-         esc_html__('Show More', 'digital-table-of-contents'),
-		 [$this, 'dtoc_display_show_more_cb'],        		        
-        'dtoc_display_setting_section',
-        'dtoc_display_setting_section',
-         array( 'label_for' => 'show_more')
-    );        
+        'dtoc_paragraph_number',
+        esc_html__('Paragraph Number', 'digital-table-of-contents'),
+        [$this, 'dtoc_general_paragraph_number_cb'],            
+        'dtoc_general_setting_section',
+        'dtoc_general_setting_section',
+        array( 'label_for' => 'paragraph_number', 'class' => 'dtoc_child_opt dtoc_paragraph_number')
+    );    
     add_settings_field(
         'dtoc_general_list_style_type',
-         esc_html__('List Style Type', 'digital-table-of-contents'),
-		 [$this, 'dtoc_general_list_style_type_cb'],        		        
+        esc_html__('List Style Type', 'digital-table-of-contents'),
+        [$this, 'dtoc_general_list_style_type_cb'],        		        
         'dtoc_general_setting_section',
         'dtoc_general_setting_section',
-    );    
+    ); 
     add_settings_field(
-        'dtoc_display_combine_page_break',
-         esc_html__('Combine Page Break', 'digital-table-of-contents'),
-		 [$this, 'dtoc_display_combine_page_break_cb'],        		        
-        'dtoc_display_setting_section',
-        'dtoc_display_setting_section',
-        array( 'label_for' => 'combine_page_break')
-    );
+        'dtoc_general_headings_include',
+        esc_html__('Select Heading Tags', 'digital-table-of-contents'),
+        [$this, 'dtoc_general_headings_include_cb'],        
+        'dtoc_general_setting_section',
+        'dtoc_general_setting_section',
+    );     
         
     // Customization
 
@@ -703,37 +700,40 @@ public function dtoc_settings_initiate(){
         'dtoc_shortcode_source_setting_section',
         'dtoc_shortcode_source_setting_section'
     );              
-    add_settings_section('dtoc_display_setting_section', __return_false(), '__return_false', 'dtoc_display_setting_section');                                
-    
+    add_settings_section('dtoc_advanced_setting_section', __return_false(), '__return_false', 'dtoc_advanced_setting_section');                                
     add_settings_field(
-            'dtoc_display_When',
-             esc_html__('Display When', 'digital-table-of-contents'),
-			 [$this, 'dtoc_general_when_cb'],        		            
-            'dtoc_general_setting_section',
-            'dtoc_general_setting_section'
+        'dtoc_display_hierarchy',
+        esc_html__('Hierarchy', 'digital-table-of-contents'),
+        [$this, 'dtoc_display_hierarchy_cb'],        		        
+        'dtoc_advanced_setting_section',
+        'dtoc_advanced_setting_section',
+        array( 'label_for' => 'hierarchy')
     );    
-    add_settings_field(
-            'dtoc_position',
-             esc_html__('Position', 'digital-table-of-contents'),
-			 [$this, 'dtoc_general_position_cb'],            
-            'dtoc_general_setting_section',
-            'dtoc_general_setting_section'
+    add_settings_field(                
+        'dtoc_display_exp_col_subheadings',
+         esc_html__('Expand / Collapse', 'digital-table-of-contents'),
+		 [$this, 'dtoc_display_exp_col_subheadings_cb'],        		        
+        'dtoc_advanced_setting_section',
+        'dtoc_advanced_setting_section',
+        array( 'label_for' => 'exp_col_subheadings', 'class' => 'dtoc_child_opt dtoc_hierarchy')
     );
     add_settings_field(
-        'dtoc_paragraph_number',
-         esc_html__('Paragraph Number', 'digital-table-of-contents'),
-         [$this, 'dtoc_general_paragraph_number_cb'],            
-        'dtoc_general_setting_section',
-        'dtoc_general_setting_section',
-        array( 'label_for' => 'paragraph_number', 'class' => 'dtoc_child_opt dtoc_paragraph_number')
-    );    
+        'dtoc_display_show_more',
+         esc_html__('Show More', 'digital-table-of-contents'),
+		 [$this, 'dtoc_display_show_more_cb'],        		        
+        'dtoc_advanced_setting_section',
+        'dtoc_advanced_setting_section',
+         array( 'label_for' => 'show_more')
+    );               
     add_settings_field(
-        'dtoc_general_headings_include',
-         esc_html__('Select Heading Tags', 'digital-table-of-contents'),
-		 [$this, 'dtoc_general_headings_include_cb'],        
-        'dtoc_general_setting_section',
-        'dtoc_general_setting_section',
-    );    
+        'dtoc_display_combine_page_break',
+         esc_html__('Combine Page Break', 'digital-table-of-contents'),
+		 [$this, 'dtoc_display_combine_page_break_cb'],        		        
+        'dtoc_advanced_setting_section',
+        'dtoc_advanced_setting_section',
+        array( 'label_for' => 'combine_page_break')
+    );
+           
 
 }
 
@@ -1173,17 +1173,28 @@ public function dtoc_general_alignment_cb() {
 public function dtoc_general_header_icon_cb(){
 	$this->dtoc_resolve_meta_settings_name(); 	
     ?>    
-	<select name="<?php echo $this->_setting_name; ?>[header_icon]" id="header_icon">
+		    
+    <div style="display: flex;">
+    <select name="<?php echo $this->_setting_name; ?>[header_icon]" id="header_icon">
         <option value="none" <?php echo (isset($this->_setting_option['header_icon']) && $this->_setting_option['header_icon'] == 'none' ? 'selected' : '' ) ?>><?php echo esc_html__('None', 'digital-table-of-contents'); ?></option>        
-        <option value="plain_list" <?php echo (isset($this->_setting_option['header_icon']) && $this->_setting_option['header_icon'] == 'plain_list' ? 'selected' : '' ) ?>><?php echo esc_html__('Plain List', 'digital-table-of-contents'); ?></option>
-        <option value="updown_arrow" <?php echo (isset($this->_setting_option['header_icon']) && $this->_setting_option['header_icon'] == 'updown_arrow' ? 'selected' : '' ) ?>><?php echo esc_html__('Up Down Arrow', 'digital-table-of-contents'); ?></option>
-        <option value="list_updown_arrow" <?php echo (isset($this->_setting_option['header_icon']) && $this->_setting_option['header_icon'] == 'list_updown_arrow' ? 'selected' : '' ) ?>><?php echo esc_html__('List Up Down Arrow', 'digital-table-of-contents'); ?></option>
+        <option value="show_hide" <?php echo (isset($this->_setting_option['header_icon']) && $this->_setting_option['header_icon'] == 'show_hide' ? 'selected' : '' ) ?>><?php echo esc_html__('Show / Hide ', 'digital-table-of-contents'); ?></option>
+        <option value="plus_minus" <?php echo (isset($this->_setting_option['header_icon']) && $this->_setting_option['header_icon'] == 'plus_minus' ? 'selected' : '' ) ?>><?php echo esc_html__('Plus + / Minus -', 'digital-table-of-contents'); ?></option>
+        <option value="list_icon" <?php echo (isset($this->_setting_option['header_icon']) && $this->_setting_option['header_icon'] == 'list_icon' ? 'selected' : '' ) ?>><?php echo esc_html__('List Icon ☰', 'digital-table-of-contents'); ?></option>
+        <option value="arrow" <?php echo (isset($this->_setting_option['header_icon']) && $this->_setting_option['header_icon'] == 'arrow' ? 'selected' : '' ) ?>><?php echo esc_html__('Arrow ▲ / ▼', 'digital-table-of-contents'); ?></option>        
+        <option value="chevron" <?php echo (isset($this->_setting_option['header_icon']) && $this->_setting_option['header_icon'] == 'chevron' ? 'selected' : '' ) ?>><?php echo esc_html__('Chevron ⏷ / ⏶', 'digital-table-of-contents'); ?></option>
         <option value="custom_text" <?php echo (isset($this->_setting_option['header_icon']) && $this->_setting_option['header_icon'] == 'custom_text' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom Text', 'digital-table-of-contents'); ?></option>
         <option value="custom_icon" <?php echo (isset($this->_setting_option['header_icon']) && $this->_setting_option['header_icon'] == 'custom_icon' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom Icon', 'digital-table-of-contents'); ?></option>
-    </select>	
-    <button type="button" class="button pwaforwp-icon-upload" data-editor="content">
-		<span class="dashicons dashicons-format-image" style="margin-top: 4px;"></span> <?php echo esc_html__('Choose Icon', 'digital-table-of-contents'); ?> 
-	</button>
+    </select>
+    <div id="custom-icon-wrapper" style="display: flex;">
+        <button style="margin-left: 5px;" type="button" class="button dtoc-icon-upload" data-editor="content">
+            <span class="dashicons dashicons-format-image" style="margin-top: 4px;"></span> 
+            <?php echo esc_html__('Choose Icon', 'digital-table-of-contents'); ?>
+        </button>
+        <img id="custom-icon-preview" src="" alt="Icon Preview" style="max-height: 40px; margin-left: 10px; display: none;" />
+        <input type="hidden" name="<?php echo $this->_setting_name; ?>[custom_icon_url]" id="custom_icon_url" value="<?php echo esc_attr($this->_setting_option['custom_icon_url'] ?? ''); ?>">
+    </div>    
+</div>
+    
     <?php
 }
 public function dtoc_general_header_text_cb(){
