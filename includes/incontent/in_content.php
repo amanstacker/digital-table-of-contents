@@ -17,8 +17,8 @@ function dtoc_in_content_callback( $content ) {
             if ( ! empty( $matches ) ) {
 
                 $headings    = dtoc_get_headings( $matches );
-                
-                if ( count( $headings ) >= $options['display_when'] ) {
+                                
+                if ( count( $headings ) ) {
 
                     if ( isset( $options['jump_links']) && $options['jump_links'] == true ) {
 

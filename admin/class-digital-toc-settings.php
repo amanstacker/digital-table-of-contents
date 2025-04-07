@@ -380,7 +380,7 @@ public function dtoc_settings_initiate(){
 		 [$this, 'dtoc_display_toggle_body_cb'],        		        
         'dtoc_general_setting_section',
         'dtoc_general_setting_section',
-        array( 'class' => 'dtoc_child_opt dtoc_display_title' )
+        array( 'class' => 'dtoc_child_opt dtoc_display_title', 'label_for' => 'toggle_body' )
     );
     add_settings_field(
         'dtoc_display_toggle_initial',
@@ -1175,14 +1175,13 @@ public function dtoc_general_header_icon_cb(){
     ?>    
 		    
     <div style="display: flex;">
-    <select name="<?php echo $this->_setting_name; ?>[header_icon]" id="header_icon">
+    <select name="<?php echo esc_attr($this->_setting_name); ?>[header_icon]" id="header_icon">
         <option value="none" <?php echo (isset($this->_setting_option['header_icon']) && $this->_setting_option['header_icon'] == 'none' ? 'selected' : '' ) ?>><?php echo esc_html__('None', 'digital-table-of-contents'); ?></option>        
         <option value="show_hide" <?php echo (isset($this->_setting_option['header_icon']) && $this->_setting_option['header_icon'] == 'show_hide' ? 'selected' : '' ) ?>><?php echo esc_html__('Show / Hide ', 'digital-table-of-contents'); ?></option>
         <option value="plus_minus" <?php echo (isset($this->_setting_option['header_icon']) && $this->_setting_option['header_icon'] == 'plus_minus' ? 'selected' : '' ) ?>><?php echo esc_html__('Plus + / Minus -', 'digital-table-of-contents'); ?></option>
         <option value="list_icon" <?php echo (isset($this->_setting_option['header_icon']) && $this->_setting_option['header_icon'] == 'list_icon' ? 'selected' : '' ) ?>><?php echo esc_html__('List Icon ☰', 'digital-table-of-contents'); ?></option>
         <option value="arrow" <?php echo (isset($this->_setting_option['header_icon']) && $this->_setting_option['header_icon'] == 'arrow' ? 'selected' : '' ) ?>><?php echo esc_html__('Arrow ▲ / ▼', 'digital-table-of-contents'); ?></option>        
-        <option value="chevron" <?php echo (isset($this->_setting_option['header_icon']) && $this->_setting_option['header_icon'] == 'chevron' ? 'selected' : '' ) ?>><?php echo esc_html__('Chevron ⏷ / ⏶', 'digital-table-of-contents'); ?></option>
-        <option value="custom_text" <?php echo (isset($this->_setting_option['header_icon']) && $this->_setting_option['header_icon'] == 'custom_text' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom Text', 'digital-table-of-contents'); ?></option>
+        <option value="chevron" <?php echo (isset($this->_setting_option['header_icon']) && $this->_setting_option['header_icon'] == 'chevron' ? 'selected' : '' ) ?>><?php echo esc_html__('Chevron ⏷ / ⏶', 'digital-table-of-contents'); ?></option>        
         <option value="custom_icon" <?php echo (isset($this->_setting_option['header_icon']) && $this->_setting_option['header_icon'] == 'custom_icon' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom Icon', 'digital-table-of-contents'); ?></option>
     </select>
     <div id="custom-icon-wrapper" style="display: flex;">
@@ -1191,7 +1190,7 @@ public function dtoc_general_header_icon_cb(){
             <?php echo esc_html__('Choose Icon', 'digital-table-of-contents'); ?>
         </button>
         <img id="custom-icon-preview" src="" alt="Icon Preview" style="max-height: 40px; margin-left: 10px; display: none;" />
-        <input type="hidden" name="<?php echo $this->_setting_name; ?>[custom_icon_url]" id="custom_icon_url" value="<?php echo esc_attr($this->_setting_option['custom_icon_url'] ?? ''); ?>">
+        <input type="hidden" name="<?php echo esc_attr($this->_setting_name); ?>[custom_icon_url]" id="custom_icon_url" value="<?php echo esc_attr($this->_setting_option['custom_icon_url'] ?? ''); ?>">
     </div>    
 </div>
     

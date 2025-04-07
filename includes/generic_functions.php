@@ -212,16 +212,24 @@ function dtoc_box_on_js($matches, $options = []){
         $c_style .= 'border-left-width:'.esc_attr($options['border_width_left']).esc_attr($options['border_width_unit']).';';
     }
     $html = '<div class="dtoc-box-container" style="'.$c_style.'">';
+
     if(isset($options['display_title'])){
-        $t_style = '';
+        $heading_text = $t_style = '';        
         if(isset($options['title_bg_color'])){
             $t_style .= 'background:'.esc_attr($options['title_bg_color']).';';
         }
         if(isset($options['title_color'])){
             $t_style .= 'color:'.esc_attr($options['title_color']).';';
-        }        
+        }
+        
+        if ( isset( $options['header_text'] ) && $options['header_text'] === 'Table Of Contents' ){
+            $heading_text = esc_html__( 'Table Of Contents', 'digital-table-of-contents' );
+        }else{
+            $heading_text = esc_html( $options['header_text'] );
+        }
+
         $html .= '<div class="dtoc-box-header-container" style="'.$t_style.'">';
-        $html .= '<div class="dtoc-toggle-label">'.esc_html__('Table Of Contents', 'digital-table-of-contents').'';
+        $html .= '<div class="dtoc-toggle-label">'.$heading_text.'';
         $html .= dtoc_get_header_icon($options);
         $html .= '</div>';
         $html .= '</div>';
@@ -357,15 +365,32 @@ function dtoc_next_page( $matches, $page ){
     return $matches;
 }
 
-function dtoc_filter_headings_by_content($content, $page ,$type){
+function dtoc_filter_headings_by_content( $content, $page, $type, $options ) { 
 
-    $matches = array();
+    $matches = [];
     $regex = apply_filters( "dtoc_regex_filter_{$type}", '/(<h([1-6]{1})[^>]*>)(.*)<\/h\2>/msuU' );
 
     if ( preg_match_all( $regex, $content, $matches, PREG_SET_ORDER ) ) {
-            
-            $minimum = 1;            
-                                                
+                
+            if ( ! empty( $options['headings_include'] ) && count( $options['headings_include'] ) != 6 ) {
+                
+                $new_matches = [];
+                $heading_inc = array_keys( $options['headings_include'] );
+
+                foreach ( $matches as $i => $match ) {
+
+                    if ( in_array( $matches[ $i ][2], $heading_inc ) ) {
+
+                        $new_matches[ $i ] = $matches[ $i ];
+                    }
+                }
+
+	    		$matches = $new_matches;
+
+            }
+
+            $minimum = $options['display_when'];            
+                                         
             if ( count( $matches ) >= $minimum ) {
                 
                 $matches = dtoc_heading_ids( $matches );
@@ -373,7 +398,7 @@ function dtoc_filter_headings_by_content($content, $page ,$type){
 
             } else {
 
-                return array();
+                return [];
             }
 
         }
@@ -382,7 +407,7 @@ function dtoc_filter_headings_by_content($content, $page ,$type){
 
 }
 
-function dtoc_filter_heading($content,$options = []){
+function dtoc_filter_heading( $content, $options = [] ) {
 
     global $post,$page;
     
@@ -397,14 +422,14 @@ function dtoc_filter_heading($content,$options = []){
 			foreach ( $splited_content as $sp_content ) {
 				$result = array();
 				 if(isset($options['combine_page_break'])){
-					$result = dtoc_filter_headings_by_content($sp_content, $post_page, $type);
+					$result = dtoc_filter_headings_by_content( $sp_content, $post_page, $type, $options );
 					 if($result){
 						$response = array_merge($response, $result);
 					 }
 					 
 				 }else{
 					 if($page == $post_page){
-						$result = dtoc_filter_headings_by_content($sp_content, $post_page, $type);
+						$result = dtoc_filter_headings_by_content( $sp_content, $post_page, $type, $options );
 						 if($result){
 							$response = array_merge($response, $result);
 						 }
@@ -417,13 +442,17 @@ function dtoc_filter_heading($content,$options = []){
 		}
 
     }else{
-        $response = dtoc_filter_headings_by_content($content, 1, $type);				
+        $response = dtoc_filter_headings_by_content( $content, 1, $type, $options );				
     }
     
     return $response;
 }
-function dtoc_get_header_icon($options){
-    
+function dtoc_get_header_icon( $options ) {
+
+    if ( $options['header_icon'] == 'none') {
+        return '';
+    }
+
     $icon_html = '';
 
     $c_style = '';
@@ -465,18 +494,21 @@ function dtoc_get_header_icon($options){
         $options['header_icon'] ="";
     }
     switch ($options['header_icon']) {
-        case 'plain_list':
+        case 'list_icon':
             $icon_html = '<?xml version="1.0" ?><svg style="'.$c_style.'" height="'.esc_attr($options['icon_height']).'" viewBox="0 0 48 48" width="'.esc_attr($options['icon_height']).'" xmlns="http://www.w3.org/2000/svg"><path fill="'.esc_attr($options['icon_fg_color']).'" d="M4 31v4h40v-4h-40zm0-10v4h40v-4h-40zm0-10v4h40v-4h-40z"/><path d="M0 0h48v48h-48z" fill="none"/></svg>';
             break;
-        case 'updown_arrow':
+        case 'arrow':
             $icon_html = '<?xml version="1.0" ?><svg height="30" viewBox="0 0 48 48" width="30" xmlns="http://www.w3.org/2000/svg"><path d="M4 31v4h40v-4h-40zm0-10v4h40v-4h-40zm0-10v4h40v-4h-40z"/><path d="M0 0h48v48h-48z" fill="none"/></svg>';        
             break;
-        case 'list_updown_arrow':
+        case 'plus_minus':
             $icon_html = '<?xml version="1.0" ?><svg height="30" viewBox="0 0 48 48" width="30" xmlns="http://www.w3.org/2000/svg"><path d="M4 31v4h40v-4h-40zm0-10v4h40v-4h-40zm0-10v4h40v-4h-40z"/><path d="M0 0h48v48h-48z" fill="none"/></svg>';        
             break;
-        case 'custom_text':
+        case 'chevron':
             $icon_html = '<?xml version="1.0" ?><svg height="30" viewBox="0 0 48 48" width="30" xmlns="http://www.w3.org/2000/svg"><path d="M4 31v4h40v-4h-40zm0-10v4h40v-4h-40zm0-10v4h40v-4h-40z"/><path d="M0 0h48v48h-48z" fill="none"/></svg>';        
             break;
+        case 'show_hide':
+            $icon_html = '<?xml version="1.0" ?><svg height="30" viewBox="0 0 48 48" width="30" xmlns="http://www.w3.org/2000/svg"><path d="M4 31v4h40v-4h-40zm0-10v4h40v-4h-40zm0-10v4h40v-4h-40z"/><path d="M0 0h48v48h-48z" fill="none"/></svg>';        
+            break;        
         case 'custom_icon':
             $icon_html = '<?xml version="1.0" ?><svg height="30" viewBox="0 0 48 48" width="30" xmlns="http://www.w3.org/2000/svg"><path d="M4 31v4h40v-4h-40zm0-10v4h40v-4h-40zm0-10v4h40v-4h-40z"/><path d="M0 0h48v48h-48z" fill="none"/></svg>';        
             break;
