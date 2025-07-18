@@ -44,12 +44,6 @@
 .dtoc-customization .dtoc-accordion-header{
   font-weight: 600;
 } 
-.dtoc-preview-container{
-	position: -webkit-sticky;
-    position: sticky;
-    top: 0;
-}
-
 /* accordion css */
 .dtoc-accordion-header {
     background-color: #eee;

@@ -177,14 +177,7 @@ jQuery(function($) {
 			}
 		});		
 	}
-	    $( ".dtoc-grid-checkbox" ).each(function( index ) {
-		let name = $(this).attr('name');
-		if($(this).prop("checked")){
-			$(this).children('.dtoc-grid-settings').css('display','block');
-		}else{
-			$(this).children('.dtoc-grid-settings').css('display','none');
-		}
-	});
+	    
 
 });
 
