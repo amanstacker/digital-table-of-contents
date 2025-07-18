@@ -94,6 +94,7 @@ function dtoc_default_dashboard_options() {
         $default = [
              'delete_plugin_data'  => false,   
              'modules' => [
+                'incontent'        => true,
                 'incontent_mobile' => false,
                 'incontent_tablet' => false,
                 'sticky'           => false,
@@ -104,8 +105,7 @@ function dtoc_default_dashboard_options() {
                 'floating_tablet'  => false,
                 'shortcode'        => false,
                 'shortcode_mobile' => false,
-                'shortcode_tablet' => false,
-                'compatibility'    => false       
+                'shortcode_tablet' => false,                      
              ]  
         ];
 

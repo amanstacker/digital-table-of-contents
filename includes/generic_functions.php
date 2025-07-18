@@ -389,7 +389,11 @@ function dtoc_filter_headings_by_content( $content, $page, $type, $options ) {
 
             }
 
-            $minimum = $options['display_when'];            
+            $minimum = 1;
+            
+            if ( isset( $options['display_when'] ) ) {
+                $minimum = $options['display_when'];
+            }
                                          
             if ( count( $matches ) >= $minimum ) {
                 
