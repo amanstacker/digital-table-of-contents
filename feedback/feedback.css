@@ -1,0 +1,120 @@
+#dtoc-feedback-overlay {    
+    height: 100%;
+    width: 100%;
+    position: fixed; /* Stay in place */
+    z-index: 10000; /* Sit on top */
+    left: 0;
+    top: 0;
+    background-color: rgb(120,120,120); /* Black fallback color */
+    background-color: rgba(0,0,0, 0.5); /* Black w/opacity */
+}
+#dtoc-feedback-content {
+    position: relative;
+    top: 25%; /* 25% from the top */
+    width: 500px;
+    max-width: 100%;
+    margin: auto;
+    margin-top: 30px; /* 30px top margin to avoid conflict with the close button on smaller screens */     
+    background-color: #fff;    
+}
+#dtoc-feedback-content textarea {
+     width:100%;
+}
+.dtoc-fd-stop-deactivation { 
+    display: block; 
+    text-align: right; 
+}
+
+#dtoc-feedback-content h3{
+    margin:5px;
+}
+
+@media screen and (max-width:400px){
+    #dtoc-feedback-content {
+        padding:0px;
+        padding-bottom:50px;
+    }
+}
+.dtoc-dp-reasons{
+    column-count: 2;
+    column-gap: 24px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.dtoc-dp-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Optional: puts h3 on left, button on right */
+    position: relative; /* Needed for absolutely positioned button */
+    border-bottom: 1px solid #ddd;
+    box-sizing: border-box;
+    height: 48px;
+    padding-left: 20px;
+}
+
+.dtoc-dp-header button{
+    background-color: transparent;
+    border: 0;    
+    border-left: 1px solid #ddd;
+    box-sizing: border-box;
+    cursor: pointer;
+    height: 48px;
+    padding: 0;    
+    right: 0;
+    text-align: center;
+    top: 0;
+    transition: color .1s ease-in-out, background .1s ease-in-out;
+    width: 50px;
+}
+.dtoc-dp-body{    
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.dtoc-dp-footer{
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-bottom: 10px;
+}
+
+/* ------------ */
+.dtoc-dp-header .dtoc-fd-stop-deactivation:hover {
+    background-color: #f0f0f0; /* or any color you want on hover */
+    color: #000;
+}
+.dtoc-dp-reasons li {
+    position: relative;
+}
+
+.dtoc-dp-reasons input[type="radio"] {
+    display: none;
+}
+
+.dtoc-dp-reasons label {
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px 8px;
+    cursor: pointer;
+    transition: border-color 0.3s, background-color 0.3s, box-shadow 0.3s;
+}
+
+/*  Hover Effect */
+.dtoc-dp-reasons label:hover {
+    border-color: #999;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 0 3px rgba(0, 124, 186, 0.1);
+}
+
+/*  Selected (Checked) State */
+.dtoc-dp-reasons input[type="radio"]:checked + label {
+    border-color: #007cba;
+    background-color: #f0f8ff;
+    box-shadow: 0 0 0 3px rgba(0, 124, 186, 0.2);
+}
+.dtoc-d-none{
+    display: none !important;
+}
+.dtoc-dt-de{
+    float: right;
+}

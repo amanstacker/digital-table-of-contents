@@ -23,6 +23,7 @@ define('DTOC_URL', plugin_dir_url( __FILE__ ) );
 require_once( DTOC_PATH . '/shared/functions.php' );
 
 //admin
+require_once( DTOC_PATH . '/feedback/feedback.php' );
 require_once( DTOC_PATH . '/admin/misc.php' );
 require_once( DTOC_PATH . '/admin/generic_functions.php' );
 require_once( DTOC_PATH . '/admin/class-digital-toc-settings.php' );
