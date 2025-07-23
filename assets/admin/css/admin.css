@@ -3,7 +3,10 @@
 }
 
 .dtoc_child_opt th{
-    padding-left: 10px;    
+    padding-left: 15px;    
+}
+.dtoc_nested_child_opt th{
+  padding-left: 30px;    
 }
 .dtoc_child_opt th::before{  
   content: "↳";
@@ -441,3 +444,40 @@ input:checked + .dtoc-slider:before {
 }
 /* Support tab desing css ends here */
 
+.dtoc-tooltip-wrapper {
+    position: relative;
+    display: inline-block;
+    cursor: default;
+}
+
+.dtoc-tooltip-wrapper .dashicons-editor-help {
+    margin-left: 10px;    
+    cursor: pointer;
+    font-size: 22px;
+    vertical-align: initial;    
+}
+
+.dtoc-tooltip-text {
+    visibility: hidden;
+    width: 220px;
+    background-color: #333;
+    color: #fff;
+    text-align: left;
+    padding: 8px 10px;
+    border-radius: 4px;
+    position: absolute;
+    z-index: 999;
+    bottom: 125%;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 13px;
+    line-height: 1.4;
+    white-space: normal;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.dtoc-tooltip-wrapper:hover .dtoc-tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}

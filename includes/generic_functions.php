@@ -2,21 +2,67 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-function dtoc_toggle_icon(){
+function dtoc_toggle_icon( $options ){
 
-    return '<span>i</span>';
+    $icon = '';
+
+    switch ( $options['header_icon'] ) {
+
+        case 'show_hide':
+            $icon = '<span class="dtoc_icon_toggle">
+            <span class="dtoc_icon_brackets">[</span>
+            <a href="#">'.esc_html( $options['show_text'] ).'</a>
+            <a href="#">'.esc_html( $options['hide_text'] ).'</a>
+            <span class="dtoc_icon_brackets">]</span>
+            </span>';
+            break;
+        case 'plus_minus':
+        $icon = '<span class="dtoc_icon_toggle">
+            <span class="dtoc_icon_brackets">[</span>
+            <a href="#">+</a>
+            <a href="#">-</a>
+            <span class="dtoc_icon_brackets">]</span>
+            </span>';
+            break;
+        case 'list_icon':
+        $icon = '<span class="dtoc_icon_toggle">
+            <span class="dtoc_icon_brackets">[</span>
+            <a href="#">+</a>
+            <a href="#">-</a>
+            <span class="dtoc_icon_brackets">]</span>
+            </span>';
+            break;
+        case 'custom_icon':
+        $icon = '<span class="dtoc_icon_toggle"><img src="'.esc_url( $options['custom_icon_url'] ).'" /></span>';            
+            break;
+        
+        default:
+            # code...
+            break;
+    }    
+
+    return $icon;
 }
 
-function dtoc_box_on_css($matches , $options = []){
-    $html = '<div class="dtoc-box-container">';    
-    if(isset($options['display_title'])){
-        $html .= '<div for="dtoc-toggle-check" class="dtoc-toggle-label">';
-        $html .= '<span>'.esc_html__('Table Of Contents', 'digital-table-of-contents').'</span>';
-        $html .= dtoc_toggle_icon();
-        $html .= '</div>';    
+function dtoc_box_on_css( $matches , $options = [] ) {
 
-        if(isset($options['toggle_body'])){
-            $html .= '<input type="checkbox" id="dtoc-toggle-check">'; 
+    $html = '<div class="dtoc-box-container">';    
+
+    if ( isset($options['display_title'] ) ) {
+
+        $html .= '<label for="dtoc-toggle-check" class="dtoc-toggle-label">';
+        $html .= '<span>'.esc_html($options['header_text']).'</span>';
+        $html .= dtoc_toggle_icon( $options );
+        $html .= '</label>';    
+
+        if ( isset( $options['toggle_body'] ) ) {
+
+            if ( $options['toggle_initial'] == 'show' ) {
+                $html .= '<input type="checkbox" id="dtoc-toggle-check" checked>'; 
+            }else{
+                $html .= '<input type="checkbox" id="dtoc-toggle-check">'; 
+            }
+            
         }
         
     }

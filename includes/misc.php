@@ -18,9 +18,9 @@ function dtoc_frontend_enqueue(){
         $data['scroll_behaviour'] = isset($dtoc_incontent['scroll_behavior'])?$dtoc_incontent['scroll_behavior']:'auto';
         $data['toggle_body']      = isset($dtoc_incontent['toggle_body']) ? 1 : 0;
                         
-        $data = apply_filters('dtoc_localize_frontend_assets_filter', $data, 'dtoc_localize_frontend_data');
+        $data = apply_filters('dtoc_localize_frontend_assets', $data, 'dtoc_localize_frontend_data');
         
-        wp_enqueue_style( 'dtoc-common', DTOC_URL  . 'assets/shared/css/common.css', false , DTOC_VERSION );    
+        wp_enqueue_style( 'dtoc-frontend', DTOC_URL  . 'assets/shared/css/dtoc-front.css', false , DTOC_VERSION );    
         
         wp_register_script( 'dtoc-frontend', DTOC_URL  . 'assets/frontend/js/dtoc_auto_place.js', array('jquery'), DTOC_VERSION , true );                        
         wp_localize_script( 'dtoc-frontend', 'dtoc_localize_frontend_data', $data );        
@@ -47,13 +47,16 @@ function dtoc_frontend_enqueue(){
 						padding-right: 4px;
                 }";
        
-        if($dtoc_incontent['loading_type'] == 'css' && isset($dtoc_incontent['display_title']) && isset($dtoc_incontent['toggle_body'])){
+        if($dtoc_incontent['loading_type'] == 'css' && isset($dtoc_incontent['display_title']) && isset($dtoc_incontent['toggle_body'])){        
                 $custom_css .= ".dtoc-box-on-css-body{
                         display: none;
                     }
-                    #dtoc-toggle-check:checked ~ .dtoc-box-on-css-body{
-                        display: block;
-                    }";      
+                        .dtoc-toggle-label{
+                                cursor: pointer;
+                        }
+                    #dtoc-toggle-check:checked ~ .dtoc-box-on-css-body {
+                                 display: block;
+                     }";      
         }        
         if($dtoc_incontent['loading_type'] == 'css' && $dtoc_incontent['scroll_behavior'] == 'smooth'){
                 $custom_css .= "html {

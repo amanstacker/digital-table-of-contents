@@ -8,12 +8,14 @@
     display: none;
 }
 .dtoc-toggle-label{
-    display: flex;
-    cursor: pointer;
+    display: flex;    
     padding: 3px;
     padding-bottom: 5px;
     font-weight: 600;
     font-size: 110%;    
+}
+.dtoc_icon_toggle img{
+    width: 30px;
 }
 .dtoc-box-container ul{
     margin: auto;

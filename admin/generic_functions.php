@@ -236,3 +236,12 @@ function dtoc_different_four_sides_html($setting_name, $setting_options, $css_ty
     </ul>    	    
     <?php
 }
+
+function dtoc_tooltip( $text, $id ) {
+	?>
+    <label for="<?php echo esc_attr( $id ); ?>" class="dtoc-tooltip-wrapper">
+        <span class="dashicons dashicons-editor-help"></span>
+        <span class="dtoc-tooltip-text"><?php echo esc_html( $text ); ?></span>
+    </label>
+    <?php
+}
