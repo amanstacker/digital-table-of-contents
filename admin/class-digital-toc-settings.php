@@ -1193,9 +1193,9 @@ public function dtoc_general_header_icon_cb(){
     <div style="display: flex;">
     <select name="<?php echo esc_attr($this->_setting_name); ?>[header_icon]" id="header_icon">
         <option value="none" <?php echo (isset($this->_setting_option['header_icon']) && $this->_setting_option['header_icon'] == 'none' ? 'selected' : '' ) ?>><?php echo esc_html__('None', 'digital-table-of-contents'); ?></option>        
-        <option value="show_hide" <?php echo (isset($this->_setting_option['header_icon']) && $this->_setting_option['header_icon'] == 'show_hide' ? 'selected' : '' ) ?>><?php echo esc_html__('Show / Hide ', 'digital-table-of-contents'); ?></option>
-        <option value="plus_minus" <?php echo (isset($this->_setting_option['header_icon']) && $this->_setting_option['header_icon'] == 'plus_minus' ? 'selected' : '' ) ?>><?php echo esc_html__('Plus + / Minus -', 'digital-table-of-contents'); ?></option>
         <option value="list_icon" <?php echo (isset($this->_setting_option['header_icon']) && $this->_setting_option['header_icon'] == 'list_icon' ? 'selected' : '' ) ?>><?php echo esc_html__('List Icon ☰', 'digital-table-of-contents'); ?></option>        
+        <option value="show_hide" <?php echo (isset($this->_setting_option['header_icon']) && $this->_setting_option['header_icon'] == 'show_hide' ? 'selected' : '' ) ?>><?php echo esc_html__('Show / Hide ', 'digital-table-of-contents'); ?></option>
+        <option value="plus_minus" <?php echo (isset($this->_setting_option['header_icon']) && $this->_setting_option['header_icon'] == 'plus_minus' ? 'selected' : '' ) ?>><?php echo esc_html__('Plus + / Minus -', 'digital-table-of-contents'); ?></option>        
         <option value="custom_icon" <?php echo (isset($this->_setting_option['header_icon']) && $this->_setting_option['header_icon'] == 'custom_icon' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom Icon', 'digital-table-of-contents'); ?></option>
     </select>
     <div id="custom-icon-wrapper" style="display: flex;">

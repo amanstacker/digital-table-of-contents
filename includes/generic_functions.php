@@ -2,57 +2,15 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-function dtoc_toggle_icon( $options ){
-
-    $icon = '';
-
-    switch ( $options['header_icon'] ) {
-
-        case 'show_hide':
-            $icon = '<span class="dtoc_icon_toggle">
-            <span class="dtoc_icon_brackets">[</span>
-            <a href="#">'.esc_html( $options['show_text'] ).'</a>
-            <a href="#">'.esc_html( $options['hide_text'] ).'</a>
-            <span class="dtoc_icon_brackets">]</span>
-            </span>';
-            break;
-        case 'plus_minus':
-        $icon = '<span class="dtoc_icon_toggle">
-            <span class="dtoc_icon_brackets">[</span>
-            <a href="#">+</a>
-            <a href="#">-</a>
-            <span class="dtoc_icon_brackets">]</span>
-            </span>';
-            break;
-        case 'list_icon':
-        $icon = '<span class="dtoc_icon_toggle">
-            <span class="dtoc_icon_brackets">[</span>
-            <a href="#">+</a>
-            <a href="#">-</a>
-            <span class="dtoc_icon_brackets">]</span>
-            </span>';
-            break;
-        case 'custom_icon':
-        $icon = '<span class="dtoc_icon_toggle"><img src="'.esc_url( $options['custom_icon_url'] ).'" /></span>';            
-            break;
-        
-        default:
-            # code...
-            break;
-    }    
-
-    return $icon;
-}
-
 function dtoc_box_on_css( $matches , $options = [] ) {
 
     $html = '<div class="dtoc-box-container">';    
 
-    if ( isset($options['display_title'] ) ) {
+    if ( isset( $options['display_title'] ) ) {
 
         $html .= '<label for="dtoc-toggle-check" class="dtoc-toggle-label">';
-        $html .= '<span>'.esc_html($options['header_text']).'</span>';
-        $html .= dtoc_toggle_icon( $options );
+        $html .= '<span>'.esc_html( $options['header_text'] ).'</span>';
+        $html .= dtoc_get_header_icon( $options );
         $html .= '</label>';    
 
         if ( isset( $options['toggle_body'] ) ) {
@@ -69,31 +27,7 @@ function dtoc_box_on_css( $matches , $options = [] ) {
            
     $html .= '<div class="dtoc-box-on-css-body">';
 
-    $html .= '<ul>';
-	$dtoc_permalink = trailingslashit( get_permalink() );
-    foreach ( $matches as $i => $match ) {
-
-        $count = $i + 1;
-
-        $title = isset( $matches[ $i ]['alternate'] ) ? $matches[ $i ]['alternate'] : $matches[ $i ][0];
-        $title = strip_tags( $title );
-
-        $html .= "<li>";
-       
-		if(isset($options['jump_links'])){
-			 $html .= sprintf(
-				'<a class="dtoc-link dtoc-heading-' . $count . '" href="%1$s" title="%2$s">%3$s</a>',
-				esc_attr( $dtoc_permalink . '#' . $matches[ $i ]['id'] ),
-				esc_attr( strip_tags( $title ) ),
-				$title
-			);
-		}else{
-			$html .= $title;
-		
-		}        
-        $html .= '</li>';
-    }
-    $html .= '</ul>';
+    $html .= dtoc_get_plain_toc_html( $matches, $options );
     
     $html .= '</div>';
     
@@ -276,7 +210,7 @@ function dtoc_box_on_js($matches, $options = []){
 
         $html .= '<div class="dtoc-box-header-container" style="'.$t_style.'">';
         $html .= '<div class="dtoc-toggle-label">'.$heading_text.'';
-        $html .= dtoc_get_header_icon($options);
+        $html .= dtoc_get_header_icon( $options );
         $html .= '</div>';
         $html .= '</div>';
     }
@@ -537,30 +471,101 @@ function dtoc_get_header_icon( $options ) {
     if(isset($options['icon_border_width_left'])){
         $c_style .= 'border-left-width:'.esc_attr($options['icon_border_width_left']).esc_attr($options['icon_border_width_unit']).';';
     }
-    if(isset($options['icon_bg_color'])){
-        $c_style .= 'background:'.esc_attr($options['icon_bg_color']).';';
+
+    if(isset($options['icon_margin_top'])){
+        $c_style .= 'margin-top:'.esc_attr($options['icon_margin_top']).esc_attr($options['icon_margin_unit']).';';
     }
+    if(isset($options['icon_margin_right'])){
+        $c_style .= 'margin-right:'.esc_attr($options['icon_margin_right']).esc_attr($options['icon_margin_unit']).';';
+    }
+    if(isset($options['icon_margin_bottom'])){
+        $c_style .= 'margin-bottom:'.esc_attr($options['icon_margin_bottom']).esc_attr($options['icon_margin_unit']).';';
+    }
+    if(isset($options['icon_margin_left'])){
+        $c_style .= 'margin-left:'.esc_attr($options['icon_margin_left']).esc_attr($options['icon_margin_unit']).';';
+    }
+
+    if(isset($options['icon_margin_top'])){
+        $c_style .= 'margin-top:'.esc_attr($options['icon_margin_top']).esc_attr($options['icon_margin_unit']).';';
+    }
+    if(isset($options['icon_margin_right'])){
+        $c_style .= 'margin-right:'.esc_attr($options['icon_margin_right']).esc_attr($options['icon_margin_unit']).';';
+    }
+    if(isset($options['icon_margin_bottom'])){
+        $c_style .= 'margin-bottom:'.esc_attr($options['icon_margin_bottom']).esc_attr($options['icon_margin_unit']).';';
+    }
+    if(isset($options['icon_margin_left'])){
+        $c_style .= 'margin-left:'.esc_attr($options['icon_margin_left']).esc_attr($options['icon_margin_unit']).';';
+    }
+
+    if(isset($options['icon_padding_top'])){
+        $c_style .= 'padding-top:'.esc_attr($options['icon_padding_top']).esc_attr($options['icon_padding_unit']).';';
+    }
+    if(isset($options['icon_padding_right'])){
+        $c_style .= 'padding-right:'.esc_attr($options['icon_padding_right']).esc_attr($options['icon_padding_unit']).';';
+    }
+    if(isset($options['icon_padding_bottom'])){
+        $c_style .= 'padding-bottom:'.esc_attr($options['icon_padding_bottom']).esc_attr($options['icon_padding_unit']).';';
+    }
+    if(isset($options['icon_padding_left'])){
+        $c_style .= 'padding-left:'.esc_attr($options['icon_padding_left']).esc_attr($options['icon_padding_unit']).';';
+    }
+    
     if(empty($options['header_icon'])){
         $options['header_icon'] ="";
     }
     switch ($options['header_icon']) {
         case 'list_icon':
-            $icon_html = '<?xml version="1.0" ?><svg style="'.$c_style.'" height="'.esc_attr($options['icon_height']).'" viewBox="0 0 48 48" width="'.esc_attr($options['icon_height']).'" xmlns="http://www.w3.org/2000/svg"><path fill="'.esc_attr($options['icon_fg_color']).'" d="M4 31v4h40v-4h-40zm0-10v4h40v-4h-40zm0-10v4h40v-4h-40z"/><path d="M0 0h48v48h-48z" fill="none"/></svg>';
-            break;
-        case 'arrow':
-            $icon_html = '<?xml version="1.0" ?><svg height="30" viewBox="0 0 48 48" width="30" xmlns="http://www.w3.org/2000/svg"><path d="M4 31v4h40v-4h-40zm0-10v4h40v-4h-40zm0-10v4h40v-4h-40z"/><path d="M0 0h48v48h-48z" fill="none"/></svg>';        
-            break;
+            
+            $icon_html = '<span class="dtoc_icon_toggle"><svg style="'.$c_style.'" height="'.esc_attr($options['icon_height']).'" width="'.esc_attr($options['icon_height']).'" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill="none">
+  
+  <rect x="1" y="1" width="46" height="46" rx="4" stroke="#aaa" fill="'.esc_attr($options['icon_bg_color']).'"/>
+
+  <!-- List bullets and lines -->
+  <circle cx="10" cy="14" r="1.5" fill="'.esc_attr($options['icon_fg_color']).'"/>
+  <rect x="14" y="13" width="14" height="2" rx="1" fill="'.esc_attr($options['icon_fg_color']).'"/>
+
+  <circle cx="10" cy="24" r="1.5" fill="'.esc_attr($options['icon_fg_color']).'"/>
+  <rect x="14" y="23" width="14" height="2" rx="1" fill="'.esc_attr($options['icon_fg_color']).'"/>
+
+  <circle cx="10" cy="34" r="1.5" fill="'.esc_attr($options['icon_fg_color']).'"/>
+  <rect x="14" y="33" width="14" height="2" rx="1" fill="'.esc_attr($options['icon_fg_color']).'"/>
+
+  <!-- Arrows -->
+  <path d="M36 18L32 22H40L36 18Z" fill="'.esc_attr($options['icon_fg_color']).'"/>
+  <path d="M36 30L40 26H32L36 30Z" fill="'.esc_attr($options['icon_fg_color']).'"/>
+</svg></span>
+';
+            break;        
         case 'plus_minus':
-            $icon_html = '<?xml version="1.0" ?><svg height="30" viewBox="0 0 48 48" width="30" xmlns="http://www.w3.org/2000/svg"><path d="M4 31v4h40v-4h-40zm0-10v4h40v-4h-40zm0-10v4h40v-4h-40z"/><path d="M0 0h48v48h-48z" fill="none"/></svg>';        
-            break;
-        case 'chevron':
-            $icon_html = '<?xml version="1.0" ?><svg height="30" viewBox="0 0 48 48" width="30" xmlns="http://www.w3.org/2000/svg"><path d="M4 31v4h40v-4h-40zm0-10v4h40v-4h-40zm0-10v4h40v-4h-40z"/><path d="M0 0h48v48h-48z" fill="none"/></svg>';        
-            break;
+            $icon_html = '<span class="dtoc_icon_toggle">
+            <span class="dtoc_icon_brackets">[</span>
+            <a href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <line x1="12" y1="5" x2="12" y2="19" />
+  <line x1="5" y1="12" x2="19" y2="12" />
+</svg>
+
+            </a>
+            <a href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <line x1="5" y1="12" x2="19" y2="12" />
+</svg>
+
+            </a>
+            <span class="dtoc_icon_brackets">]</span>
+            </span>';        
+            break;        
         case 'show_hide':
-            $icon_html = '<?xml version="1.0" ?><svg height="30" viewBox="0 0 48 48" width="30" xmlns="http://www.w3.org/2000/svg"><path d="M4 31v4h40v-4h-40zm0-10v4h40v-4h-40zm0-10v4h40v-4h-40z"/><path d="M0 0h48v48h-48z" fill="none"/></svg>';        
+            $icon_html = '<span class="dtoc_icon_toggle">
+            <span class="dtoc_icon_brackets">[</span>
+            <a href="#" class="">'.esc_html( $options['show_text'] ).'</a>
+            <a href="#">'.esc_html( $options['hide_text'] ).'</a>
+            <span class="dtoc_icon_brackets">]</span>
+            </span>';        
             break;        
         case 'custom_icon':
-            $icon_html = '<?xml version="1.0" ?><svg height="30" viewBox="0 0 48 48" width="30" xmlns="http://www.w3.org/2000/svg"><path d="M4 31v4h40v-4h-40zm0-10v4h40v-4h-40zm0-10v4h40v-4h-40z"/><path d="M0 0h48v48h-48z" fill="none"/></svg>';        
+            $icon_html = '<span style="'.$c_style.'" class="dtoc_icon_toggle"><img src="'.esc_url( $options['custom_icon_url'] ).'" /></span>';        
             break;
         
         default:
