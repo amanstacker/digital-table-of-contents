@@ -76,10 +76,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 <div class="spp-coming-soon-wrapper">
     <div class="spp-coming-soon-title">New Feature: Live Preview</div>
     <div class="spp-coming-soon-desc">
-        We’re working on an exciting live preview panel where you can see your settings update in real-time. Stay tuned — this will help you configure everything with confidence!
+        We’re working on an exciting Live Preview Panel that will let you see your Table of Contents settings update in real-time — right inside the plugin!
+        No more guesswork — you’ll be able to tweak and test with confidence before saving.
     </div>
+    <div>🎯 Stay tuned — this feature is just around the corner!</div>
     <div class="spp-coming-soon-badge">Coming Soon</div>
-
     <div class="spp-coming-soon-preview">
         🔧 Live Preview Area Placeholder
     </div>

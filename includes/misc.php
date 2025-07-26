@@ -75,6 +75,12 @@ function dtoc_frontend_enqueue(){
                                 ";      
                         }
 
+                        $custom_css .= "
+                                .dtoc-toggle-label{
+                                        cursor: pointer;
+                                }                                
+                                ";
+
                         
                 }                        
         }
