@@ -8,11 +8,6 @@ function dtoc_box_on_css( $matches , $options = [] ) {
 
     if ( isset( $options['display_title'] ) ) {
 
-        $html .= '<label for="dtoc-toggle-check" class="dtoc-toggle-label">';
-        $html .= '<span>'.esc_html( $options['header_text'] ).'</span>';
-        $html .= dtoc_get_header_icon( $options );
-        $html .= '</label>';    
-
         if ( isset( $options['toggle_body'] ) ) {
 
             if ( $options['toggle_initial'] == 'show' ) {
@@ -22,6 +17,13 @@ function dtoc_box_on_css( $matches , $options = [] ) {
             }
             
         }
+
+        $html .= '<label for="dtoc-toggle-check" class="dtoc-toggle-label">';
+        $html .= '<span>'.esc_html( $options['header_text'] ).'</span>';
+        $html .= dtoc_get_header_icon( $options );
+        $html .= '</label>';    
+
+        
         
     }
            
@@ -540,27 +542,16 @@ function dtoc_get_header_icon( $options ) {
         case 'plus_minus':
             $icon_html = '<span class="dtoc_icon_toggle">
             <span class="dtoc_icon_brackets">[</span>
-            <a href="#">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <line x1="12" y1="5" x2="12" y2="19" />
-  <line x1="5" y1="12" x2="19" y2="12" />
-</svg>
-
-            </a>
-            <a href="#">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <line x1="5" y1="12" x2="19" y2="12" />
-</svg>
-
-            </a>
+            <span class="dtoc-show-text dtoc-plus">+</span>
+            <span class="dtoc-hide-text dtoc-minus">-</span>
             <span class="dtoc_icon_brackets">]</span>
             </span>';        
             break;        
         case 'show_hide':
             $icon_html = '<span class="dtoc_icon_toggle">
             <span class="dtoc_icon_brackets">[</span>
-            <a href="#" class="">'.esc_html( $options['show_text'] ).'</a>
-            <a href="#">'.esc_html( $options['hide_text'] ).'</a>
+            <span class="dtoc-show-text">'.esc_html( $options['show_text'] ).'</span>
+            <span class="dtoc-hide-text">'.esc_html( $options['hide_text'] ).'</span>
             <span class="dtoc_icon_brackets">]</span>
             </span>';        
             break;        

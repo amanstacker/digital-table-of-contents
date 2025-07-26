@@ -32,3 +32,24 @@
     display: inline-flex;    
     flex-wrap: nowrap;
 }
+
+
+
+/* Default: TOC visible, show text hidden */
+.dtoc-show-text {
+  display: none;
+}
+#dtoc-toggle-check:checked ~ .dtoc-toggle-label .dtoc-hide-text {
+  display: inline;
+}
+#dtoc-toggle-check:checked ~ .dtoc-toggle-label .dtoc-show-text {
+  display: none;
+}
+/* When unchecked: TOC hidden, show text visible */
+#dtoc-toggle-check:not(:checked) ~ .dtoc-toggle-label .dtoc-show-text {
+  display: inline;
+}
+#dtoc-toggle-check:not(:checked) ~ .dtoc-toggle-label .dtoc-hide-text {
+  display: none;
+}
+

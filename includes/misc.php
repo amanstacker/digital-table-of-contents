@@ -11,21 +11,25 @@ function dtoc_init_misc() {
 
 function dtoc_frontend_enqueue(){
 
-        global $dtoc_incontent;
+        global $dtoc_incontent;        
 		
-        $data = array();
+        $data = [];
 
-        $data['scroll_behaviour'] = isset($dtoc_incontent['scroll_behavior'])?$dtoc_incontent['scroll_behavior']:'auto';
-        $data['toggle_body']      = isset($dtoc_incontent['toggle_body']) ? 1 : 0;
+        if ( $dtoc_incontent[ 'loading_type' ] == 'js' ) {
+
+                $data['scroll_behaviour'] = isset( $dtoc_incontent['scroll_behavior'] ) ? $dtoc_incontent['scroll_behavior'] : 'auto';
+                $data['toggle_body']      = isset( $dtoc_incontent['toggle_body'] ) ? 1 : 0;
+                                
+                $data = apply_filters( 'dtoc_localize_frontend_assets', $data, 'dtoc_localize_frontend_data' );
+
+                wp_register_script( 'dtoc-frontend', DTOC_URL  . 'assets/frontend/js/dtoc_auto_place.js', array('jquery'), DTOC_VERSION , true );                        
+                wp_localize_script( 'dtoc-frontend', 'dtoc_localize_frontend_data', $data );        
+                wp_enqueue_script( 'dtoc-frontend' );                        
+
+        }
+                
+        wp_enqueue_style( 'dtoc-frontend', DTOC_URL  . 'assets/frontend/css/dtoc-front.css', false , DTOC_VERSION );    
                         
-        $data = apply_filters('dtoc_localize_frontend_assets', $data, 'dtoc_localize_frontend_data');
-        
-        wp_enqueue_style( 'dtoc-frontend', DTOC_URL  . 'assets/shared/css/dtoc-front.css', false , DTOC_VERSION );    
-        
-        wp_register_script( 'dtoc-frontend', DTOC_URL  . 'assets/frontend/js/dtoc_auto_place.js', array('jquery'), DTOC_VERSION , true );                        
-        wp_localize_script( 'dtoc-frontend', 'dtoc_localize_frontend_data', $data );        
-        wp_enqueue_script( 'dtoc-frontend' );                        
-        
         $list_style_type = 'decimal';
 		$counter_end =  "'.'";
         if(!empty($dtoc_incontent['list_style_type'])){
@@ -91,7 +95,7 @@ function dtoc_remove_unused_scripts($content){
                 
                 if(strpos($content, 'class="dtoc-box-container"') === false){
                         
-                        $css_url = "<link rel='stylesheet' id='dtoc-frontend-css' href='".DTOC_URL  . 'assets/frontend/css/dtoc_common.css?ver='.DTOC_VERSION."' media='all' />";
+                        $css_url = "<link rel='stylesheet' id='dtoc-frontend-css' href='".DTOC_URL  . 'assets/frontend/css/dtoc_front.css?ver='.DTOC_VERSION."' media='all' />";
                         $script_url = "<script src='".DTOC_URL  . 'assets/frontend/js/dtoc_auto_place.js?ver='.DTOC_VERSION."' id='dtoc-frontend-js'></script>";                                    
                         $content = str_replace(array($css_url, $script_url), array('',''),$content);
                         $content = preg_replace("/<style id='dtoc-frontend-inline-css'>(.*?)<\/style>/s", "", $content);

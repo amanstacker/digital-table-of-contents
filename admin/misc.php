@@ -46,8 +46,7 @@ function dtoc_enqueue_admin_assets( $hook ) {
         
         
         wp_enqueue_script( 'dtoc-admin' );
-        wp_enqueue_style( 'dtoc-admin', DTOC_URL . 'assets/admin/css/admin.css', false , DTOC_VERSION );    
-        wp_enqueue_style( 'dtoc-common', DTOC_URL . 'assets/shared/css/common.css', false , DTOC_VERSION );    
+        wp_enqueue_style( 'dtoc-admin', DTOC_URL . 'assets/admin/css/admin.css', false , DTOC_VERSION );            
 
 }   
 

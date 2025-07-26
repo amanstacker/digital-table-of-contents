@@ -26,94 +26,94 @@ public function dtoc_add_menu_links(){
 		'dtoc_incontent',
         [$this, 'dtoc_settings_page_render']				
 	);
-	add_submenu_page(
-		'dtoc',
-		'Digital Table Of Contents In-Content',
-        'In-Content Mobile',
-		'manage_options',
-		'dtoc_incontent_mobile',
-        [$this, 'dtoc_settings_page_render']				
-	);
-	add_submenu_page(
-		'dtoc',
-		'Digital Table Of Contents In-Content',
-        'In-Content Tablet',
-		'manage_options',
-		'dtoc_incontent_tablet',
-        [$this, 'dtoc_settings_page_render']				
-	);	
-    add_submenu_page(
-		'dtoc',
-		'Digital Table Of Contents Sticky',
-        'Sticky',
-		'manage_options',
-		'dtoc_sticky',
-        [$this, 'dtoc_settings_page_render']				
-	);
-	add_submenu_page(
-		'dtoc',
-		'Digital Table Of Contents Sticky',
-        'Sticky Mobile',
-		'manage_options',
-		'dtoc_sticky_mobile',
-        [$this, 'dtoc_settings_page_render']				
-	);
-	add_submenu_page(
-		'dtoc',
-		'Digital Table Of Contents Sticky',
-        'Sticky Tablet',
-		'manage_options',
-		'dtoc_sticky_tablet',
-        [$this, 'dtoc_settings_page_render']				
-	);
-    add_submenu_page(
-		'dtoc',
-		'Digital Table Of Contents Floating',
-        'Floating',
-		'manage_options',
-		'dtoc_floating',
-        [$this, 'dtoc_settings_page_render']				
-	);
-	add_submenu_page(
-		'dtoc',
-		'Digital Table Of Contents Floating',
-        'Floating Mobile',
-		'manage_options',
-		'dtoc_floating_mobile',
-        [$this, 'dtoc_settings_page_render']				
-	);
-	add_submenu_page(
-		'dtoc',
-		'Digital Table Of Contents Floating',
-        'Floating Tablet',
-		'manage_options',
-		'dtoc_floating_tablet',
-        [$this, 'dtoc_settings_page_render']
-	);
-	add_submenu_page(
-		'dtoc',
-		'Digital Table Of Contents Shortcode',
-        'Shortcode',
-		'manage_options',
-		'dtoc_shortcode',
-        [$this, 'dtoc_settings_page_render']				
-	);
-	add_submenu_page(
-		'dtoc',
-		'Digital Table Of Contents Shortcode',
-        'Shortcode Mobile',
-		'manage_options',
-		'dtoc_shortcode_mobile',
-        [$this, 'dtoc_settings_page_render']				
-	);
-	add_submenu_page(
-		'dtoc',
-		'Digital Table Of Contents Shortcode',
-        'Shortcode Tablet',
-		'manage_options',
-		'dtoc_shortcode_tablet',
-        [$this, 'dtoc_settings_page_render']
-	);		
+	// add_submenu_page(
+	// 	'dtoc',
+	// 	'Digital Table Of Contents In-Content',
+    //     'In-Content Mobile',
+	// 	'manage_options',
+	// 	'dtoc_incontent_mobile',
+    //     [$this, 'dtoc_settings_page_render']				
+	// );
+	// add_submenu_page(
+	// 	'dtoc',
+	// 	'Digital Table Of Contents In-Content',
+    //     'In-Content Tablet',
+	// 	'manage_options',
+	// 	'dtoc_incontent_tablet',
+    //     [$this, 'dtoc_settings_page_render']				
+	// );	
+    // add_submenu_page(
+	// 	'dtoc',
+	// 	'Digital Table Of Contents Sticky',
+    //     'Sticky',
+	// 	'manage_options',
+	// 	'dtoc_sticky',
+    //     [$this, 'dtoc_settings_page_render']				
+	// );
+	// add_submenu_page(
+	// 	'dtoc',
+	// 	'Digital Table Of Contents Sticky',
+    //     'Sticky Mobile',
+	// 	'manage_options',
+	// 	'dtoc_sticky_mobile',
+    //     [$this, 'dtoc_settings_page_render']				
+	// );
+	// add_submenu_page(
+	// 	'dtoc',
+	// 	'Digital Table Of Contents Sticky',
+    //     'Sticky Tablet',
+	// 	'manage_options',
+	// 	'dtoc_sticky_tablet',
+    //     [$this, 'dtoc_settings_page_render']				
+	// );
+    // add_submenu_page(
+	// 	'dtoc',
+	// 	'Digital Table Of Contents Floating',
+    //     'Floating',
+	// 	'manage_options',
+	// 	'dtoc_floating',
+    //     [$this, 'dtoc_settings_page_render']				
+	// );
+	// add_submenu_page(
+	// 	'dtoc',
+	// 	'Digital Table Of Contents Floating',
+    //     'Floating Mobile',
+	// 	'manage_options',
+	// 	'dtoc_floating_mobile',
+    //     [$this, 'dtoc_settings_page_render']				
+	// );
+	// add_submenu_page(
+	// 	'dtoc',
+	// 	'Digital Table Of Contents Floating',
+    //     'Floating Tablet',
+	// 	'manage_options',
+	// 	'dtoc_floating_tablet',
+    //     [$this, 'dtoc_settings_page_render']
+	// );
+	// add_submenu_page(
+	// 	'dtoc',
+	// 	'Digital Table Of Contents Shortcode',
+    //     'Shortcode',
+	// 	'manage_options',
+	// 	'dtoc_shortcode',
+    //     [$this, 'dtoc_settings_page_render']				
+	// );
+	// add_submenu_page(
+	// 	'dtoc',
+	// 	'Digital Table Of Contents Shortcode',
+    //     'Shortcode Mobile',
+	// 	'manage_options',
+	// 	'dtoc_shortcode_mobile',
+    //     [$this, 'dtoc_settings_page_render']				
+	// );
+	// add_submenu_page(
+	// 	'dtoc',
+	// 	'Digital Table Of Contents Shortcode',
+    //     'Shortcode Tablet',
+	// 	'manage_options',
+	// 	'dtoc_shortcode_tablet',
+    //     [$this, 'dtoc_settings_page_render']
+	// );		
 
 }
 
@@ -319,7 +319,12 @@ public function dtoc_settings_page_render(){
     <div class="dtoc-preview-wrapper">
 
     <?php
-        echo dtoc_get_live_preview_by_type($this->_setting_name, $this->_setting_option);
+        echo '<div class="wrap">';
+    // your settings UI
+    require_once( DTOC_PATH . '/admin/live-preview-soon.php' );
+    
+    echo '</div>';
+       // echo dtoc_get_live_preview_by_type($this->_setting_name, $this->_setting_option);
      ?>
         
     </div>
@@ -773,81 +778,94 @@ public function dtoc_display_exp_col_subheadings_cb(){
     <?php
 }
 
-public function dtoc_general_list_style_type_cb(){
-	    $this->dtoc_resolve_meta_settings_name(); 	
-    	                
-    $counters = array(
-				'decimal'   => __( 'Decimal numbers, start with 1. (default value)', 'digital-table-of-contents' ),
-                'disc'      => __( 'A filled circle.', 'digital-table-of-contents' ),                
-                'none'      => __( 'No item marker is shown.', 'digital-table-of-contents' ),                
-                'circle'      => __( 'circle', 'digital-table-of-contents' ),
-                'square'      => __( 'square', 'digital-table-of-contents' ),
-                'cjk-decimal'      => __( 'Han decimal', 'digital-table-of-contents' ),
-                'decimal-leading-zero'      => __( 'Decimal padded by initial zero', 'digital-table-of-contents' ),
-                'lower-roman'      => __( 'Lowercase roman numerals.', 'digital-table-of-contents' ),
-                'upper-roman'      => __( 'Uppercase roman numerals.', 'digital-table-of-contents' ),
-                'lower-greek'      => __( 'Lowercase classical Greek.', 'digital-table-of-contents' ),
-                'lower-alpha'      => __( 'Lowercase ASCII letters.', 'digital-table-of-contents' ),
-                'upper-alpha'      => __( 'Uppercase ASCII letters.', 'digital-table-of-contents' ),
-                'arabic-indic'      => __( 'Arabic-Indic numbers.', 'digital-table-of-contents' ),
-                'armenian'      => __( 'Traditional Armenian numbering.', 'digital-table-of-contents' ),
-                'bengali'      => __( 'Bengali numbering.', 'digital-table-of-contents' ),
-                'cambodian'      => __( 'Cambodian/Khmer numbering.', 'digital-table-of-contents' ),
-                'cjk-earthly-branch'      => __( 'Han "Earthly Branch" ordinals.', 'digital-table-of-contents' ),
-                'cjk-heavenly-stem'      => __( 'Han "Heavenly Stem" ordinals.', 'digital-table-of-contents' ),
-                'cjk-ideographic'      => __( 'Traditional Chinese informal numbering.', 'digital-table-of-contents' ),
-                'devanagari'      => __( 'Devanagari numbering.', 'digital-table-of-contents' ),
-                'ethiopic-numeric'      => __( 'Ethiopic numbering.', 'digital-table-of-contents' ),
-                'georgian'      => __( 'Traditional Georgian numbering.', 'digital-table-of-contents' ),
-                'gujarati'      => __( 'Gujarati numbering.', 'digital-table-of-contents' ),
-                'gurmukhi'      => __( 'Gurmukhi numbering.', 'digital-table-of-contents' ),
-                'hebrew'      => __( 'Traditional Hebrew numbering.', 'digital-table-of-contents' ),
-                'hiragana'      => __( 'Dictionary-order hiragana lettering.', 'digital-table-of-contents' ),
-                'hiragana-iroha'      => __( 'Iroha-order hiragana lettering.', 'digital-table-of-contents' ),
-                'japanese-formal'      => __( 'Japanese formal numbering.', 'digital-table-of-contents' ),
-                'japanese-informal'      => __( 'Japanese informal numbering.', 'digital-table-of-contents' ),
-                'kannada'      => __( 'Kannada numbering.', 'digital-table-of-contents' ),
-                'katakana'      => __( 'Dictionary-order katakana lettering.', 'digital-table-of-contents' ),
-                'katakana-iroha'      => __( 'Iroha-order katakana lettering.', 'digital-table-of-contents' ),
-                'korean-hangul-formal'      => __( 'Formal Korean Han numbering.', 'digital-table-of-contents' ),
-                'korean-hanja-informal'      => __( 'Korean hanja numbering.', 'digital-table-of-contents' ),
-                'lao'      => __( 'Laotian numbering.', 'digital-table-of-contents' ),
-                'lower-armenian'      => __( 'Lowercase Armenian numbering.', 'digital-table-of-contents' ),
-                'malayalam'      => __( 'Malayalam numbering.', 'digital-table-of-contents' ),
-                'mongolian'      => __( 'Mongolian numbering.', 'digital-table-of-contents' ),
-                'myanmar'      => __( 'Myanmar (Burmese) numbering.', 'digital-table-of-contents' ),
-                'oriya'      => __( 'Oriya numbering.', 'digital-table-of-contents' ),
-                'persian'      => __( 'Persian numbering.', 'digital-table-of-contents' ),
-                'simp-chinese-formal'      => __( 'Chinese formal numbering.', 'digital-table-of-contents' ),
-                'simp-chinese-informal'      => __( 'Chinese informal numbering.', 'digital-table-of-contents' ),
-                'tamil'      => __( 'Tamil numbering.', 'digital-table-of-contents' ),
-                'telugu'      => __( 'Telugu numbering.', 'digital-table-of-contents' ),
-                'thai'      => __( 'Thai numbering.', 'digital-table-of-contents' ),
-                'tibetan'      => __( 'Tibetan numbering.', 'digital-table-of-contents' ),
-                'trad-chinese-formal'      => __( 'Traditional Chinese formal numbering.', 'digital-table-of-contents' ),
-                'trad-chinese-informal'      => __( 'Traditional Chinese informal numbering.', 'digital-table-of-contents' ),
-                'upper-armenian'      => __( 'Traditional uppercase Armenian numbering.', 'digital-table-of-contents' ),
-                'urdu'      => __( 'Urdu numbering', 'digital-table-of-contents' )                
-            );
+public function dtoc_general_list_style_type_cb() {
+    $this->dtoc_resolve_meta_settings_name();
 
+    $current_value = isset($this->_setting_option['list_style_type']) ? $this->_setting_option['list_style_type'] : '';
+
+    $groups = array(
+        'Common Styles' => array(
+            'decimal' => __( 'Decimal (1, 2, 3)', 'digital-table-of-contents' ),
+            'decimal-leading-zero' => __( 'Decimal with Leading Zero (01, 02)', 'digital-table-of-contents' ),
+            'disc' => __( 'Disc (●)', 'digital-table-of-contents' ),
+            'circle' => __( 'Circle (○)', 'digital-table-of-contents' ),
+            'square' => __( 'Square (■)', 'digital-table-of-contents' ),
+            'none' => __( 'No Marker', 'digital-table-of-contents' ),
+        ),
+        'Alphabetic' => array(
+            'lower-alpha' => __( 'Lowercase Alphabet (a, b, c)', 'digital-table-of-contents' ),
+            'upper-alpha' => __( 'Uppercase Alphabet (A, B, C)', 'digital-table-of-contents' ),
+        ),
+        'Roman Numerals' => array(
+            'lower-roman' => __( 'Lowercase Roman (i, ii, iii)', 'digital-table-of-contents' ),
+            'upper-roman' => __( 'Uppercase Roman (I, II, III)', 'digital-table-of-contents' ),
+        ),
+        'Language-Specific Styles' => array(
+            'arabic-indic' => __( 'Arabic-Indic', 'digital-table-of-contents' ),
+            'devanagari' => __( 'Devanagari', 'digital-table-of-contents' ),
+            'bengali' => __( 'Bengali', 'digital-table-of-contents' ),
+            'gujarati' => __( 'Gujarati', 'digital-table-of-contents' ),
+            'gurmukhi' => __( 'Gurmukhi', 'digital-table-of-contents' ),
+            'kannada' => __( 'Kannada', 'digital-table-of-contents' ),
+            'malayalam' => __( 'Malayalam', 'digital-table-of-contents' ),
+            'oriya' => __( 'Oriya', 'digital-table-of-contents' ),
+            'tamil' => __( 'Tamil', 'digital-table-of-contents' ),
+            'telugu' => __( 'Telugu', 'digital-table-of-contents' ),
+            'urdu' => __( 'Urdu', 'digital-table-of-contents' ),
+            'thai' => __( 'Thai', 'digital-table-of-contents' ),
+            'lao' => __( 'Lao', 'digital-table-of-contents' ),
+            'myanmar' => __( 'Myanmar', 'digital-table-of-contents' ),
+            'tibetan' => __( 'Tibetan', 'digital-table-of-contents' ),
+            'persian' => __( 'Persian', 'digital-table-of-contents' ),
+            'cambodian' => __( 'Cambodian/Khmer', 'digital-table-of-contents' ),
+        ),
+        'CJK & East Asian Styles' => array(
+            'cjk-decimal' => __( 'CJK Decimal', 'digital-table-of-contents' ),
+            'cjk-earthly-branch' => __( 'CJK Earthly Branch', 'digital-table-of-contents' ),
+            'cjk-heavenly-stem' => __( 'CJK Heavenly Stem', 'digital-table-of-contents' ),
+            'japanese-formal' => __( 'Japanese Formal', 'digital-table-of-contents' ),
+            'japanese-informal' => __( 'Japanese Informal', 'digital-table-of-contents' ),
+            'korean-hangul-formal' => __( 'Korean Hangul (Formal)', 'digital-table-of-contents' ),
+            'korean-hanja-informal' => __( 'Korean Hanja (Informal)', 'digital-table-of-contents' ),
+            'simp-chinese-formal' => __( 'Simplified Chinese (Formal)', 'digital-table-of-contents' ),
+            'simp-chinese-informal' => __( 'Simplified Chinese (Informal)', 'digital-table-of-contents' ),
+            'trad-chinese-formal' => __( 'Traditional Chinese (Formal)', 'digital-table-of-contents' ),
+            'trad-chinese-informal' => __( 'Traditional Chinese (Informal)', 'digital-table-of-contents' ),
+            'cjk-ideographic' => __( 'CJK Ideographic (Informal)', 'digital-table-of-contents' ),
+        ),
+        'Other Styles' => array(
+            'armenian' => __( 'Armenian', 'digital-table-of-contents' ),
+            'upper-armenian' => __( 'Upper Armenian', 'digital-table-of-contents' ),
+            'lower-armenian' => __( 'Lower Armenian', 'digital-table-of-contents' ),
+            'georgian' => __( 'Georgian', 'digital-table-of-contents' ),
+            'ethiopic-numeric' => __( 'Ethiopic', 'digital-table-of-contents' ),
+            'mongolian' => __( 'Mongolian', 'digital-table-of-contents' ),
+            'hebrew' => __( 'Hebrew', 'digital-table-of-contents' ),
+            'hiragana' => __( 'Hiragana (Dictionary Order)', 'digital-table-of-contents' ),
+            'hiragana-iroha' => __( 'Hiragana (Iroha Order)', 'digital-table-of-contents' ),
+            'katakana' => __( 'Katakana (Dictionary Order)', 'digital-table-of-contents' ),
+            'katakana-iroha' => __( 'Katakana (Iroha Order)', 'digital-table-of-contents' ),
+        ),
+    );
     ?>
-    
-	<select name="<?php echo $this->_setting_name; ?>[list_style_type]" id="list_style_type">
-        <?php  
-            foreach ($counters as $key => $value) {
-                if( isset($this->_setting_option['list_style_type']) && $key == $this->_setting_option['list_style_type']){
-                    echo '<option value="'.esc_attr($key).'" selected>'.esc_html($value).'</option>';
-                }else{
-                    echo '<option value="'.esc_attr($key).'">'.esc_html($value).'</option>';
-                }
-                
-            }
-        ?>
-                
+
+    <select name="<?php echo esc_attr($this->_setting_name); ?>[list_style_type]" id="list_style_type">
+        <?php foreach ( $groups as $group_label => $options ) : ?>
+            <optgroup label="<?php echo esc_attr( $group_label ); ?>">
+                <?php foreach ( $options as $key => $label ) : ?>
+                    <option value="<?php echo esc_attr( $key ); ?>" <?php selected( $current_value, $key ); ?>>
+                        <?php echo esc_html( $label ); ?>
+                    </option>
+                <?php endforeach; ?>
+            </optgroup>
+        <?php endforeach; ?>
     </select>
-	
+
+    <p class="description"><?php esc_html_e( 'Some list styles may not work in all browsers.', 'digital-table-of-contents' ); ?></p>
+
     <?php
 }
+
 public function dtoc_display_show_more_cb(){
     $this->dtoc_resolve_meta_settings_name(); 		
     ?>  

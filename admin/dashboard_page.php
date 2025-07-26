@@ -48,7 +48,7 @@ function dtoc_dashboard_page_render(){
 					<?php					                        
                         echo '<a href="' . esc_url(dtoc_admin_tab_link('modules', 'dtoc')) . '" class="nav-tab ' . esc_attr( $tab == 'modules' ? 'nav-tab-active' : '') . '"> ' . esc_html__('Modules','digital-table-of-contents') . '</a>';                                                
                         echo '<a href="' . esc_url(dtoc_admin_tab_link('tools', 'dtoc')) . '" class="nav-tab ' . esc_attr( $tab == 'tools' ? 'nav-tab-active' : '') . '"> ' . esc_html__('Tools','digital-table-of-contents') . '</a>';
-                        echo '<a href="' . esc_url(dtoc_admin_tab_link('compatibility', 'dtoc')) . '" class="nav-tab ' . esc_attr( $tab == 'compatibility' ? 'nav-tab-active' : '') . '"> ' . esc_html__('Compatibility','digital-table-of-contents') . '</a>';
+                        // echo '<a href="' . esc_url(dtoc_admin_tab_link('compatibility', 'dtoc')) . '" class="nav-tab ' . esc_attr( $tab == 'compatibility' ? 'nav-tab-active' : '') . '"> ' . esc_html__('Compatibility','digital-table-of-contents') . '</a>';
                         echo '<a href="' . esc_url(dtoc_admin_tab_link('support', 'dtoc')) . '" class="nav-tab ' . esc_attr( $tab == 'support' ? 'nav-tab-active' : '') . '"> ' . esc_html__('Support Center','digital-table-of-contents') . '</a>';                                                                        
 					?>
 				</h2>
@@ -65,9 +65,9 @@ function dtoc_dashboard_page_render(){
                     do_settings_sections( 'dtoc_dashboard_tools_setting_section_hook' );	
                 echo "</div>";
                 //Compatibility tab
-                echo "<div class='dtoc-compatibility' ".( $tab != 'compatibility' ? 'style="display:none;"' : '').">";
-                    do_settings_sections( 'dtoc_dashboard_compatibility_setting_section_hook' );	
-                echo "</div>";
+                // echo "<div class='dtoc-compatibility' ".( $tab != 'compatibility' ? 'style="display:none;"' : '').">";
+                //     do_settings_sections( 'dtoc_dashboard_compatibility_setting_section_hook' );	
+                // echo "</div>";
                 //Support tab
                 echo "<div class='dtoc-support' ".( $tab != 'support' ? 'style="display:none;"' : '').">";                
                     dtoc_dashboard_support();   
@@ -313,8 +313,16 @@ function dtoc_dashboard_support() {
     global $dtoc_dashboard; 
     ?>
     <div class="wrap">
-        <h1 class="wp-heading-inline"><?php esc_html_e('Support Center: Get Help, Resources & Pro Features', 'digital-table-of-contents'); ?></h1>
-        <p class="description"><?php esc_html_e('Need assistance? Submit a support request, explore helpful resources, or upgrade to Pro for premium features.', 'digital-table-of-contents'); ?></p>
+        <h1 class="wp-heading-inline">
+            <?php
+            //  esc_html_e('Support Center: Get Help, Resources & Pro Features', 'digital-table-of-contents');
+            esc_html_e('Support Center: Get Help, Resources', 'digital-table-of-contents');
+              ?>
+        </h1>
+        <p class="description"><?php 
+            // esc_html_e('Need assistance? Submit a support request, explore helpful resources, or upgrade to Pro for premium features.', 'digital-table-of-contents');
+            esc_html_e('Need assistance? Submit a support request, explore helpful resources.', 'digital-table-of-contents');
+         ?></p>
 
         <div class="metabox-holder">
             <div class="meta-box-sortables">
@@ -375,7 +383,8 @@ function dtoc_dashboard_support() {
                     
                     <!-- Right Column: Upgrade to Pro -->
                     <div class="dtoc-upgrade-to-pro postbox">
-                        <h2 class="hndle"><span><?php esc_html_e('Upgrade to Pro: Unlock Premium Features', 'digital-table-of-contents'); ?></span></h2>
+                        <h2 class="hndle"><span><?php esc_html_e('Coming Soon', 'digital-table-of-contents'); ?></span></h2>
+                        <!-- <h2 class="hndle"><span><?php esc_html_e('Upgrade to Pro: Unlock Premium Features', 'digital-table-of-contents'); ?></span></h2>
                         <div class="inside">
                             <p><?php esc_html_e('Get access to exclusive premium features and priority support.', 'digital-table-of-contents'); ?></p>
                             <ul>
@@ -386,7 +395,7 @@ function dtoc_dashboard_support() {
                             <p>
                                 <a href="#" class="button button-primary"><?php esc_html_e('Upgrade Now', 'digital-table-of-contents'); ?></a>
                             </p>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
