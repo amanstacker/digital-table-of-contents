@@ -14,14 +14,14 @@ function getParameterByName(name, url) {
 jQuery(document).ready(function($){
 
   // Hide and show child options based on parent selection starts here
-  $(".dtoc_parent_option").on("change", function (e) {
-    var id = $(this).attr("id");
-    if ($(this).prop("checked")) {
-        $(".dtoc_" + id).fadeIn(600); // 600ms slow motion effect
-    } else {
-        $(".dtoc_" + id).fadeOut(600);
-    }
-}).change();
+//   $(".dtoc_parent_option").on("change", function (e) {
+//     var id = $(this).attr("id");
+//     if ($(this).prop("checked")) {
+//         $(".dtoc_" + id).fadeIn(600); // 600ms slow motion effect
+//     } else {
+//         $(".dtoc_" + id).fadeOut(600);
+//     }
+// }).change();
 
   // Hide and show child options based on parent selection ends here
 
@@ -442,3 +442,59 @@ jQuery(document).ready(function($) {
         $('#custom-icon-preview').attr('src', existingIcon).show();
     }
 });
+
+//React like structure without react starst here
+jQuery(document).ready(function($) {
+
+    const state = dtoc_admin_cdata.active_module_state;    
+    const reactive = new Proxy(state, {
+        set(target, prop, value) {
+            target[prop] = value;
+            updatePreview();
+            return true;
+        }
+    });
+
+    function updatePreview() {
+        $('.preview-title').text(reactive.title || 'Default Title');
+        $('.preview-box').css('background-color', reactive.bgColor);
+        $('.preview-image').toggle(!!reactive.showImage);
+        console.log('ddd');
+        if ( reactive.display_title ) {
+            
+            $('.dtoc_display_title').show();
+            
+            if ( reactive.toggle_body ) {
+                $('.dtoc_2_label_child_opt').show();
+            }else{
+                $('.dtoc_2_label_child_opt').hide();
+            }
+
+        }else{
+            $('.dtoc_display_title').hide();
+        }        
+
+    }
+
+    // Dynamic binding for all inputs
+    
+    $('.dtoc-settings-form').on('change' , '.smpg-input', function (e) {
+        
+        const $input = $(e.target).is('input') ? $(e.target) : $(e.target).find('input');
+
+        const id = $input.attr('id');
+        const type = $input.attr('type');
+        
+        if (!id) return;
+
+        if (type === 'checkbox') {
+            reactive[id] = $input.is(':checked');
+        } else {
+            reactive[id] = $input.val();
+        }
+    });
+
+    updatePreview(); // initial render
+});
+
+//React like structure without react ends here

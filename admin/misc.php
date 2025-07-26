@@ -28,11 +28,12 @@ function dtoc_enqueue_admin_assets( $hook ) {
         wp_enqueue_script( 'dtoc-ace-tools' );
 
         //Enqueue custom scripts
-        global $dtoc_dashboard;        
+        global $dtoc_dashboard, $dtoc_incontent;        
         $data = [
-            'ajaxurl' => admin_url( 'admin-ajax.php' ),
-            'dtoc_ajax_nonce' => wp_create_nonce( "dtoc_ajax_nonce_string" ),
-			'dtoc_modules_status' => $dtoc_dashboard['modules']
+            'ajaxurl'              => admin_url( 'admin-ajax.php' ),
+            'dtoc_ajax_nonce'      => wp_create_nonce( "dtoc_ajax_nonce_string" ),
+			'dtoc_modules_status'  => $dtoc_dashboard['modules'],
+            'active_module_state'  => $dtoc_incontent
         ];
                         
         $data = apply_filters('dtoc_localize_admin_assets_filter', $data, 'dtoc_admin_cdata');
