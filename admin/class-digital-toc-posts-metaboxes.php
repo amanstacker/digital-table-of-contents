@@ -23,9 +23,9 @@ class Digital_TOC_POSTS_Metaboxes {
      */
     public function __construct() {
         if ( is_admin() ) {
-            add_action( 'load-post.php',     array( $this, 'init_metabox' ) );
-            add_action( 'load-post-new.php', array( $this, 'init_metabox' ) );
-			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts_and_styles' ) );
+            add_action( 'load-post.php',     [ $this, 'init_metabox' ] );
+            add_action( 'load-post-new.php', [ $this, 'init_metabox' ] );
+			add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts_and_styles' ] );
         }
     }
 
@@ -33,8 +33,8 @@ class Digital_TOC_POSTS_Metaboxes {
      * Meta box initialization.
      */
     public function init_metabox() {
-        add_action( 'add_meta_boxes', array( $this, 'add_metabox' ) );
-        add_action( 'save_post', array( $this, 'save_metabox' ), 10, 2 );
+        add_action( 'add_meta_boxes', [ $this, 'add_metabox' ] );
+        add_action( 'save_post', [ $this, 'save_metabox' ], 10, 2 );
     }
 	
 	 /**
@@ -46,7 +46,7 @@ class Digital_TOC_POSTS_Metaboxes {
             return;
         }
         wp_enqueue_style('dtoc-meta-box-css', DTOC_URL . 'assets/admin/css/dtoc-meta-box.css');
-        wp_enqueue_script('dtoc-meta-box-js', DTOC_URL . 'assets/admin/js/dtoc-meta-box.js', array('jquery'), null, true);
+        wp_enqueue_script('dtoc-meta-box-js', DTOC_URL . 'assets/admin/js/dtoc-meta-box.js', [ 'jquery' ], null, true);
     }
 
     /**
@@ -60,11 +60,11 @@ class Digital_TOC_POSTS_Metaboxes {
 				add_meta_box(
 					$key,
 					$value,
-					array($this,'render_metabox'),
+					[ $this,'render_metabox' ],
 					'post',
 					'advanced',
 					'default',
-					 array('metabox_key' => $key)
+					 [ 'metabox_key' => $key ]
 				);
 			}
         }

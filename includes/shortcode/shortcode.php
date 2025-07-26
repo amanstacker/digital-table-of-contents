@@ -12,7 +12,7 @@ function dtoc_init_shortcode() {
 
 function dtoc_shortcode_callback($atts, $tag_content, $tag){
     global $dtoc_advanced_options;
-    $dtoc_advanced_options['loading_type'] = 'js';    
+    $dtoc_advanced_options['rendering_style'] = 'js';    
     $post_id = isset($atts['post_id']) ? $atts['post_id'] : get_the_ID();
 
     $content = get_post_field('post_content', $post_id);    
@@ -26,7 +26,7 @@ function dtoc_shortcode_callback($atts, $tag_content, $tag){
 
     $dtocbox = '';
     
-    if(!empty($matches) && !empty($dtoc_advanced_options['loading_type']) && $dtoc_advanced_options['loading_type'] == 'css'){
+    if(!empty($matches) && !empty($dtoc_advanced_options['rendering_style']) && $dtoc_advanced_options['rendering_style'] == 'css'){
         $dtocbox     = dtoc_box_on_css($matches,$dtoc_advanced_options);
     }else{
         $dtocbox     = dtoc_box_on_js($matches,$dtoc_advanced_options);

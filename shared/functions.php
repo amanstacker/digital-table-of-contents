@@ -197,18 +197,18 @@ function dtoc_option_types ( $tab = 'all' , $settings = [] , $type ="default" ) 
     ],
     [
         'tab' => 'General',
-        'label' => 'Loading Type',
-        'name' => 'loading_type',
+        'label' => 'Rendering Style',
+        'name' => 'rendering_style',
         'type' => 'radio',
         'values' => [
             [
-                'id' => 'js_loading_type',
-                'label' => 'JS',
+                'id' => 'js_rendering_style',
+                'label' => 'JS-based',
                 'value' => 'js'
             ],
             [
-                'id' => 'css_loading_type',
-                'label' => 'CSS',
+                'id' => 'css_rendering_style',
+                'label' => 'CSS-based',
                 'value' => 'css'
             ]
         ],

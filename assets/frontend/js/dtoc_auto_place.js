@@ -1,11 +1,20 @@
 jQuery(document).ready(function($){
 
-   if(dtoc_localize_frontend_data.toggle_body == 1){
-      $(".dtoc-toggle-label").click(function(){
-         $(".dtoc-box-on-js-body").toggle('slow');
-      });
-   }
-   
+ if (dtoc_localize_frontend_data.toggle_body == 1) {
+  $(".dtoc-toggle-label").click(function () {
+    var $this = $(this);
+    
+    $(".dtoc-box-on-js-body").slideToggle( function () {
+      // This runs after slideToggle finishes
+      var $showText = $this.find('.dtoc-show-text');
+      var $hideText = $this.find('.dtoc-hide-text');
+
+      $showText.toggle();
+      $hideText.toggle();
+    });
+  });
+}
+
    // Smooth scroll starts here
 
    if(dtoc_localize_frontend_data.scroll_behaviour == 'smooth'){

@@ -245,14 +245,14 @@ function dtoc_get_headings_with_anchors( $matches ) {
 
             $anchor     = $matches[ $i ]['id'];            
             $headings[] = str_replace(
-                array(
+                [
                     $matches[ $i ][1],
                     '</h' . $matches[ $i ][2] . '>'
-                ),
-                array(
+                ],
+                [
                     '><span class="dtoc-section" id="' . esc_attr($anchor) . '"></span>',
                     '<span class="dtoc-section-end"></span></h' . esc_attr($matches[ $i ][2]) . '>'
-                ),
+                ],
                 $matches[ $i ][0]
             );
         }
@@ -267,14 +267,14 @@ function dtoc_get_headings( $matches ) {
         foreach ( $matches as $i => $match ) {
 
             $headings[] = str_replace(
-                array(
+                [
                     $matches[ $i ][1],        
                     '</h' . $matches[ $i ][2] . '>'
-                ),
-                array(
+                ],
+                [
                     '>',
                     '</h' . $matches[ $i ][2] . '>'
-                ),
+                ],
                 $matches[ $i ][0]
             );
         }    

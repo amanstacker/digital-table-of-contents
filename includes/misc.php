@@ -15,7 +15,7 @@ function dtoc_frontend_enqueue(){
 		
         $data = [];
 
-        if ( $dtoc_incontent[ 'loading_type' ] == 'js' ) {
+        if ( $dtoc_incontent[ 'rendering_style' ] == 'js' ) {
 
                 $data['scroll_behaviour'] = isset( $dtoc_incontent['scroll_behavior'] ) ? $dtoc_incontent['scroll_behavior'] : 'auto';
                 $data['toggle_body']      = isset( $dtoc_incontent['toggle_body'] ) ? 1 : 0;
@@ -51,22 +51,72 @@ function dtoc_frontend_enqueue(){
 						padding-right: 4px;
                 }";
        
-        if($dtoc_incontent['loading_type'] == 'css' && isset($dtoc_incontent['display_title']) && isset($dtoc_incontent['toggle_body'])){        
-                $custom_css .= ".dtoc-box-on-css-body{
-                        display: none;
-                    }
-                        .dtoc-toggle-label{
-                                cursor: pointer;
+
+        if ( $dtoc_incontent['rendering_style'] == 'js' ) {
+
+                if ( isset( $dtoc_incontent['display_title'] ) && isset( $dtoc_incontent['toggle_body'] ) ) {        
+
+                        if ( $dtoc_incontent['toggle_initial'] == 'hide' ) {
+
+                                $custom_css .= ".dtoc-box-on-js-body{
+                                        display: none;
+                                }
+                                .dtoc-hide-text {
+                                        display: none;
+                                }                                
+                                ";      
+                                
+                        }else{
+
+                                $custom_css .= "
+                                .dtoc-show-text {
+                                        display: none;
+                                }                                
+                                ";      
                         }
-                    #dtoc-toggle-check:checked ~ .dtoc-box-on-css-body {
-                                 display: block;
-                     }";      
-        }        
-        if($dtoc_incontent['loading_type'] == 'css' && $dtoc_incontent['scroll_behavior'] == 'smooth'){
-                $custom_css .= "html {
-                        scroll-behavior: smooth;
-                }";
+
+                        
+                }                        
         }
+
+                
+        if ( $dtoc_incontent['rendering_style'] == 'css' ) {
+
+                if ( isset( $dtoc_incontent['display_title'] ) && isset( $dtoc_incontent['toggle_body'] ) ) {
+                        $custom_css .= ".dtoc-box-on-css-body{
+                                        display: none;
+                                }
+                                .dtoc-show-text {
+                                        display: none;
+                                }
+                                .dtoc-toggle-label{
+                                        cursor: pointer;
+                                }
+                                #dtoc-toggle-check:checked ~ .dtoc-box-on-css-body {
+                                        display: block;
+                                }                                        
+                                #dtoc-toggle-check:checked ~ .dtoc-toggle-label .dtoc-hide-text {
+                                        display: inline;
+                                }
+                                #dtoc-toggle-check:checked ~ .dtoc-toggle-label .dtoc-show-text {
+                                        display: none;
+                                }
+
+                                #dtoc-toggle-check:not(:checked) ~ .dtoc-toggle-label .dtoc-show-text {
+                                        display: inline;
+                                }
+                                #dtoc-toggle-check:not(:checked) ~ .dtoc-toggle-label .dtoc-hide-text {
+                                        display: none;
+                                }
+                                ";      
+                }        
+                if ( isset( $dtoc_incontent['scroll_behavior'] ) && $dtoc_incontent['scroll_behavior'] == 'smooth' ) {
+                        $custom_css .= "html {
+                                scroll-behavior: smooth;
+                        }";
+                }
+        }        
+        
         if($dtoc_incontent['alignment'] == 'left'){
                 $custom_css .= "body .dtoc-box-container {
                         margin: 0px auto 0px 0px !important;

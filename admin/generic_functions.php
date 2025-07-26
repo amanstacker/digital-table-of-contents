@@ -54,10 +54,10 @@ function dtoc_get_all_taxonomies(){
 
 	$response   = [];
 
-    $args = array(        
+    $args = [       
         'public'      => true,
         'show_ui'     => true,
-    );
+	];
 
     $taxonomies = get_taxonomies( $args, 'object' );    
 	if(!empty($taxonomies) && is_array($taxonomies)){

@@ -25,7 +25,7 @@ function dtoc_compatibility_page_render(){
 		settings_errors();               
 	}
 
-    $tab = dtoc_admin_get_tab('plugins', array('plugins','themes'));
+    $tab = dtoc_admin_get_tab('plugins', [ 'plugins','themes' ]);
     ?>
     <div class="wrap dtoc-main-container">
     <h1 class="wp-heading-inline"><?php echo esc_html__('Digital Table Of Contents | Compatibility', 'digital-table-of-contents'); ?></h1>    
@@ -84,7 +84,7 @@ function dtoc_compatibility_tablet_settings_initiate(){
         'dtoc_compatibility_plugins_elementor_cb',		
         'dtoc_compatibility_plugins_setting_section',
         'dtoc_compatibility_plugins_setting_section',
-        array( 'label_for' => 'elementor')
+        [ 'label_for' => 'elementor' ]
     );    
 
     add_settings_section('dtoc_compatibility_themes_setting_section', __return_false(), '__return_false', 'dtoc_compatibility_themes_setting_section');
@@ -95,7 +95,7 @@ function dtoc_compatibility_tablet_settings_initiate(){
         'dtoc_compatibility_themes_divi_cb',		
         'dtoc_compatibility_themes_setting_section',
         'dtoc_compatibility_themes_setting_section',
-        array( 'label_for' => 'divi')
+        [ 'label_for' => 'divi' ]
     );                        
 
 }

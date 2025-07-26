@@ -41,7 +41,7 @@ function dtoc_in_content_callback( $content ) {
 
 function dtoc_position_inside_content( $content, $matches, $options ) {
         
-        if ( ! empty( $options['loading_type'] ) && $options['loading_type'] == 'css' ) {
+        if ( ! empty( $options['rendering_style'] ) && $options['rendering_style'] == 'css' ) {
             
             $dtocbox     = dtoc_box_on_css($matches,$options);
         }else{
@@ -143,9 +143,9 @@ function dtoc_position_inside_content( $content, $matches, $options ) {
  add_action('wp_footer','dtoc_scroll_backto_toc');
  function dtoc_scroll_backto_toc(){
 	global $dtoc_incontent;
-	if(isset($dtoc_incontent['scroll_back_to_top']) && isset($dtoc_incontent['loading_type'])){
+	if(isset($dtoc_incontent['scroll_back_to_top']) && isset($dtoc_incontent['rendering_style'])){
 		
-		if($dtoc_incontent['loading_type'] == 'js'){
+		if($dtoc_incontent['rendering_style'] == 'js'){
 			echo ' <a href="" class="dtoc-btn dtoc-backtotoc" title="Go to Table of contents">'.esc_html__('TOC','digital-table-of-contents').'</a>';
 			
 		}else{

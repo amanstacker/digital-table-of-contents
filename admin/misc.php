@@ -29,17 +29,17 @@ function dtoc_enqueue_admin_assets( $hook ) {
 
         //Enqueue custom scripts
         global $dtoc_dashboard;        
-        $data = array(
+        $data = [
             'ajaxurl' => admin_url( 'admin-ajax.php' ),
             'dtoc_ajax_nonce' => wp_create_nonce( "dtoc_ajax_nonce_string" ),
 			'dtoc_modules_status' => $dtoc_dashboard['modules']
-        );
+        ];
                         
         $data = apply_filters('dtoc_localize_admin_assets_filter', $data, 'dtoc_admin_cdata');
         wp_enqueue_style( 'wp-color-picker' );
 		wp_enqueue_script( 'wp-color-picker' );
         wp_enqueue_media();
-        wp_register_script( 'dtoc-admin', DTOC_URL . 'assets/admin/js/admin.js', array('jquery'), DTOC_VERSION , true );
+        wp_register_script( 'dtoc-admin', DTOC_URL . 'assets/admin/js/admin.js', [ 'jquery' ], DTOC_VERSION , true );
 
                         
         wp_localize_script( 'dtoc-admin', 'dtoc_admin_cdata', $data );
@@ -67,11 +67,11 @@ function dtoc_categories_action_fn() {
         $skip_type = sanitize_text_field($_GET['skip_type']);
     }
     if($skip_type){
-        $result = get_posts( array(
+        $result = get_posts( [
             'post_type'       => $skip_type,            
             'numberposts'     => 10,
             'name__like'      => $query
-        ) );    
+        ] );    
 
         $posts_array = [];
         if (! is_wp_error( $result ) && ! empty( $result ) ) {
@@ -84,12 +84,12 @@ function dtoc_categories_action_fn() {
     }
     if($type){
 
-        $terms = get_terms( array(
+        $terms = get_terms( [
             'taxonomy'   => $type,
             'hide_empty' => false,
             'number'     => 10,
             'name__like' => $query
-        ) );    
+        ] );    
         $terms_array = [];
         if (! is_wp_error( $terms ) && ! empty( $terms ) ) {
             foreach ($terms as $value) {
@@ -142,12 +142,12 @@ function dtoc_update_modules_status_fn(){
 
 function dtoc_ace_editor_shortcode($atts) {
     // Extract shortcode attributes
-    $atts = shortcode_atts(array(
+    $atts = shortcode_atts([
         'theme' => 'monokai', // default theme
         'mode' => 'javascript', // default mode
         'height' => '500px', // default height
         'class' => 'ace-editor', // default class for editors
-    ), $atts, 'ace_editor');
+    ], $atts, 'ace_editor');
 
     // Output the HTML for the editor
     ob_start(); ?>
@@ -297,7 +297,7 @@ function dtoc_handle_support_request() {
 	// Process the support request (e.g., send an email)
 	
 	$subject     = __( 'New Support Request', 'digital-table-of-contents' );
-	$headers     = array( 'Content-Type: text/html; charset=UTF-8', 'From: ' . $name . ' <' . $email . '>' );
+	$headers     = [ 'Content-Type: text/html; charset=UTF-8', 'From: ' . $name . ' <' . $email . '>' ];
 
 	$body = sprintf(
 		__( 'Name: %s <br>Email: %s <br>Message: %s', 'digital-table-of-contents' ),

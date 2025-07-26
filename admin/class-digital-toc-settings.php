@@ -356,9 +356,9 @@ public function dtoc_settings_initiate(){
     // general
     add_settings_section('dtoc_general_setting_section', __return_false(), '__return_false', 'dtoc_general_setting_section');                                
     add_settings_field(
-        'dtoc_general_loading_type',
-         esc_html__('Loading Type', 'digital-table-of-contents'),
-		 [$this, 'dtoc_general_loading_type_cb'],        		
+        'dtoc_general_rendering_style',
+         esc_html__('Rendering Style', 'digital-table-of-contents'),
+		 [$this, 'dtoc_general_rendering_style_cb'],        		
         'dtoc_general_setting_section',
         'dtoc_general_setting_section'        
     );
@@ -368,47 +368,23 @@ public function dtoc_settings_initiate(){
          [$this, 'dtoc_display_title_cb'],            
         'dtoc_general_setting_section',
         'dtoc_general_setting_section',
-         array( 'label_for' => 'display_title')
+         [ 'label_for' => 'display_title' ]
     );
     add_settings_field(
         'dtoc_general_header_text',
-         esc_html__('Title Text', 'digital-table-of-contents'),
+         esc_html__('Text', 'digital-table-of-contents'),
 		 [$this, 'dtoc_general_header_text_cb'],        
         'dtoc_general_setting_section',
         'dtoc_general_setting_section',
-        array( 'class' => 'dtoc_child_opt dtoc_display_title' )
-    );
-    add_settings_field(
-        'dtoc_general_header_icon',
-         esc_html__('Title Icon', 'digital-table-of-contents'),
-		 [$this, 'dtoc_general_header_icon_cb'],        
-        'dtoc_general_setting_section',
-        'dtoc_general_setting_section',
-        array( 'class' => 'dtoc_child_opt dtoc_display_title' )
-    );
-    add_settings_field(
-        'dtoc_general_show_text',
-         esc_html__('Show Text', 'digital-table-of-contents'),
-		 [$this, 'dtoc_general_show_text_cb'],
-        'dtoc_general_setting_section',
-        'dtoc_general_setting_section',
-        array( 'class' => 'dtoc_child_opt dtoc_nested_child_opt dtoc_display_title' )
-    );
-    add_settings_field(
-        'dtoc_general_hide_text',
-         esc_html__('Hide Text', 'digital-table-of-contents'),
-		 [$this, 'dtoc_general_hide_text_cb'],        
-        'dtoc_general_setting_section',
-        'dtoc_general_setting_section',
-        array( 'class' => 'dtoc_child_opt dtoc_nested_child_opt dtoc_display_title' )
+        [ 'class' => 'dtoc_child_opt dtoc_display_title' ]
     );
     add_settings_field(
         'dtoc_display_toggle_body',
-         esc_html__('Toggle on Title Click', 'digital-table-of-contents'),
+         esc_html__('Toggle', 'digital-table-of-contents'),
 		 [$this, 'dtoc_display_toggle_body_cb'],        		        
         'dtoc_general_setting_section',
         'dtoc_general_setting_section',
-        array( 'class' => 'dtoc_child_opt dtoc_display_title', 'label_for' => 'toggle_body' )
+        [ 'class' => 'dtoc_child_opt dtoc_display_title', 'label_for' => 'toggle_body' ]
     );
     add_settings_field(
         'dtoc_display_toggle_initial',
@@ -416,15 +392,39 @@ public function dtoc_settings_initiate(){
 		 [$this, 'dtoc_display_toggle_initial_cb'],        
         'dtoc_general_setting_section',
         'dtoc_general_setting_section',
-        array( 'class' => 'dtoc_child_opt dtoc_nested_child_opt dtoc_display_title' )
+        [ 'class' => 'dtoc_child_opt dtoc_2_label_child_opt dtoc_display_title' ]
     );
+    add_settings_field(
+        'dtoc_general_header_icon',
+         esc_html__('Icon', 'digital-table-of-contents'),
+		 [$this, 'dtoc_general_header_icon_cb'],        
+        'dtoc_general_setting_section',
+        'dtoc_general_setting_section',
+        [ 'class' => 'dtoc_child_opt dtoc_2_label_child_opt dtoc_display_title' ]
+    );
+    add_settings_field(
+        'dtoc_general_show_text',
+         esc_html__('Show Text', 'digital-table-of-contents'),
+		 [$this, 'dtoc_general_show_text_cb'],
+        'dtoc_general_setting_section',
+        'dtoc_general_setting_section',
+        [ 'class' => 'dtoc_child_opt dtoc_2_label_child_opt dtoc_3_label_child_opt dtoc_display_title' ]
+    );
+    add_settings_field(
+        'dtoc_general_hide_text',
+         esc_html__('Hide Text', 'digital-table-of-contents'),
+		 [$this, 'dtoc_general_hide_text_cb'],        
+        'dtoc_general_setting_section',
+        'dtoc_general_setting_section',
+        [ 'class' => 'dtoc_child_opt dtoc_2_label_child_opt dtoc_3_label_child_opt dtoc_display_title' ]
+    );    
     add_settings_field(
         'dtoc_general_jump_links',
          esc_html__('Jump Links', 'digital-table-of-contents'),
         [$this, 'dtoc_general_jump_links_cb'],
         'dtoc_general_setting_section',
         'dtoc_general_setting_section',
-         array( 'label_for' => 'jump_links')
+         [ 'label_for' => 'jump_links' ]
     );    
     add_settings_field(
         'dtoc_general_scroll_behavior',
@@ -432,7 +432,7 @@ public function dtoc_settings_initiate(){
 		 [$this, 'dtoc_general_scroll_behavior_cb'],        
         'dtoc_general_setting_section',
         'dtoc_general_setting_section',
-        array( 'class' => 'dtoc_child_opt dtoc_jump_links' )
+        [ 'class' => 'dtoc_child_opt dtoc_jump_links' ]
     );
     // add_settings_field(
     //     'dtoc_general_scroll_back_to_toc',
@@ -455,7 +455,7 @@ public function dtoc_settings_initiate(){
 		 [$this, 'dtoc_general_wrap_content_cb'],        
         'dtoc_general_setting_section',
         'dtoc_general_setting_section',
-         array( 'label_for' => 'wrap_content')
+         [ 'label_for' => 'wrap_content' ]
     );
     add_settings_field(
         'dtoc_display_When',
@@ -477,7 +477,7 @@ public function dtoc_settings_initiate(){
         [$this, 'dtoc_general_paragraph_number_cb'],            
         'dtoc_general_setting_section',
         'dtoc_general_setting_section',
-        array( 'label_for' => 'paragraph_number', 'class' => 'dtoc_child_opt dtoc_paragraph_number')
+        [ 'label_for' => 'paragraph_number', 'class' => 'dtoc_child_opt dtoc_paragraph_number' ]
     );    
     add_settings_field(
         'dtoc_general_list_style_type',
@@ -727,7 +727,7 @@ public function dtoc_settings_initiate(){
         [$this, 'dtoc_display_hierarchy_cb'],        		        
         'dtoc_advanced_setting_section',
         'dtoc_advanced_setting_section',
-        array( 'label_for' => 'hierarchy')
+        [ 'label_for' => 'hierarchy' ]
     );    
     // add_settings_field(                
     //     'dtoc_display_exp_col_subheadings',
@@ -751,7 +751,7 @@ public function dtoc_settings_initiate(){
 		 [$this, 'dtoc_display_combine_page_break_cb'],        		        
         'dtoc_advanced_setting_section',
         'dtoc_advanced_setting_section',
-        array( 'label_for' => 'combine_page_break')
+        [ 'label_for' => 'combine_page_break' ]
     );
            
 
@@ -783,24 +783,24 @@ public function dtoc_general_list_style_type_cb() {
 
     $current_value = isset($this->_setting_option['list_style_type']) ? $this->_setting_option['list_style_type'] : '';
 
-    $groups = array(
-        'Common Styles' => array(
+    $groups = [
+        'Common Styles' => [
             'decimal' => __( 'Decimal (1, 2, 3)', 'digital-table-of-contents' ),
             'decimal-leading-zero' => __( 'Decimal with Leading Zero (01, 02)', 'digital-table-of-contents' ),
             'disc' => __( 'Disc (●)', 'digital-table-of-contents' ),
             'circle' => __( 'Circle (○)', 'digital-table-of-contents' ),
             'square' => __( 'Square (■)', 'digital-table-of-contents' ),
             'none' => __( 'No Marker', 'digital-table-of-contents' ),
-        ),
-        'Alphabetic' => array(
+        ],
+        'Alphabetic' => [
             'lower-alpha' => __( 'Lowercase Alphabet (a, b, c)', 'digital-table-of-contents' ),
             'upper-alpha' => __( 'Uppercase Alphabet (A, B, C)', 'digital-table-of-contents' ),
-        ),
-        'Roman Numerals' => array(
+        ],
+        'Roman Numerals' => [
             'lower-roman' => __( 'Lowercase Roman (i, ii, iii)', 'digital-table-of-contents' ),
             'upper-roman' => __( 'Uppercase Roman (I, II, III)', 'digital-table-of-contents' ),
-        ),
-        'Language-Specific Styles' => array(
+        ],
+        'Language-Specific Styles' => [
             'arabic-indic' => __( 'Arabic-Indic', 'digital-table-of-contents' ),
             'devanagari' => __( 'Devanagari', 'digital-table-of-contents' ),
             'bengali' => __( 'Bengali', 'digital-table-of-contents' ),
@@ -818,8 +818,8 @@ public function dtoc_general_list_style_type_cb() {
             'tibetan' => __( 'Tibetan', 'digital-table-of-contents' ),
             'persian' => __( 'Persian', 'digital-table-of-contents' ),
             'cambodian' => __( 'Cambodian/Khmer', 'digital-table-of-contents' ),
-        ),
-        'CJK & East Asian Styles' => array(
+        ],
+        'CJK & East Asian Styles' => [
             'cjk-decimal' => __( 'CJK Decimal', 'digital-table-of-contents' ),
             'cjk-earthly-branch' => __( 'CJK Earthly Branch', 'digital-table-of-contents' ),
             'cjk-heavenly-stem' => __( 'CJK Heavenly Stem', 'digital-table-of-contents' ),
@@ -832,8 +832,8 @@ public function dtoc_general_list_style_type_cb() {
             'trad-chinese-formal' => __( 'Traditional Chinese (Formal)', 'digital-table-of-contents' ),
             'trad-chinese-informal' => __( 'Traditional Chinese (Informal)', 'digital-table-of-contents' ),
             'cjk-ideographic' => __( 'CJK Ideographic (Informal)', 'digital-table-of-contents' ),
-        ),
-        'Other Styles' => array(
+        ],
+        'Other Styles' => [
             'armenian' => __( 'Armenian', 'digital-table-of-contents' ),
             'upper-armenian' => __( 'Upper Armenian', 'digital-table-of-contents' ),
             'lower-armenian' => __( 'Lower Armenian', 'digital-table-of-contents' ),
@@ -845,8 +845,8 @@ public function dtoc_general_list_style_type_cb() {
             'hiragana-iroha' => __( 'Hiragana (Iroha Order)', 'digital-table-of-contents' ),
             'katakana' => __( 'Katakana (Dictionary Order)', 'digital-table-of-contents' ),
             'katakana-iroha' => __( 'Katakana (Iroha Order)', 'digital-table-of-contents' ),
-        ),
-    );
+        ],
+    ];
     ?>
 
     <select name="<?php echo esc_attr($this->_setting_name); ?>[list_style_type]" id="list_style_type">
@@ -1163,16 +1163,16 @@ public function dtoc_customization_icon_border_type_cb(){
     <?php
     dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'icon_border_type'); 
 }
-public function dtoc_general_loading_type_cb(){ 
+public function dtoc_general_rendering_style_cb(){ 
     $this->dtoc_resolve_meta_settings_name(); 	   	                
     ?>        
-        <input type="radio" id="js_loading_type" name="<?php echo esc_attr( $this->_setting_name ); ?>[loading_type]" value="js" 
-            <?php checked( isset( $this->_setting_option['loading_type'] ) && $this->_setting_option['loading_type'] === 'js' ); ?>>
-        <label for="js_loading_type" style="margin-right: 15px;"><?php esc_html_e( 'JS', 'digital-table-of-contents' ); ?></label>
+        <input type="radio" id="js_rendering_style" name="<?php echo esc_attr( $this->_setting_name ); ?>[rendering_style]" value="js" 
+            <?php checked( isset( $this->_setting_option['rendering_style'] ) && $this->_setting_option['rendering_style'] === 'js' ); ?>>
+        <label for="js_rendering_style" style="margin-right: 15px;"><?php esc_html_e( 'JS-based', 'digital-table-of-contents' ); ?></label>
 
-        <input type="radio" id="css_loading_type" name="<?php echo esc_attr( $this->_setting_name ); ?>[loading_type]" value="css" 
-            <?php checked( isset( $this->_setting_option['loading_type'] ) && $this->_setting_option['loading_type'] === 'css' ); ?>>
-        <label for="css_loading_type"><?php esc_html_e( 'CSS', 'digital-table-of-contents' ); ?></label>        
+        <input type="radio" id="css_rendering_style" name="<?php echo esc_attr( $this->_setting_name ); ?>[rendering_style]" value="css" 
+            <?php checked( isset( $this->_setting_option['rendering_style'] ) && $this->_setting_option['rendering_style'] === 'css' ); ?>>
+        <label for="css_rendering_style"><?php esc_html_e( 'CSS-based', 'digital-table-of-contents' ); ?></label>        
     <?php
 }
 public function dtoc_general_scroll_behavior_cb(){ 
@@ -1333,17 +1333,17 @@ public function dtoc_placement_setting_section_cb(){
                         $saved_term = false;
                         if(isset($this->_setting_option['placement'][$key]['taxonomy'][$tvalue->name]['ids'])){
                             $saved_term = true;
-                            $terms = get_terms( array(
+                            $terms = get_terms( [
                                 'taxonomy'   => sanitize_text_field($tvalue->name),
                                 'hide_empty' => false,
                                 'include'    =>  $this->_setting_option['placement'][$key]['taxonomy'][$tvalue->name]['ids']
-                            ) );
+                            ] );
                         }else{
-                            $terms = get_terms( array(
+                            $terms = get_terms( [
                                 'taxonomy'   => sanitize_text_field($tvalue->name),
                                 'hide_empty' => false,
                                 'number'     => 1                            
-                            ) );    
+                            ] );    
                         }    
                                                                           
                         if ( !is_wp_error( $terms ) && !empty($terms) ) {
@@ -1391,10 +1391,10 @@ public function dtoc_placement_setting_section_cb(){
                 echo '<div class="dtoc-acc-cont-s">';
                 echo '<select multiple class="dtoc-placement-select2" data-ajax--url="'.admin_url( 'admin-ajax.php' ).'?skip_type='.esc_attr($key).'" name="'.esc_attr($this->_setting_name).'[placement]['.esc_attr($key).'][skip][]">';
                 if(isset($this->_setting_option['placement'][$key]['skip'])){
-                    $result = get_posts( array(
+                    $result = get_posts( [
                         'post_type'       => $key,            
                         'post__in'        => $this->_setting_option['placement'][$key]['skip']                        
-                    ) );    
+                    ] );    
                     if (! is_wp_error( $result ) && ! empty( $result ) ) {
                         foreach ($result as $value) {
                             echo '<option value="'.esc_attr($value->ID).'" selected="selected">'.esc_html($value->post_title).'</option>';
