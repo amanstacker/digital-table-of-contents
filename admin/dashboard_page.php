@@ -91,92 +91,92 @@ function dtoc_dashboard_modules(){
 
 	global $dtoc_dashboard;
 
-    $modules = array(
-        array(            
+    $modules = [
+        [            
             'title' => 'In-Content',
             'desc'  => 'This is default module. Displays a dynamic Table of Contents directly within your post content, helping readers navigate long articles with ease. Automatically generated based on headings',
             'name'  => 'incontent',
             'url'   => admin_url( 'admin.php?page=dtoc_incontent'),
             'learn' => 'https://digitaltableofcontents/documentation'
-        ),
-        array(            
+        ],
+        [
             'title' => 'Sticky',
             'desc'  => 'A Sticky TOC is a fixed navigation element that stays within a defined container, typically in the sidebar or at the top, while scrolling.',
             'name'  => 'sticky',
             'url'   => admin_url( 'admin.php?page=dtoc_sticky'),
             'learn' => 'https://digitaltableofcontents/documentation'
-        ),
-        array(            
+        ],
+        [
             'title' => 'Floating',
             'desc'  => 'A Floating TOC is a movable, draggable, or collapsible navigation element that isn\'t fixed, allowing repositioning and enhanced interaction',
             'name'  => 'floating',
             'url'   => admin_url( 'admin.php?page=dtoc_floating'),
             'learn' => 'https://digitaltableofcontents/documentation'
-        ),
-        array(            
+        ],
+        [
             'title' => 'Shortcode',
             'desc'  => 'TOC shortcode generates a structured list of headings for a specific post or page, allowing you to place it at a desired position within the content.',
             'name'  => 'shortcode',
             'url'   => admin_url( 'admin.php?page=dtoc_shortcode'),
             'learn' => 'https://digitaltableofcontents/documentation'
-        ),        
-        array(            
+        ],        
+        [            
             'title' => 'In-Content Mobile',
             'desc'  => 'Enable for advanced, separate customization of the In-Content TOC in mobile. If disabled, the TOC will display by default based on the In-Content module.',
             'name'  => 'incontent_mobile',
             'url'   => admin_url( 'admin.php?page=dtoc_incontent_mobile'),
             'learn' => 'https://digitaltableofcontents/documentation'
-        ),
-        array(            
+        ],
+        [
             'title' => 'In-Content Tablet',
             'desc'  => 'Enable for advanced, separate customization of the In-Content TOC in tablet. If disabled, the TOC will display by default based on the In-Content module.',
             'name'  => 'incontent_tablet',
             'url'   => admin_url( 'admin.php?page=dtoc_incontent_tablet'),
             'learn' => 'https://digitaltableofcontents/documentation'
-        ),        
-        array(            
+        ],        
+        [            
             'title' => 'Sticky Mobile',
             'desc'  => 'Enable for advanced, separate customization of the Sticky TOC in mobile. If disabled, the TOC will display by default based on the Sticky module.',
             'name'  => 'sticky_mobile',
             'url'   => admin_url( 'admin.php?page=dtoc_sticky_mobile'),
             'learn' => 'https://digitaltableofcontents/documentation'
-        ),
-        array(            
+        ],
+        [
             'title' => 'Sticky Tablet',
             'desc'  => 'Enable for advanced, separate customization of the Sticky TOC in tablet. If disabled, the TOC will display by default based on the Sticky module.',
             'name'  => 'sticky_tablet',
             'url'   => admin_url( 'admin.php?page=dtoc_sticky_tablet'),
             'learn' => 'https://digitaltableofcontents/documentation'
-        ),        
-        array(            
+        ],        
+        [
             'title' => 'Floating Mobile',
             'desc'  => 'Enable for advanced, separate customization of the Floating TOC in mobile. If disabled, the TOC will display by default based on the floating module.',
             'name'  => 'floating_mobile',
             'url'   => admin_url( 'admin.php?page=dtoc_floating_mobile'),
             'learn' => 'https://digitaltableofcontents/documentation'
-        ),
-        array(            
+        ],
+        [           
             'title' => 'Floating Tablet',
             'desc'  => 'Enable for advanced, separate customization of the Floating TOC in tablet. If disabled, the TOC will display by default based on the floating module.',
             'name'  => 'floating_tablet',
             'url'   => admin_url( 'admin.php?page=dtoc_floating_tablet'),
             'learn' => 'https://digitaltableofcontents/documentation'
-        ),        
-        array(            
+        ],        
+        [
             'title' => 'Shortcode Mobile',
             'desc'  => 'Enable for advanced, separate customization of the Shortcode in mobile. If disabled, the TOC will display by default based on the Shortcode module.',
             'name'  => 'shortcode_mobile',
             'url'   => admin_url( 'admin.php?page=dtoc_shortcode_mobile'),
             'learn' => 'https://digitaltableofcontents/documentation'
-        ),
-        array(            
+        ],
+        [
             'title' => 'Shortcode Tablet',
             'desc'  => 'Enable for advanced, separate customization of the Shortcode in tablet. If disabled, the TOC will display by default based on the Shortcode module.',
             'name'  => 'shortcode_tablet',
             'url'   => admin_url( 'admin.php?page=dtoc_shortcode_tablet'),
             'learn' => 'https://digitaltableofcontents/documentation'
-        )                
-    );
+        ]                
+    ];
     ?> 
         <div class="dtoc-grid-container"> 
     <?php

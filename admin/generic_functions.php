@@ -2,7 +2,7 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-function dtoc_admin_tab_link($tab = '', $page = 'dtoc', $args = array()){
+function dtoc_admin_tab_link($tab = '', $page = 'dtoc', $args = []){
     	
 	if ( ! is_multisite() ) {
 		$link = admin_url( 'admin.php?page=' . $page );
@@ -23,7 +23,7 @@ function dtoc_admin_tab_link($tab = '', $page = 'dtoc', $args = array()){
 
 	return esc_url($link);
 }
-function dtoc_admin_get_tab( $default = '', $available = array() ) {
+function dtoc_admin_get_tab( $default = '', $available = [] ) {
 
 	$tab = isset( $_GET['tab'] ) ? sanitize_text_field($_GET['tab']) : $default;
         
@@ -36,7 +36,7 @@ function dtoc_admin_get_tab( $default = '', $available = array() ) {
 
 function dtoc_get_all_post_types(){
 
-    $response    = array();
+    $response    = [];
     $post_types = get_post_types( array( 'public' => true ), 'object' );    	
 	if(!empty($post_types) && is_array($post_types)){
 		foreach ( $post_types as $post_type ) {
@@ -52,7 +52,7 @@ function dtoc_get_all_post_types(){
 }
 function dtoc_get_all_taxonomies(){
 
-	$response   = array();
+	$response   = [];
 
     $args = array(        
         'public'      => true,

@@ -41,7 +41,7 @@ function dtoc_box_on_css( $matches , $options = [] ) {
 function dtoc_box_hierarchy_heading_list($matches, $options = []){
 			$html               = '';            
             $current_depth      = 100;    // headings can't be larger than h6 but 100 as a default to be sure
-			$numbered_items     = array();
+			$numbered_items     = [];
 			$numbered_items_min = null;
 
 			// find the minimum heading to establish our baseline
@@ -239,7 +239,7 @@ function dtoc_add_jumb_ids( $headings, $anchors, $content ) {
 
 function dtoc_get_headings_with_anchors( $matches ) {
 
-    $headings = array();        
+    $headings = [];        
                     
         foreach ( $matches as $i => $match ) {
 
@@ -262,7 +262,7 @@ function dtoc_get_headings_with_anchors( $matches ) {
 
 function dtoc_get_headings( $matches ) {
 
-    $headings = array();
+    $headings = [];
                 
         foreach ( $matches as $i => $match ) {
 
@@ -327,7 +327,7 @@ function dtoc_heading_ids( $matches ) {
 
 
 function dtoc_remove_empty_headings( $matches ) {
-    $new_matches = array();        
+    $new_matches = [];        
     foreach ( $matches as $i => $match ) {
 
         if ( trim( strip_tags( $matches[ $i ][0] ) ) != false ) {
@@ -397,7 +397,7 @@ function dtoc_filter_heading( $content, $options = [] ) {
 
     global $post,$page;
     
-    $response = array();
+    $response = [];
 	$type = isset($options['type']) ? $options['type'] : 'incontent';
     if( is_object($post) && strpos( $post->post_content, '<!--nextpage-->' ) !== false){
 
@@ -406,7 +406,7 @@ function dtoc_filter_heading( $content, $options = [] ) {
 
             $post_page = 1;
 			foreach ( $splited_content as $sp_content ) {
-				$result = array();
+				$result = [];
 				 if(isset($options['combine_page_break'])){
 					$result = dtoc_filter_headings_by_content( $sp_content, $post_page, $type, $options );
 					 if($result){

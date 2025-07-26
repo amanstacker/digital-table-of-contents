@@ -131,54 +131,56 @@ function dtoc_default_shortcode_tablet_options(){
 function dtoc_allowed_html_tags() {
     
     $my_allowed = wp_kses_allowed_html( 'post' );    
-    $my_allowed['input'] = array(
-            'class'        => array(),
-            'id'           => array(),
-            'name'         => array(),
-            'value'        => array(),
-            'type'         => array(),
-            'style'        => array(),
-            'placeholder'  => array(),
-            'maxlength'    => array(),
-            'checked'      => array(),
-            'readonly'     => array(),
-            'disabled'     => array(),
-            'width'        => array()            
-    );     
-    $my_allowed['number'] = array(
-            'class'        => array(),
-            'id'           => array(),
-            'name'         => array(),
-            'value'        => array(),
-            'type'         => array(),
-            'style'        => array(),                    
-            'width'        => array()            
-    );     
-     $my_allowed['textarea'] = array(
-            'class' => array(),
-            'id'    => array(),
-            'name'  => array(),
-            'value' => array(),
-            'type'  => array(),
-            'style' => array(),
-            'rows'  => array()
-    );                  
-    $my_allowed['select'] = array(
-            'class'    => array(),
-            'id'       => array(),
-            'name'     => array(),
-            'value'    => array(),
-            'type'     => array(),
-            'required' => array()
-    );    
-    $my_allowed['option'] = array(
-            'selected' => array(),
-            'value'    => array()
-    );                       
-    $my_allowed['style'] = array(
-            'types'    => array()
-    );
+    $my_allowed['input'] = [
+            'class'        => [],
+            'id'           => [],
+            'name'         => [],
+            'value'        => [],
+            'type'         => [],
+            'style'        => [],
+            'placeholder'  => [],
+            'maxlength'    => [],
+            'checked'      => [],
+            'readonly'     => [],
+            'disabled'     => [],
+            'width'        => []            
+    ];     
+    $my_allowed['number'] = [
+            'class'        => [],
+            'id'           => [],
+            'name'         => [],
+            'value'        => [],
+            'type'         => [],
+            'style'        => [],                    
+            'width'        => []            
+    ];     
+     $my_allowed['textarea'] = [
+            'class' => [],
+            'id'    => [],
+            'name'  => [],
+            'value' => [],
+            'type'  => [],
+            'style' => [],
+            'rows'  => []
+     ];                  
+    $my_allowed['select'] = [
+            'class'    => [],
+            'id'       => [],
+            'name'     => [],
+            'value'    => [],
+            'type'     => [],
+            'required' => []
+    ];    
+    $my_allowed['option'] = [
+            'selected' => [],
+            'value'    => []
+    ];                       
+    $my_allowed['style'] = [
+            'types'    => []
+    ];
+
     return $my_allowed;
+    
 }
 
 function dtoc_option_types ( $tab = 'all' , $settings = [] , $type ="default" ) {
