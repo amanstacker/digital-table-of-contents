@@ -1151,41 +1151,41 @@ public function dtoc_customization_container_width_cb(){
 public function dtoc_customization_title_font_size_cb(){
 	    $this->dtoc_resolve_meta_settings_name(); 	
     ?>
-    <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[title_font_size_mode]" id="title_font_size_mode">
+    <select data-group="title_font_size" class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[title_font_size_mode]" id="title_font_size_mode">
         <option value="default" <?php echo (isset($this->_setting_option['title_font_size_mode']) && $this->_setting_option['title_font_size_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>        
         <option value="custom" <?php echo (isset($this->_setting_option['title_font_size_mode']) && $this->_setting_option['title_font_size_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
     </select>
-    <input type="number" class="smpg-input small-text" id="title_font_size" name="<?php echo $this->_setting_name; ?>[title_font_size]" value="<?php echo isset( $this->_setting_option['title_font_size'] ) ? esc_attr( $this->_setting_option['title_font_size']) : '0'; ?>">
+    <input data-group="title_font_size" type="number" class="smpg-input small-text" id="title_font_size" name="<?php echo $this->_setting_name; ?>[title_font_size]" value="<?php echo isset( $this->_setting_option['title_font_size'] ) ? esc_attr( $this->_setting_option['title_font_size']) : '0'; ?>">
     <select name="<?php echo $this->_setting_name; ?>[title_font_size_unit]" id="title_font_size_unit">
         <option value="px" <?php echo (isset($this->_setting_option['title_font_size_unit']) && $this->_setting_option['title_font_size_unit'] == 'px' ? 'selected' : '' ) ?>><?php echo esc_html__('px', 'digital-table-of-contents'); ?></option>
         <option value="pt" <?php echo (isset($this->_setting_option['title_font_size_unit']) && $this->_setting_option['title_font_size_unit'] == 'pt' ? 'selected' : '' ) ?>><?php echo esc_html__('pt', 'digital-table-of-contents'); ?></option>
         <option value="%" <?php echo (isset($this->_setting_option['title_font_size_unit']) && $this->_setting_option['title_font_size_unit'] == '%' ? 'selected' : '' ) ?>><?php echo esc_html__('%', 'digital-table-of-contents'); ?></option>
         <option value="em" <?php echo (isset($this->_setting_option['title_font_size_unit']) && $this->_setting_option['title_font_size_unit'] == 'em' ? 'selected' : '' ) ?>><?php echo esc_html__('em', 'digital-table-of-contents'); ?></option>        
         </select>
-        <span><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></span>
+    <span data-group="title_font_size"><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></span>
     <?php
 }
 public function dtoc_customization_title_font_weight_cb(){
 	    $this->dtoc_resolve_meta_settings_name(); 	
     ?>
-    <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[title_font_weight_mode]" id="title_font_weight_mode">
+    <select data-group="title_font_weight" class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[title_font_weight_mode]" id="title_font_weight_mode">
         <option value="default" <?php echo (isset($this->_setting_option['title_font_weight_mode']) && $this->_setting_option['title_font_weight_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>        
         <option value="custom" <?php echo (isset($this->_setting_option['title_font_weight_mode']) && $this->_setting_option['title_font_weight_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
     </select>
-    <input type="number" class="smpg-input small-text" id="title_font_weight" name="<?php echo $this->_setting_name; ?>[title_font_weight]" value="<?php echo isset( $this->_setting_option['title_font_weight'] ) ? esc_attr( $this->_setting_option['title_font_weight']) : '0'; ?>">
+    <input data-group="title_font_weight" type="number" class="smpg-input small-text" id="title_font_weight" name="<?php echo $this->_setting_name; ?>[title_font_weight]" value="<?php echo isset( $this->_setting_option['title_font_weight'] ) ? esc_attr( $this->_setting_option['title_font_weight']) : '0'; ?>">
     <select name="<?php echo $this->_setting_name; ?>[title_font_weight_unit]" id="title_font_weight_unit">
         <option value="px" <?php echo (isset($this->_setting_option['title_font_weight_unit']) && $this->_setting_option['title_font_weight_unit'] == 'px' ? 'selected' : '' ) ?>><?php echo esc_html__('px', 'digital-table-of-contents'); ?></option>
         <option value="pt" <?php echo (isset($this->_setting_option['title_font_weight_unit']) && $this->_setting_option['title_font_weight_unit'] == 'pt' ? 'selected' : '' ) ?>><?php echo esc_html__('pt', 'digital-table-of-contents'); ?></option>
         <option value="%" <?php echo (isset($this->_setting_option['title_font_weight_unit']) && $this->_setting_option['title_font_weight_unit'] == '%' ? 'selected' : '' ) ?>><?php echo esc_html__('%', 'digital-table-of-contents'); ?></option>
         <option value="em" <?php echo (isset($this->_setting_option['title_font_weight_unit']) && $this->_setting_option['title_font_weight_unit'] == 'em' ? 'selected' : '' ) ?>><?php echo esc_html__('em', 'digital-table-of-contents'); ?></option>        
         </select>
-        <span><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></span>
+    <span data-group="title_font_weight"><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></span>
     <?php
 }
 public function dtoc_customization_container_height_cb(){
 	    $this->dtoc_resolve_meta_settings_name(); 	
     ?>
-        <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[container_height_mode]" id="container_height_mode">
+        <select data-group="container_height" class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[container_height_mode]" id="container_height_mode">
             <option value="default" <?php echo (isset($this->_setting_option['container_height_mode']) && $this->_setting_option['container_height_mode'] == 'default' ? 'selected' : '' ); ?>>
                 <?php echo esc_html__('Default', 'digital-table-of-contents'); ?>
             </option>
@@ -1203,20 +1203,20 @@ public function dtoc_customization_container_height_cb(){
             </option>
         </select>
 
-    <input type="number" class="smpg-input small-text" id="ez-toc-settings[headings-padding-top]" name="ez-toc-settings[headings-padding-top]" value="0" placeholder="">
-    <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[design_type]" id="design_type">
+    <input data-group="container_height" type="number" class="smpg-input small-text" id="ez-toc-settings[headings-padding-top]" name="ez-toc-settings[headings-padding-top]" value="0" placeholder="">
+    <select data-group="container_height" class="smpg-input" name="<?php echo $this->_setting_name; ?>[design_type]" id="design_type">
         <option value="px" <?php echo (isset($this->_setting_option['design_type']) && $this->_setting_option['design_type'] == 'grey' ? 'selected' : '' ) ?>><?php echo esc_html__('px', 'digital-table-of-contents'); ?></option>
         <option value="pt" <?php echo (isset($this->_setting_option['design_type']) && $this->_setting_option['design_type'] == 'light_blue' ? 'selected' : '' ) ?>><?php echo esc_html__('pt', 'digital-table-of-contents'); ?></option>
         <option value="%" <?php echo (isset($this->_setting_option['design_type']) && $this->_setting_option['design_type'] == 'white' ? 'selected' : '' ) ?>><?php echo esc_html__('%', 'digital-table-of-contents'); ?></option>
         <option value="em" <?php echo (isset($this->_setting_option['design_type']) && $this->_setting_option['design_type'] == 'black' ? 'selected' : '' ) ?>><?php echo esc_html__('em', 'digital-table-of-contents'); ?></option>        
         </select>
-        <span><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></span>
+        <span data-group="container_height"><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></span>
     <?php
     
 }
 public function dtoc_customization_container_margin_cb(){          
     ?>
-    <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[container_margin_mode]" id="container_margin_mode">
+    <select data-group="container_margin" class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[container_margin_mode]" id="container_margin_mode">
         <option value="default" <?php echo (isset($this->_setting_option['container_margin_mode']) && $this->_setting_option['container_margin_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>
         <option value="auto" <?php echo (isset($this->_setting_option['container_margin_mode']) && $this->_setting_option['container_margin_mode'] == 'auto' ? 'selected' : '' ) ?>><?php echo esc_html__('Auto', 'digital-table-of-contents'); ?></option>
         <option value="custom" <?php echo (isset($this->_setting_option['container_margin_mode']) && $this->_setting_option['container_margin_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
@@ -1226,7 +1226,7 @@ public function dtoc_customization_container_margin_cb(){
 }
 public function dtoc_customization_container_padding_cb(){    
     ?>
-    <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[container_padding_mode]" id="container_padding_mode">
+    <select data-group="container_padding" class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[container_padding_mode]" id="container_padding_mode">
         <option value="default" <?php echo (isset($this->_setting_option['container_padding_mode']) && $this->_setting_option['container_padding_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>
         <option value="auto" <?php echo (isset($this->_setting_option['container_padding_mode']) && $this->_setting_option['container_padding_mode'] == 'auto' ? 'selected' : '' ) ?>><?php echo esc_html__('Auto', 'digital-table-of-contents'); ?></option>
         <option value="custom" <?php echo (isset($this->_setting_option['container_padding_mode']) && $this->_setting_option['container_padding_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
@@ -1236,7 +1236,7 @@ public function dtoc_customization_container_padding_cb(){
 }
 public function dtoc_customization_icon_border_width_cb(){    
     ?>
-    <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[icon_border_width_mode]" id="icon_border_width_mode">
+    <select data-group="icon_border_width" class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[icon_border_width_mode]" id="icon_border_width_mode">
         <option value="default" <?php echo (isset($this->_setting_option['icon_border_width_mode']) && $this->_setting_option['icon_border_width_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>        
         <option value="custom" <?php echo (isset($this->_setting_option['icon_border_width_mode']) && $this->_setting_option['icon_border_width_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
     </select>
@@ -1245,7 +1245,7 @@ public function dtoc_customization_icon_border_width_cb(){
 }
 public function dtoc_customization_border_width_cb(){    
     ?>
-    <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[border_width_mode]" id="border_width_mode">
+    <select data-group="border_width" class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[border_width_mode]" id="border_width_mode">
         <option value="default" <?php echo (isset($this->_setting_option['border_width_mode']) && $this->_setting_option['border_width_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>        
         <option value="custom" <?php echo (isset($this->_setting_option['border_width_mode']) && $this->_setting_option['border_width_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
     </select>
