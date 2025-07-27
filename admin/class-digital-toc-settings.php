@@ -760,7 +760,7 @@ public function dtoc_settings_initiate(){
 public function dtoc_display_combine_page_break_cb(){
 	$this->dtoc_resolve_meta_settings_name(); 	
     ?>  
-        <input name="<?php echo $this->_setting_name; ?>[combine_page_break]" id="combine_page_break" type="checkbox" value="1" <?php echo (isset($this->_setting_option['combine_page_break']) && $this->_setting_option['combine_page_break'] == 1 ? 'checked' : '' ) ?>>
+        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[combine_page_break]" id="combine_page_break" type="checkbox" value="1" <?php echo (isset($this->_setting_option['combine_page_break']) && $this->_setting_option['combine_page_break'] == 1 ? 'checked' : '' ) ?>>
         
     <?php
 }
@@ -768,13 +768,13 @@ public function dtoc_display_combine_page_break_cb(){
 public function dtoc_display_hierarchy_cb(){
     $this->dtoc_resolve_meta_settings_name(); 		
     ?>  
-        <input class="dtoc_parent_option" name="<?php echo $this->_setting_name; ?>[hierarchy]" id="hierarchy" type="checkbox" value="1" <?php echo (isset($this->_setting_option['hierarchy']) && $this->_setting_option['hierarchy'] == 1 ? 'checked' : '' ) ?>>
+        <input class="dtoc_parent_option smpg-input" name="<?php echo $this->_setting_name; ?>[hierarchy]" id="hierarchy" type="checkbox" value="1" <?php echo (isset($this->_setting_option['hierarchy']) && $this->_setting_option['hierarchy'] == 1 ? 'checked' : '' ) ?>>
     <?php
 }
 public function dtoc_display_exp_col_subheadings_cb(){
     $this->dtoc_resolve_meta_settings_name(); 		
     ?>  
-        <input name="<?php echo $this->_setting_name; ?>[exp_col_subheadings]" id="exp_col_subheadings" type="checkbox" value="1" <?php echo (isset($this->_setting_option['exp_col_subheadings']) && $this->_setting_option['exp_col_subheadings'] == 1 ? 'checked' : '' ) ?>>
+        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[exp_col_subheadings]" id="exp_col_subheadings" type="checkbox" value="1" <?php echo (isset($this->_setting_option['exp_col_subheadings']) && $this->_setting_option['exp_col_subheadings'] == 1 ? 'checked' : '' ) ?>>
     <?php
 }
 
@@ -849,7 +849,7 @@ public function dtoc_general_list_style_type_cb() {
     ];
     ?>
 
-    <select name="<?php echo esc_attr($this->_setting_name); ?>[list_style_type]" id="list_style_type">
+    <select class="smpg-input" name="<?php echo esc_attr($this->_setting_name); ?>[list_style_type]" id="list_style_type">
         <?php foreach ( $groups as $group_label => $options ) : ?>
             <optgroup label="<?php echo esc_attr( $group_label ); ?>">
                 <?php foreach ( $options as $key => $label ) : ?>
@@ -869,80 +869,80 @@ public function dtoc_general_list_style_type_cb() {
 public function dtoc_display_show_more_cb(){
     $this->dtoc_resolve_meta_settings_name(); 		
     ?>  
-        <input name="<?php echo $this->_setting_name; ?>[show_more]" id="show_more" type="checkbox" value="1" <?php echo (isset($this->_setting_option['show_more']) && $this->_setting_option['show_more'] == 1 ? 'checked' : '' ) ?>>
+        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[show_more]" id="show_more" type="checkbox" value="1" <?php echo (isset($this->_setting_option['show_more']) && $this->_setting_option['show_more'] == 1 ? 'checked' : '' ) ?>>
     <?php
 }
 public function dtoc_general_jump_links_cb($args){
     $this->dtoc_resolve_meta_settings_name(); 	    
     ?>  
-        <input class="dtoc_parent_option" name="<?php echo $this->_setting_name; ?>[jump_links]" id="jump_links" type="checkbox" value="1" <?php echo (isset($this->_setting_option['jump_links']) && $this->_setting_option['jump_links'] == 1 ? 'checked' : '' ) ?>>
+        <input class="smpg-input dtoc_parent_option" name="<?php echo $this->_setting_name; ?>[jump_links]" id="jump_links" type="checkbox" value="1" <?php echo (isset($this->_setting_option['jump_links']) && $this->_setting_option['jump_links'] == 1 ? 'checked' : '' ) ?>>
         
     <?php
 }
 public function dtoc_customization_border_color_cb(){
 	    $this->dtoc_resolve_meta_settings_name(); 	
         ?>    
-        <input type="text" name="<?php echo $this->_setting_name; ?>[border_color]" id="border_color" class="dtoc-colorpicker" data-alpha-enabled="true" value="<?php echo isset( $this->_setting_option['border_color'] ) ? esc_attr( $this->_setting_option['border_color']) : '#D5E0EB'; ?>" data-default-color="#D5E0EB">
+        <input type="text" name="<?php echo $this->_setting_name; ?>[border_color]" id="border_color" class="smpg-input dtoc-colorpicker" data-alpha-enabled="true" value="<?php echo isset( $this->_setting_option['border_color'] ) ? esc_attr( $this->_setting_option['border_color']) : '#D5E0EB'; ?>" data-default-color="#D5E0EB">
     <?php
 }
 public function dtoc_customization_icon_border_color_cb(){
 	    $this->dtoc_resolve_meta_settings_name(); 	
     ?>    
-    <input type="text" name="<?php echo $this->_setting_name; ?>[icon_border_color]" id="icon_border_color" class="dtoc-colorpicker" data-alpha-enabled="true" value="<?php echo isset( $this->_setting_option['icon_border_color'] ) ? esc_attr( $this->_setting_option['icon_border_color']) : '#D5E0EB'; ?>" data-default-color="#D5E0EB">
+    <input type="text" name="<?php echo $this->_setting_name; ?>[icon_border_color]" id="icon_border_color" class="smpg-input dtoc-colorpicker" data-alpha-enabled="true" value="<?php echo isset( $this->_setting_option['icon_border_color'] ) ? esc_attr( $this->_setting_option['icon_border_color']) : '#D5E0EB'; ?>" data-default-color="#D5E0EB">
 <?php
 }
 public function dtoc_customization_link_color_cb(){
     $this->dtoc_resolve_meta_settings_name(); 		
     ?>    
-        <input type="text" name="<?php echo $this->_setting_name; ?>[link_color]" id="link_color" class="dtoc-colorpicker" data-alpha-enabled="true" value="<?php echo isset( $this->_setting_option['link_color'] ) ? esc_attr( $this->_setting_option['link_color']) : '#D5E0EB'; ?>" data-default-color="#D5E0EB">
+        <input type="text" name="<?php echo $this->_setting_name; ?>[link_color]" id="link_color" class="smpg-input dtoc-colorpicker" data-alpha-enabled="true" value="<?php echo isset( $this->_setting_option['link_color'] ) ? esc_attr( $this->_setting_option['link_color']) : '#D5E0EB'; ?>" data-default-color="#D5E0EB">
     <?php
 }
 public function dtoc_customization_link_hover_color_cb(){
     $this->dtoc_resolve_meta_settings_name(); 	    
     ?>    
-        <input type="text" name="<?php echo $this->_setting_name; ?>[link_hover_color]" id="link_hover_color" class="dtoc-colorpicker" data-alpha-enabled="true" value="<?php echo isset( $this->_setting_option['link_hover_color'] ) ? esc_attr( $this->_setting_option['link_hover_color']) : '#D5E0EB'; ?>" data-default-color="#D5E0EB">
+        <input type="text" name="<?php echo $this->_setting_name; ?>[link_hover_color]" id="link_hover_color" class="smpg-input dtoc-colorpicker" data-alpha-enabled="true" value="<?php echo isset( $this->_setting_option['link_hover_color'] ) ? esc_attr( $this->_setting_option['link_hover_color']) : '#D5E0EB'; ?>" data-default-color="#D5E0EB">
     <?php
 }
 public function dtoc_customization_link_visited_color_cb(){
     $this->dtoc_resolve_meta_settings_name(); 		
     ?>    
-        <input type="text" name="<?php echo $this->_setting_name; ?>[link_visited_color]" id="link_visited_color" class="dtoc-colorpicker" data-alpha-enabled="true" value="<?php echo isset( $this->_setting_option['link_visited_color'] ) ? esc_attr( $this->_setting_option['link_visited_color']) : '#D5E0EB'; ?>" data-default-color="#D5E0EB">
+        <input type="text" name="<?php echo $this->_setting_name; ?>[link_visited_color]" id="link_visited_color" class="smpg-input dtoc-colorpicker" data-alpha-enabled="true" value="<?php echo isset( $this->_setting_option['link_visited_color'] ) ? esc_attr( $this->_setting_option['link_visited_color']) : '#D5E0EB'; ?>" data-default-color="#D5E0EB">
     <?php
 }
 public function dtoc_customization_title_fg_color_cb(){
 	    $this->dtoc_resolve_meta_settings_name(); 	
     ?>    
-        <input type="text" name="<?php echo $this->_setting_name; ?>[title_fg_color]" id="title_fg_color" class="dtoc-colorpicker" data-alpha-enabled="true" value="<?php echo isset( $this->_setting_option['title_fg_color'] ) ? esc_attr( $this->_setting_option['title_fg_color']) : '#D5E0EB'; ?>" data-default-color="#D5E0EB">
+        <input type="text" name="<?php echo $this->_setting_name; ?>[title_fg_color]" id="title_fg_color" class="smpg-input dtoc-colorpicker" data-alpha-enabled="true" value="<?php echo isset( $this->_setting_option['title_fg_color'] ) ? esc_attr( $this->_setting_option['title_fg_color']) : '#D5E0EB'; ?>" data-default-color="#D5E0EB">
     <?php
 }
 public function dtoc_customization_title_bg_color_cb(){
 	    $this->dtoc_resolve_meta_settings_name(); 	
     ?>    
-        <input type="text" name="<?php echo $this->_setting_name; ?>[title_bg_color]" id="title_bg_color" class="dtoc-colorpicker" data-alpha-enabled="true" value="<?php echo isset( $this->_setting_option['title_bg_color'] ) ? esc_attr( $this->_setting_option['title_bg_color']) : '#D5E0EB'; ?>" data-default-color="#D5E0EB">
+        <input type="text" name="<?php echo $this->_setting_name; ?>[title_bg_color]" id="title_bg_color" class="smpg-input dtoc-colorpicker" data-alpha-enabled="true" value="<?php echo isset( $this->_setting_option['title_bg_color'] ) ? esc_attr( $this->_setting_option['title_bg_color']) : '#D5E0EB'; ?>" data-default-color="#D5E0EB">
     <?php
 }
 public function dtoc_customization_bg_color_cb(){
 	    $this->dtoc_resolve_meta_settings_name(); 	
     ?>    
-        <input type="text" name="<?php echo $this->_setting_name; ?>[bg_color]" id="bg_color" class="dtoc-colorpicker" data-alpha-enabled="true" value="<?php echo isset( $this->_setting_option['bg_color'] ) ? esc_attr( $this->_setting_option['bg_color']) : '#D5E0EB'; ?>" data-default-color="#D5E0EB">
+        <input type="text" name="<?php echo $this->_setting_name; ?>[bg_color]" id="bg_color" class="smpg-input dtoc-colorpicker" data-alpha-enabled="true" value="<?php echo isset( $this->_setting_option['bg_color'] ) ? esc_attr( $this->_setting_option['bg_color']) : '#D5E0EB'; ?>" data-default-color="#D5E0EB">
     <?php
 }
 public function dtoc_customization_icon_bg_color_cb(){
 	    $this->dtoc_resolve_meta_settings_name(); 	
     ?>    
-        <input type="text" name="<?php echo $this->_setting_name; ?>[icon_bg_color]" id="icon_bg_color" class="dtoc-colorpicker" data-alpha-enabled="true" value="<?php echo isset( $this->_setting_option['icon_bg_color'] ) ? esc_attr( $this->_setting_option['icon_bg_color']) : '#D5E0EB'; ?>" data-default-color="#D5E0EB">
+        <input type="text" name="<?php echo $this->_setting_name; ?>[icon_bg_color]" id="icon_bg_color" class="smpg-input dtoc-colorpicker" data-alpha-enabled="true" value="<?php echo isset( $this->_setting_option['icon_bg_color'] ) ? esc_attr( $this->_setting_option['icon_bg_color']) : '#D5E0EB'; ?>" data-default-color="#D5E0EB">
     <?php
 }
 public function dtoc_customization_icon_fg_color_cb(){
 	    $this->dtoc_resolve_meta_settings_name(); 	
     ?>    
-        <input type="text" name="<?php echo $this->_setting_name; ?>[icon_fg_color]" id="icon_fg_color" class="dtoc-colorpicker" data-alpha-enabled="true" value="<?php echo isset( $this->_setting_option['icon_fg_color'] ) ? esc_attr( $this->_setting_option['icon_fg_color']) : '#D5E0EB'; ?>" data-default-color="#D5E0EB">
+        <input type="text" name="<?php echo $this->_setting_name; ?>[icon_fg_color]" id="icon_fg_color" class="smpg-input dtoc-colorpicker" data-alpha-enabled="true" value="<?php echo isset( $this->_setting_option['icon_fg_color'] ) ? esc_attr( $this->_setting_option['icon_fg_color']) : '#D5E0EB'; ?>" data-default-color="#D5E0EB">
     <?php
 }
 public function dtoc_customization_design_type_cb(){
 	    $this->dtoc_resolve_meta_settings_name(); 	
     ?>    
-	<select name="<?php echo $this->_setting_name; ?>[design_type]" id="design_type">
+	<select class="smpg-input" name="<?php echo $this->_setting_name; ?>[design_type]" id="design_type">
         <option value="grey" <?php echo (isset($this->_setting_option['design_type']) && $this->_setting_option['design_type'] == 'grey' ? 'selected' : '' ) ?>><?php echo esc_html__('Grey', 'digital-table-of-contents'); ?></option>
         <option value="light_blue" <?php echo (isset($this->_setting_option['design_type']) && $this->_setting_option['design_type'] == 'light_blue' ? 'selected' : '' ) ?>><?php echo esc_html__('Light Blue', 'digital-table-of-contents'); ?></option>
         <option value="white" <?php echo (isset($this->_setting_option['design_type']) && $this->_setting_option['design_type'] == 'white' ? 'selected' : '' ) ?>><?php echo esc_html__('White', 'digital-table-of-contents'); ?></option>
@@ -963,21 +963,26 @@ public function dtoc_customization_custom_css_cb(){
 public function dtoc_customization_icon_size_cb(){
     $this->dtoc_resolve_meta_settings_name();	
     ?>    	
+    <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[icon_size_mode]" id="icon_size_mode">
+        <option value="default" <?php echo (isset($this->_setting_option['icon_size_mode']) && $this->_setting_option['icon_size_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>
+        <option value="auto" <?php echo (isset($this->_setting_option['icon_size_mode']) && $this->_setting_option['icon_size_mode'] == 'auto' ? 'selected' : '' ) ?>><?php echo esc_html__('Auto', 'digital-table-of-contents'); ?></option>
+        <option value="custom" <?php echo (isset($this->_setting_option['icon_size_mode']) && $this->_setting_option['icon_size_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
+    </select>
     <ul style="display: flex;">
         <li>
-        <input type="number" class="small-text" id="icon_width" name="<?php echo $this->_setting_name; ?>[icon_width]" value="<?php echo isset( $this->_setting_option['icon_width'] ) ? esc_attr( $this->_setting_option['icon_width']) : '25'; ?>">
+        <input type="number" class="smpg-input small-text" id="icon_width" name="<?php echo $this->_setting_name; ?>[icon_width]" value="<?php echo isset( $this->_setting_option['icon_width'] ) ? esc_attr( $this->_setting_option['icon_width']) : '25'; ?>">
         <br>
         <span><?php echo esc_html__('Width', 'digital-table-of-contents'); ?></span>
         </li>
 
         <li>
-        <input type="number" class="small-text" id="icon_height" name="<?php echo $this->_setting_name; ?>[icon_height]" value="<?php echo isset( $this->_setting_option['icon_height'] ) ? esc_attr( $this->_setting_option['icon_height']) : '25'; ?>">
+        <input type="number" class="smpg-input small-text" id="icon_height" name="<?php echo $this->_setting_name; ?>[icon_height]" value="<?php echo isset( $this->_setting_option['icon_height'] ) ? esc_attr( $this->_setting_option['icon_height']) : '25'; ?>">
         <br>
         <span><?php echo esc_html__('Height', 'digital-table-of-contents'); ?></span>
         </li>
         
         <li>
-        <select name="<?php echo $this->_setting_name; ?>[icon_size_unit]" id="icon_size_unit">
+        <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[icon_size_unit]" id="icon_size_unit">
             <option value="px" <?php echo (isset($this->_setting_option['icon_size_unit']) && $this->_setting_option['icon_size_unit'] == 'px' ? 'selected' : '' ) ?>><?php echo esc_html__('px', 'digital-table-of-contents'); ?></option>
             <option value="pt" <?php echo (isset($this->_setting_option['icon_size_unit']) && $this->_setting_option['icon_size_unit'] == 'pt' ? 'selected' : '' ) ?>><?php echo esc_html__('pt', 'digital-table-of-contents'); ?></option>
             <option value="%" <?php echo (isset($this->_setting_option['icon_size_unit']) && $this->_setting_option['icon_size_unit'] == '%' ? 'selected' : '' ) ?>><?php echo esc_html__('%', 'digital-table-of-contents'); ?></option>
@@ -991,25 +996,31 @@ public function dtoc_customization_icon_size_cb(){
 public function dtoc_customization_border_radius_cb(){ 
     $this->dtoc_resolve_meta_settings_name(); 	   
     ?>    	
+    
+    <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[border_radius_mode]" id="border_radius_mode">
+        <option value="default" <?php echo (isset($this->_setting_option['border_radius_mode']) && $this->_setting_option['border_radius_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>        
+        <option value="custom" <?php echo (isset($this->_setting_option['border_radius_mode']) && $this->_setting_option['border_radius_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
+    </select>
+    
     <ul style="display: flex;">
         <li>
-        <input type="number" class="small-text" id="border_radius_top_left" name="<?php echo $this->_setting_name; ?>[border_radius_top_left]" value="<?php echo isset( $this->_setting_option['border_radius_top_left'] ) ? esc_attr( $this->_setting_option['border_radius_top_left']) : '0'; ?>">
+        <input type="number" class="smpg-input small-text" id="border_radius_top_left" name="<?php echo $this->_setting_name; ?>[border_radius_top_left]" value="<?php echo isset( $this->_setting_option['border_radius_top_left'] ) ? esc_attr( $this->_setting_option['border_radius_top_left']) : '0'; ?>">
         <span><?php echo esc_html__('Top Left', 'digital-table-of-contents'); ?></span>
         </li>
         <li>
-        <input type="number" class="small-text" id="border_radius_top_right" name="<?php echo $this->_setting_name; ?>[border_radius_top_right]" value="<?php echo isset( $this->_setting_option['border_radius_top_right'] ) ? esc_attr( $this->_setting_option['border_radius_top_right']) : '0'; ?>">
+        <input type="number" class="smpg-input small-text" id="border_radius_top_right" name="<?php echo $this->_setting_name; ?>[border_radius_top_right]" value="<?php echo isset( $this->_setting_option['border_radius_top_right'] ) ? esc_attr( $this->_setting_option['border_radius_top_right']) : '0'; ?>">
         <span><?php echo esc_html__('Top Right', 'digital-table-of-contents'); ?></span>
         </li>
         <li>
-        <input type="number" class="small-text" id="border_radius_bottom_left" name="<?php echo $this->_setting_name; ?>[border_radius_bottom_left]" value="<?php echo isset( $this->_setting_option['border_radius_bottom_left'] ) ? esc_attr( $this->_setting_option['border_radius_bottom_left']) : '0'; ?>">
+        <input type="number" class="smpg-input small-text" id="border_radius_bottom_left" name="<?php echo $this->_setting_name; ?>[border_radius_bottom_left]" value="<?php echo isset( $this->_setting_option['border_radius_bottom_left'] ) ? esc_attr( $this->_setting_option['border_radius_bottom_left']) : '0'; ?>">
         <span><?php echo esc_html__('Bottom Left', 'digital-table-of-contents'); ?></span>
         </li>
         <li>
-        <input type="number" class="small-text" id="border_radius_bottom_right" name="<?php echo $this->_setting_name; ?>[border_radius_bottom_right]" value="<?php echo isset( $this->_setting_option['border_radius_bottom_right'] ) ? esc_attr( $this->_setting_option['border_radius_bottom_right']) : '0'; ?>">
+        <input type="number" class="smpg-input small-text" id="border_radius_bottom_right" name="<?php echo $this->_setting_name; ?>[border_radius_bottom_right]" value="<?php echo isset( $this->_setting_option['border_radius_bottom_right'] ) ? esc_attr( $this->_setting_option['border_radius_bottom_right']) : '0'; ?>">
         <span><?php echo esc_html__('Bottom Right', 'digital-table-of-contents'); ?></span>
         </li>
         <li>
-        <select name="<?php echo $this->_setting_name; ?>[border_radius_unit]" id="border_radius_unit">
+        <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[border_radius_unit]" id="border_radius_unit">
             <option value="px" <?php echo (isset($this->_setting_option['border_radius_unit']) && $this->_setting_option['border_radius_unit'] == 'px' ? 'selected' : '' ) ?>><?php echo esc_html__('px', 'digital-table-of-contents'); ?></option>
             <option value="pt" <?php echo (isset($this->_setting_option['border_radius_unit']) && $this->_setting_option['border_radius_unit'] == 'pt' ? 'selected' : '' ) ?>><?php echo esc_html__('pt', 'digital-table-of-contents'); ?></option>
             <option value="%" <?php echo (isset($this->_setting_option['border_radius_unit']) && $this->_setting_option['border_radius_unit'] == '%' ? 'selected' : '' ) ?>><?php echo esc_html__('%', 'digital-table-of-contents'); ?></option>
@@ -1023,25 +1034,29 @@ public function dtoc_customization_border_radius_cb(){
 public function dtoc_customization_icon_border_radius_cb(){ 
     $this->dtoc_resolve_meta_settings_name(); 	   
     ?>    	
+    <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[icon_border_radius_mode]" id="icon_border_radius_mode">
+        <option value="default" <?php echo (isset($this->_setting_option['icon_border_radius_mode']) && $this->_setting_option['icon_border_radius_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>        
+        <option value="custom" <?php echo (isset($this->_setting_option['icon_border_radius_mode']) && $this->_setting_option['icon_border_radius_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
+    </select>
     <ul style="display: flex;">
         <li>
-        <input type="number" class="small-text" id="icon_border_radius_top_left" name="<?php echo $this->_setting_name; ?>[icon_border_radius_top_left]" value="<?php echo isset( $this->_setting_option['icon_border_radius_top_left'] ) ? esc_attr( $this->_setting_option['icon_border_radius_top_left']) : '0'; ?>">
+        <input type="number" class="smpg-input small-text" id="icon_border_radius_top_left" name="<?php echo $this->_setting_name; ?>[icon_border_radius_top_left]" value="<?php echo isset( $this->_setting_option['icon_border_radius_top_left'] ) ? esc_attr( $this->_setting_option['icon_border_radius_top_left']) : '0'; ?>">
         <span><?php echo esc_html__('Top Left', 'digital-table-of-contents'); ?></span>
         </li>
         <li>
-        <input type="number" class="small-text" id="icon_border_radius_top_right" name="<?php echo $this->_setting_name; ?>[icon_border_radius_top_right]" value="<?php echo isset( $this->_setting_option['icon_border_radius_top_right'] ) ? esc_attr( $this->_setting_option['icon_border_radius_top_right']) : '0'; ?>">
+        <input type="number" class="smpg-input small-text" id="icon_border_radius_top_right" name="<?php echo $this->_setting_name; ?>[icon_border_radius_top_right]" value="<?php echo isset( $this->_setting_option['icon_border_radius_top_right'] ) ? esc_attr( $this->_setting_option['icon_border_radius_top_right']) : '0'; ?>">
         <span><?php echo esc_html__('Top Right', 'digital-table-of-contents'); ?></span>
         </li>
         <li>
-        <input type="number" class="small-text" id="icon_border_radius_bottom_left" name="<?php echo $this->_setting_name; ?>[icon_border_radius_bottom_left]" value="<?php echo isset( $this->_setting_option['icon_border_radius_bottom_left'] ) ? esc_attr( $this->_setting_option['icon_border_radius_bottom_left']) : '0'; ?>">
+        <input type="number" class="smpg-input small-text" id="icon_border_radius_bottom_left" name="<?php echo $this->_setting_name; ?>[icon_border_radius_bottom_left]" value="<?php echo isset( $this->_setting_option['icon_border_radius_bottom_left'] ) ? esc_attr( $this->_setting_option['icon_border_radius_bottom_left']) : '0'; ?>">
         <span><?php echo esc_html__('Bottom Left', 'digital-table-of-contents'); ?></span>
         </li>
         <li>
-        <input type="number" class="small-text" id="icon_border_radius_bottom_right" name="<?php echo $this->_setting_name; ?>[icon_border_radius_bottom_right]" value="<?php echo isset( $this->_setting_option['icon_border_radius_bottom_right'] ) ? esc_attr( $this->_setting_option['icon_border_radius_bottom_right']) : '0'; ?>">
+        <input type="number" class="smpg-input small-text" id="icon_border_radius_bottom_right" name="<?php echo $this->_setting_name; ?>[icon_border_radius_bottom_right]" value="<?php echo isset( $this->_setting_option['icon_border_radius_bottom_right'] ) ? esc_attr( $this->_setting_option['icon_border_radius_bottom_right']) : '0'; ?>">
         <span><?php echo esc_html__('Bottom Right', 'digital-table-of-contents'); ?></span>
         </li>
         <li>
-        <select name="<?php echo $this->_setting_name; ?>[icon_border_radius_unit]" id="icon_border_radius_unit">
+        <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[icon_border_radius_unit]" id="icon_border_radius_unit">
             <option value="px" <?php echo (isset($this->_setting_option['icon_border_radius_unit']) && $this->_setting_option['icon_border_radius_unit'] == 'px' ? 'selected' : '' ) ?>><?php echo esc_html__('px', 'digital-table-of-contents'); ?></option>
             <option value="pt" <?php echo (isset($this->_setting_option['icon_border_radius_unit']) && $this->_setting_option['icon_border_radius_unit'] == 'pt' ? 'selected' : '' ) ?>><?php echo esc_html__('pt', 'digital-table-of-contents'); ?></option>
             <option value="%" <?php echo (isset($this->_setting_option['icon_border_radius_unit']) && $this->_setting_option['icon_border_radius_unit'] == '%' ? 'selected' : '' ) ?>><?php echo esc_html__('%', 'digital-table-of-contents'); ?></option>
@@ -1053,37 +1068,94 @@ public function dtoc_customization_icon_border_radius_cb(){
     <?php
 }
 public function dtoc_customization_link_margin_cb(){
+    ?>
+    <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[link_margin_mode]" id="link_margin_mode">
+        <option value="default" <?php echo (isset($this->_setting_option['link_margin_mode']) && $this->_setting_option['link_margin_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>
+        <option value="auto" <?php echo (isset($this->_setting_option['link_margin_mode']) && $this->_setting_option['link_margin_mode'] == 'auto' ? 'selected' : '' ) ?>><?php echo esc_html__('Auto', 'digital-table-of-contents'); ?></option>
+        <option value="custom" <?php echo (isset($this->_setting_option['link_margin_mode']) && $this->_setting_option['link_margin_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
+    </select>
+    <?php
     dtoc_different_four_sides_html($this->_setting_name, $this->_setting_option, 'margin', 'link');
 }
 public function dtoc_customization_link_padding_cb(){
+    ?>
+    <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[link_padding_mode]" id="link_padding_mode">
+        <option value="default" <?php echo (isset($this->_setting_option['link_padding_mode']) && $this->_setting_option['link_padding_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>
+        <option value="auto" <?php echo (isset($this->_setting_option['link_padding_mode']) && $this->_setting_option['link_padding_mode'] == 'auto' ? 'selected' : '' ) ?>><?php echo esc_html__('Auto', 'digital-table-of-contents'); ?></option>
+        <option value="custom" <?php echo (isset($this->_setting_option['link_padding_mode']) && $this->_setting_option['link_padding_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
+    </select>
+    <?php
     dtoc_different_four_sides_html($this->_setting_name, $this->_setting_option, 'padding', 'link');
 }
 public function dtoc_customization_icon_padding_cb(){    
+    ?>
+    <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[icon_padding_mode]" id="icon_padding_mode">
+        <option value="default" <?php echo (isset($this->_setting_option['icon_padding_mode']) && $this->_setting_option['icon_padding_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>
+        <option value="auto" <?php echo (isset($this->_setting_option['icon_padding_mode']) && $this->_setting_option['icon_padding_mode'] == 'auto' ? 'selected' : '' ) ?>><?php echo esc_html__('Auto', 'digital-table-of-contents'); ?></option>
+        <option value="custom" <?php echo (isset($this->_setting_option['icon_padding_mode']) && $this->_setting_option['icon_padding_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
+    </select>
+    <?php
     dtoc_different_four_sides_html($this->_setting_name, $this->_setting_option, 'padding', 'icon');
 }
 public function dtoc_customization_title_padding_cb(){
+    ?>
+    <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[title_padding_mode]" id="title_padding_mode">
+        <option value="default" <?php echo (isset($this->_setting_option['title_padding_mode']) && $this->_setting_option['title_padding_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>
+        <option value="auto" <?php echo (isset($this->_setting_option['title_padding_mode']) && $this->_setting_option['title_padding_mode'] == 'auto' ? 'selected' : '' ) ?>><?php echo esc_html__('Auto', 'digital-table-of-contents'); ?></option>
+        <option value="custom" <?php echo (isset($this->_setting_option['title_padding_mode']) && $this->_setting_option['title_padding_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
+    </select>
+    <?php
     dtoc_different_four_sides_html($this->_setting_name, $this->_setting_option, 'padding', 'title');
 }
 public function dtoc_customization_icon_margin_cb(){    
+    ?>
+    <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[icon_margin_mode]" id="icon_margin_mode">
+        <option value="default" <?php echo (isset($this->_setting_option['icon_margin_mode']) && $this->_setting_option['icon_margin_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>
+        <option value="auto" <?php echo (isset($this->_setting_option['icon_margin_mode']) && $this->_setting_option['icon_margin_mode'] == 'auto' ? 'selected' : '' ) ?>><?php echo esc_html__('Auto', 'digital-table-of-contents'); ?></option>
+        <option value="custom" <?php echo (isset($this->_setting_option['icon_margin_mode']) && $this->_setting_option['icon_margin_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
+    </select>
+    <?php
     dtoc_different_four_sides_html($this->_setting_name, $this->_setting_option, 'margin', 'icon');    
 }
 public function dtoc_customization_container_width_cb(){
 	    $this->dtoc_resolve_meta_settings_name(); 	
     ?>
-    <input type="number" class="small-text" id="container_height" name="<?php echo $this->_setting_name; ?>[container_width]" value="<?php echo isset( $this->_setting_option['container_width'] ) ? esc_attr( $this->_setting_option['container_width']) : '0'; ?>">
-    <select name="<?php echo $this->_setting_name; ?>[container_width_unit]" id="container_width_unit">
+    
+      <select data-group="container_width" class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[container_width_mode]" id="container_width_mode">
+            <option value="default" <?php echo (isset($this->_setting_option['container_width_mode']) && $this->_setting_option['container_width_mode'] == 'default' ? 'selected' : '' ); ?>>
+                <?php echo esc_html__('Default', 'digital-table-of-contents'); ?>
+            </option>
+            <option value="auto" <?php echo (isset($this->_setting_option['container_width_mode']) && $this->_setting_option['container_width_mode'] == 'auto' ? 'selected' : '' ); ?>>
+                <?php echo esc_html__('Auto', 'digital-table-of-contents'); ?>
+            </option>
+            <option value="full" <?php echo (isset($this->_setting_option['container_width_mode']) && $this->_setting_option['container_width_mode'] == 'full' ? 'selected' : '' ); ?>>
+                <?php echo esc_html__('Full width (100%)', 'digital-table-of-contents'); ?>
+            </option>
+            <option value="fit-content" <?php echo (isset($this->_setting_option['container_width_mode']) && $this->_setting_option['container_width_mode'] == 'fit-content' ? 'selected' : '' ); ?>>
+                <?php echo esc_html__('Fit to Content', 'digital-table-of-contents'); ?>
+            </option>
+            <option value="custom" <?php echo (isset($this->_setting_option['container_width_mode']) && $this->_setting_option['container_width_mode'] == 'custom' ? 'selected' : '' ); ?>>
+                <?php echo esc_html__('Custom', 'digital-table-of-contents'); ?>
+            </option>
+    </select>
+    <input data-group="container_width" type="number" class="smpg-input small-text" id="container_width" name="<?php echo $this->_setting_name; ?>[container_width]" value="<?php echo isset( $this->_setting_option['container_width'] ) ? esc_attr( $this->_setting_option['container_width']) : '0'; ?>">
+    <select class="smpg-input"data-group="container_width" name="<?php echo $this->_setting_name; ?>[container_width_unit]" id="container_width_unit">
         <option value="px" <?php echo (isset($this->_setting_option['container_width_unit']) && $this->_setting_option['container_width_unit'] == 'px' ? 'selected' : '' ) ?>><?php echo esc_html__('px', 'digital-table-of-contents'); ?></option>
         <option value="pt" <?php echo (isset($this->_setting_option['container_width_unit']) && $this->_setting_option['container_width_unit'] == 'pt' ? 'selected' : '' ) ?>><?php echo esc_html__('pt', 'digital-table-of-contents'); ?></option>
         <option value="%" <?php echo (isset($this->_setting_option['container_width_unit']) && $this->_setting_option['container_width_unit'] == '%' ? 'selected' : '' ) ?>><?php echo esc_html__('%', 'digital-table-of-contents'); ?></option>
         <option value="em" <?php echo (isset($this->_setting_option['container_width_unit']) && $this->_setting_option['container_width_unit'] == 'em' ? 'selected' : '' ) ?>><?php echo esc_html__('em', 'digital-table-of-contents'); ?></option>        
-        </select>
-        <span><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></span>
+    </select>
+        <span data-group="container_width" ><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></span>
     <?php
 }
 public function dtoc_customization_title_font_size_cb(){
 	    $this->dtoc_resolve_meta_settings_name(); 	
     ?>
-    <input type="number" class="small-text" id="title_font_size" name="<?php echo $this->_setting_name; ?>[title_font_size]" value="<?php echo isset( $this->_setting_option['title_font_size'] ) ? esc_attr( $this->_setting_option['title_font_size']) : '0'; ?>">
+    <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[title_font_size_mode]" id="title_font_size_mode">
+        <option value="default" <?php echo (isset($this->_setting_option['title_font_size_mode']) && $this->_setting_option['title_font_size_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>        
+        <option value="custom" <?php echo (isset($this->_setting_option['title_font_size_mode']) && $this->_setting_option['title_font_size_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
+    </select>
+    <input type="number" class="smpg-input small-text" id="title_font_size" name="<?php echo $this->_setting_name; ?>[title_font_size]" value="<?php echo isset( $this->_setting_option['title_font_size'] ) ? esc_attr( $this->_setting_option['title_font_size']) : '0'; ?>">
     <select name="<?php echo $this->_setting_name; ?>[title_font_size_unit]" id="title_font_size_unit">
         <option value="px" <?php echo (isset($this->_setting_option['title_font_size_unit']) && $this->_setting_option['title_font_size_unit'] == 'px' ? 'selected' : '' ) ?>><?php echo esc_html__('px', 'digital-table-of-contents'); ?></option>
         <option value="pt" <?php echo (isset($this->_setting_option['title_font_size_unit']) && $this->_setting_option['title_font_size_unit'] == 'pt' ? 'selected' : '' ) ?>><?php echo esc_html__('pt', 'digital-table-of-contents'); ?></option>
@@ -1096,7 +1168,11 @@ public function dtoc_customization_title_font_size_cb(){
 public function dtoc_customization_title_font_weight_cb(){
 	    $this->dtoc_resolve_meta_settings_name(); 	
     ?>
-    <input type="number" class="small-text" id="title_font_weight" name="<?php echo $this->_setting_name; ?>[title_font_weight]" value="<?php echo isset( $this->_setting_option['title_font_weight'] ) ? esc_attr( $this->_setting_option['title_font_weight']) : '0'; ?>">
+    <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[title_font_weight_mode]" id="title_font_weight_mode">
+        <option value="default" <?php echo (isset($this->_setting_option['title_font_weight_mode']) && $this->_setting_option['title_font_weight_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>        
+        <option value="custom" <?php echo (isset($this->_setting_option['title_font_weight_mode']) && $this->_setting_option['title_font_weight_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
+    </select>
+    <input type="number" class="smpg-input small-text" id="title_font_weight" name="<?php echo $this->_setting_name; ?>[title_font_weight]" value="<?php echo isset( $this->_setting_option['title_font_weight'] ) ? esc_attr( $this->_setting_option['title_font_weight']) : '0'; ?>">
     <select name="<?php echo $this->_setting_name; ?>[title_font_weight_unit]" id="title_font_weight_unit">
         <option value="px" <?php echo (isset($this->_setting_option['title_font_weight_unit']) && $this->_setting_option['title_font_weight_unit'] == 'px' ? 'selected' : '' ) ?>><?php echo esc_html__('px', 'digital-table-of-contents'); ?></option>
         <option value="pt" <?php echo (isset($this->_setting_option['title_font_weight_unit']) && $this->_setting_option['title_font_weight_unit'] == 'pt' ? 'selected' : '' ) ?>><?php echo esc_html__('pt', 'digital-table-of-contents'); ?></option>
@@ -1109,8 +1185,26 @@ public function dtoc_customization_title_font_weight_cb(){
 public function dtoc_customization_container_height_cb(){
 	    $this->dtoc_resolve_meta_settings_name(); 	
     ?>
-    <input type="number" class="small-text" id="ez-toc-settings[headings-padding-top]" name="ez-toc-settings[headings-padding-top]" value="0" placeholder="">
-    <select name="<?php echo $this->_setting_name; ?>[design_type]" id="design_type">
+        <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[container_height_mode]" id="container_height_mode">
+            <option value="default" <?php echo (isset($this->_setting_option['container_height_mode']) && $this->_setting_option['container_height_mode'] == 'default' ? 'selected' : '' ); ?>>
+                <?php echo esc_html__('Default', 'digital-table-of-contents'); ?>
+            </option>
+            <option value="auto" <?php echo (isset($this->_setting_option['container_height_mode']) && $this->_setting_option['container_height_mode'] == 'auto' ? 'selected' : '' ); ?>>
+                <?php echo esc_html__('Auto', 'digital-table-of-contents'); ?>
+            </option>
+            <option value="full" <?php echo (isset($this->_setting_option['container_height_mode']) && $this->_setting_option['container_height_mode'] == 'full' ? 'selected' : '' ); ?>>
+                <?php echo esc_html__('Full Height (100%)', 'digital-table-of-contents'); ?>
+            </option>
+            <option value="fit-content" <?php echo (isset($this->_setting_option['container_height_mode']) && $this->_setting_option['container_height_mode'] == 'fit-content' ? 'selected' : '' ); ?>>
+                <?php echo esc_html__('Fit to Content', 'digital-table-of-contents'); ?>
+            </option>
+            <option value="custom" <?php echo (isset($this->_setting_option['container_height_mode']) && $this->_setting_option['container_height_mode'] == 'custom' ? 'selected' : '' ); ?>>
+                <?php echo esc_html__('Custom', 'digital-table-of-contents'); ?>
+            </option>
+        </select>
+
+    <input type="number" class="smpg-input small-text" id="ez-toc-settings[headings-padding-top]" name="ez-toc-settings[headings-padding-top]" value="0" placeholder="">
+    <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[design_type]" id="design_type">
         <option value="px" <?php echo (isset($this->_setting_option['design_type']) && $this->_setting_option['design_type'] == 'grey' ? 'selected' : '' ) ?>><?php echo esc_html__('px', 'digital-table-of-contents'); ?></option>
         <option value="pt" <?php echo (isset($this->_setting_option['design_type']) && $this->_setting_option['design_type'] == 'light_blue' ? 'selected' : '' ) ?>><?php echo esc_html__('pt', 'digital-table-of-contents'); ?></option>
         <option value="%" <?php echo (isset($this->_setting_option['design_type']) && $this->_setting_option['design_type'] == 'white' ? 'selected' : '' ) ?>><?php echo esc_html__('%', 'digital-table-of-contents'); ?></option>
@@ -1120,22 +1214,48 @@ public function dtoc_customization_container_height_cb(){
     <?php
     
 }
-public function dtoc_customization_container_margin_cb(){            
+public function dtoc_customization_container_margin_cb(){          
+    ?>
+    <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[container_margin_mode]" id="container_margin_mode">
+        <option value="default" <?php echo (isset($this->_setting_option['container_margin_mode']) && $this->_setting_option['container_margin_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>
+        <option value="auto" <?php echo (isset($this->_setting_option['container_margin_mode']) && $this->_setting_option['container_margin_mode'] == 'auto' ? 'selected' : '' ) ?>><?php echo esc_html__('Auto', 'digital-table-of-contents'); ?></option>
+        <option value="custom" <?php echo (isset($this->_setting_option['container_margin_mode']) && $this->_setting_option['container_margin_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
+    </select>
+    <?php  
     dtoc_different_four_sides_html($this->_setting_name, $this->_setting_option, 'margin', 'container');        
 }
 public function dtoc_customization_container_padding_cb(){    
+    ?>
+    <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[container_padding_mode]" id="container_padding_mode">
+        <option value="default" <?php echo (isset($this->_setting_option['container_padding_mode']) && $this->_setting_option['container_padding_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>
+        <option value="auto" <?php echo (isset($this->_setting_option['container_padding_mode']) && $this->_setting_option['container_padding_mode'] == 'auto' ? 'selected' : '' ) ?>><?php echo esc_html__('Auto', 'digital-table-of-contents'); ?></option>
+        <option value="custom" <?php echo (isset($this->_setting_option['container_padding_mode']) && $this->_setting_option['container_padding_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
+    </select>
+    <?php
     dtoc_different_four_sides_html($this->_setting_name, $this->_setting_option, 'padding', 'container');
 }
-public function dtoc_customization_icon_border_width_cb(){
+public function dtoc_customization_icon_border_width_cb(){    
+    ?>
+    <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[icon_border_width_mode]" id="icon_border_width_mode">
+        <option value="default" <?php echo (isset($this->_setting_option['icon_border_width_mode']) && $this->_setting_option['icon_border_width_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>        
+        <option value="custom" <?php echo (isset($this->_setting_option['icon_border_width_mode']) && $this->_setting_option['icon_border_width_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
+    </select>
+    <?php
     dtoc_different_four_sides_html($this->_setting_name, $this->_setting_option, 'width', 'icon_border');
 }
-public function dtoc_customization_border_width_cb(){      
+public function dtoc_customization_border_width_cb(){    
+    ?>
+    <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[border_width_mode]" id="border_width_mode">
+        <option value="default" <?php echo (isset($this->_setting_option['border_width_mode']) && $this->_setting_option['border_width_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>        
+        <option value="custom" <?php echo (isset($this->_setting_option['border_width_mode']) && $this->_setting_option['border_width_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
+    </select>
+    <?php  
     dtoc_different_four_sides_html($this->_setting_name, $this->_setting_option, 'width', 'border');        
 }
 public function dtoc_customization_border_type_cb(){
     $this->dtoc_resolve_meta_settings_name(); 		
     ?>    
-	<select name="<?php echo $this->_setting_name; ?>[border_type]" id="border_type">
+	<select class="smpg-input" name="<?php echo $this->_setting_name; ?>[border_type]" id="border_type">
         <option value="default" <?php echo (isset($this->_setting_option['border_type']) && $this->_setting_option['border_type'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>
         <option value="none" <?php echo (isset($this->_setting_option['border_type']) && $this->_setting_option['border_type'] == 'none' ? 'selected' : '' ) ?>><?php echo esc_html__('None', 'digital-table-of-contents'); ?></option>
         <option value="solid" <?php echo (isset($this->_setting_option['border_type']) && $this->_setting_option['border_type'] == 'solid' ? 'selected' : '' ) ?>><?php echo esc_html__('Solid', 'digital-table-of-contents'); ?></option>
@@ -1151,7 +1271,7 @@ public function dtoc_customization_border_type_cb(){
 public function dtoc_customization_icon_border_type_cb(){
 	$this->dtoc_resolve_meta_settings_name(); 	
     ?>    
-	<select name="<?php echo $this->_setting_name; ?>[icon_border_type]" id="icon_border_type">
+	<select class="smpg-input" name="<?php echo $this->_setting_name; ?>[icon_border_type]" id="icon_border_type">
         <option value="default" <?php echo (isset($this->_setting_option['icon_border_type']) && $this->_setting_option['icon_border_type'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>
         <option value="none" <?php echo (isset($this->_setting_option['icon_border_type']) && $this->_setting_option['icon_border_type'] == 'none' ? 'selected' : '' ) ?>><?php echo esc_html__('None', 'digital-table-of-contents'); ?></option>
         <option value="solid" <?php echo (isset($this->_setting_option['icon_border_type']) && $this->_setting_option['icon_border_type'] == 'solid' ? 'selected' : '' ) ?>><?php echo esc_html__('Solid', 'digital-table-of-contents'); ?></option>
@@ -1166,11 +1286,11 @@ public function dtoc_customization_icon_border_type_cb(){
 public function dtoc_general_rendering_style_cb(){ 
     $this->dtoc_resolve_meta_settings_name(); 	   	                
     ?>        
-        <input type="radio" id="js_rendering_style" name="<?php echo esc_attr( $this->_setting_name ); ?>[rendering_style]" value="js" 
+        <input class="smpg-input" type="radio" id="js_rendering_style" name="<?php echo esc_attr( $this->_setting_name ); ?>[rendering_style]" value="js" 
             <?php checked( isset( $this->_setting_option['rendering_style'] ) && $this->_setting_option['rendering_style'] === 'js' ); ?>>
         <label for="js_rendering_style" style="margin-right: 15px;"><?php esc_html_e( 'JS-based', 'digital-table-of-contents' ); ?></label>
 
-        <input type="radio" id="css_rendering_style" name="<?php echo esc_attr( $this->_setting_name ); ?>[rendering_style]" value="css" 
+        <input class="smpg-input" type="radio" id="css_rendering_style" name="<?php echo esc_attr( $this->_setting_name ); ?>[rendering_style]" value="css" 
             <?php checked( isset( $this->_setting_option['rendering_style'] ) && $this->_setting_option['rendering_style'] === 'css' ); ?>>
         <label for="css_rendering_style"><?php esc_html_e( 'CSS-based', 'digital-table-of-contents' ); ?></label>        
     <?php
@@ -1178,11 +1298,11 @@ public function dtoc_general_rendering_style_cb(){
 public function dtoc_general_scroll_behavior_cb(){ 
     $this->dtoc_resolve_meta_settings_name(); 	   	                
     ?>            
-    <input type="radio" id="auto_scroll_behavior" name="<?php echo esc_attr( $this->_setting_name ); ?>[scroll_behavior]" value="auto" 
+    <input class="smpg-input" type="radio" id="auto_scroll_behavior" name="<?php echo esc_attr( $this->_setting_name ); ?>[scroll_behavior]" value="auto" 
         <?php checked( isset( $this->_setting_option['scroll_behavior'] ) && $this->_setting_option['scroll_behavior'] === 'auto' ); ?>>
     <label for="auto_scroll_behavior" style="margin-right: 15px;"><?php esc_html_e( 'Auto', 'digital-table-of-contents' ); ?></label>
 
-    <input type="radio" id="smooth_scroll_behavior" name="<?php echo esc_attr( $this->_setting_name ); ?>[scroll_behavior]" value="smooth" 
+    <input class="smpg-input" type="radio" id="smooth_scroll_behavior" name="<?php echo esc_attr( $this->_setting_name ); ?>[scroll_behavior]" value="smooth" 
         <?php checked( isset( $this->_setting_option['scroll_behavior'] ) && $this->_setting_option['scroll_behavior'] === 'smooth' ); ?>>
     <label for="smooth_scroll_behavior"><?php esc_html_e( 'Smooth', 'digital-table-of-contents' ); ?></label>        
 
@@ -1192,13 +1312,13 @@ public function dtoc_general_alignment_cb() {
 	$this->dtoc_resolve_meta_settings_name();
 	?>
 
-	<input type="radio" id="left_alignment" name="<?php echo esc_attr( $this->_setting_name ); ?>[alignment]" value="left" <?php checked( isset( $this->_setting_option['alignment'] ) && $this->_setting_option['alignment'] === 'left' ); ?>>
-	<label  for="left_alignment" style="margin-right: 15px;"><?php esc_html_e( 'Left', 'digital-table-of-contents' ); ?></label>
+	<input class="smpg-input" type="radio" id="left_alignment" name="<?php echo esc_attr( $this->_setting_name ); ?>[alignment]" value="left" <?php checked( isset( $this->_setting_option['alignment'] ) && $this->_setting_option['alignment'] === 'left' ); ?>>
+	<label for="left_alignment" style="margin-right: 15px;"><?php esc_html_e( 'Left', 'digital-table-of-contents' ); ?></label>
 
-	<input type="radio" id="center_alignment" name="<?php echo esc_attr( $this->_setting_name ); ?>[alignment]" value="center" <?php checked( isset( $this->_setting_option['alignment'] ) && $this->_setting_option['alignment'] === 'center' ); ?>>
+	<input class="smpg-input" type="radio" id="center_alignment" name="<?php echo esc_attr( $this->_setting_name ); ?>[alignment]" value="center" <?php checked( isset( $this->_setting_option['alignment'] ) && $this->_setting_option['alignment'] === 'center' ); ?>>
 	<label for="center_alignment" style="margin-right: 15px;"><?php esc_html_e( 'Center', 'digital-table-of-contents' ); ?></label>
 
-	<input type="radio" id="right_alignment" name="<?php echo esc_attr( $this->_setting_name ); ?>[alignment]" value="right" <?php checked( isset( $this->_setting_option['alignment'] ) && $this->_setting_option['alignment'] === 'right' ); ?> >
+	<input class="smpg-input" type="radio" id="right_alignment" name="<?php echo esc_attr( $this->_setting_name ); ?>[alignment]" value="right" <?php checked( isset( $this->_setting_option['alignment'] ) && $this->_setting_option['alignment'] === 'right' ); ?> >
 	<label for="right_alignment"><?php esc_html_e( 'Right', 'digital-table-of-contents' ); ?></label>
 
 	<?php
@@ -1209,7 +1329,7 @@ public function dtoc_general_header_icon_cb(){
     ?>    
 		    
     <div style="display: flex;">
-    <select name="<?php echo esc_attr($this->_setting_name); ?>[header_icon]" id="header_icon">
+    <select class="smpg-input" name="<?php echo esc_attr($this->_setting_name); ?>[header_icon]" id="header_icon">
         <option value="none" <?php echo (isset($this->_setting_option['header_icon']) && $this->_setting_option['header_icon'] == 'none' ? 'selected' : '' ) ?>><?php echo esc_html__('None', 'digital-table-of-contents'); ?></option>        
         <option value="list_icon" <?php echo (isset($this->_setting_option['header_icon']) && $this->_setting_option['header_icon'] == 'list_icon' ? 'selected' : '' ) ?>><?php echo esc_html__('List Icon ☰', 'digital-table-of-contents'); ?></option>        
         <option value="show_hide" <?php echo (isset($this->_setting_option['header_icon']) && $this->_setting_option['header_icon'] == 'show_hide' ? 'selected' : '' ) ?>><?php echo esc_html__('Show / Hide ', 'digital-table-of-contents'); ?></option>
@@ -1233,21 +1353,21 @@ public function dtoc_general_header_icon_cb(){
 public function dtoc_general_show_text_cb() {
     $this->dtoc_resolve_meta_settings_name(); 	
     ?>    
-    <input name="<?php echo $this->_setting_name; ?>[show_text]" id="show_text" type="text" value="<?php echo (isset($this->_setting_option['show_text']) ? $this->_setting_option['show_text'] : 'show' ) ?>">
+    <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[show_text]" id="show_text" type="text" value="<?php echo (isset($this->_setting_option['show_text']) ? $this->_setting_option['show_text'] : 'show' ) ?>">
     <?php
     dtoc_tooltip(__('text', 'digital-table-of-contents'), 'show_text');
 }
 public function dtoc_general_hide_text_cb() {
     $this->dtoc_resolve_meta_settings_name(); 	
     ?>    
-    <input name="<?php echo $this->_setting_name; ?>[hide_text]" id="hide_text" type="text" value="<?php echo (isset($this->_setting_option['hide_text']) ? $this->_setting_option['hide_text'] : 'hide' ) ?>">
+    <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[hide_text]" id="hide_text" type="text" value="<?php echo (isset($this->_setting_option['hide_text']) ? $this->_setting_option['hide_text'] : 'hide' ) ?>">
     <?php
     dtoc_tooltip(__('text', 'digital-table-of-contents'), 'hide_text');
 }
 public function dtoc_general_header_text_cb() {
     $this->dtoc_resolve_meta_settings_name(); 	
     ?>    
-    <input name="<?php echo $this->_setting_name; ?>[header_text]" id="header_text" type="text" value="<?php echo (isset($this->_setting_option['header_text']) ? $this->_setting_option['header_text'] : 'Table Of Contents' ) ?>">
+    <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[header_text]" id="header_text" type="text" value="<?php echo (isset($this->_setting_option['header_text']) ? $this->_setting_option['header_text'] : 'Table Of Contents' ) ?>">
     <?php
     dtoc_tooltip(__('text', 'digital-table-of-contents'), 'header_text');
 }
@@ -1255,52 +1375,52 @@ public function dtoc_general_header_text_cb() {
 public function dtoc_display_title_cb(){  
     $this->dtoc_resolve_meta_settings_name(); 	  	                        
     ?>  
-        <input class="dtoc_parent_option" name="<?php echo $this->_setting_name; ?>[display_title]" id="display_title" type="checkbox" value="1" <?php echo (isset($this->_setting_option['display_title']) && $this->_setting_option['display_title'] == 1 ? 'checked' : '' ) ?>>
+        <input class="smpg-input dtoc_parent_option" name="<?php echo $this->_setting_name; ?>[display_title]" id="display_title" type="checkbox" value="1" <?php echo (isset($this->_setting_option['display_title']) && $this->_setting_option['display_title'] == 1 ? 'checked' : '' ) ?>>
     <?php
     dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'display_title'); 
 }
 public function dtoc_general_scroll_back_to_toc_cb(){  
     $this->dtoc_resolve_meta_settings_name(); 	  	                        
     ?>  
-        <input name="<?php echo $this->_setting_name; ?>[scroll_back_to_top]" id="scroll_back_to_toc" type="checkbox" value="1" <?php echo (isset($this->_setting_option['scroll_back_to_top']) && $this->_setting_option['scroll_back_to_top'] == 1 ? 'checked' : '' ) ?>>
+        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[scroll_back_to_top]" id="scroll_back_to_toc" type="checkbox" value="1" <?php echo (isset($this->_setting_option['scroll_back_to_top']) && $this->_setting_option['scroll_back_to_top'] == 1 ? 'checked' : '' ) ?>>
     <?php
     dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'scroll_back_to_top'); 
 }
 public function dtoc_general_wrap_content_cb(){ 
     $this->dtoc_resolve_meta_settings_name(); 	   	                        
     ?>  
-        <input name="<?php echo $this->_setting_name; ?>[wrap_content]" id="wrap_content" type="checkbox" value="1" <?php echo (isset($this->_setting_option['wrap_content']) && $this->_setting_option['wrap_content'] == 1 ? 'checked' : '' ) ?>>
+        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[wrap_content]" id="wrap_content" type="checkbox" value="1" <?php echo (isset($this->_setting_option['wrap_content']) && $this->_setting_option['wrap_content'] == 1 ? 'checked' : '' ) ?>>
     <?php
     dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'wrap_content'); 
 }
 public function dtoc_display_toggle_body_cb(){  
     $this->dtoc_resolve_meta_settings_name(); 	                        
     ?>  
-        <input name="<?php echo $this->_setting_name; ?>[toggle_body]" id="toggle_body" type="checkbox" value="1" <?php echo (isset($this->_setting_option['toggle_body']) && $this->_setting_option['toggle_body'] == 1 ? 'checked' : '' ) ?>>        
+        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[toggle_body]" id="toggle_body" type="checkbox" value="1" <?php echo (isset($this->_setting_option['toggle_body']) && $this->_setting_option['toggle_body'] == 1 ? 'checked' : '' ) ?>>        
     <?php
     dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'toggle_body'); 
 }
 public function dtoc_customization_remove_css_js_cb(){ 
     $this->dtoc_resolve_meta_settings_name();   	                        
     ?>  
-        <input name="<?php echo $this->_setting_name; ?>[remove_unused_css_js]" id="remove_unused_css_js" type="checkbox" value="1" <?php echo (isset($this->_setting_option['remove_unused_css_js']) && $this->_setting_option['remove_unused_css_js'] == 1 ? 'checked' : '' ) ?>>
+        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[remove_unused_css_js]" id="remove_unused_css_js" type="checkbox" value="1" <?php echo (isset($this->_setting_option['remove_unused_css_js']) && $this->_setting_option['remove_unused_css_js'] == 1 ? 'checked' : '' ) ?>>
     <?php
     dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'remove_unused_css_js'); 
 }
 public function dtoc_general_headings_include_cb(){
     $this->dtoc_resolve_meta_settings_name();
     ?>        
-        <input name="<?php echo $this->_setting_name; ?>[headings_include][1]" id="headings_include_1" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][1]) && $this->_setting_option['headings_include'][1] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_1"><?php echo esc_html__('H1', 'digital-table-of-contents'); ?></label>
+        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[headings_include][1]" id="headings_include_1" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][1]) && $this->_setting_option['headings_include'][1] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_1"><?php echo esc_html__('H1', 'digital-table-of-contents'); ?></label>
         <br>
-        <input name="<?php echo $this->_setting_name; ?>[headings_include][2]" id="headings_include_2" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][2]) && $this->_setting_option['headings_include'][2] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_2"><?php echo esc_html__('H2', 'digital-table-of-contents'); ?></label>
+        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[headings_include][2]" id="headings_include_2" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][2]) && $this->_setting_option['headings_include'][2] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_2"><?php echo esc_html__('H2', 'digital-table-of-contents'); ?></label>
         <br>
-        <input name="<?php echo $this->_setting_name; ?>[headings_include][3]" id="headings_include_3" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][3]) && $this->_setting_option['headings_include'][3] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_3"><?php echo esc_html__('H3', 'digital-table-of-contents'); ?></label>
+        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[headings_include][3]" id="headings_include_3" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][3]) && $this->_setting_option['headings_include'][3] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_3"><?php echo esc_html__('H3', 'digital-table-of-contents'); ?></label>
         <br>
-        <input name="<?php echo $this->_setting_name; ?>[headings_include][4]" id="headings_include_4" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][4]) && $this->_setting_option['headings_include'][4] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_4"><?php echo esc_html__('H4', 'digital-table-of-contents'); ?></label>
+        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[headings_include][4]" id="headings_include_4" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][4]) && $this->_setting_option['headings_include'][4] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_4"><?php echo esc_html__('H4', 'digital-table-of-contents'); ?></label>
         <br>
-        <input name="<?php echo $this->_setting_name; ?>[headings_include][5]" id="headings_include_5" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][5]) && $this->_setting_option['headings_include'][5] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_5"><?php echo esc_html__('H5', 'digital-table-of-contents'); ?></label>
+        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[headings_include][5]" id="headings_include_5" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][5]) && $this->_setting_option['headings_include'][5] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_5"><?php echo esc_html__('H5', 'digital-table-of-contents'); ?></label>
         <br>
-        <input name="<?php echo $this->_setting_name; ?>[headings_include][6]" id="headings_include_6" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][6]) && $this->_setting_option['headings_include'][6] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_6"><?php echo esc_html__('H6', 'digital-table-of-contents'); ?></label>
+        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[headings_include][6]" id="headings_include_6" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][6]) && $this->_setting_option['headings_include'][6] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_6"><?php echo esc_html__('H6', 'digital-table-of-contents'); ?></label>
 
         <p class="description"><?php echo esc_html__('Select the headings to be added when the table of contents being created. Deselecting it will be excluded.', 'digital-table-of-contents'); ?></p>
                         
@@ -1421,14 +1541,14 @@ public function dtoc_placement_setting_section_cb(){
 public function dtoc_general_when_cb(){   
     $this->dtoc_resolve_meta_settings_name(); 	                
     ?>
-        <input type="number" min="1" max="200" id="display_when" name="<?php echo $this->_setting_name; ?>[display_when]" value="<?php echo (isset($this->_setting_option['display_when']) ? esc_attr($this->_setting_option['display_when']) : 1 ) ?>" />
+        <input class="smpg-input" type="number" min="1" max="200" id="display_when" name="<?php echo $this->_setting_name; ?>[display_when]" value="<?php echo (isset($this->_setting_option['display_when']) ? esc_attr($this->_setting_option['display_when']) : 1 ) ?>" />
         <p><?php echo esc_html__('Headings is greater or equal to above number.', 'digital-table-of-contents'); ?></p>		
     <?php
 }
 public function dtoc_general_position_cb(){ 
     $this->dtoc_resolve_meta_settings_name();     
     ?>    
-	<select name="<?php echo $this->_setting_name; ?>[display_position]" id="display_position">
+	<select class="smpg-input" name="<?php echo $this->_setting_name; ?>[display_position]" id="display_position">
         <option value="before_first_heading" <?php echo (isset($this->_setting_option['display_position']) && $this->_setting_option['display_position'] == 'before_first_heading' ? 'selected' : '' ) ?>><?php echo esc_html__('Before First Heading', 'digital-table-of-contents'); ?></option>
         <option value="after_first_heading" <?php echo (isset($this->_setting_option['display_position']) && $this->_setting_option['display_position'] == 'after_first_heading' ? 'selected' : '' ) ?>><?php echo esc_html__('After First Heading', 'digital-table-of-contents'); ?></option>
         <option value="top_of_the_content" <?php echo (isset($this->_setting_option['display_position']) && $this->_setting_option['display_position'] == 'top_of_the_content' ? 'selected' : '' ) ?>><?php echo esc_html__('Top Of The Content', 'digital-table-of-contents'); ?></option>
@@ -1440,17 +1560,17 @@ public function dtoc_general_position_cb(){
 public function dtoc_general_paragraph_number_cb(){ 
     $this->dtoc_resolve_meta_settings_name();     
     ?>    
-        <input type="number" min="1" max="200" id="paragraph_number" name="<?php echo $this->_setting_name; ?>[paragraph_number]" value="<?php echo (isset($this->_setting_option['paragraph_number']) ? esc_attr($this->_setting_option['paragraph_number']) : 1 ) ?>" />	
+        <input class="smpg-input" type="number" min="1" max="200" id="paragraph_number" name="<?php echo $this->_setting_name; ?>[paragraph_number]" value="<?php echo (isset($this->_setting_option['paragraph_number']) ? esc_attr($this->_setting_option['paragraph_number']) : 1 ) ?>" />	
     <?php
 }
 public function dtoc_display_toggle_initial_cb() {
 	$this->dtoc_resolve_meta_settings_name();
 	?>
-	<input type="radio" id="toggle_initial_show" name="<?php echo esc_attr( $this->_setting_name ); ?>[toggle_initial]" value="show" 
+	<input class="smpg-input" type="radio" id="toggle_initial_show" name="<?php echo esc_attr( $this->_setting_name ); ?>[toggle_initial]" value="show" 
 		<?php checked( isset( $this->_setting_option['toggle_initial'] ) && $this->_setting_option['toggle_initial'] === 'show' ); ?>>
 	<label for="toggle_initial_show" style="margin-right: 15px;"><?php esc_html_e( 'Show', 'digital-table-of-contents' ); ?></label>
 
-	<input type="radio" id="toggle_initial_hide" name="<?php echo esc_attr( $this->_setting_name ); ?>[toggle_initial]" value="hide" 
+	<input class="smpg-input" type="radio" id="toggle_initial_hide" name="<?php echo esc_attr( $this->_setting_name ); ?>[toggle_initial]" value="hide" 
 		<?php checked( isset( $this->_setting_option['toggle_initial'] ) && $this->_setting_option['toggle_initial'] === 'hide' ); ?>>
 	<label for="toggle_initial_hide"><?php esc_html_e( 'Hide', 'digital-table-of-contents' ); ?></label>
 	<?php

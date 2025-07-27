@@ -403,18 +403,7 @@ jQuery(document).ready(function($) {
             objectFit: 'contain'
         });
     });
-
-    function toggleCustomIconSection() {
-        if ($('#header_icon').val() === 'custom_icon') {
-            $('#custom-icon-wrapper').slideDown();
-        } else {
-            $('#custom-icon-wrapper').slideUp();
-        }
-    }
-
-    toggleCustomIconSection(); // On page load
-    $('#header_icon').on('change', toggleCustomIconSection);
-
+    
     // Upload button handler
     $('.dtoc-icon-upload').on('click', function(e) {
         e.preventDefault();
@@ -443,10 +432,11 @@ jQuery(document).ready(function($) {
     }
 });
 
-//React like structure without react starst here
+// React-like structure without React starts here
 jQuery(document).ready(function($) {
 
     const state = dtoc_admin_cdata.active_module_state;    
+
     const reactive = new Proxy(state, {
         set(target, prop, value) {
             target[prop] = value;
@@ -454,40 +444,62 @@ jQuery(document).ready(function($) {
             return true;
         }
     });
+    
+    function updatePreview() {        
+        if ( reactive.jump_links ) {
+            $('.dtoc_jump_links').show();
+        } else {
+            $('.dtoc_jump_links').hide();
+        }
 
-    function updatePreview() {
-        $('.preview-title').text(reactive.title || 'Default Title');
-        $('.preview-box').css('background-color', reactive.bgColor);
-        $('.preview-image').toggle(!!reactive.showImage);
-        console.log('ddd');
         if ( reactive.display_title ) {
-            
             $('.dtoc_display_title').show();
-            
+
             if ( reactive.toggle_body ) {
-                $('.dtoc_2_label_child_opt').show();
-            }else{
-                $('.dtoc_2_label_child_opt').hide();
+                $('.dtoc_display_title.dtoc_2_label_child_opt').show();
+                $('.dtoc_display_title.dtoc_3_label_child_opt').hide();
+
+                if ( reactive.header_icon === 'show_hide' ) {
+                    $('.dtoc_display_title.dtoc_3_label_child_opt').show();
+                }
+                if ( reactive.header_icon === 'custom_icon' ) {
+                    $('#custom-icon-wrapper').show();
+                } else {
+                    $('#custom-icon-wrapper').hide();
+                }
+
+            } else {
+                $('.dtoc_display_title.dtoc_2_label_child_opt').hide();
             }
 
-        }else{
+        } else {
             $('.dtoc_display_title').hide();
-        }        
+        }
 
+        // 🔄 Custom Mode Field Visibility Control
+        $('.smpg-mode-select').each(function () {
+            const $select = $(this);
+            const group = $select.data('group');
+            const value = reactive[$select.attr('id')]; // get from state
+            const $related = $('[data-group="' + group + '"]').not($select);
+
+            if (value === 'custom') {
+                $related.show();
+            } else {
+                $related.hide();
+            }
+        });
     }
 
-    // Dynamic binding for all inputs
-    
-    $('.dtoc-settings-form').on('change' , '.smpg-input', function (e) {
-        
-        const $input = $(e.target).is('input') ? $(e.target) : $(e.target).find('input');
-
+    // 🔁 Input/Select Handler (merged into one)
+    $('.dtoc-settings-form').on('change', '.smpg-input', function (e) {
+        const $input = $(e.target);
+        const tag = $input.prop('tagName').toLowerCase();
         const id = $input.attr('id');
-        const type = $input.attr('type');
-        
+
         if (!id) return;
 
-        if (type === 'checkbox') {
+        if ($input.is(':checkbox')) {
             reactive[id] = $input.is(':checked');
         } else {
             reactive[id] = $input.val();
@@ -496,5 +508,6 @@ jQuery(document).ready(function($) {
 
     updatePreview(); // initial render
 });
+
 
 //React like structure without react ends here
