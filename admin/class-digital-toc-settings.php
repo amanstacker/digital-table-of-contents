@@ -1168,18 +1168,11 @@ public function dtoc_customization_title_font_size_cb(){
 public function dtoc_customization_title_font_weight_cb(){
 	    $this->dtoc_resolve_meta_settings_name(); 	
     ?>
-    <select data-group="title_font_weight" class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[title_font_weight_mode]" id="title_font_weight_mode">
-        <option value="default" <?php echo (isset($this->_setting_option['title_font_weight_mode']) && $this->_setting_option['title_font_weight_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>        
-        <option value="custom" <?php echo (isset($this->_setting_option['title_font_weight_mode']) && $this->_setting_option['title_font_weight_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
-    </select>
-    <input data-group="title_font_weight" type="number" class="smpg-input small-text" id="title_font_weight" name="<?php echo $this->_setting_name; ?>[title_font_weight]" value="<?php echo isset( $this->_setting_option['title_font_weight'] ) ? esc_attr( $this->_setting_option['title_font_weight']) : '0'; ?>">
-    <select data-group="title_font_weight" name="<?php echo $this->_setting_name; ?>[title_font_weight_unit]" id="title_font_weight_unit">
-        <option value="px" <?php echo (isset($this->_setting_option['title_font_weight_unit']) && $this->_setting_option['title_font_weight_unit'] == 'px' ? 'selected' : '' ) ?>><?php echo esc_html__('px', 'digital-table-of-contents'); ?></option>
-        <option value="pt" <?php echo (isset($this->_setting_option['title_font_weight_unit']) && $this->_setting_option['title_font_weight_unit'] == 'pt' ? 'selected' : '' ) ?>><?php echo esc_html__('pt', 'digital-table-of-contents'); ?></option>
-        <option value="%" <?php echo (isset($this->_setting_option['title_font_weight_unit']) && $this->_setting_option['title_font_weight_unit'] == '%' ? 'selected' : '' ) ?>><?php echo esc_html__('%', 'digital-table-of-contents'); ?></option>
-        <option value="em" <?php echo (isset($this->_setting_option['title_font_weight_unit']) && $this->_setting_option['title_font_weight_unit'] == 'em' ? 'selected' : '' ) ?>><?php echo esc_html__('em', 'digital-table-of-contents'); ?></option>        
+        <select data-group="title_font_weight" class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[title_font_weight_mode]" id="title_font_weight_mode">
+            <option value="default" <?php echo (isset($this->_setting_option['title_font_weight_mode']) && $this->_setting_option['title_font_weight_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>        
+            <option value="custom" <?php echo (isset($this->_setting_option['title_font_weight_mode']) && $this->_setting_option['title_font_weight_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
         </select>
-    <span data-group="title_font_weight"><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></span>
+        <input data-group="title_font_weight" type="number" class="smpg-input small-text" id="title_font_weight" name="<?php echo $this->_setting_name; ?>[title_font_weight]" value="<?php echo isset( $this->_setting_option['title_font_weight'] ) ? esc_attr( $this->_setting_option['title_font_weight']) : '0'; ?>">    
     <?php
 }
 public function dtoc_customization_container_height_cb(){

@@ -161,66 +161,27 @@ function dtoc_get_plain_toc_html($matches, $options){
 }
 function dtoc_box_on_js($matches, $options = []){
     
-    $dbc_style = '';
-    if(isset($options['border_type'])){
-        $dbc_style .= 'border:'.esc_attr($options['border_type']).';';
-    }
-    if(isset($options['border_color'])){
-        $dbc_style .= 'border-color:'.esc_attr($options['border_color']).';';
-    }
-    if(isset($options['border_radius_top_left'])){
-        $dbc_style .= 'border-top-left-radius:'.esc_attr($options['border_radius_top_left']).esc_attr($options['border_radius_unit']).';';
-    }
-    if(isset($options['border_radius_top_right'])){
-        $dbc_style .= 'border-top-right-radius:'.esc_attr($options['border_radius_top_right']).esc_attr($options['border_radius_unit']).';';
-    }
-    if(isset($options['border_radius_bottom_left'])){
-        $dbc_style .= 'border-bottom-left-radius:'.esc_attr($options['border_radius_bottom_left']).esc_attr($options['border_radius_unit']).';';
-    }
-    if(isset($options['border_radius_bottom_right'])){
-        $dbc_style .= 'border-bottom-right-radius:'.esc_attr($options['border_radius_bottom_right']).esc_attr($options['border_radius_unit']).';';
-    }
-    
-    if(isset($options['border_width_top'])){
-        $dbc_style .= 'border-top-width:'.esc_attr($options['border_width_top']).esc_attr($options['border_width_unit']).';';
-    }
-    if(isset($options['border_width_right'])){
-        $dbc_style .= 'border-right-width:'.esc_attr($options['border_width_right']).esc_attr($options['border_width_unit']).';';
-    }
-    if(isset($options['border_width_bottom'])){
-        $dbc_style .= 'border-bottom-width:'.esc_attr($options['border_width_bottom']).esc_attr($options['border_width_unit']).';';
-    }
-    if(isset($options['border_width_left'])){
-        $dbc_style .= 'border-left-width:'.esc_attr($options['border_width_left']).esc_attr($options['border_width_unit']).';';
-    }
+    $dbc_style = dtoc_box_container_style( $options );
     $html = '<div class="dtoc-box-container" style="'.$dbc_style.'">';
 
     if(isset($options['display_title'])){
-        $heading_text = $t_style = '';        
-        if(isset($options['title_bg_color'])){
-            $t_style .= 'background:'.esc_attr($options['title_bg_color']).';';
-        }
-        if(isset($options['title_color'])){
-            $t_style .= 'color:'.esc_attr($options['title_color']).';';
-        }
-        
+
+        $heading_text = '';                        
         if ( isset( $options['header_text'] ) && $options['header_text'] === 'Table Of Contents' ){
             $heading_text = esc_html__( 'Table Of Contents', 'digital-table-of-contents' );
         }else{
             $heading_text = esc_html( $options['header_text'] );
         }
 
+        $t_style = dtoc_get_title_style( $options );
         $html .= '<div class="dtoc-box-header-container" style="'.$t_style.'">';
         $html .= '<div class="dtoc-toggle-label">'.$heading_text.'';
         $html .= dtoc_get_header_icon( $options );
         $html .= '</div>';
         $html .= '</div>';
     }
-    $b_style = '';
-    if(isset($options['bg_color'])){
-        $b_style .= 'background:'.esc_attr($options['bg_color']).';';
-    }
-    $html .= '<div class="dtoc-box-on-js-body" style="'.$b_style.'">';
+    
+    $html .= '<div class="dtoc-box-on-js-body">';
     $html .= dtoc_get_plain_toc_html($matches, $options);
     $html .= '</div>';
     
@@ -434,135 +395,305 @@ function dtoc_filter_heading( $content, $options = [] ) {
     return $response;
 }
 function dtoc_get_header_icon( $options ) {
-
-    if ( $options['header_icon'] == 'none') {
+    if ( empty( $options['header_icon'] ) || $options['header_icon'] === 'none' ) {
         return '';
     }
 
     $icon_html = '';
-
     $c_style = '';
-    if(isset($options['icon_border_type'])){
-        $c_style .= 'border:'.esc_attr($options['icon_border_type']).';';
-    }
-    if(isset($options['icon_border_color'])){
-        $c_style .= 'border-color:'.esc_attr($options['icon_border_color']).';';
-    }
-    if(isset($options['icon_border_radius_top_left'])){
-        $c_style .= 'border-top-left-radius:'.esc_attr($options['icon_border_radius_top_left']).esc_attr($options['icon_border_radius_unit']).';';
-    }
-    if(isset($options['icon_border_radius_top_right'])){
-        $c_style .= 'border-top-right-radius:'.esc_attr($options['icon_border_radius_top_right']).esc_attr($options['icon_border_radius_unit']).';';
-    }
-    if(isset($options['icon_border_radius_bottom_left'])){
-        $c_style .= 'border-bottom-left-radius:'.esc_attr($options['icon_border_radius_bottom_left']).esc_attr($options['icon_border_radius_unit']).';';
-    }
-    if(isset($options['icon_border_radius_bottom_right'])){
-        $c_style .= 'border-bottom-right-radius:'.esc_attr($options['icon_border_radius_bottom_right']).esc_attr($options['icon_border_radius_unit']).';';
-    }
-    
-    if(isset($options['icon_border_width_top'])){
-        $c_style .= 'border-top-width:'.esc_attr($options['icon_border_width_top']).esc_attr($options['icon_border_width_unit']).';';
-    }
-    if(isset($options['icon_border_width_right'])){
-        $c_style .= 'border-right-width:'.esc_attr($options['icon_border_width_right']).esc_attr($options['icon_border_width_unit']).';';
-    }
-    if(isset($options['icon_border_width_bottom'])){
-        $c_style .= 'border-bottom-width:'.esc_attr($options['icon_border_width_bottom']).esc_attr($options['icon_border_width_unit']).';';
-    }
-    if(isset($options['icon_border_width_left'])){
-        $c_style .= 'border-left-width:'.esc_attr($options['icon_border_width_left']).esc_attr($options['icon_border_width_unit']).';';
+
+    // Border type
+    if ( !empty($options['icon_border_type']) && $options['icon_border_type'] !== 'default' ) {
+        $c_style .= 'border-style:' . esc_attr( $options['icon_border_type'] ) . ';';
     }
 
-    if(isset($options['icon_margin_top'])){
-        $c_style .= 'margin-top:'.esc_attr($options['icon_margin_top']).esc_attr($options['icon_margin_unit']).';';
-    }
-    if(isset($options['icon_margin_right'])){
-        $c_style .= 'margin-right:'.esc_attr($options['icon_margin_right']).esc_attr($options['icon_margin_unit']).';';
-    }
-    if(isset($options['icon_margin_bottom'])){
-        $c_style .= 'margin-bottom:'.esc_attr($options['icon_margin_bottom']).esc_attr($options['icon_margin_unit']).';';
-    }
-    if(isset($options['icon_margin_left'])){
-        $c_style .= 'margin-left:'.esc_attr($options['icon_margin_left']).esc_attr($options['icon_margin_unit']).';';
+    // Border color
+    if ( !empty($options['icon_border_color']) ) {
+        $c_style .= 'border-color:' . esc_attr( $options['icon_border_color'] ) . ';';
     }
 
-    if(isset($options['icon_margin_top'])){
-        $c_style .= 'margin-top:'.esc_attr($options['icon_margin_top']).esc_attr($options['icon_margin_unit']).';';
-    }
-    if(isset($options['icon_margin_right'])){
-        $c_style .= 'margin-right:'.esc_attr($options['icon_margin_right']).esc_attr($options['icon_margin_unit']).';';
-    }
-    if(isset($options['icon_margin_bottom'])){
-        $c_style .= 'margin-bottom:'.esc_attr($options['icon_margin_bottom']).esc_attr($options['icon_margin_unit']).';';
-    }
-    if(isset($options['icon_margin_left'])){
-        $c_style .= 'margin-left:'.esc_attr($options['icon_margin_left']).esc_attr($options['icon_margin_unit']).';';
+    // Border width
+    if ( !empty($options['icon_border_width_mode']) && $options['icon_border_width_mode'] === 'custom' ) {
+        $sides = ['top', 'right', 'bottom', 'left'];
+        foreach ( $sides as $side ) {
+            $key = "icon_border_width_$side";
+            if ( isset($options[$key]) ) {
+                $c_style .= "border-{$side}-width:" . esc_attr($options[$key]) . esc_attr($options['icon_border_width_unit']) . ';';
+            }
+        }
     }
 
-    if(isset($options['icon_padding_top'])){
-        $c_style .= 'padding-top:'.esc_attr($options['icon_padding_top']).esc_attr($options['icon_padding_unit']).';';
+    // Border radius
+    if ( !empty($options['icon_border_radius_mode']) && $options['icon_border_radius_mode'] === 'custom' ) {
+        $corners = [
+            'top_left' => 'top-left',
+            'top_right' => 'top-right',
+            'bottom_left' => 'bottom-left',
+            'bottom_right' => 'bottom-right'
+        ];
+        foreach ( $corners as $key => $css ) {
+            $field = "icon_border_radius_$key";
+            if ( isset($options[$field]) ) {
+                $c_style .= "border-{$css}-radius:" . esc_attr($options[$field]) . esc_attr($options['icon_border_radius_unit']) . ';';
+            }
+        }
     }
-    if(isset($options['icon_padding_right'])){
-        $c_style .= 'padding-right:'.esc_attr($options['icon_padding_right']).esc_attr($options['icon_padding_unit']).';';
-    }
-    if(isset($options['icon_padding_bottom'])){
-        $c_style .= 'padding-bottom:'.esc_attr($options['icon_padding_bottom']).esc_attr($options['icon_padding_unit']).';';
-    }
-    if(isset($options['icon_padding_left'])){
-        $c_style .= 'padding-left:'.esc_attr($options['icon_padding_left']).esc_attr($options['icon_padding_unit']).';';
-    }
-    
-    if(empty($options['header_icon'])){
-        $options['header_icon'] ="";
-    }
-    switch ($options['header_icon']) {
-        case 'list_icon':
-            
-            $icon_html = '<span class="dtoc_icon_toggle"><svg style="'.$c_style.'" height="'.esc_attr($options['icon_height']).'" width="'.esc_attr($options['icon_height']).'" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill="none">
-  
-  <rect x="1" y="1" width="46" height="46" rx="4" stroke="#aaa" fill="'.esc_attr($options['icon_bg_color']).'"/>
 
-  <!-- List bullets and lines -->
-  <circle cx="10" cy="14" r="1.5" fill="'.esc_attr($options['icon_fg_color']).'"/>
-  <rect x="14" y="13" width="14" height="2" rx="1" fill="'.esc_attr($options['icon_fg_color']).'"/>
+    // Margin
+    if ( !empty($options['icon_margin_mode']) && $options['icon_margin_mode'] === 'custom' ) {
+        $sides = ['top', 'right', 'bottom', 'left'];
+        foreach ( $sides as $side ) {
+            $key = "icon_margin_$side";
+            if ( isset($options[$key]) ) {
+                $c_style .= "margin-{$side}:" . esc_attr($options[$key]) . esc_attr($options['icon_margin_unit']) . ';';
+            }
+        }
+    }
 
-  <circle cx="10" cy="24" r="1.5" fill="'.esc_attr($options['icon_fg_color']).'"/>
-  <rect x="14" y="23" width="14" height="2" rx="1" fill="'.esc_attr($options['icon_fg_color']).'"/>
+    // Padding
+    if ( !empty($options['icon_padding_mode']) && $options['icon_padding_mode'] === 'custom' ) {
+        $sides = ['top', 'right', 'bottom', 'left'];
+        foreach ( $sides as $side ) {
+            $key = "icon_padding_$side";
+            if ( isset($options[$key]) ) {
+                $c_style .= "padding-{$side}:" . esc_attr($options[$key]) . esc_attr($options['icon_padding_unit']) . ';';
+            }
+        }
+    }
 
-  <circle cx="10" cy="34" r="1.5" fill="'.esc_attr($options['icon_fg_color']).'"/>
-  <rect x="14" y="33" width="14" height="2" rx="1" fill="'.esc_attr($options['icon_fg_color']).'"/>
+    // Size
+    $icon_width = '';
+    $icon_height = '';
+    if ( !empty($options['icon_size_mode']) && $options['icon_size_mode'] === 'custom' ) {
+        $icon_width  = isset($options['icon_width']) ? esc_attr($options['icon_width']) . esc_attr($options['icon_size_unit']) : '';
+        $icon_height = isset($options['icon_height']) ? esc_attr($options['icon_height']) . esc_attr($options['icon_size_unit']) : '';
+        $c_style .= $icon_width ? "width:$icon_width;" : '';
+        $c_style .= $icon_height ? "height:$icon_height;" : '';
+    }
 
-  <!-- Arrows -->
-  <path d="M36 18L32 22H40L36 18Z" fill="'.esc_attr($options['icon_fg_color']).'"/>
-  <path d="M36 30L40 26H32L36 30Z" fill="'.esc_attr($options['icon_fg_color']).'"/>
-</svg></span>
-';
-            break;        
-        case 'plus_minus':
-            $icon_html = '<span class="dtoc_icon_toggle">
-            <span class="dtoc_icon_brackets">[</span>
-            <span class="dtoc-show-text dtoc-plus">+</span>
-            <span class="dtoc-hide-text dtoc-minus">-</span>
-            <span class="dtoc_icon_brackets">]</span>
-            </span>';        
-            break;        
-        case 'show_hide':
-            $icon_html = '<span class="dtoc_icon_toggle">
-            <span class="dtoc_icon_brackets">[</span>
-            <span class="dtoc-show-text">'.esc_html( $options['show_text'] ).'</span>
-            <span class="dtoc-hide-text">'.esc_html( $options['hide_text'] ).'</span>
-            <span class="dtoc_icon_brackets">]</span>
-            </span>';        
-            break;        
-        case 'custom_icon':
-            $icon_html = '<span style="'.$c_style.'" class="dtoc_icon_toggle"><img src="'.esc_url( $options['custom_icon_url'] ).'" /></span>';        
-            break;
+    $bg_color = !empty($options['icon_bg_color']) ? esc_attr($options['icon_bg_color']) : 'transparent';
+    $fg_color = !empty($options['icon_fg_color']) ? esc_attr($options['icon_fg_color']) : '#000';
+
+    // ICON HTML OUTPUT
+    switch ( $options['header_icon'] ) {
         
-        default:
-            # code...
+        case 'list_icon':
+                // Fallback dimensions
+                $icon_width  = '35px';
+                $icon_height = '35px';
+
+                if (isset($options['icon_size_mode']) && $options['icon_size_mode'] === 'custom') {
+                    $unit = isset($options['icon_size_unit']) ? esc_attr($options['icon_size_unit']) : 'px';
+
+                    if (!empty($options['icon_width'])) {
+                        $icon_width = esc_attr($options['icon_width']) . $unit;
+                    }
+                    if (!empty($options['icon_height'])) {
+                        $icon_height = esc_attr($options['icon_height']) . $unit;
+                    }
+                }
+
+                $bg_color = esc_attr($options['icon_bg_color']);
+                $fg_color = esc_attr($options['icon_fg_color']);
+
+                $icon_html = '<span class="dtoc_icon_toggle"><svg style="' . $c_style . '" width="' . $icon_width . '" height="' . $icon_height . '" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill="none">
+                    <rect x="1" y="1" width="46" height="46" rx="4" stroke="#aaa" fill="' . $bg_color . '"/>
+                    <circle cx="10" cy="14" r="1.5" fill="' . $fg_color . '"/>
+                    <rect x="14" y="13" width="14" height="2" rx="1" fill="' . $fg_color . '"/>
+                    <circle cx="10" cy="24" r="1.5" fill="' . $fg_color . '"/>
+                    <rect x="14" y="23" width="14" height="2" rx="1" fill="' . $fg_color . '"/>
+                    <circle cx="10" cy="34" r="1.5" fill="' . $fg_color . '"/>
+                    <rect x="14" y="33" width="14" height="2" rx="1" fill="' . $fg_color . '"/>
+                    <path d="M36 18L32 22H40L36 18Z" fill="' . $fg_color . '"/>
+                    <path d="M36 30L40 26H32L36 30Z" fill="' . $fg_color . '"/>
+                </svg></span>';
+                break;
+
+        case 'plus_minus':
+            $icon_html = '<span class="dtoc_icon_toggle" style="' . $c_style . '">
+                <span class="dtoc_icon_brackets">[</span>
+                <span class="dtoc-show-text dtoc-plus">+</span>
+                <span class="dtoc-hide-text dtoc-minus">-</span>
+                <span class="dtoc_icon_brackets">]</span>
+            </span>';
+            break;
+
+        case 'show_hide':
+            $icon_html = '<span class="dtoc_icon_toggle" style="' . $c_style . '">
+                <span class="dtoc_icon_brackets">[</span>
+                <span class="dtoc-show-text">' . esc_html( $options['show_text'] ) . '</span>
+                <span class="dtoc-hide-text">' . esc_html( $options['hide_text'] ) . '</span>
+                <span class="dtoc_icon_brackets">]</span>
+            </span>';
+            break;
+
+        case 'custom_icon':
+            $icon_html = '<span class="dtoc_icon_toggle" style="' . $c_style . '">
+                <img src="' . esc_url( $options['custom_icon_url'] ) . '" alt="Icon" />
+            </span>';
             break;
     }
-    
+
     return $icon_html;
+}
+
+
+function dtoc_box_container_style( $options = [] ) {
+	$style = '';
+
+	// Background color
+	if ( ! empty( $options['bg_color'] ) ) {
+		$style .= 'background-color:' . esc_attr( $options['bg_color'] ) . ';';
+	}
+
+	// Width
+	if ( ! empty( $options['container_width_mode'] ) ) {
+		switch ( $options['container_width_mode'] ) {
+			case 'auto':
+				$style .= 'width:auto;';
+				break;
+			case 'full':
+				$style .= 'width:100%;';
+				break;
+			case 'fit-content':
+				$style .= 'width:fit-content;';
+				break;
+			case 'custom':
+				if ( ! empty( $options['container_width'] ) && ! empty( $options['container_width_unit'] ) ) {
+					$style .= 'width:' . esc_attr( $options['container_width'] ) . esc_attr( $options['container_width_unit'] ) . ';';
+				}
+				break;
+		}
+	}
+
+	// Height
+	if ( ! empty( $options['container_height_mode'] ) ) {
+		switch ( $options['container_height_mode'] ) {
+			case 'auto':
+				$style .= 'height:auto;';
+				break;
+			case 'full':
+				$style .= 'height:100%;';
+				break;
+			case 'fit-content':
+				$style .= 'height:fit-content;';
+				break;
+			case 'custom':
+				if ( ! empty( $options['container_height'] ) && ! empty( $options['container_height_unit'] ) ) {
+					$style .= 'height:' . esc_attr( $options['container_height'] ) . esc_attr( $options['container_height_unit'] ) . ';';
+				}
+				break;
+		}
+	}
+
+	// Margin
+	if ( ! empty( $options['container_margin_mode'] ) ) {
+		if ( 'auto' === $options['container_margin_mode'] ) {
+			$style .= 'margin:auto;';
+		} elseif ( 'custom' === $options['container_margin_mode'] ) {
+			$unit = esc_attr( $options['container_margin_unit'] );
+			$style .= 'margin-top:' . esc_attr( $options['container_margin_top'] ) . $unit . ';';
+			$style .= 'margin-right:' . esc_attr( $options['container_margin_right'] ) . $unit . ';';
+			$style .= 'margin-bottom:' . esc_attr( $options['container_margin_bottom'] ) . $unit . ';';
+			$style .= 'margin-left:' . esc_attr( $options['container_margin_left'] ) . $unit . ';';
+		}
+	}
+
+	// Padding
+	if ( ! empty( $options['container_padding_mode'] ) ) {
+		if ( 'auto' === $options['container_padding_mode'] ) {
+			$style .= 'padding:auto;';
+		} elseif ( 'custom' === $options['container_padding_mode'] ) {
+			$unit = esc_attr( $options['container_padding_unit'] );
+			$style .= 'padding-top:' . esc_attr( $options['container_padding_top'] ) . $unit . ';';
+			$style .= 'padding-right:' . esc_attr( $options['container_padding_right'] ) . $unit . ';';
+			$style .= 'padding-bottom:' . esc_attr( $options['container_padding_bottom'] ) . $unit . ';';
+			$style .= 'padding-left:' . esc_attr( $options['container_padding_left'] ) . $unit . ';';
+		}
+	}
+
+	// Border type (style)
+	if ( ! empty( $options['border_type'] ) && 'default' !== $options['border_type'] ) {
+		$style .= 'border-style:' . esc_attr( $options['border_type'] ) . ';';
+	}
+
+	// Border color
+	if ( ! empty( $options['border_color'] ) ) {
+		$style .= 'border-color:' . esc_attr( $options['border_color'] ) . ';';
+	}
+
+	// Border width (custom mode only)
+	if ( ! empty( $options['border_width_mode'] ) && 'custom' === $options['border_width_mode'] && ! empty( $options['border_width_unit'] ) ) {
+		$unit = esc_attr( $options['border_width_unit'] );
+		$style .= 'border-top-width:' . esc_attr( $options['border_width_top'] ) . $unit . ';';
+		$style .= 'border-right-width:' . esc_attr( $options['border_width_right'] ) . $unit . ';';
+		$style .= 'border-bottom-width:' . esc_attr( $options['border_width_bottom'] ) . $unit . ';';
+		$style .= 'border-left-width:' . esc_attr( $options['border_width_left'] ) . $unit . ';';
+	}
+
+	// Border radius (custom mode only)
+	if ( ! empty( $options['border_radius_mode'] ) && 'custom' === $options['border_radius_mode'] && ! empty( $options['border_radius_unit'] ) ) {
+		$unit = esc_attr( $options['border_radius_unit'] );
+		$style .= 'border-top-left-radius:' . esc_attr( $options['border_radius_top_left'] ) . $unit . ';';
+		$style .= 'border-top-right-radius:' . esc_attr( $options['border_radius_top_right'] ) . $unit . ';';
+		$style .= 'border-bottom-right-radius:' . esc_attr( $options['border_radius_bottom_right'] ) . $unit . ';';
+		$style .= 'border-bottom-left-radius:' . esc_attr( $options['border_radius_bottom_left'] ) . $unit . ';';
+	}
+
+	return $style;
+}
+
+function dtoc_get_title_style( $options ) {
+	$style = '';
+
+	// Background color
+	if ( ! empty( $options['title_bg_color'] ) ) {
+		$style .= 'background:' . esc_attr( $options['title_bg_color'] ) . ';';
+	}
+
+	// Foreground color
+	if ( ! empty( $options['title_fg_color'] ) ) {
+		$style .= 'color:' . esc_attr( $options['title_fg_color'] ) . ';';
+	}
+
+	// Font size
+	if (
+		isset( $options['title_font_size_mode'] ) &&
+		$options['title_font_size_mode'] === 'custom' &&
+		! empty( $options['title_font_size'] ) &&
+		is_numeric( $options['title_font_size'] ) &&
+		$options['title_font_size'] > 0 &&
+		! empty( $options['title_font_size_unit'] )
+	) {
+		$style .= 'font-size:' . esc_attr( $options['title_font_size'] ) . esc_attr( $options['title_font_size_unit'] ) . ';';
+	}
+
+	// Font weight
+	if (
+		isset( $options['title_font_weight_mode'] ) &&
+		$options['title_font_weight_mode'] === 'custom' &&
+		! empty( $options['title_font_weight'] ) &&
+		is_numeric( $options['title_font_weight'] ) &&
+		$options['title_font_weight'] > 0
+	) {
+		$style .= 'font-weight:' . esc_attr( $options['title_font_weight'] ) . ';';
+	}
+
+	// Padding (only if mode is custom and any value is > 0)
+	if (
+		isset( $options['title_padding_mode'] ) &&
+		$options['title_padding_mode'] === 'custom'
+	) {
+		$top    = isset( $options['title_padding_top'] ) ? (int) $options['title_padding_top'] : 0;
+		$right  = isset( $options['title_padding_right'] ) ? (int) $options['title_padding_right'] : 0;
+		$bottom = isset( $options['title_padding_bottom'] ) ? (int) $options['title_padding_bottom'] : 0;
+		$left   = isset( $options['title_padding_left'] ) ? (int) $options['title_padding_left'] : 0;
+
+		if ( $top > 0 || $right > 0 || $bottom > 0 || $left > 0 ) {
+			$unit = ! empty( $options['title_padding_unit'] ) ? esc_attr( $options['title_padding_unit'] ) : 'px';
+			$style .= 'padding:' . $top . $unit . ' ' . $right . $unit . ' ' . $bottom . $unit . ' ' . $left . $unit . ';';
+		}
+	}
+
+	return $style;
 }
