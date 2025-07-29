@@ -254,6 +254,15 @@ public function dtoc_settings_page_render(){
                  echo "</div>";
 
                  echo "<div class='dtoc-accordion'>";
+                 echo "<div class='dtoc-accordion-header'>";                                  
+                 echo '<span>'. esc_html__( 'Border', 'digital-table-of-contents' ). '</span>';
+                 echo "</div>";
+                 echo "<div class='dtoc-accordion-panel'>";                 
+                 do_settings_sections( 'dtoc_customization_border_section' );
+                 echo "</div>";
+                 echo "</div>";
+
+                 echo "<div class='dtoc-accordion'>";
                  echo "<div class='dtoc-accordion-header'>";                 
                  echo '<span>'. esc_html__( 'Title', 'digital-table-of-contents' ). '</span>';
                  echo "</div>";
@@ -270,16 +279,7 @@ public function dtoc_settings_page_render(){
                  do_settings_sections( 'dtoc_customization_icon_section' );
                  echo "</div>";
                  echo "</div>";
-
-                 echo "<div class='dtoc-accordion'>";
-                 echo "<div class='dtoc-accordion-header'>";                                  
-                 echo '<span>'. esc_html__( 'Border', 'digital-table-of-contents' ). '</span>';
-                 echo "</div>";
-                 echo "<div class='dtoc-accordion-panel'>";                 
-                 do_settings_sections( 'dtoc_customization_border_section' );
-                 echo "</div>";
-                 echo "</div>";
-
+                 
                  echo "<div class='dtoc-accordion'>";
                  echo "<div class='dtoc-accordion-header'>";                 
                  echo '<span>'. esc_html__( 'Link', 'digital-table-of-contents' ). '</span>';

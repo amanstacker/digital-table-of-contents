@@ -161,39 +161,39 @@ function dtoc_get_plain_toc_html($matches, $options){
 }
 function dtoc_box_on_js($matches, $options = []){
     
-    $c_style = '';
+    $dbc_style = '';
     if(isset($options['border_type'])){
-        $c_style .= 'border:'.esc_attr($options['border_type']).';';
+        $dbc_style .= 'border:'.esc_attr($options['border_type']).';';
     }
     if(isset($options['border_color'])){
-        $c_style .= 'border-color:'.esc_attr($options['border_color']).';';
+        $dbc_style .= 'border-color:'.esc_attr($options['border_color']).';';
     }
     if(isset($options['border_radius_top_left'])){
-        $c_style .= 'border-top-left-radius:'.esc_attr($options['border_radius_top_left']).esc_attr($options['border_radius_unit']).';';
+        $dbc_style .= 'border-top-left-radius:'.esc_attr($options['border_radius_top_left']).esc_attr($options['border_radius_unit']).';';
     }
     if(isset($options['border_radius_top_right'])){
-        $c_style .= 'border-top-right-radius:'.esc_attr($options['border_radius_top_right']).esc_attr($options['border_radius_unit']).';';
+        $dbc_style .= 'border-top-right-radius:'.esc_attr($options['border_radius_top_right']).esc_attr($options['border_radius_unit']).';';
     }
     if(isset($options['border_radius_bottom_left'])){
-        $c_style .= 'border-bottom-left-radius:'.esc_attr($options['border_radius_bottom_left']).esc_attr($options['border_radius_unit']).';';
+        $dbc_style .= 'border-bottom-left-radius:'.esc_attr($options['border_radius_bottom_left']).esc_attr($options['border_radius_unit']).';';
     }
     if(isset($options['border_radius_bottom_right'])){
-        $c_style .= 'border-bottom-right-radius:'.esc_attr($options['border_radius_bottom_right']).esc_attr($options['border_radius_unit']).';';
+        $dbc_style .= 'border-bottom-right-radius:'.esc_attr($options['border_radius_bottom_right']).esc_attr($options['border_radius_unit']).';';
     }
     
     if(isset($options['border_width_top'])){
-        $c_style .= 'border-top-width:'.esc_attr($options['border_width_top']).esc_attr($options['border_width_unit']).';';
+        $dbc_style .= 'border-top-width:'.esc_attr($options['border_width_top']).esc_attr($options['border_width_unit']).';';
     }
     if(isset($options['border_width_right'])){
-        $c_style .= 'border-right-width:'.esc_attr($options['border_width_right']).esc_attr($options['border_width_unit']).';';
+        $dbc_style .= 'border-right-width:'.esc_attr($options['border_width_right']).esc_attr($options['border_width_unit']).';';
     }
     if(isset($options['border_width_bottom'])){
-        $c_style .= 'border-bottom-width:'.esc_attr($options['border_width_bottom']).esc_attr($options['border_width_unit']).';';
+        $dbc_style .= 'border-bottom-width:'.esc_attr($options['border_width_bottom']).esc_attr($options['border_width_unit']).';';
     }
     if(isset($options['border_width_left'])){
-        $c_style .= 'border-left-width:'.esc_attr($options['border_width_left']).esc_attr($options['border_width_unit']).';';
+        $dbc_style .= 'border-left-width:'.esc_attr($options['border_width_left']).esc_attr($options['border_width_unit']).';';
     }
-    $html = '<div class="dtoc-box-container" style="'.$c_style.'">';
+    $html = '<div class="dtoc-box-container" style="'.$dbc_style.'">';
 
     if(isset($options['display_title'])){
         $heading_text = $t_style = '';        

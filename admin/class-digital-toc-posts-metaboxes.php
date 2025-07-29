@@ -33,8 +33,8 @@ class Digital_TOC_POSTS_Metaboxes {
      * Meta box initialization.
      */
     public function init_metabox() {
-        add_action( 'add_meta_boxes', [ $this, 'add_metabox' ] );
-        add_action( 'save_post', [ $this, 'save_metabox' ], 10, 2 );
+        //add_action( 'add_meta_boxes', [ $this, 'add_metabox' ] );
+        //add_action( 'save_post', [ $this, 'save_metabox' ], 10, 2 );
     }
 	
 	 /**

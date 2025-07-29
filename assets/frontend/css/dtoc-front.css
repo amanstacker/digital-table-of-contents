@@ -1,6 +1,8 @@
 /* TOC General CSS*/
 .dtoc-box-container{                    
-    display: table;              
+    display: table;       
+    width: fit-content;     
+    max-width: 100%;            
     overflow: hidden;
 }
 
@@ -13,7 +15,7 @@
     padding: 3px;
     padding-bottom: 5px;
     font-weight: 600;
-    font-size: 110%;        
+    font-size: 100%;        
 }
 .dtoc_icon_toggle img{
     width: 30px;
