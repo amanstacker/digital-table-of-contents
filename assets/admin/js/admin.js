@@ -436,7 +436,7 @@ jQuery(document).ready(function($) {
 jQuery(document).ready(function($) {
 
     const state = dtoc_admin_cdata.active_module_state;    
-
+    
     const reactive = new Proxy(state, {
         set(target, prop, value) {
             target[prop] = value;

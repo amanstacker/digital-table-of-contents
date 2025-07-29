@@ -963,32 +963,32 @@ public function dtoc_customization_custom_css_cb(){
 public function dtoc_customization_icon_size_cb(){
     $this->dtoc_resolve_meta_settings_name();	
     ?>    	
-    <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[icon_size_mode]" id="icon_size_mode">
+    <select data-group="icon_size" class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[icon_size_mode]" id="icon_size_mode">
         <option value="default" <?php echo (isset($this->_setting_option['icon_size_mode']) && $this->_setting_option['icon_size_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>
         <option value="auto" <?php echo (isset($this->_setting_option['icon_size_mode']) && $this->_setting_option['icon_size_mode'] == 'auto' ? 'selected' : '' ) ?>><?php echo esc_html__('Auto', 'digital-table-of-contents'); ?></option>
         <option value="custom" <?php echo (isset($this->_setting_option['icon_size_mode']) && $this->_setting_option['icon_size_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
     </select>
     <ul style="display: flex;">
         <li>
-        <input type="number" class="smpg-input small-text" id="icon_width" name="<?php echo $this->_setting_name; ?>[icon_width]" value="<?php echo isset( $this->_setting_option['icon_width'] ) ? esc_attr( $this->_setting_option['icon_width']) : '25'; ?>">
+        <input data-group="icon_size" type="number" class="smpg-input small-text" id="icon_width" name="<?php echo $this->_setting_name; ?>[icon_width]" value="<?php echo isset( $this->_setting_option['icon_width'] ) ? esc_attr( $this->_setting_option['icon_width']) : '25'; ?>">
         <br>
-        <span><?php echo esc_html__('Width', 'digital-table-of-contents'); ?></span>
+        <span data-group="icon_size"><?php echo esc_html__('Width', 'digital-table-of-contents'); ?></span>
         </li>
 
         <li>
-        <input type="number" class="smpg-input small-text" id="icon_height" name="<?php echo $this->_setting_name; ?>[icon_height]" value="<?php echo isset( $this->_setting_option['icon_height'] ) ? esc_attr( $this->_setting_option['icon_height']) : '25'; ?>">
+        <input data-group="icon_size" type="number" class="smpg-input small-text" id="icon_height" name="<?php echo $this->_setting_name; ?>[icon_height]" value="<?php echo isset( $this->_setting_option['icon_height'] ) ? esc_attr( $this->_setting_option['icon_height']) : '25'; ?>">
         <br>
-        <span><?php echo esc_html__('Height', 'digital-table-of-contents'); ?></span>
+        <span data-group="icon_size"><?php echo esc_html__('Height', 'digital-table-of-contents'); ?></span>
         </li>
         
         <li>
-        <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[icon_size_unit]" id="icon_size_unit">
+        <select data-group="icon_size" class="smpg-input" name="<?php echo $this->_setting_name; ?>[icon_size_unit]" id="icon_size_unit">
             <option value="px" <?php echo (isset($this->_setting_option['icon_size_unit']) && $this->_setting_option['icon_size_unit'] == 'px' ? 'selected' : '' ) ?>><?php echo esc_html__('px', 'digital-table-of-contents'); ?></option>
             <option value="pt" <?php echo (isset($this->_setting_option['icon_size_unit']) && $this->_setting_option['icon_size_unit'] == 'pt' ? 'selected' : '' ) ?>><?php echo esc_html__('pt', 'digital-table-of-contents'); ?></option>
             <option value="%" <?php echo (isset($this->_setting_option['icon_size_unit']) && $this->_setting_option['icon_size_unit'] == '%' ? 'selected' : '' ) ?>><?php echo esc_html__('%', 'digital-table-of-contents'); ?></option>
             <option value="em" <?php echo (isset($this->_setting_option['icon_size_unit']) && $this->_setting_option['icon_size_unit'] == 'em' ? 'selected' : '' ) ?>><?php echo esc_html__('em', 'digital-table-of-contents'); ?></option>        
         </select>
-        <span><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></span>
+        <span data-group="icon_size"><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></span>
         </li>
     </ul>    	    
     <?php
@@ -997,36 +997,36 @@ public function dtoc_customization_border_radius_cb(){
     $this->dtoc_resolve_meta_settings_name(); 	   
     ?>    	
     
-    <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[border_radius_mode]" id="border_radius_mode">
+    <select data-group="border_radius" class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[border_radius_mode]" id="border_radius_mode">
         <option value="default" <?php echo (isset($this->_setting_option['border_radius_mode']) && $this->_setting_option['border_radius_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>        
         <option value="custom" <?php echo (isset($this->_setting_option['border_radius_mode']) && $this->_setting_option['border_radius_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
     </select>
     
     <ul style="display: flex;">
         <li>
-        <input type="number" class="smpg-input small-text" id="border_radius_top_left" name="<?php echo $this->_setting_name; ?>[border_radius_top_left]" value="<?php echo isset( $this->_setting_option['border_radius_top_left'] ) ? esc_attr( $this->_setting_option['border_radius_top_left']) : '0'; ?>">
-        <span><?php echo esc_html__('Top Left', 'digital-table-of-contents'); ?></span>
+        <input data-group="border_radius" type="number" class="smpg-input small-text" id="border_radius_top_left" name="<?php echo $this->_setting_name; ?>[border_radius_top_left]" value="<?php echo isset( $this->_setting_option['border_radius_top_left'] ) ? esc_attr( $this->_setting_option['border_radius_top_left']) : '0'; ?>">
+        <span data-group="border_radius"><?php echo esc_html__('Top Left', 'digital-table-of-contents'); ?></span>
         </li>
         <li>
-        <input type="number" class="smpg-input small-text" id="border_radius_top_right" name="<?php echo $this->_setting_name; ?>[border_radius_top_right]" value="<?php echo isset( $this->_setting_option['border_radius_top_right'] ) ? esc_attr( $this->_setting_option['border_radius_top_right']) : '0'; ?>">
-        <span><?php echo esc_html__('Top Right', 'digital-table-of-contents'); ?></span>
+        <input data-group="border_radius" type="number" class="smpg-input small-text" id="border_radius_top_right" name="<?php echo $this->_setting_name; ?>[border_radius_top_right]" value="<?php echo isset( $this->_setting_option['border_radius_top_right'] ) ? esc_attr( $this->_setting_option['border_radius_top_right']) : '0'; ?>">
+        <span data-group="border_radius"><?php echo esc_html__('Top Right', 'digital-table-of-contents'); ?></span>
         </li>
         <li>
-        <input type="number" class="smpg-input small-text" id="border_radius_bottom_left" name="<?php echo $this->_setting_name; ?>[border_radius_bottom_left]" value="<?php echo isset( $this->_setting_option['border_radius_bottom_left'] ) ? esc_attr( $this->_setting_option['border_radius_bottom_left']) : '0'; ?>">
-        <span><?php echo esc_html__('Bottom Left', 'digital-table-of-contents'); ?></span>
+        <input data-group="border_radius" type="number" class="smpg-input small-text" id="border_radius_bottom_left" name="<?php echo $this->_setting_name; ?>[border_radius_bottom_left]" value="<?php echo isset( $this->_setting_option['border_radius_bottom_left'] ) ? esc_attr( $this->_setting_option['border_radius_bottom_left']) : '0'; ?>">
+        <span data-group="border_radius"><?php echo esc_html__('Bottom Left', 'digital-table-of-contents'); ?></span>
         </li>
         <li>
-        <input type="number" class="smpg-input small-text" id="border_radius_bottom_right" name="<?php echo $this->_setting_name; ?>[border_radius_bottom_right]" value="<?php echo isset( $this->_setting_option['border_radius_bottom_right'] ) ? esc_attr( $this->_setting_option['border_radius_bottom_right']) : '0'; ?>">
-        <span><?php echo esc_html__('Bottom Right', 'digital-table-of-contents'); ?></span>
+        <input data-group="border_radius" type="number" class="smpg-input small-text" id="border_radius_bottom_right" name="<?php echo $this->_setting_name; ?>[border_radius_bottom_right]" value="<?php echo isset( $this->_setting_option['border_radius_bottom_right'] ) ? esc_attr( $this->_setting_option['border_radius_bottom_right']) : '0'; ?>">
+        <span data-group="border_radius"><?php echo esc_html__('Bottom Right', 'digital-table-of-contents'); ?></span>
         </li>
         <li>
-        <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[border_radius_unit]" id="border_radius_unit">
+        <select data-group="border_radius" class="smpg-input" name="<?php echo $this->_setting_name; ?>[border_radius_unit]" id="border_radius_unit">
             <option value="px" <?php echo (isset($this->_setting_option['border_radius_unit']) && $this->_setting_option['border_radius_unit'] == 'px' ? 'selected' : '' ) ?>><?php echo esc_html__('px', 'digital-table-of-contents'); ?></option>
             <option value="pt" <?php echo (isset($this->_setting_option['border_radius_unit']) && $this->_setting_option['border_radius_unit'] == 'pt' ? 'selected' : '' ) ?>><?php echo esc_html__('pt', 'digital-table-of-contents'); ?></option>
             <option value="%" <?php echo (isset($this->_setting_option['border_radius_unit']) && $this->_setting_option['border_radius_unit'] == '%' ? 'selected' : '' ) ?>><?php echo esc_html__('%', 'digital-table-of-contents'); ?></option>
             <option value="em" <?php echo (isset($this->_setting_option['border_radius_unit']) && $this->_setting_option['border_radius_unit'] == 'em' ? 'selected' : '' ) ?>><?php echo esc_html__('em', 'digital-table-of-contents'); ?></option>        
         </select>
-        <span><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></span>
+        <span data-group="border_radius"><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></span>
         </li>
     </ul>    	    
     <?php
@@ -1034,42 +1034,42 @@ public function dtoc_customization_border_radius_cb(){
 public function dtoc_customization_icon_border_radius_cb(){ 
     $this->dtoc_resolve_meta_settings_name(); 	   
     ?>    	
-    <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[icon_border_radius_mode]" id="icon_border_radius_mode">
+    <select data-group="icon_border_radius" class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[icon_border_radius_mode]" id="icon_border_radius_mode">
         <option value="default" <?php echo (isset($this->_setting_option['icon_border_radius_mode']) && $this->_setting_option['icon_border_radius_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>        
         <option value="custom" <?php echo (isset($this->_setting_option['icon_border_radius_mode']) && $this->_setting_option['icon_border_radius_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
     </select>
     <ul style="display: flex;">
         <li>
-        <input type="number" class="smpg-input small-text" id="icon_border_radius_top_left" name="<?php echo $this->_setting_name; ?>[icon_border_radius_top_left]" value="<?php echo isset( $this->_setting_option['icon_border_radius_top_left'] ) ? esc_attr( $this->_setting_option['icon_border_radius_top_left']) : '0'; ?>">
-        <span><?php echo esc_html__('Top Left', 'digital-table-of-contents'); ?></span>
+        <input data-group="icon_border_radius" type="number" class="smpg-input small-text" id="icon_border_radius_top_left" name="<?php echo $this->_setting_name; ?>[icon_border_radius_top_left]" value="<?php echo isset( $this->_setting_option['icon_border_radius_top_left'] ) ? esc_attr( $this->_setting_option['icon_border_radius_top_left']) : '0'; ?>">
+        <span data-group="icon_border_radius"><?php echo esc_html__('Top Left', 'digital-table-of-contents'); ?></span>
         </li>
         <li>
-        <input type="number" class="smpg-input small-text" id="icon_border_radius_top_right" name="<?php echo $this->_setting_name; ?>[icon_border_radius_top_right]" value="<?php echo isset( $this->_setting_option['icon_border_radius_top_right'] ) ? esc_attr( $this->_setting_option['icon_border_radius_top_right']) : '0'; ?>">
-        <span><?php echo esc_html__('Top Right', 'digital-table-of-contents'); ?></span>
+        <input data-group="icon_border_radius" type="number" class="smpg-input small-text" id="icon_border_radius_top_right" name="<?php echo $this->_setting_name; ?>[icon_border_radius_top_right]" value="<?php echo isset( $this->_setting_option['icon_border_radius_top_right'] ) ? esc_attr( $this->_setting_option['icon_border_radius_top_right']) : '0'; ?>">
+        <span data-group="icon_border_radius"><?php echo esc_html__('Top Right', 'digital-table-of-contents'); ?></span>
         </li>
         <li>
-        <input type="number" class="smpg-input small-text" id="icon_border_radius_bottom_left" name="<?php echo $this->_setting_name; ?>[icon_border_radius_bottom_left]" value="<?php echo isset( $this->_setting_option['icon_border_radius_bottom_left'] ) ? esc_attr( $this->_setting_option['icon_border_radius_bottom_left']) : '0'; ?>">
-        <span><?php echo esc_html__('Bottom Left', 'digital-table-of-contents'); ?></span>
+        <input data-group="icon_border_radius" type="number" class="smpg-input small-text" id="icon_border_radius_bottom_left" name="<?php echo $this->_setting_name; ?>[icon_border_radius_bottom_left]" value="<?php echo isset( $this->_setting_option['icon_border_radius_bottom_left'] ) ? esc_attr( $this->_setting_option['icon_border_radius_bottom_left']) : '0'; ?>">
+        <span data-group="icon_border_radius"><?php echo esc_html__('Bottom Left', 'digital-table-of-contents'); ?></span>
         </li>
         <li>
-        <input type="number" class="smpg-input small-text" id="icon_border_radius_bottom_right" name="<?php echo $this->_setting_name; ?>[icon_border_radius_bottom_right]" value="<?php echo isset( $this->_setting_option['icon_border_radius_bottom_right'] ) ? esc_attr( $this->_setting_option['icon_border_radius_bottom_right']) : '0'; ?>">
-        <span><?php echo esc_html__('Bottom Right', 'digital-table-of-contents'); ?></span>
+        <input data-group="icon_border_radius" type="number" class="smpg-input small-text" id="icon_border_radius_bottom_right" name="<?php echo $this->_setting_name; ?>[icon_border_radius_bottom_right]" value="<?php echo isset( $this->_setting_option['icon_border_radius_bottom_right'] ) ? esc_attr( $this->_setting_option['icon_border_radius_bottom_right']) : '0'; ?>">
+        <span data-group="icon_border_radius"><?php echo esc_html__('Bottom Right', 'digital-table-of-contents'); ?></span>
         </li>
         <li>
-        <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[icon_border_radius_unit]" id="icon_border_radius_unit">
+        <select data-group="icon_border_radius" class="smpg-input" name="<?php echo $this->_setting_name; ?>[icon_border_radius_unit]" id="icon_border_radius_unit">
             <option value="px" <?php echo (isset($this->_setting_option['icon_border_radius_unit']) && $this->_setting_option['icon_border_radius_unit'] == 'px' ? 'selected' : '' ) ?>><?php echo esc_html__('px', 'digital-table-of-contents'); ?></option>
             <option value="pt" <?php echo (isset($this->_setting_option['icon_border_radius_unit']) && $this->_setting_option['icon_border_radius_unit'] == 'pt' ? 'selected' : '' ) ?>><?php echo esc_html__('pt', 'digital-table-of-contents'); ?></option>
             <option value="%" <?php echo (isset($this->_setting_option['icon_border_radius_unit']) && $this->_setting_option['icon_border_radius_unit'] == '%' ? 'selected' : '' ) ?>><?php echo esc_html__('%', 'digital-table-of-contents'); ?></option>
             <option value="em" <?php echo (isset($this->_setting_option['icon_border_radius_unit']) && $this->_setting_option['icon_border_radius_unit'] == 'em' ? 'selected' : '' ) ?>><?php echo esc_html__('em', 'digital-table-of-contents'); ?></option>        
         </select>
-        <span><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></span>
+        <span data-group="icon_border_radius"><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></span>
         </li>
     </ul>    	    
     <?php
 }
 public function dtoc_customization_link_margin_cb(){
     ?>
-    <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[link_margin_mode]" id="link_margin_mode">
+    <select data-group="link_margin" class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[link_margin_mode]" id="link_margin_mode">
         <option value="default" <?php echo (isset($this->_setting_option['link_margin_mode']) && $this->_setting_option['link_margin_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>
         <option value="auto" <?php echo (isset($this->_setting_option['link_margin_mode']) && $this->_setting_option['link_margin_mode'] == 'auto' ? 'selected' : '' ) ?>><?php echo esc_html__('Auto', 'digital-table-of-contents'); ?></option>
         <option value="custom" <?php echo (isset($this->_setting_option['link_margin_mode']) && $this->_setting_option['link_margin_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
@@ -1079,7 +1079,7 @@ public function dtoc_customization_link_margin_cb(){
 }
 public function dtoc_customization_link_padding_cb(){
     ?>
-    <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[link_padding_mode]" id="link_padding_mode">
+    <select data-group="link_padding" class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[link_padding_mode]" id="link_padding_mode">
         <option value="default" <?php echo (isset($this->_setting_option['link_padding_mode']) && $this->_setting_option['link_padding_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>
         <option value="auto" <?php echo (isset($this->_setting_option['link_padding_mode']) && $this->_setting_option['link_padding_mode'] == 'auto' ? 'selected' : '' ) ?>><?php echo esc_html__('Auto', 'digital-table-of-contents'); ?></option>
         <option value="custom" <?php echo (isset($this->_setting_option['link_padding_mode']) && $this->_setting_option['link_padding_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
@@ -1089,7 +1089,7 @@ public function dtoc_customization_link_padding_cb(){
 }
 public function dtoc_customization_icon_padding_cb(){    
     ?>
-    <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[icon_padding_mode]" id="icon_padding_mode">
+    <select data-group="icon_padding" class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[icon_padding_mode]" id="icon_padding_mode">
         <option value="default" <?php echo (isset($this->_setting_option['icon_padding_mode']) && $this->_setting_option['icon_padding_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>
         <option value="auto" <?php echo (isset($this->_setting_option['icon_padding_mode']) && $this->_setting_option['icon_padding_mode'] == 'auto' ? 'selected' : '' ) ?>><?php echo esc_html__('Auto', 'digital-table-of-contents'); ?></option>
         <option value="custom" <?php echo (isset($this->_setting_option['icon_padding_mode']) && $this->_setting_option['icon_padding_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
@@ -1099,7 +1099,7 @@ public function dtoc_customization_icon_padding_cb(){
 }
 public function dtoc_customization_title_padding_cb(){
     ?>
-    <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[title_padding_mode]" id="title_padding_mode">
+    <select data-group="title_padding" class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[title_padding_mode]" id="title_padding_mode">
         <option value="default" <?php echo (isset($this->_setting_option['title_padding_mode']) && $this->_setting_option['title_padding_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>
         <option value="auto" <?php echo (isset($this->_setting_option['title_padding_mode']) && $this->_setting_option['title_padding_mode'] == 'auto' ? 'selected' : '' ) ?>><?php echo esc_html__('Auto', 'digital-table-of-contents'); ?></option>
         <option value="custom" <?php echo (isset($this->_setting_option['title_padding_mode']) && $this->_setting_option['title_padding_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
@@ -1109,7 +1109,7 @@ public function dtoc_customization_title_padding_cb(){
 }
 public function dtoc_customization_icon_margin_cb(){    
     ?>
-    <select class="smpg-input" name="<?php echo $this->_setting_name; ?>[icon_margin_mode]" id="icon_margin_mode">
+    <select data-group="icon_margin" class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[icon_margin_mode]" id="icon_margin_mode">
         <option value="default" <?php echo (isset($this->_setting_option['icon_margin_mode']) && $this->_setting_option['icon_margin_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>
         <option value="auto" <?php echo (isset($this->_setting_option['icon_margin_mode']) && $this->_setting_option['icon_margin_mode'] == 'auto' ? 'selected' : '' ) ?>><?php echo esc_html__('Auto', 'digital-table-of-contents'); ?></option>
         <option value="custom" <?php echo (isset($this->_setting_option['icon_margin_mode']) && $this->_setting_option['icon_margin_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
@@ -1156,7 +1156,7 @@ public function dtoc_customization_title_font_size_cb(){
         <option value="custom" <?php echo (isset($this->_setting_option['title_font_size_mode']) && $this->_setting_option['title_font_size_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
     </select>
     <input data-group="title_font_size" type="number" class="smpg-input small-text" id="title_font_size" name="<?php echo $this->_setting_name; ?>[title_font_size]" value="<?php echo isset( $this->_setting_option['title_font_size'] ) ? esc_attr( $this->_setting_option['title_font_size']) : '0'; ?>">
-    <select name="<?php echo $this->_setting_name; ?>[title_font_size_unit]" id="title_font_size_unit">
+    <select data-group="title_font_size" name="<?php echo $this->_setting_name; ?>[title_font_size_unit]" id="title_font_size_unit">
         <option value="px" <?php echo (isset($this->_setting_option['title_font_size_unit']) && $this->_setting_option['title_font_size_unit'] == 'px' ? 'selected' : '' ) ?>><?php echo esc_html__('px', 'digital-table-of-contents'); ?></option>
         <option value="pt" <?php echo (isset($this->_setting_option['title_font_size_unit']) && $this->_setting_option['title_font_size_unit'] == 'pt' ? 'selected' : '' ) ?>><?php echo esc_html__('pt', 'digital-table-of-contents'); ?></option>
         <option value="%" <?php echo (isset($this->_setting_option['title_font_size_unit']) && $this->_setting_option['title_font_size_unit'] == '%' ? 'selected' : '' ) ?>><?php echo esc_html__('%', 'digital-table-of-contents'); ?></option>
@@ -1173,7 +1173,7 @@ public function dtoc_customization_title_font_weight_cb(){
         <option value="custom" <?php echo (isset($this->_setting_option['title_font_weight_mode']) && $this->_setting_option['title_font_weight_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
     </select>
     <input data-group="title_font_weight" type="number" class="smpg-input small-text" id="title_font_weight" name="<?php echo $this->_setting_name; ?>[title_font_weight]" value="<?php echo isset( $this->_setting_option['title_font_weight'] ) ? esc_attr( $this->_setting_option['title_font_weight']) : '0'; ?>">
-    <select name="<?php echo $this->_setting_name; ?>[title_font_weight_unit]" id="title_font_weight_unit">
+    <select data-group="title_font_weight" name="<?php echo $this->_setting_name; ?>[title_font_weight_unit]" id="title_font_weight_unit">
         <option value="px" <?php echo (isset($this->_setting_option['title_font_weight_unit']) && $this->_setting_option['title_font_weight_unit'] == 'px' ? 'selected' : '' ) ?>><?php echo esc_html__('px', 'digital-table-of-contents'); ?></option>
         <option value="pt" <?php echo (isset($this->_setting_option['title_font_weight_unit']) && $this->_setting_option['title_font_weight_unit'] == 'pt' ? 'selected' : '' ) ?>><?php echo esc_html__('pt', 'digital-table-of-contents'); ?></option>
         <option value="%" <?php echo (isset($this->_setting_option['title_font_weight_unit']) && $this->_setting_option['title_font_weight_unit'] == '%' ? 'selected' : '' ) ?>><?php echo esc_html__('%', 'digital-table-of-contents'); ?></option>
