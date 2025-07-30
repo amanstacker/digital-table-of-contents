@@ -170,56 +170,53 @@ function dtoc_remove_unused_scripts($content){
         return $content;
 }
 
-function dtoc_placement_condition_matched($options){
-        return true;
-        $status = false;                
-        $curr_post_type = get_post_type();
-        
-        if(isset($options['placement'][$curr_post_type]['is_enabled'])){
-                $status = true;
-                
-        if(isset($options['placement'][$curr_post_type]['skip'])){
-                $skip_arr = $options['placement'][$curr_post_type]['skip'];
-                $ID = get_the_ID();
-                if(in_array($ID, $skip_arr)){                   
-                   return false;
-                }                    
+function dtoc_placement_condition_matched( $options ) {
+        print_r($options);die;
+    $post_id   = get_the_ID();
+    $post_type = get_post_type();
+
+    if ( ! isset( $options['placement'] ) || ! isset( $options['placement'][ $post_type ] ) ) {
+        return false;
+    }
+
+    $post_settings = $options['placement'][ $post_type ];
+
+    // 1. Check if placement is enabled for current post type
+    if ( empty( $post_settings['is_enabled'] ) ) {
+        return false;
+    }
+
+    // 2. Check if current post is in skip list
+    if ( isset( $post_settings['skip'] ) && is_array( $post_settings['skip'] ) ) {
+        if ( in_array( $post_id, $post_settings['skip'] ) ) {
+            return false;
         }
+    }
 
-        if(isset($options['placement'][$curr_post_type]['taxonomy'])){
+    // 3. Check taxonomy/category inclusion (if defined)
+    if ( isset( $post_settings['taxonomy'] ) && is_array( $post_settings['taxonomy'] ) ) {
+        foreach ( $post_settings['taxonomy'] as $taxonomy => $tax_data ) {
+            if ( isset( $tax_data['ids'] ) && is_array( $tax_data['ids'] ) && ! empty( $tax_data['ids'] ) ) {
+                $terms = get_the_terms( $post_id, $taxonomy );
 
-                $taxonomy = $options['placement'][$curr_post_type]['taxonomy'];
-                if(is_array($taxonomy)){
-                        
-                        $operation = [];
-                        $j = 0;
-                        foreach ($taxonomy as $key => $value) {
-                                if(!empty($value['ids'])){
-                                        $terms = get_the_terms( get_the_ID(), $key );
-                                        
-                                        if ( !is_wp_error( $terms ) && !empty($terms) ) {
-
-                                                foreach ($terms as $term) {
-                                                        if(in_array($term->term_id, $value['ids'])){
-                                                                $status = true;                                                                
-                                                                $operation[$j] = true;
-                                                        }else{
-                                                                
-                                                        }                                                         
-                                                }                                                         
-                                                
-                                        }
-                                        
-                                }
-                                $j++;
+                if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
+                    foreach ( $terms as $term ) {
+                        if ( in_array( $term->term_id, $tax_data['ids'] ) ) {
+                            return true; // ✅ Category match
                         }
+                    }
+                    return false; // ❌ Categories selected but no match
+                } else {
+                    return false; // ❌ No terms found when required
                 }
-
+            }
         }
+    }
 
-        }                        
-        return $status;
+    // 4. If taxonomy condition not set, but post type is enabled and not skipped, allow
+    return true;
 }
+
 function dtoc_get_device_type(){
 
         $device_type = 'laptop';
