@@ -27,7 +27,7 @@ function dtoc_box_on_css( $matches , $options = [] ) {
         
     }
            
-    $html .= '<div class="dtoc-box-on-css-body">';
+    $html .= '<div class="dtoc-box-body dtoc-box-on-css-body">';
 
     $html .= dtoc_get_plain_toc_html( $matches, $options );
     
@@ -38,7 +38,7 @@ function dtoc_box_on_css( $matches , $options = [] ) {
     return $html;
 }
 
-function dtoc_box_hierarchy_heading_list($matches, $options = []){
+function dtoc_box_hierarchy_heading_list($matches,   $options = []){
 			$html               = '';            
             $current_depth      = 100;    // headings can't be larger than h6 but 100 as a default to be sure
 			$numbered_items     = [];
@@ -180,8 +180,9 @@ function dtoc_box_on_js($matches, $options = []){
         $html .= '</div>';
         $html .= '</div>';
     }
-    
-    $html .= '<div class="dtoc-box-on-js-body">';
+    $html .= dtoc_get_custom_style( $options );
+    $html .= dtoc_get_toc_link_style( $options );
+    $html .= '<div class="dtoc-box-body dtoc-box-on-js-body">';
     $html .= dtoc_get_plain_toc_html($matches, $options);
     $html .= '</div>';
     
@@ -696,4 +697,76 @@ function dtoc_get_title_style( $options ) {
 	}
 
 	return $style;
+}
+
+function dtoc_get_toc_link_style( $options ) {
+    $css = ".dtoc-box-body .dtoc-link {";
+
+    // Link color
+    if ( ! empty( $options['link_color'] ) ) {
+        $css .= "color: " . esc_attr( $options['link_color'] ) . ";";
+    }
+
+    // Padding
+    if ( isset( $options['link_padding_mode'] ) ) {
+        if ( $options['link_padding_mode'] === 'auto' ) {
+            $css .= "padding: auto;";
+        } elseif ( $options['link_padding_mode'] === 'custom' ) {
+            $unit = isset( $options['link_padding_unit'] ) ? $options['link_padding_unit'] : 'px';
+            $top = isset( $options['link_padding_top'] ) ? (int) $options['link_padding_top'] . $unit : '0' . $unit;
+            $right = isset( $options['link_padding_right'] ) ? (int) $options['link_padding_right'] . $unit : '0' . $unit;
+            $bottom = isset( $options['link_padding_bottom'] ) ? (int) $options['link_padding_bottom'] . $unit : '0' . $unit;
+            $left = isset( $options['link_padding_left'] ) ? (int) $options['link_padding_left'] . $unit : '0' . $unit;
+            $css .= "padding: {$top} {$right} {$bottom} {$left};";
+        }
+    }
+
+    // Margin
+    if ( isset( $options['link_margin_mode'] ) ) {
+        if ( $options['link_margin_mode'] === 'auto' ) {
+            $css .= "margin: auto;";
+        } elseif ( $options['link_margin_mode'] === 'custom' ) {
+            $unit = isset( $options['link_margin_unit'] ) ? $options['link_margin_unit'] : 'px';
+            $top = isset( $options['link_margin_top'] ) ? (int) $options['link_margin_top'] . $unit : '0' . $unit;
+            $right = isset( $options['link_margin_right'] ) ? (int) $options['link_margin_right'] . $unit : '0' . $unit;
+            $bottom = isset( $options['link_margin_bottom'] ) ? (int) $options['link_margin_bottom'] . $unit : '0' . $unit;
+            $left = isset( $options['link_margin_left'] ) ? (int) $options['link_margin_left'] . $unit : '0' . $unit;
+            $css .= "margin: {$top} {$right} {$bottom} {$left};";
+        }
+    }
+
+    $css .= "}";
+
+    // Hover color
+    if ( ! empty( $options['link_hover_color'] ) ) {
+        $css .= ".dtoc-box-body .dtoc-link:hover {";
+        $css .= "color: " . esc_attr( $options['link_hover_color'] ) . ";";
+        $css .= "}";
+    }
+
+    // Visited color
+    if ( ! empty( $options['link_visited_color'] ) ) {
+        $css .= ".dtoc-box-body .dtoc-link:visited {";
+        $css .= "color: " . esc_attr( $options['link_visited_color'] ) . ";";
+        $css .= "}";
+    }
+
+    return '<style id="dtoc-link-css">' . $css . '</style>';
+}
+
+function dtoc_get_custom_style( $options ) {
+
+    if ( empty( $options['custom_css'] ) ) {
+        return '';
+    }
+
+    // Sanitize output: allow only safe characters in CSS
+    $css = trim( wp_strip_all_tags( $options['custom_css'] ) );
+
+    // Don’t output if it's empty after cleaning
+    if ( $css === '' ) {
+        return '';
+    }
+
+    return '<style id="dtoc-custom-css">' . $css . '</style>';
 }
