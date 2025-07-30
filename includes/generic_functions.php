@@ -4,7 +4,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 function dtoc_box_on_css( $matches , $options = [] ) {
 
-    $html = '<div class="dtoc-box-container">';    
+    $dbc_style = dtoc_box_container_style( $options );
+    $html = '<div class="dtoc-box-container" style="'.$dbc_style.'">';    
 
     if ( isset( $options['display_title'] ) ) {
 
@@ -17,16 +18,15 @@ function dtoc_box_on_css( $matches , $options = [] ) {
             }
             
         }
-
-        $html .= '<label for="dtoc-toggle-check" class="dtoc-toggle-label">';
+        $t_style = dtoc_get_title_style( $options );
+        $html .= '<label for="dtoc-toggle-check" class="dtoc-toggle-label" style="'.$t_style.'">';
         $html .= '<span>'.esc_html( $options['header_text'] ).'</span>';
         $html .= dtoc_get_header_icon( $options );
         $html .= '</label>';    
-
-        
-        
+            
     }
-           
+    $html .= dtoc_get_custom_style( $options );
+    $html .= dtoc_get_toc_link_style( $options );       
     $html .= '<div class="dtoc-box-body dtoc-box-on-css-body">';
 
     $html .= dtoc_get_plain_toc_html( $matches, $options );
