@@ -11,17 +11,21 @@
 }
 .dtoc-toggle-label{
     display: flex;    
-    justify-content: space-between;
-    padding: 3px;
-    padding-bottom: 5px;
+    justify-content: space-between;        
     font-weight: 600;
-    font-size: 100%;        
+    font-size: 100%;   
+    padding: 10px;     
+}
+.dtoc_icon_toggle{
+  line-height: 0;  
+  padding-left: 10px;
 }
 .dtoc_icon_toggle img{
     width: 30px;
 }
 .dtoc-box-container ul{
     margin: auto;
+    padding: 0;
 }
 .dtoc-box-container ul li{
     font-size: 95%;
@@ -35,21 +39,7 @@
     display: inline-flex;    
     flex-wrap: nowrap;
 }
-
-
-
-/* Default: TOC visible, show text hidden */
-#dtoc-toggle-check:checked ~ .dtoc-toggle-label .dtoc-hide-text {
-  display: inline;
-}
-#dtoc-toggle-check:checked ~ .dtoc-toggle-label .dtoc-show-text {
-  display: none;
-}
-/* When unchecked: TOC hidden, show text visible */
-#dtoc-toggle-check:not(:checked) ~ .dtoc-toggle-label .dtoc-show-text {
-  display: inline;
-}
-#dtoc-toggle-check:not(:checked) ~ .dtoc-toggle-label .dtoc-hide-text {
-  display: none;
+.dtoc-box-body{
+  padding: 10px;
 }
 

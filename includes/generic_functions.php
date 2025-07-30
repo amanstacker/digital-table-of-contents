@@ -173,12 +173,10 @@ function dtoc_box_on_js($matches, $options = []){
             $heading_text = esc_html( $options['header_text'] );
         }
 
-        $t_style = dtoc_get_title_style( $options );
-        $html .= '<div class="dtoc-box-header-container" style="'.$t_style.'">';
-        $html .= '<div class="dtoc-toggle-label">'.$heading_text.'';
+        $t_style = dtoc_get_title_style( $options );        
+        $html .= '<div class="dtoc-toggle-label" style="'.$t_style.'">'.$heading_text.'';
         $html .= dtoc_get_header_icon( $options );
-        $html .= '</div>';
-        $html .= '</div>';
+        $html .= '</div>';        
     }
     $html .= dtoc_get_custom_style( $options );
     $html .= dtoc_get_toc_link_style( $options );
