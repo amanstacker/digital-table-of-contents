@@ -171,51 +171,81 @@ function dtoc_remove_unused_scripts($content){
 }
 
 function dtoc_placement_condition_matched( $options ) {
-        print_r($options);die;
     $post_id   = get_the_ID();
     $post_type = get_post_type();
 
-    if ( ! isset( $options['placement'] ) || ! isset( $options['placement'][ $post_type ] ) ) {
+    // Check if placement exists and is enabled for this post type
+    if (
+        ! isset( $options['placement'] ) ||
+        ! isset( $options['placement'][ $post_type ] ) ||
+        empty( $options['placement'][ $post_type ]['is_enabled'] )
+    ) {
         return false;
     }
 
-    $post_settings = $options['placement'][ $post_type ];
+    $placement = $options['placement'][ $post_type ];
 
-    // 1. Check if placement is enabled for current post type
-    if ( empty( $post_settings['is_enabled'] ) ) {
-        return false;
-    }
-
-    // 2. Check if current post is in skip list
-    if ( isset( $post_settings['skip'] ) && is_array( $post_settings['skip'] ) ) {
-        if ( in_array( $post_id, $post_settings['skip'] ) ) {
+    // Check if this post is skipped
+    if ( isset( $placement['skip'] ) && is_array( $placement['skip'] ) ) {
+        if ( in_array( $post_id, $placement['skip'] ) ) {
             return false;
         }
     }
 
-    // 3. Check taxonomy/category inclusion (if defined)
-    if ( isset( $post_settings['taxonomy'] ) && is_array( $post_settings['taxonomy'] ) ) {
-        foreach ( $post_settings['taxonomy'] as $taxonomy => $tax_data ) {
-            if ( isset( $tax_data['ids'] ) && is_array( $tax_data['ids'] ) && ! empty( $tax_data['ids'] ) ) {
-                $terms = get_the_terms( $post_id, $taxonomy );
+    // If taxonomy rules exist
+    if ( isset( $placement['taxonomy'] ) && is_array( $placement['taxonomy'] ) ) {
+        $match_found = false;
 
-                if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
-                    foreach ( $terms as $term ) {
-                        if ( in_array( $term->term_id, $tax_data['ids'] ) ) {
-                            return true; // ✅ Category match
-                        }
-                    }
-                    return false; // ❌ Categories selected but no match
+        foreach ( $placement['taxonomy'] as $taxonomy => $settings ) {
+            // Validate taxonomy terms
+            if ( ! isset( $settings['ids'] ) || ! is_array( $settings['ids'] ) || empty( $settings['ids'] ) ) {
+                continue;
+            }
+
+            $required_ids = $settings['ids'];
+            $operation    = isset( $settings['ope'] ) ? strtolower( $settings['ope'] ) : 'or';
+
+            $terms = get_the_terms( $post_id, $taxonomy );
+            if ( is_wp_error( $terms ) || empty( $terms ) ) {
+                // if taxonomy terms required but post has none, AND logic fails
+                if ( $operation === 'and' ) {
+                    return false;
                 } else {
-                    return false; // ❌ No terms found when required
+                    continue;
+                }
+            }
+
+            $term_ids = array();
+            foreach ( $terms as $term ) {
+                $term_ids[] = $term->term_id;
+            }
+
+            if ( $operation === 'and' ) {
+                // AND: all required IDs must be in post terms
+                foreach ( $required_ids as $rid ) {
+                    if ( ! in_array( $rid, $term_ids ) ) {
+                        return false; // if even one required term is missing
+                    }
+                }
+                $match_found = true;
+            } else {
+                // OR: any match is enough
+                foreach ( $required_ids as $rid ) {
+                    if ( in_array( $rid, $term_ids ) ) {
+                        $match_found = true;
+                        break;
+                    }
                 }
             }
         }
+
+        return $match_found;
     }
 
-    // 4. If taxonomy condition not set, but post type is enabled and not skipped, allow
+    // No taxonomy condition set, but post type is enabled and not skipped
     return true;
 }
+
 
 function dtoc_get_device_type(){
 
