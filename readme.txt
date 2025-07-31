@@ -1,6 +1,7 @@
 === Digital Table of Contents ===
 Contributors: amanstacker  
-Tags: dtoc, table of contents, toc, navigation, list  
+Donate link: https://www.paypal.com/paypalme/amanstacker  
+Tags: table of contents, toc, navigation, headings, content list, sticky toc  
 Requires at least: 5.0  
 Tested up to: 6.8  
 Requires PHP: 7.4  
@@ -8,91 +9,152 @@ Stable tag: 1.0.1
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html  
 
+An advanced and fully customizable Table of Contents (TOC) plugin for WordPress. Improve readability, SEO, and content structure with powerful options and future-ready modules.
+
 == Description ==
 
-**Digital Table of Contents (DTOC)** is a modular and fully customizable Table of Contents plugin designed to improve content navigation and readability for your website. With multiple display options, responsive design, and a powerful live preview system in the admin panel, DTOC is the only TOC plugin you'll ever need.
+**Digital Table of Contents** is a powerful, flexible, and SEO-friendly TOC (Table of Contents) plugin for WordPress. It helps you create in-content TOCs with full control over appearance, behavior, and placement.
+
+Ideal for blogs, tutorials, documentation, and any long-form content, this plugin improves user experience and helps search engines better understand your content structure.
 
 **Key Features:**
 
-🧩 **Modular Display Options**  
-- **In-Content TOC**: Auto-inserts a dynamic TOC within your post content.  
-- **Sticky TOC**: Fixed in a container like the sidebar or header while scrolling.  
-- **Floating TOC**: Movable and draggable, giving users flexible navigation.  
-- **Shortcode TOC**: Place TOC anywhere using shortcodes.
+🔹 In-Content Table of Contents (TOC)  
+🔹 Full customization (colors, borders, icons, padding, etc.)  
+🔹 Smart placement logic  
+🔹 Scroll behavior, toggle view, heading tag selection  
+🔹 SEO-optimized & accessible  
+🔹 Lightweight & performance-friendly  
+🔹 Tools: Import/Export, Reset & Plugin Data Removal  
+🔹 Live preview (coming soon)
 
-📱 **Responsive Control Per Device**  
-Enable or disable separate TOC customizations for Mobile and Tablet on all modules:
-- In-Content
-- Sticky
-- Floating
-- Shortcode
+**Available Modules (More Coming Soon!):**
 
-⚙️ **In-Content Module Settings**
+- ✅ In-Content TOC  
+- 🔜 Sticky TOC  
+- 🔜 Floating TOC  
+- 🔜 Shortcode TOC  
+- 🔜 In-Content (Mobile)  
+- 🔜 In-Content Table  
+- 🔜 Sticky (Mobile)  
+- 🔜 Sticky Table  
+- 🔜 Floating (Mobile)  
+- 🔜 Floating Table  
+- 🔜 Shortcode (Mobile)  
+- 🔜 Shortcode Table  
 
-**General Tab**  
-- TOC Loading Type (CSS or JS)  
-- Title with Custom Icon Options (Toggle, Plus/Minus, ☰, or custom icon)  
-- Toggle Options: Show/Hide Text, Initial View, Toggle on Title  
-- Scroll Behavior: Smooth or Auto  
-- Alignment and Wrapping Options  
-- Display Rules: Show TOC only after a certain number of headings  
-- TOC Position: Before First Heading, After, Top/Bottom, or After Paragraph X  
-- List Style Type (disc, number, square, etc.)  
-- Heading Tag Selection (H1 to H6)
+== In-Content TOC Tabs ==
 
-**Advanced Tab**  
+### General Tab
+- Rendering Style (JavaScript or Auto)  
+- Title Options  
+  - Custom Heading Text  
+  - Toggle Option  
+  - Initial Body Visibility  
+  - Icon Style  
+- Jump Links  
+  - Scroll Behavior (Smooth/Instant)  
+- Alignment  
+- Wrap Content Around TOC  
+- Display Conditions  
+- Position (Top, After First Heading, Custom)  
+- List Style (Decimal, Bullet, etc.)  
+- Heading Tags Selection (H1–H6)  
+
+### Advanced Tab
 - Enable Heading Hierarchy  
-- Combine Headings across Page Breaks  
+- Combine Headings Across Page Breaks  
 
-**Placement Tab**  
-- Choose Post Types, Categories, or Skip Specific Posts  
+### Placement Tab
+- Enable TOC by Post Type  
+- Filter by Category or Tag  
+- Skip Individual Posts  
 
-**Customization Tab**  
-- Styling Options: Container, Title, Icon, Border, Links  
-- Add Custom CSS  
+### Customization Tab
+- **Container Styling:** Background color, width, height, margin, padding  
+- **Border Styling:** Type, color, width, radius  
+- **Title Styling:** Background color, text color, font size, font weight, padding  
+- **Icon Styling:** Background & foreground colors, size, border, spacing  
+- **Link Styling:** Normal, hover, visited colors, padding, margin  
+- **Custom CSS:** Write your own CSS for advanced control  
 
-✨ **Live Admin Preview**  
-Visualize TOC settings live from the admin area without refreshing the page.
+== Tools ==
 
-== Installation ==
-
-1. Upload the plugin files to the `/wp-content/plugins/digital-table-of-contents` directory, or install the plugin through the WordPress plugins screen directly.  
-2. Activate the plugin through the 'Plugins' screen in WordPress.  
-3. Navigate to **Settings > Digital Table of Contents** to configure and preview your TOC layout.
-
-== Frequently Asked Questions ==
-
-= Can I control which post types show the TOC? =  
-Yes, the plugin includes options to select post types, specific categories, and individual posts where TOC should or should not appear.
-
-= Is the TOC responsive? =  
-Absolutely! You can enable or disable separate TOC settings for mobile and tablet for all module types.
-
-= How do I add a TOC manually? =  
-Use the shortcode `[dtoc]` anywhere in your content to insert the Table of Contents manually.
+- 🔄 **Import / Export** plugin settings  
+- 🧹 **Reset** to default  
+- 🗑️ **Delete Plugin Data** on uninstall  
 
 == Screenshots ==
 
-1. Admin Settings Panel with Live Preview  
-2. In-Content TOC Example  
-3. Sticky TOC in Sidebar  
-4. Floating TOC on Frontend  
-5. Shortcode TOC in Action  
+1. In-Content TOC in action  
+2. General tab options  
+3. Advanced tab controls  
+4. Placement settings  
+5. Customization panel for full styling  
+6. Admin tools section (Import/Export, Reset)  
+
+== Installation ==
+
+1. Upload the plugin to your WordPress site or install it directly from the WordPress.org repository.  
+2. Activate the plugin through the “Plugins” menu.  
+3. Go to **Settings > Digital TOC** to configure the TOC for your content.  
+4. Customize the appearance, behavior, and placement as per your site needs.  
+
+== Frequently Asked Questions ==
+
+= Is this plugin SEO-friendly? =  
+Yes. It creates structured internal links and uses accessible markup, improving crawlability and readability.
+
+= Can I customize how the TOC looks? =  
+Absolutely. You can customize nearly every visual element — container, title, icon, links, and more — via the Customization tab.
+
+= Will it work with any theme? =  
+Yes. It is designed to be theme-agnostic and should work out of the box with most WordPress themes.
+
+= Does it support mobile devices? =  
+Mobile-specific modules are coming soon in future updates!
+
+= Can I reset all plugin settings? =  
+Yes. Use the Tools section to reset or export/import your settings.
 
 == Changelog ==
 
-= 1.0.1 =  
-* Initial stable release  
-* Modular TOC options (In-Content, Sticky, Floating, Shortcode)  
-* Per-device control for each module  
-* Live admin preview  
-* Highly customizable layout and behavior  
+= 1.0.1 =
+* Initial release with In-Content TOC module  
+* General, Advanced, Placement, and Customization tabs included  
+* Tools section with Import/Export and Reset options  
 
 == Upgrade Notice ==
 
-= 1.0.1 =  
-Initial stable release. Recommended for all users.
+= 1.0.1 =
+First release of Digital TOC with a powerful In-Content Table of Contents module. More modules coming soon!
+
+== Roadmap ==
+
+- Sticky and Floating TOC  
+- Mobile-specific layout and controls  
+- Shortcode & Widget support  
+- Live Preview UI in Admin  
+- Accessibility enhancements  
+
+== Credits ==
+
+This plugin is inspired by and pays credit to the following projects:
+
+- [Easy Table of Contents](https://wordpress.org/plugins/easy-table-of-contents/)  
+- [Table of Contents Plus](https://wordpress.org/plugins/table-of-contents-plus/)
+
+**Third-party Libraries Used:**
+
+- [Ace Editor](https://ace.c9.io/) – for code editing interface in custom CSS  
+- [Select2](https://select2.org/) – for enhanced select dropdowns  
 
 == License ==
 
 This plugin is licensed under the GPLv2 or later.
+
+== Support & Feedback ==
+
+For support or suggestions, visit the [Support Forum](https://wordpress.org/support/plugin/digital-table-of-contents).  
+Contribute or view the source on GitHub: [https://github.com/amanstacker/digital-table-of-contents](https://github.com/amanstacker/digital-table-of-contents)  
+Love the plugin? [Support development with a donation](https://www.paypal.com/paypalme/amanstacker)

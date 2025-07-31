@@ -1259,7 +1259,7 @@ public function dtoc_customization_border_type_cb(){
     </select>
 	
     <?php
-    dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'border_type'); 
+    // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'border_type'); 
 }
 public function dtoc_customization_icon_border_type_cb(){
 	$this->dtoc_resolve_meta_settings_name(); 	
@@ -1274,7 +1274,7 @@ public function dtoc_customization_icon_border_type_cb(){
         <option value="groove" <?php echo (isset($this->_setting_option['icon_border_type']) && $this->_setting_option['icon_border_type'] == 'groove' ? 'selected' : '' ) ?>><?php echo esc_html__('Groove', 'digital-table-of-contents'); ?></option>
     </select>	
     <?php
-    dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'icon_border_type'); 
+    // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'icon_border_type'); 
 }
 public function dtoc_general_rendering_style_cb(){ 
     $this->dtoc_resolve_meta_settings_name(); 	   	                
@@ -1337,7 +1337,9 @@ public function dtoc_general_header_icon_cb(){
         <img id="custom-icon-preview" src="" alt="Icon Preview" style="max-height: 40px; margin-left: 10px; display: none;" />
         <input type="hidden" name="<?php echo esc_attr($this->_setting_name); ?>[custom_icon_url]" id="custom_icon_url" value="<?php echo esc_attr($this->_setting_option['custom_icon_url'] ?? ''); ?>">
     </div>    
-    <?php dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'header_icon'); ?>
+    <?php 
+        // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'header_icon'); 
+    ?>
 </div>
 
     
@@ -1348,21 +1350,21 @@ public function dtoc_general_show_text_cb() {
     ?>    
     <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[show_text]" id="show_text" type="text" value="<?php echo (isset($this->_setting_option['show_text']) ? $this->_setting_option['show_text'] : 'show' ) ?>">
     <?php
-    dtoc_tooltip(__('text', 'digital-table-of-contents'), 'show_text');
+    // dtoc_tooltip(__('text', 'digital-table-of-contents'), 'show_text');
 }
 public function dtoc_general_hide_text_cb() {
     $this->dtoc_resolve_meta_settings_name(); 	
     ?>    
     <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[hide_text]" id="hide_text" type="text" value="<?php echo (isset($this->_setting_option['hide_text']) ? $this->_setting_option['hide_text'] : 'hide' ) ?>">
     <?php
-    dtoc_tooltip(__('text', 'digital-table-of-contents'), 'hide_text');
+    // dtoc_tooltip(__('text', 'digital-table-of-contents'), 'hide_text');
 }
 public function dtoc_general_header_text_cb() {
     $this->dtoc_resolve_meta_settings_name(); 	
     ?>    
     <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[header_text]" id="header_text" type="text" value="<?php echo (isset($this->_setting_option['header_text']) ? $this->_setting_option['header_text'] : 'Table Of Contents' ) ?>">
     <?php
-    dtoc_tooltip(__('text', 'digital-table-of-contents'), 'header_text');
+    // dtoc_tooltip(__('text', 'digital-table-of-contents'), 'header_text');
 }
 
 public function dtoc_display_title_cb(){  
@@ -1370,35 +1372,35 @@ public function dtoc_display_title_cb(){
     ?>  
         <input class="smpg-input dtoc_parent_option" name="<?php echo $this->_setting_name; ?>[display_title]" id="display_title" type="checkbox" value="1" <?php echo (isset($this->_setting_option['display_title']) && $this->_setting_option['display_title'] == 1 ? 'checked' : '' ) ?>>
     <?php
-    dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'display_title'); 
+    // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'display_title'); 
 }
 public function dtoc_general_scroll_back_to_toc_cb(){  
     $this->dtoc_resolve_meta_settings_name(); 	  	                        
     ?>  
         <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[scroll_back_to_top]" id="scroll_back_to_toc" type="checkbox" value="1" <?php echo (isset($this->_setting_option['scroll_back_to_top']) && $this->_setting_option['scroll_back_to_top'] == 1 ? 'checked' : '' ) ?>>
     <?php
-    dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'scroll_back_to_top'); 
+    // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'scroll_back_to_top'); 
 }
 public function dtoc_general_wrap_content_cb(){ 
     $this->dtoc_resolve_meta_settings_name(); 	   	                        
     ?>  
         <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[wrap_content]" id="wrap_content" type="checkbox" value="1" <?php echo (isset($this->_setting_option['wrap_content']) && $this->_setting_option['wrap_content'] == 1 ? 'checked' : '' ) ?>>
     <?php
-    dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'wrap_content'); 
+    // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'wrap_content'); 
 }
 public function dtoc_display_toggle_body_cb(){  
     $this->dtoc_resolve_meta_settings_name(); 	                        
     ?>  
         <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[toggle_body]" id="toggle_body" type="checkbox" value="1" <?php echo (isset($this->_setting_option['toggle_body']) && $this->_setting_option['toggle_body'] == 1 ? 'checked' : '' ) ?>>        
     <?php
-    dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'toggle_body'); 
+    // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'toggle_body'); 
 }
 public function dtoc_customization_remove_css_js_cb(){ 
     $this->dtoc_resolve_meta_settings_name();   	                        
     ?>  
         <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[remove_unused_css_js]" id="remove_unused_css_js" type="checkbox" value="1" <?php echo (isset($this->_setting_option['remove_unused_css_js']) && $this->_setting_option['remove_unused_css_js'] == 1 ? 'checked' : '' ) ?>>
     <?php
-    dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'remove_unused_css_js'); 
+    // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'remove_unused_css_js'); 
 }
 public function dtoc_general_headings_include_cb(){
     $this->dtoc_resolve_meta_settings_name();

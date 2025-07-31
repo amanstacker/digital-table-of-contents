@@ -13,7 +13,7 @@ License: GPLv2 or later
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define('DTOC_VERSION', '1.0');
+define('DTOC_VERSION', '1.0.1');
 define('DTOC_DIR_NAME', plugin_basename( dirname( __FILE__ ) ) );
 define('DTOC_BASE_NAME', plugin_basename( __FILE__ ) );
 define('DTOC_PATH', dirname( __FILE__ ) );
