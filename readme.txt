@@ -9,7 +9,7 @@ Stable tag: 1.0.1
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html  
 
-An advanced and fully customizable Table of Contents (TOC) plugin for WordPress. Improve readability, SEO, and content structure with powerful options and future-ready modules.
+A powerful and customizable TOC plugin for WordPress. Boost SEO, enhance readability, and effortlessly navigate your content with advanced features and flexible styling.
 
 == Description ==
 
@@ -97,7 +97,7 @@ Ideal for blogs, tutorials, documentation, and any long-form content, this plugi
 
 1. Upload the plugin to your WordPress site or install it directly from the WordPress.org repository.  
 2. Activate the plugin through the “Plugins” menu.  
-3. Go to **Settings > Digital TOC** to configure the TOC for your content.  
+3. Go to **Dashboard > Digital TOC** to configure the TOC for your content.  
 4. Customize the appearance, behavior, and placement as per your site needs.  
 
 == Frequently Asked Questions ==

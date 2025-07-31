@@ -4,7 +4,7 @@
 [![GPLv2 License](https://img.shields.io/badge/license-GPLv2-blue.svg?style=flat-square)](https://www.gnu.org/licenses/gpl-2.0.html)
 [![Donate](https://img.shields.io/badge/donate-paypal-blue.svg?style=flat-square)](https://www.paypal.com/paypalme/amanstacker)
 
-An advanced and fully customizable Table of Contents (TOC) plugin for WordPress. Improve readability, SEO, and content structure with powerful options and future-ready modules.
+A powerful and customizable TOC plugin for WordPress. Boost SEO, enhance readability, and effortlessly navigate your content with advanced features and flexible styling.
 
 ---
 
