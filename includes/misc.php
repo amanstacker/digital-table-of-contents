@@ -171,6 +171,7 @@ function dtoc_remove_unused_scripts($content){
 }
 
 function dtoc_placement_condition_matched( $options ) {
+
     $post_id   = get_the_ID();
     $post_type = get_post_type();
 
@@ -192,22 +193,23 @@ function dtoc_placement_condition_matched( $options ) {
         }
     }
 
-    // If taxonomy rules exist
+    // Taxonomy matching
     if ( isset( $placement['taxonomy'] ) && is_array( $placement['taxonomy'] ) ) {
-        $match_found = false;
+        $has_valid_taxonomy = false;
+        $match_found        = false;
 
         foreach ( $placement['taxonomy'] as $taxonomy => $settings ) {
-            // Validate taxonomy terms
-            if ( ! isset( $settings['ids'] ) || ! is_array( $settings['ids'] ) || empty( $settings['ids'] ) ) {
+            if ( empty( $settings['ids'] ) || ! is_array( $settings['ids'] ) ) {
                 continue;
             }
+
+            $has_valid_taxonomy = true;
 
             $required_ids = $settings['ids'];
             $operation    = isset( $settings['ope'] ) ? strtolower( $settings['ope'] ) : 'or';
 
             $terms = get_the_terms( $post_id, $taxonomy );
             if ( is_wp_error( $terms ) || empty( $terms ) ) {
-                // if taxonomy terms required but post has none, AND logic fails
                 if ( $operation === 'and' ) {
                     return false;
                 } else {
@@ -215,21 +217,16 @@ function dtoc_placement_condition_matched( $options ) {
                 }
             }
 
-            $term_ids = array();
-            foreach ( $terms as $term ) {
-                $term_ids[] = $term->term_id;
-            }
+            $term_ids = wp_list_pluck( $terms, 'term_id' );
 
             if ( $operation === 'and' ) {
-                // AND: all required IDs must be in post terms
                 foreach ( $required_ids as $rid ) {
                     if ( ! in_array( $rid, $term_ids ) ) {
-                        return false; // if even one required term is missing
+                        return false;
                     }
                 }
                 $match_found = true;
             } else {
-                // OR: any match is enough
                 foreach ( $required_ids as $rid ) {
                     if ( in_array( $rid, $term_ids ) ) {
                         $match_found = true;
@@ -239,12 +236,16 @@ function dtoc_placement_condition_matched( $options ) {
             }
         }
 
-        return $match_found;
+        // If taxonomy rules exist but no matches were found
+        if ( $has_valid_taxonomy && ! $match_found ) {
+            return false;
+        }
     }
 
-    // No taxonomy condition set, but post type is enabled and not skipped
+    // Passed all checks
     return true;
 }
+
 
 
 function dtoc_get_device_type(){
