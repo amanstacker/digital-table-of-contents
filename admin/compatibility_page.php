@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 function dtoc_add_compatibility_menu_links(){
     add_submenu_page(
 		'dtoc',
-		'Digital Table Of Contents Compatibility',
+		'Digital Table of Contents Compatibility',
         'Compatibility',
 		'manage_options',
 		'dtoc_compatibility',
@@ -28,7 +28,7 @@ function dtoc_compatibility_page_render(){
     $tab = dtoc_admin_get_tab('plugins', [ 'plugins','themes' ]);
     ?>
     <div class="wrap dtoc-main-container">
-    <h1 class="wp-heading-inline"><?php echo esc_html__('Digital Table Of Contents | Compatibility', 'digital-table-of-contents'); ?></h1>    
+    <h1 class="wp-heading-inline"><?php echo esc_html__('Digital Table of Contents | Compatibility', 'digital-table-of-contents'); ?></h1>    
     <!-- setting form start here -->
     <div class="dtoc-main-wrapper">
     <div class="dtoc-form-options">

@@ -45,7 +45,7 @@ function dtoc_deactivation_feedback_modal() {
 	
     <div id="dtoc-feedback-content">
 		<div class="dtoc-dp-header">
-            <h3><?php esc_html_e('Deactivating Digital Table Of Contents ', 'digital-table-of-contents') ?></h3>
+            <h3><?php esc_html_e('Deactivating Digital Table of Contents ', 'digital-table-of-contents') ?></h3>
             <button class="close dashicons dashicons-no dtoc-fd-stop-deactivation">
                 <span class="screen-reader-text"></span>
             </button>

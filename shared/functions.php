@@ -65,7 +65,7 @@ function dtoc_default_incontent_options(){
         $default = [
             "rendering_style" => "js",
             "display_title" => 1,
-            "header_text" => "Table Of Contents",
+            "header_text" => "Table of Contents",
             "toggle_body" => 1,
             "toggle_initial" => "show",
             "header_icon" => "list_icon",
@@ -382,8 +382,8 @@ function dtoc_option_types ( $tab = 'all' , $settings = [] , $type ="default" ) 
         'name' => 'header_text',
         'type' => 'text',
         'value' => '',
-		'placeholder'=>'Table Of Contents',
-		'default' =>'Table Of Contents',
+		'placeholder'=>'Table of Contents',
+		'default' =>'Table of Contents',
 		'settings_for' => ['incontent','sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
     ],
     [

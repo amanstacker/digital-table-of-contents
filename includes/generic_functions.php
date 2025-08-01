@@ -167,8 +167,8 @@ function dtoc_box_on_js($matches, $options = []){
     if(isset($options['display_title'])){
 
         $heading_text = '';                        
-        if ( isset( $options['header_text'] ) && $options['header_text'] === 'Table Of Contents' ){
-            $heading_text = esc_html__( 'Table Of Contents', 'digital-table-of-contents' );
+        if ( isset( $options['header_text'] ) && $options['header_text'] === 'Table of Contents' ){
+            $heading_text = esc_html__( 'Table of Contents', 'digital-table-of-contents' );
         }else{
             $heading_text = esc_html( $options['header_text'] );
         }

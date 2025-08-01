@@ -20,7 +20,7 @@ public function dtoc_add_menu_links(){
 	
     add_submenu_page(
 		'dtoc',
-		'Digital Table Of Contents In-Content',
+		'Digital Table of Contents In-Content',
         'In-Content',
 		'manage_options',
 		'dtoc_incontent',
@@ -28,7 +28,7 @@ public function dtoc_add_menu_links(){
 	);
 	// add_submenu_page(
 	// 	'dtoc',
-	// 	'Digital Table Of Contents In-Content',
+	// 	'Digital Table of Contents In-Content',
     //     'In-Content Mobile',
 	// 	'manage_options',
 	// 	'dtoc_incontent_mobile',
@@ -36,7 +36,7 @@ public function dtoc_add_menu_links(){
 	// );
 	// add_submenu_page(
 	// 	'dtoc',
-	// 	'Digital Table Of Contents In-Content',
+	// 	'Digital Table of Contents In-Content',
     //     'In-Content Tablet',
 	// 	'manage_options',
 	// 	'dtoc_incontent_tablet',
@@ -44,7 +44,7 @@ public function dtoc_add_menu_links(){
 	// );	
     // add_submenu_page(
 	// 	'dtoc',
-	// 	'Digital Table Of Contents Sticky',
+	// 	'Digital Table of Contents Sticky',
     //     'Sticky',
 	// 	'manage_options',
 	// 	'dtoc_sticky',
@@ -52,7 +52,7 @@ public function dtoc_add_menu_links(){
 	// );
 	// add_submenu_page(
 	// 	'dtoc',
-	// 	'Digital Table Of Contents Sticky',
+	// 	'Digital Table of Contents Sticky',
     //     'Sticky Mobile',
 	// 	'manage_options',
 	// 	'dtoc_sticky_mobile',
@@ -60,7 +60,7 @@ public function dtoc_add_menu_links(){
 	// );
 	// add_submenu_page(
 	// 	'dtoc',
-	// 	'Digital Table Of Contents Sticky',
+	// 	'Digital Table of Contents Sticky',
     //     'Sticky Tablet',
 	// 	'manage_options',
 	// 	'dtoc_sticky_tablet',
@@ -68,7 +68,7 @@ public function dtoc_add_menu_links(){
 	// );
     // add_submenu_page(
 	// 	'dtoc',
-	// 	'Digital Table Of Contents Floating',
+	// 	'Digital Table of Contents Floating',
     //     'Floating',
 	// 	'manage_options',
 	// 	'dtoc_floating',
@@ -76,7 +76,7 @@ public function dtoc_add_menu_links(){
 	// );
 	// add_submenu_page(
 	// 	'dtoc',
-	// 	'Digital Table Of Contents Floating',
+	// 	'Digital Table of Contents Floating',
     //     'Floating Mobile',
 	// 	'manage_options',
 	// 	'dtoc_floating_mobile',
@@ -84,7 +84,7 @@ public function dtoc_add_menu_links(){
 	// );
 	// add_submenu_page(
 	// 	'dtoc',
-	// 	'Digital Table Of Contents Floating',
+	// 	'Digital Table of Contents Floating',
     //     'Floating Tablet',
 	// 	'manage_options',
 	// 	'dtoc_floating_tablet',
@@ -92,7 +92,7 @@ public function dtoc_add_menu_links(){
 	// );
 	// add_submenu_page(
 	// 	'dtoc',
-	// 	'Digital Table Of Contents Shortcode',
+	// 	'Digital Table of Contents Shortcode',
     //     'Shortcode',
 	// 	'manage_options',
 	// 	'dtoc_shortcode',
@@ -100,7 +100,7 @@ public function dtoc_add_menu_links(){
 	// );
 	// add_submenu_page(
 	// 	'dtoc',
-	// 	'Digital Table Of Contents Shortcode',
+	// 	'Digital Table of Contents Shortcode',
     //     'Shortcode Mobile',
 	// 	'manage_options',
 	// 	'dtoc_shortcode_mobile',
@@ -108,7 +108,7 @@ public function dtoc_add_menu_links(){
 	// );
 	// add_submenu_page(
 	// 	'dtoc',
-	// 	'Digital Table Of Contents Shortcode',
+	// 	'Digital Table of Contents Shortcode',
     //     'Shortcode Tablet',
 	// 	'manage_options',
 	// 	'dtoc_shortcode_tablet',
@@ -205,7 +205,7 @@ public function dtoc_settings_page_render(){
     $tab = dtoc_admin_get_tab('general', $tab_array);
     ?>
     <div class="wrap dtoc-main-container">
-    <h1 class="wp-heading-inline"><?php echo esc_html__('Digital Table Of Contents', 'digital-table-of-contents'); ?> | <?php echo $this->_page_title; ?></h1>    
+    <h1 class="wp-heading-inline"><?php echo esc_html__('Digital Table of Contents', 'digital-table-of-contents'); ?> | <?php echo $this->_page_title; ?></h1>    
     <!-- setting form start here -->
     <div class="dtoc-main-wrapper">
     <div class="dtoc-form-options">
@@ -1362,7 +1362,7 @@ public function dtoc_general_hide_text_cb() {
 public function dtoc_general_header_text_cb() {
     $this->dtoc_resolve_meta_settings_name(); 	
     ?>    
-    <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[header_text]" id="header_text" type="text" value="<?php echo (isset($this->_setting_option['header_text']) ? $this->_setting_option['header_text'] : 'Table Of Contents' ) ?>">
+    <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[header_text]" id="header_text" type="text" value="<?php echo (isset($this->_setting_option['header_text']) ? $this->_setting_option['header_text'] : 'Table of Contents' ) ?>">
     <?php
     // dtoc_tooltip(__('text', 'digital-table-of-contents'), 'header_text');
 }

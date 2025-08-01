@@ -7,7 +7,7 @@ add_action( 'admin_menu', 'dtoc_add_dashboard_menu_links' );
 function dtoc_add_dashboard_menu_links() {
 
     add_menu_page(
-		__( 'Digital Table Of Contents', 'digital-table-of-contents' ),
+		__( 'Digital Table of Contents', 'digital-table-of-contents' ),
 		'Digital TOC',
 		'manage_options',
 		'dtoc',
@@ -40,7 +40,7 @@ function dtoc_dashboard_page_render(){
     $tab = dtoc_admin_get_tab( 'modules', array( 'modules','tools', 'compatibility', 'support' ) );
     ?>
     <div class="wrap dtoc-main-container">
-    <h1 class="wp-heading-inline"><?php echo esc_html__('Digital Table Of Contents', 'digital-table-of-contents'); ?></h1>    
+    <h1 class="wp-heading-inline"><?php echo esc_html__('Digital Table of Contents', 'digital-table-of-contents'); ?></h1>    
     <!-- setting form start here -->
     <div class="dtoc-dashboard-wrapper">
      
