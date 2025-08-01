@@ -34,9 +34,9 @@ class Digital_TOC_Taxonomies_Metaboxes {
 
 			foreach ( $this->_taxterm as $value ) {
 
-				add_action( "{$value}_edit_form_fields", [ $this, 'edit_form_fields' ],10,2 );
-				add_action( "created_{$value}", [ $this, "save_term_fields" ]);
-				add_action( "edited_{$value}",  [ $this, "save_term_fields" ]);	
+				//add_action( "{$value}_edit_form_fields", [ $this, 'edit_form_fields' ],10,2 );
+				//add_action( "created_{$value}", [ $this, "save_term_fields" ]);
+				//add_action( "edited_{$value}",  [ $this, "save_term_fields" ]);	
 
 			}
 

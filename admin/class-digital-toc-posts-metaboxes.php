@@ -23,9 +23,9 @@ class Digital_TOC_POSTS_Metaboxes {
      */
     public function __construct() {
         if ( is_admin() ) {
-            add_action( 'load-post.php',     [ $this, 'init_metabox' ] );
-            add_action( 'load-post-new.php', [ $this, 'init_metabox' ] );
-			add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts_and_styles' ] );
+            // add_action( 'load-post.php',     [ $this, 'init_metabox' ] );
+            // add_action( 'load-post-new.php', [ $this, 'init_metabox' ] );
+			// add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts_and_styles' ] );
         }
     }
 
