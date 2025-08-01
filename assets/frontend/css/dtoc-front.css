@@ -16,12 +16,18 @@
     font-size: 100%;   
     padding: 10px;     
 }
-.dtoc_icon_toggle{
-  line-height: 0;  
-  padding-left: 10px;
+.dtoc-title-str{
+    padding-right: 10px;
+}
+span.dtoc_icon_toggle svg {
+    vertical-align: middle; /* or 'top' or 'bottom' */
 }
 .dtoc_icon_toggle img{
     width: 30px;
+}
+.dtoc_icon_toggle{
+    font-weight: 400;
+    font-size: 90%;
 }
 .dtoc-box-container ul{
     margin: auto;
@@ -42,4 +48,3 @@
 .dtoc-box-body{
   padding: 10px;
 }
-

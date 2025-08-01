@@ -140,7 +140,7 @@ function dtoc_position_inside_content( $content, $matches, $options ) {
 	return $regex;
  }
  
- add_action('wp_footer','dtoc_scroll_backto_toc');
+ //add_action('wp_footer','dtoc_scroll_backto_toc');
  function dtoc_scroll_backto_toc(){
 	global $dtoc_incontent;
 	if(isset($dtoc_incontent['scroll_back_to_top']) && isset($dtoc_incontent['rendering_style'])){

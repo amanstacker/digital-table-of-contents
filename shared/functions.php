@@ -87,6 +87,7 @@ function dtoc_default_incontent_options(){
                 "5" => 1,
                 "6" => 1,
             ],
+            "accessibility"     => 1,
             "placement" => [
                 "post" => [
                     "is_enabled" => 1,

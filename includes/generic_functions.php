@@ -20,7 +20,7 @@ function dtoc_box_on_css( $matches , $options = [] ) {
         }
         $t_style = dtoc_get_title_style( $options );
         $html .= '<label for="dtoc-toggle-check" class="dtoc-toggle-label" style="'.$t_style.'">';
-        $html .= '<span>'.esc_html( $options['header_text'] ).'</span>';
+        $html .= '<span class="dtoc-title-str">'.esc_html( $options['header_text'] ).'</span>';
         $html .= dtoc_get_header_icon( $options );
         $html .= '</label>';    
             
@@ -121,33 +121,45 @@ function dtoc_box_hierarchy_heading_list($matches,   $options = []){
 			}
             return $html;
 }
-function dtoc_box_heading_list($matches, $options = []){
+
+function dtoc_box_heading_list( $matches, $options = [] ) {
+    
     $html = '';
     $dtoc_current_permalink = trailingslashit( get_permalink() );
-    foreach ( $matches as $i => $match ) {
 
+    foreach ( $matches as $i => $match ) {
         $count = $i + 1;
 
-        $title = isset( $matches[ $i ]['alternate'] ) ? $matches[ $i ]['alternate'] : $matches[ $i ][0];
+        $title = isset( $match['alternate'] ) ? $match['alternate'] : $match[0];
         $title = strip_tags( $title );
 
-        $html .= "<li>";
-		
-		if(isset($options['jump_links'])){
-			$html .= sprintf(
-					'<a class="dtoc-link dtoc-heading-' . $count . '" href="%1$s" title="%2$s">%3$s</a>',
-					esc_attr( $dtoc_current_permalink  . ($matches[ $i ]['page'] > 1 ? $matches[ $i ]['page'] : '') . '#' . $matches[ $i ]['id'] ),
-					esc_attr( strip_tags( $title ) ),
-					$title
-			);		
-		}else{
-			$html .= $title;
-		}        
+        $html .= '<li>';
+
+        if ( isset( $options['jump_links'] ) ) {
+            $link = esc_attr( $dtoc_current_permalink . ( $match['page'] > 1 ? $match['page'] : '' ) . '#' . $match['id'] );
+
+            $accessibility_attrs = '';
+            if ( ! empty( $options['accessibility'] ) ) {
+                $accessibility_attrs .= ' aria-label="' . esc_attr( 'Jump to ' . $title ) . '"';
+            }
+
+            $html .= sprintf(
+                '<a class="dtoc-link dtoc-heading-%1$d" href="%2$s"%3$s>%4$s</a>',
+                $count,
+                $link,
+                $accessibility_attrs,
+                $title
+            );
+        } else {
+            $html .= $title;
+        }
+
         $html .= '</li>';
     }
 
     return $html;
 }
+
 function dtoc_get_plain_toc_html($matches, $options){
     $html = '';
     $html .= '<ul>';    
@@ -168,9 +180,9 @@ function dtoc_box_on_js($matches, $options = []){
 
         $heading_text = '';                        
         if ( isset( $options['header_text'] ) && $options['header_text'] === 'Table of Contents' ){
-            $heading_text = esc_html__( 'Table of Contents', 'digital-table-of-contents' );
+            $heading_text = '<span class="dtoc-title-str">'.esc_html__( 'Table of Contents', 'digital-table-of-contents' ).'</span>';
         }else{
-            $heading_text = esc_html( $options['header_text'] );
+            $heading_text = '<span class="dtoc-title-str">'.esc_html( $options['header_text'] ).'</span>';
         }
 
         $t_style = dtoc_get_title_style( $options );        
@@ -393,6 +405,7 @@ function dtoc_filter_heading( $content, $options = [] ) {
     
     return $response;
 }
+
 function dtoc_get_header_icon( $options ) {
     if ( empty( $options['header_icon'] ) || $options['header_icon'] === 'none' ) {
         return '';
@@ -400,6 +413,10 @@ function dtoc_get_header_icon( $options ) {
 
     $icon_html = '';
     $c_style = '';
+
+    // Accessibility setup
+    $add_accessibility = !empty( $options['accessibility'] ) && $options['accessibility'] == 1;
+    $aria_label = 'Toggle Table of Contents';
 
     // Border type
     if ( !empty($options['icon_border_type']) && $options['icon_border_type'] !== 'default' ) {
@@ -477,39 +494,37 @@ function dtoc_get_header_icon( $options ) {
     switch ( $options['header_icon'] ) {
         
         case 'list_icon':
-                // Fallback dimensions
-                $icon_width  = '35px';
-                $icon_height = '35px';
+            $icon_width  = '35px';
+            $icon_height = '35px';
 
-                if (isset($options['icon_size_mode']) && $options['icon_size_mode'] === 'custom') {
-                    $unit = isset($options['icon_size_unit']) ? esc_attr($options['icon_size_unit']) : 'px';
-
-                    if (!empty($options['icon_width'])) {
-                        $icon_width = esc_attr($options['icon_width']) . $unit;
-                    }
-                    if (!empty($options['icon_height'])) {
-                        $icon_height = esc_attr($options['icon_height']) . $unit;
-                    }
+            if ( isset($options['icon_size_mode']) && $options['icon_size_mode'] === 'custom' ) {
+                $unit = isset($options['icon_size_unit']) ? esc_attr($options['icon_size_unit']) : 'px';
+                if ( !empty($options['icon_width']) ) {
+                    $icon_width = esc_attr($options['icon_width']) . $unit;
                 }
+                if ( !empty($options['icon_height']) ) {
+                    $icon_height = esc_attr($options['icon_height']) . $unit;
+                }
+            }
 
-                $bg_color = esc_attr($options['icon_bg_color']);
-                $fg_color = esc_attr($options['icon_fg_color']);
-
-                $icon_html = '<span class="dtoc_icon_toggle"><svg style="' . $c_style . '" width="' . $icon_width . '" height="' . $icon_height . '" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill="none">
-                    <rect x="1" y="1" width="46" height="46" rx="4" stroke="#aaa" fill="' . $bg_color . '"/>
-                    <circle cx="10" cy="14" r="1.5" fill="' . $fg_color . '"/>
-                    <rect x="14" y="13" width="14" height="2" rx="1" fill="' . $fg_color . '"/>
-                    <circle cx="10" cy="24" r="1.5" fill="' . $fg_color . '"/>
-                    <rect x="14" y="23" width="14" height="2" rx="1" fill="' . $fg_color . '"/>
-                    <circle cx="10" cy="34" r="1.5" fill="' . $fg_color . '"/>
-                    <rect x="14" y="33" width="14" height="2" rx="1" fill="' . $fg_color . '"/>
-                    <path d="M36 18L32 22H40L36 18Z" fill="' . $fg_color . '"/>
-                    <path d="M36 30L40 26H32L36 30Z" fill="' . $fg_color . '"/>
-                </svg></span>';
-                break;
+            $icon_html = '<span class="dtoc_icon_toggle"' .
+                ( $add_accessibility ? ' role="button" aria-label="' . $aria_label . '"' : '' ) .
+                '><svg style="' . $c_style . '" width="' . $icon_width . '" height="' . $icon_height . '" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill="none" aria-hidden="true">
+                <rect x="1" y="1" width="46" height="46" rx="4" stroke="#aaa" fill="' . $bg_color . '"/>
+                <circle cx="10" cy="14" r="1.5" fill="' . $fg_color . '"/>
+                <rect x="14" y="13" width="14" height="2" rx="1" fill="' . $fg_color . '"/>
+                <circle cx="10" cy="24" r="1.5" fill="' . $fg_color . '"/>
+                <rect x="14" y="23" width="14" height="2" rx="1" fill="' . $fg_color . '"/>
+                <circle cx="10" cy="34" r="1.5" fill="' . $fg_color . '"/>
+                <rect x="14" y="33" width="14" height="2" rx="1" fill="' . $fg_color . '"/>
+                <path d="M36 18L32 22H40L36 18Z" fill="' . $fg_color . '"/>
+                <path d="M36 30L40 26H32L36 30Z" fill="' . $fg_color . '"/>
+            </svg></span>';
+            break;
 
         case 'plus_minus':
-            $icon_html = '<span class="dtoc_icon_toggle" style="' . $c_style . '">
+            $icon_html = '<span class="dtoc_icon_toggle" style="' . $c_style . '"' .
+                ( $add_accessibility ? ' role="button" aria-label="' . $aria_label . '"' : '' ) . '>
                 <span class="dtoc_icon_brackets">[</span>
                 <span class="dtoc-show-text dtoc-plus">+</span>
                 <span class="dtoc-hide-text dtoc-minus">-</span>
@@ -518,7 +533,8 @@ function dtoc_get_header_icon( $options ) {
             break;
 
         case 'show_hide':
-            $icon_html = '<span class="dtoc_icon_toggle" style="' . $c_style . '">
+            $icon_html = '<span class="dtoc_icon_toggle" style="' . $c_style . '"' .
+                ( $add_accessibility ? ' role="button" aria-label="' . $aria_label . '"' : '' ) . '>
                 <span class="dtoc_icon_brackets">[</span>
                 <span class="dtoc-show-text">' . esc_html( $options['show_text'] ) . '</span>
                 <span class="dtoc-hide-text">' . esc_html( $options['hide_text'] ) . '</span>
@@ -527,14 +543,16 @@ function dtoc_get_header_icon( $options ) {
             break;
 
         case 'custom_icon':
-            $icon_html = '<span class="dtoc_icon_toggle" style="' . $c_style . '">
-                <img src="' . esc_url( $options['custom_icon_url'] ) . '" alt="Icon" />
+            $icon_html = '<span class="dtoc_icon_toggle" style="' . $c_style . '"' .
+                ( $add_accessibility ? ' role="button" aria-label="' . $aria_label . '"' : '' ) . '>
+                <img src="' . esc_url( $options['custom_icon_url'] ) . '" alt="' . ( $add_accessibility ? $aria_label : 'Icon' ) . '" />
             </span>';
             break;
     }
 
     return $icon_html;
 }
+
 
 
 function dtoc_box_container_style( $options = [] ) {

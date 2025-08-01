@@ -753,8 +753,24 @@ public function dtoc_settings_initiate(){
         'dtoc_advanced_setting_section',
         [ 'label_for' => 'combine_page_break' ]
     );
+    add_settings_field(
+        'dtoc_display_accessibility',
+         esc_html__('Accessibility', 'digital-table-of-contents'),
+		 [$this, 'dtoc_display_accessibility_cb'],        		        
+        'dtoc_advanced_setting_section',
+        'dtoc_advanced_setting_section',
+        [ 'label_for' => 'accessibility' ]
+    );
            
 
+}
+
+public function dtoc_display_accessibility_cb(){
+	$this->dtoc_resolve_meta_settings_name(); 	
+    ?>  
+        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[accessibility]" id="accessibility" type="checkbox" value="1" <?php echo (isset($this->_setting_option['accessibility']) && $this->_setting_option['accessibility'] == 1 ? 'checked' : '' ) ?>>
+        
+    <?php
 }
 
 public function dtoc_display_combine_page_break_cb(){
