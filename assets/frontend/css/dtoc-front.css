@@ -29,10 +29,17 @@ span.dtoc_icon_toggle svg {
     font-weight: 400;
     font-size: 90%;
 }
-.dtoc-box-container ul{
+.dtoc-box-container ul {
     margin: auto;
-    padding: 0;
+    padding-left: 0;
 }
+
+.dtoc-box-container ul ul {
+    margin: revert;
+    padding-left: revert;
+}
+
+
 .dtoc-box-container ul li{
     font-size: 95%;
     margin-bottom: 0;

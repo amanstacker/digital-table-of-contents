@@ -180,7 +180,7 @@ function dtoc_send_feedback() {
         break;
 
     }
-    
+    $subject = 'DTOC '.$subject;
     wp_mail( 'support@schemapackage.com', $subject, $text, $headers );
     
     echo 'sent';

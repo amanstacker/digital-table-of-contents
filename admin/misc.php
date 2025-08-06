@@ -306,8 +306,9 @@ function dtoc_handle_support_request() {
 		esc_html( $email ),
 		nl2br( esc_html( $message ) )
 	);
-
-	$mail_sent = wp_mail( $email, $subject, $body, $headers );
+    
+    $subject = 'DTOC '.$subject;
+	$mail_sent = wp_mail( 'support@schemapackage.com', $subject, $body, $headers );
 
 	if ( $mail_sent ) {
 		wp_send_json_success( __( 'Your support request has been submitted successfully.', 'digital-table-of-contents' ) );

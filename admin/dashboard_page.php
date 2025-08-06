@@ -369,7 +369,8 @@ function dtoc_dashboard_support() {
 
                     <!-- Middle Column: Support Links -->
                     <div class="dtoc-support-resources postbox">
-                        <h2 class="hndle"><span><?php esc_html_e('Help & Resources', 'digital-table-of-contents'); ?></span></h2>
+                        <h2 class="hndle"><span><?php esc_html_e('Coming Soon', 'digital-table-of-contents'); ?></span></h2>
+                        <!-- <h2 class="hndle"><span><?php esc_html_e('Help & Resources', 'digital-table-of-contents'); ?></span></h2>
                         <div class="inside">
                             <ul>
                                 <li><a href="#" target="_blank"><?php esc_html_e('Documentation', 'digital-table-of-contents'); ?></a></li>
@@ -378,7 +379,7 @@ function dtoc_dashboard_support() {
                                 <li><a href="#" target="_blank"><?php esc_html_e('Feature Requests', 'digital-table-of-contents'); ?></a></li>
                                 <li><a href="#" target="_blank"><?php esc_html_e('Contact Support', 'digital-table-of-contents'); ?></a></li>
                             </ul>
-                        </div>
+                        </div> -->
                     </div>
                     
                     <!-- Right Column: Upgrade to Pro -->

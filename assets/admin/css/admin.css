@@ -3,13 +3,13 @@
 }
 
 .dtoc_child_opt th{
-    padding-left: 15px;    
+    padding-left: 10px;    
 }
 .dtoc_2_label_child_opt th{
-  padding-left: 30px;    
+  padding-left: 20px;    
 }
 .dtoc_3_label_child_opt th{
-  padding-left: 45px;    
+  padding-left: 30px;    
 }
 .dtoc_child_opt th::before{  
   content: "↳";

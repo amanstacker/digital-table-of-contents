@@ -4,18 +4,16 @@ Donate link: https://www.paypal.com/paypalme/amanstacker
 Tags: table of contents, toc, navigation, headings, content list, sticky toc  
 Requires at least: 5.0  
 Tested up to: 6.8  
-Requires PHP: 7.4  
+Requires PHP: 7.4
 Stable tag: 1.0.1  
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html  
 
-A powerful and customizable TOC plugin for WordPress. Boost SEO, enhance readability, and effortlessly navigate your content with advanced features and flexible styling.
+A powerful and customizable TOC plugin for WordPress. Effortlessly navigate your content with advanced features and flexible styling.
 
 == Description ==
 
-**Digital Table of Contents** is a powerful, flexible, and SEO-friendly TOC (Table of Contents) plugin for WordPress. It helps you create in-content TOCs with full control over appearance, behavior, and placement.
-
-Ideal for blogs, tutorials, documentation, and any long-form content, this plugin improves user experience and helps search engines better understand your content structure.
+**Digital Table of Contents** is a powerful, flexible, and SEO-friendly TOC (Table of Contents) plugin for WordPress. It helps you create TOCs with full control over appearance, behavior, and placement.
 
 **Key Features:**
 
@@ -123,11 +121,6 @@ Yes. Use the Tools section to reset or export/import your settings.
 * Initial release with In-Content TOC module  
 * General, Advanced, Placement, and Customization tabs included  
 * Tools section with Import/Export and Reset options  
-
-== Upgrade Notice ==
-
-= 1.0.1 =
-First release of Digital TOC with a powerful In-Content Table of Contents module. More modules coming soon!
 
 == Roadmap ==
 
