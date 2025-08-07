@@ -13,16 +13,16 @@ A powerful and customizable TOC plugin. Effortlessly navigate your content with 
 
 == Description ==
 
-**Digital Table of Contents** is a powerful, modular toc system that lets you effortlessly generate and manage table of contents across your content. With full control over styling, behavior, and placement, it offers a user-friendly and highly customizable experience — perfect for improving navigation and accessibility.
+**Digital Table of Contents** is a powerful, modular toc system that lets you effortlessly generate and manage table of contents across your content. With full control over styling, behavior, and placement, it offers a user-friendly and highly customizable experience.
 
 **Key Features:**
 
 * <strong>Modular TOC System</strong>: Each major TOC feature is separated into its own module for better management and flexibility. Comes with a dedicated settings panel for full control — ensuring smooth operation without conflicts and making it stand out from other plugins.
-* <strong>Auto Insertion of Table of Contents</strong>: Automatically insert a table of contents across all post types with a single setup.
+* <strong>Auto Insertion of TOC</strong>: Automatically insert a table of contents across all post types with a single setup.
 * <strong>Flexible TOC Positioning</strong>: Choose where to place the TOC — before the first heading, after the first heading, top of the content, bottom of the content, or after a specific paragraph number.
 * <strong>Heading Hierarchy Support</strong>: Automatically generate a hierarchical TOC based on headings from H1 to H6.
 * <strong>Smart Placement Controls</strong>: Display the TOC on specific post types, individual posts, selected categories, and more — with options to exclude specific posts or pages.
-* <strong>Paginated TOC support</strong>: Fully compatible with the <!--nextpage--> tag, creating individual or combine TOCs for each page of your split content.
+* <strong>Paginated TOC support</strong>: Fully compatible with the `<!--nextpage-->` tag, creating individual or combine TOCs for each page of your split content.
 * <strong>Smooth Scrolling</strong>: Enables a seamless and fluid scroll experience when navigating through the table of contents, enhancing overall user experience.
 * <strong>Accessibility Attributes</strong>:  Adds essential ARIA and semantic HTML attributes to ensure the table of contents is fully accessible to screen readers and assistive technologies.
 * <strong>Rendering Style	</strong>: Choose between CSS-based (lightweight and fast with basic interactions) or JavaScript-based rendering (more interactive and dynamic behavior) depending on your performance and functionality needs.
