@@ -760,11 +760,45 @@ public function dtoc_settings_initiate(){
         'dtoc_advanced_setting_section',
         'dtoc_advanced_setting_section',
         [ 'label_for' => 'accessibility' ]
+    );    
+    add_settings_field(
+        'dtoc_display_preserve_line_breaks',
+         esc_html__('Preserve Line Breaks', 'digital-table-of-contents'),
+		 [$this, 'dtoc_display_preserve_line_breaks_cb'],        		        
+        'dtoc_advanced_setting_section',
+        'dtoc_advanced_setting_section',
+        [ 'label_for' => 'preserve_line_breaks' ]
+    );
+    add_settings_field(
+        'dtoc_display_exclude_headings',
+         esc_html__('Exclude Headings', 'digital-table-of-contents'),
+		 [$this, 'dtoc_display_exclude_headings_cb'],
+        'dtoc_advanced_setting_section',
+        'dtoc_advanced_setting_section',
+        [ 'label_for' => 'exclude_headings' ]
     );
            
 
 }
 
+public function dtoc_display_exclude_headings_cb(){
+	$this->dtoc_resolve_meta_settings_name(); 	
+    ?>  
+        <textarea cols="45" rows="3" class="smpg-input" name="<?php echo $this->_setting_name; ?>[exclude_headings]" id="exclude_headings"><?php echo (isset($this->_setting_option['exclude_headings']) ? $this->_setting_option['exclude_headings'] : '' ) ?></textarea>        
+        <p>Separate multiple headings with a pipe |. Use an asterisk * as a wildcard to match other text.</p>
+        <strong>Example:</strong>
+        <p>Fruit* : Ignore headings starting with "Fruit".</p>
+        <p>*Fruit Diet* Ignore headings with "Fruit Diet" somewhere in the heading.</p>
+        <p>Apple Tree|Oranges|Yellow Bananas Ignore headings that are exactly "Apple Tree", "Oranges" or "Yellow Bananas".</p>
+    <?php
+}
+public function dtoc_display_preserve_line_breaks_cb(){
+	$this->dtoc_resolve_meta_settings_name(); 	
+    ?>  
+        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[preserve_line_breaks]" id="preserve_line_breaks" type="checkbox" value="1" <?php echo (isset($this->_setting_option['preserve_line_breaks']) && $this->_setting_option['preserve_line_breaks'] == 1 ? 'checked' : '' ) ?>>
+        
+    <?php
+}
 public function dtoc_display_accessibility_cb(){
 	$this->dtoc_resolve_meta_settings_name(); 	
     ?>  

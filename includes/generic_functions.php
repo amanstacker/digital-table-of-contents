@@ -131,8 +131,13 @@ function dtoc_box_heading_list( $matches, $options = [] ) {
         $count = $i + 1;
 
         $title = isset( $match['alternate'] ) ? $match['alternate'] : $match[0];
-        $title = strip_tags( $title );
-
+        
+        if ( ! empty( $options['preserve_line_breaks'] ) ) {
+            $title = strip_tags( $title, '<br>' );
+        }else{
+            $title = strip_tags( $title );
+        }
+                
         $html .= '<li>';
 
         if ( isset( $options['jump_links'] ) ) {
@@ -350,7 +355,11 @@ function dtoc_filter_headings_by_content( $content, $page, $type, $options ) {
             }
                                          
             if ( count( $matches ) >= $minimum ) {
-                
+
+                if ( ! empty( $options['exclude_headings'] ) ) {
+                    $matches = dtoc_filter_exclude_heading_matches( $matches, $options['exclude_headings'] );
+                }                
+
                 $matches = dtoc_heading_ids( $matches );
                 $matches = dtoc_next_page( $matches, $page );                
 
@@ -364,6 +373,58 @@ function dtoc_filter_headings_by_content( $content, $page, $type, $options ) {
         return array_values( $matches ); 
 
 }
+
+/**
+ * Filter heading matches based on exclusion patterns.
+ *
+ * @param array  $matches          The heading matches from regex (containing tag, level, and text).
+ * @param string $exclude_patterns Pipe-separated exclusion string. Supports wildcards (*).
+ *
+ * @return array Filtered matches.
+ */
+
+function dtoc_filter_exclude_heading_matches( $matches, $exclude_patterns ) {
+
+	if ( empty( $exclude_patterns ) || ! is_array( $matches ) ) {
+		return $matches;
+	}
+
+	$patterns = array_map( 'trim', explode( '|', $exclude_patterns ) );
+	$regex_patterns = array();
+
+	foreach ( $patterns as $pattern ) {
+		if ( $pattern === '' ) {
+			continue;
+		}
+		$escaped = preg_quote( $pattern, '/' );
+		$regex = str_replace( '\*', '.*', $escaped ); // Convert * to .*
+		$regex_patterns[] = '/^' . $regex . '$/i';    // Full string match, case-insensitive
+	}
+
+	$filtered = array();
+
+	foreach ( $matches as $match ) {
+		// Normalize heading text
+		$heading_text = wp_strip_all_tags( $match[3] );
+		$heading_text = preg_replace( '/\s+/', ' ', $heading_text ); // Replace newlines/tabs/multiple spaces with single space
+		$heading_text = trim( $heading_text );
+
+		$exclude = false;
+		foreach ( $regex_patterns as $regex ) {
+			if ( preg_match( $regex, $heading_text ) ) {
+				$exclude = true;
+				break;
+			}
+		}
+
+		if ( ! $exclude ) {
+			$filtered[] = $match;
+		}
+	}
+
+	return array_values( $filtered ); // Reindex
+}
+
 
 function dtoc_filter_heading( $content, $options = [] ) {
 
