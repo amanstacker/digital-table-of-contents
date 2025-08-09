@@ -184,8 +184,7 @@ function dtoc_dashboard_modules(){
     foreach ( $modules as $value ) {
         ?>
             <div class="dtoc-grid-item">    
-            <div class="dtoc-grid-header">
-                <!-- <img class="dtoc-grid-image" src="<?php echo esc_url( DTOC_URL.'/assets/admin/images/'.$value['name'].'.svg' ); ?>"> -->
+            <div class="dtoc-grid-header">                
                 <h3><?php esc_html_e($value['title'], 'digital-table-of-contents'); ?></h3>
                 <p><?php esc_html_e($value['desc'], 'digital-table-of-contents'); ?> <a href="<?php echo esc_url( $value['learn'] );  ?>">Learn More</a></p>
             </div>

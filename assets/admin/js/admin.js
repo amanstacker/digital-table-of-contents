@@ -13,22 +13,9 @@ function getParameterByName(name, url) {
 
 jQuery(document).ready(function($){
 
-  // Hide and show child options based on parent selection starts here
-//   $(".dtoc_parent_option").on("change", function (e) {
-//     var id = $(this).attr("id");
-//     if ($(this).prop("checked")) {
-//         $(".dtoc_" + id).fadeIn(600); // 600ms slow motion effect
-//     } else {
-//         $(".dtoc_" + id).fadeOut(600);
-//     }
-// }).change();
-
-  // Hide and show child options based on parent selection ends here
-
   //
   jQuery(".dtoc-colorpicker").wpColorPicker();
   // 
-
   // accordion js starts here
 
     var acc = document.getElementsByClassName("dtoc-accordion-header");
@@ -180,40 +167,36 @@ jQuery(function($) {
 	    
 
 });
+// ace editor js starts here
+jQuery(document).ready(function ($) {
 
- document.addEventListener('DOMContentLoaded', function () {
-         var editors = document.querySelectorAll('.dtoc_custom_styles');
-         if(editors.length){
-           editors.forEach(function(editorElement) {
-                var editor = ace.edit(editorElement);
-                editor.setTheme("ace/theme/monokai");
-                editor.session.setMode("ace/mode/css");
+    var $editors = $('.dtoc_custom_styles');
 
-                // Enable autocompletion
-                   ace.require("ace/ext/language_tools");
-                    editor.setOptions({
-                        enableBasicAutocompletion: true,
-                        enableLiveAutocompletion: true,
-                        enableSnippets: true
-                    });
-      editor.session.on('change', function(delta) {
-      // delta.start, delta.end, delta.lines, delta.action
-      var custom_css_target = document.getElementById('custom_css');
-          if(custom_css_target){
-            console.log(editor.session.getValue());
-            custom_css_target.value = editor.session.getValue(); 
-          }
-  });
+    if ($editors.length) {
+        $editors.each(function () {
+            var editorElement = this;
+            var editor = ace.edit(editorElement);
+            editor.setTheme("ace/theme/monokai");
+            editor.session.setMode("ace/mode/css");
 
+            // Enable autocompletion
+            ace.require("ace/ext/language_tools");
+            editor.setOptions({
+                enableBasicAutocompletion: true,
+                enableLiveAutocompletion: true,
+                enableSnippets: true
             });
 
-       
-         }
-  
-
-
-    
+            editor.session.on('change', function () {
+                var $customCssTarget = $('#custom_css');
+                if ($customCssTarget.length) {
+                    $customCssTarget.val(editor.session.getValue());
+                }
+            });
+        });
+    }
 });
+// ace editor js ends here
 
 jQuery(document).ready(function($) {
     $('#dtoc-export-button').on('click', function(e) {

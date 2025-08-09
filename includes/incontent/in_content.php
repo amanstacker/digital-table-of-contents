@@ -11,8 +11,8 @@ function dtoc_in_content_callback( $content ) {
         $options = dtoc_get_options_by_device( 'incontent' );        
 
         if ( ! empty( $options ) && dtoc_placement_condition_matched( $options ) ) {
-
-            $matches     = dtoc_filter_heading( $content, $options );            
+            
+            $matches     = dtoc_filter_heading( $content, $options );
                      
             if ( ! empty( $matches ) ) {
 
@@ -20,9 +20,9 @@ function dtoc_in_content_callback( $content ) {
                                 
                 if ( count( $headings ) ) {
 
-                    if ( isset( $options['jump_links']) && $options['jump_links'] == true ) {
+                    if ( ! empty( $options['jump_links']) ) {
 
-                        $anchors     = dtoc_get_headings_with_anchors( $matches );
+                        $anchors     = dtoc_get_headings_with_anchors( $matches );                        
                         $content     = dtoc_add_jumb_ids( $headings, $anchors, $content ); 
     
                     }   

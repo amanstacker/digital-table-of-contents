@@ -90,14 +90,14 @@ public function dtoc_add_menu_links(){
 	// 	'dtoc_floating_tablet',
     //     [$this, 'dtoc_settings_page_render']
 	// );
-	// add_submenu_page(
-	// 	'dtoc',
-	// 	'Digital Table of Contents Shortcode',
-    //     'Shortcode',
-	// 	'manage_options',
-	// 	'dtoc_shortcode',
-    //     [$this, 'dtoc_settings_page_render']				
-	// );
+	add_submenu_page(
+		'dtoc',
+		'Digital Table of Contents Shortcode',
+        'Shortcode',
+		'manage_options',
+		'dtoc_shortcode',
+        [$this, 'dtoc_settings_page_render']				
+	);
 	// add_submenu_page(
 	// 	'dtoc',
 	// 	'Digital Table of Contents Shortcode',
@@ -302,8 +302,8 @@ public function dtoc_settings_page_render(){
 
                  if ( in_array( $this->_setting_name, $this->_shortcode_modules ) ) {
                     //Shortcode Source
-                 echo "<div class='dtoc-shortcode_source' ".( $tab != 'shortcode_source' ? 'style="display:none;"' : '').">";
-                     do_settings_sections( 'dtoc_shortcode_source_setting_section' );
+                 echo "<div class='dtoc-shortcode_source' ".( $tab != 'shortcode_source' ? 'style="display:none;"' : '').">";                     
+                     $this->dtoc_shortcode_source(); 
                  echo "</div>"; 
 
                  }
@@ -711,15 +711,7 @@ public function dtoc_settings_initiate(){
         'dtoc_customization_border_section',
         'dtoc_customization_border_section',
     );             
-    //Shortcode Source    
-    add_settings_section('dtoc_shortcode_source_setting_section', __return_false(), '__return_false', 'dtoc_shortcode_source_setting_section');
-    add_settings_field(
-        'dtoc_shortcode_source',
-            '',
-            [$this, 'dtoc_shortcode_source_cb'],        
-        'dtoc_shortcode_source_setting_section',
-        'dtoc_shortcode_source_setting_section'
-    );              
+    
     add_settings_section('dtoc_advanced_setting_section', __return_false(), '__return_false', 'dtoc_advanced_setting_section');                                
     add_settings_field(
         'dtoc_display_hierarchy',
@@ -1002,6 +994,12 @@ public function dtoc_customization_design_type_cb(){
     </select>
 	
     <?php
+}
+public function dtoc_shortcode_source(){
+    $this->dtoc_resolve_meta_settings_name(); 		
+    ?>
+    <textarea rows="5" cols="60" readonly>[digital_toc]</textarea>
+	<?php
 }
 public function dtoc_customization_custom_css_cb(){
     $this->dtoc_resolve_meta_settings_name(); 		
@@ -1472,11 +1470,7 @@ public function dtoc_general_headings_include_cb(){
     <?php
 
 }
-public function dtoc_shortcode_source_cb(){
 
-    echo '[digital_toc]';
-
-}
 public function dtoc_placement_setting_section_cb(){
             
     $result = dtoc_get_all_post_types();    

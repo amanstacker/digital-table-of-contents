@@ -15,25 +15,40 @@ add_action( 'admin_enqueue_scripts', 'dtoc_enqueue_admin_assets' );
 
 function dtoc_enqueue_admin_assets( $hook ) {
     
-    //if($hook != 'dtoc_incontent') return;        
+        if ( strpos( $hook, 'dtoc' ) === false ) {
+            return;
+        }
 
-        // Enqueue select2
-
+        $screen_id      = get_current_screen()->id;
+		$setting_name   = str_replace( 'digital-toc_page_','',$screen_id );
+		global $dtoc_dashboard, $dtoc_incontent, $dtoc_incontent_mobile,$dtoc_incontent_tablet, $dtoc_sticky, $dtoc_sticky_mobile, $dtoc_sticky_tablet, $dtoc_floating, $dtoc_floating_mobile, $dtoc_floating_tablet, $dtoc_shortcode, $dtoc_shortcode_mobile, $dtoc_shortcode_tablet;
+        $active_module_state = []; 
+        
+        switch ( $setting_name ) {
+			case 'dtoc_incontent':				
+				$active_module_state = $dtoc_incontent;
+				break;
+            case 'dtoc_shortcode':				
+                $active_module_state = $dtoc_shortcode;
+                break;			
+				# code...
+				break;
+		}                
+        
         wp_enqueue_style( 'dtoc-admin-select2', DTOC_URL . 'assets/admin/select2/css/select2.min.css', false , DTOC_VERSION );
         wp_enqueue_script( 'dtoc-admin-select2', DTOC_URL . 'assets/admin/select2/js/select2.min.js', array('jquery'), DTOC_VERSION , true );
 
         wp_register_script( 'dtoc-ace', DTOC_URL . 'assets/admin/ace_editor/js/ace.js',false, DTOC_VERSION , true );
         wp_enqueue_script( 'dtoc-ace' );
-         wp_register_script( 'dtoc-ace-tools', DTOC_URL . 'assets/admin/ace_editor/js/ext-language_tools.js',false, DTOC_VERSION , true );
+        wp_register_script( 'dtoc-ace-tools', DTOC_URL . 'assets/admin/ace_editor/js/ext-language_tools.js',false, DTOC_VERSION , true );
         wp_enqueue_script( 'dtoc-ace-tools' );
 
-        //Enqueue custom scripts
-        global $dtoc_dashboard, $dtoc_incontent;        
+        //Enqueue custom scripts        
         $data = [
             'ajaxurl'              => admin_url( 'admin-ajax.php' ),
             'dtoc_ajax_nonce'      => wp_create_nonce( "dtoc_ajax_nonce_string" ),
 			'dtoc_modules_status'  => $dtoc_dashboard['modules'],
-            'active_module_state'  => $dtoc_incontent
+            'active_module_state'  => $active_module_state
         ];
                         
         $data = apply_filters('dtoc_localize_admin_assets_filter', $data, 'dtoc_admin_cdata');
@@ -41,11 +56,9 @@ function dtoc_enqueue_admin_assets( $hook ) {
 		wp_enqueue_script( 'wp-color-picker' );
         wp_enqueue_media();
         wp_register_script( 'dtoc-admin', DTOC_URL . 'assets/admin/js/admin.js', [ 'jquery' ], DTOC_VERSION , true );
-
                         
         wp_localize_script( 'dtoc-admin', 'dtoc_admin_cdata', $data );
-        
-        
+                
         wp_enqueue_script( 'dtoc-admin' );
         wp_enqueue_style( 'dtoc-admin', DTOC_URL . 'assets/admin/css/admin.css', false , DTOC_VERSION );            
 
@@ -140,33 +153,6 @@ function dtoc_update_modules_status_fn(){
 	
 	wp_send_json($response);
 }
-
-function dtoc_ace_editor_shortcode($atts) {
-    // Extract shortcode attributes
-    $atts = shortcode_atts([
-        'theme' => 'monokai', // default theme
-        'mode' => 'javascript', // default mode
-        'height' => '500px', // default height
-        'class' => 'ace-editor', // default class for editors
-    ], $atts, 'ace_editor');
-
-    // Output the HTML for the editor
-    ob_start(); ?>
-    <div class="<?php echo esc_attr($atts['class']); ?>" style="width: 100%; height: <?php echo esc_attr($atts['height']); ?>;"></div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var editors = document.querySelectorAll('.<?php echo esc_attr($atts['class']); ?>');
-            editors.forEach(function(editorElement) {
-                var editor = ace.edit(editorElement);
-                editor.setTheme("ace/theme/<?php echo esc_attr($atts['theme']); ?>");
-                editor.session.setMode("ace/mode/<?php echo esc_attr($atts['mode']); ?>");
-            });
-        });
-    </script>
-    <?php
-    return ob_get_clean();
-}
-//add_shortcode('dtoc_ace_editor', 'dtoc_ace_editor_shortcode');
 
 add_action('wp_ajax_dtoc_import_options', 'dtoc_import_options_ajax');
 
