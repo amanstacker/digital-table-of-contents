@@ -14,7 +14,7 @@ function getParameterByName(name, url) {
 jQuery(document).ready(function($){
 
   //
-  jQuery(".dtoc-colorpicker").wpColorPicker();
+  //jQuery(".dtoc-colorpicker").wpColorPicker();
   // 
   // accordion js starts here
 
@@ -550,6 +550,34 @@ jQuery(document).ready(function($) {
         else {
             reactive[dataId] = $input.val();
         }
+    });
+     
+    // Init colorpickers (guard to avoid double init)
+    $('.dtoc-settings-form .dtoc-colorpicker').each(function(){
+        var $inp = $(this);
+        if ($inp.data('dtoc-wpcolor-inited')) return;
+        $inp.data('dtoc-wpcolor-inited', true);
+
+        $inp.wpColorPicker({
+        change: function(event, ui) {
+            var $t = $(this);
+            if (ui && ui.color) {
+            try {
+                // ensures rgba/hex (alpha-aware) is set
+                $t.val(ui.color.toString());
+            } catch (err) {
+                // fallback: leave existing input value
+            }
+            }
+            // trigger both input & change so delegated handlers catch it
+            $t.trigger('input').trigger('change');
+        },
+        clear: function() {
+            var $t = $(this);
+            $t.val('');
+            $t.trigger('input').trigger('change');
+        }
+        });
     });
 
     updatePreview();
