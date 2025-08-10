@@ -6,6 +6,12 @@ add_filter( 'the_content', 'dtoc_in_content_callback' );
 
 function dtoc_in_content_callback( $content ) {
 
+    global $dtoc_dashboard;
+    
+    if ( empty( $dtoc_dashboard['modules']['incontent'] ) ) {
+        return $content;
+    }
+
     if ( is_singular() && in_the_loop() && is_main_query() ) {
 
         $options = dtoc_get_options_by_device( 'incontent' );        

@@ -12,7 +12,12 @@ function dtoc_init_shortcode() {
 
 function dtoc_shortcode_callback( $attr , $tag_content, $tag ) {
             
-    global $dtoc_shortcode;    
+    global $dtoc_shortcode, $dtoc_dashboard;
+    
+    if ( empty( $dtoc_dashboard['modules']['shortcode'] ) ) {
+        return '';
+    }
+    
     $options = [];
     if ( ! is_array( $attr ) ) {
         $attr = [];
@@ -54,12 +59,16 @@ function dtoc_in_content_add_jumb_callback( $content ) {
     
     if ( is_singular() && in_the_loop() && is_main_query() ) {
         
+        global $dtoc_shortcode, $dtoc_dashboard;
+        $options = $dtoc_shortcode;
+
         if ( strpos( $content, '[digital_toc' ) === false ) {
             return $content;
-        }
+        }        
 
-        global $dtoc_shortcode;
-        $options = $dtoc_shortcode;
+        if ( empty( $dtoc_dashboard['modules']['shortcode'] ) ) {
+            return $content;
+        }                
 
         if ( ! empty( $options ) ) {
             
