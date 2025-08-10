@@ -167,36 +167,6 @@ jQuery(function($) {
 	    
 
 });
-// ace editor js starts here
-jQuery(document).ready(function ($) {
-
-    var $editors = $('.dtoc_custom_styles');
-
-    if ($editors.length) {
-        $editors.each(function () {
-            var editorElement = this;
-            var editor = ace.edit(editorElement);
-            editor.setTheme("ace/theme/monokai");
-            editor.session.setMode("ace/mode/css");
-
-            // Enable autocompletion
-            ace.require("ace/ext/language_tools");
-            editor.setOptions({
-                enableBasicAutocompletion: true,
-                enableLiveAutocompletion: true,
-                enableSnippets: true
-            });
-
-            editor.session.on('change', function () {
-                var $customCssTarget = $('#custom_css');
-                if ($customCssTarget.length) {
-                    $customCssTarget.val(editor.session.getValue());
-                }
-            });
-        });
-    }
-});
-// ace editor js ends here
 
 jQuery(document).ready(function($) {
     $('#dtoc-export-button').on('click', function(e) {
@@ -579,6 +549,34 @@ jQuery(document).ready(function($) {
         }
         });
     });
+
+    // 🔹 Init Ace Editor inside same block
+    var $editors = $('.dtoc_custom_styles');
+    if ($editors.length) {
+        $editors.each(function () {
+            var editorElement = this;
+            var editor = ace.edit(editorElement);
+            editor.setTheme("ace/theme/monokai");
+            editor.session.setMode("ace/mode/css");
+
+            ace.require("ace/ext/language_tools");
+            editor.setOptions({
+                enableBasicAutocompletion: true,
+                enableLiveAutocompletion: true,
+                enableSnippets: true
+            });
+
+            var $customCssTarget = $('#custom_css');
+            // Set initial value from textarea
+            editor.session.setValue($customCssTarget.val());
+
+            // Update textarea & trigger preview on change
+            editor.session.on('change', function () {
+                $customCssTarget.val(editor.session.getValue());
+                reactive.custom_css = editor.session.getValue(); // bind to state
+            });
+        });
+    }
 
     updatePreview();
     updateShortcode();
