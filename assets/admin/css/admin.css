@@ -519,3 +519,6 @@ input:checked + .dtoc-slider:before {
 .dtoc-shortcode_source textarea{
   width: 100%;
 }
+#dtoc_shortcode_source_textarea {
+  cursor: pointer;
+}

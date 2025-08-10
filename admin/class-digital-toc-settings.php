@@ -998,7 +998,11 @@ public function dtoc_customization_design_type_cb(){
 public function dtoc_shortcode_source(){
     $this->dtoc_resolve_meta_settings_name(); 		
     ?>
-    <textarea class="dtoc_shortcode_source_textarea" rows="5" cols="60" readonly>[digital_toc]</textarea>
+    <textarea id="dtoc_shortcode_source_textarea" rows="5" cols="60" readonly>[digital_toc]</textarea>
+    <span id="dtoc_copy_inline" style="display:none; color:#46b450; margin-left:8px; font-weight:600;">
+        <?php esc_html_e( 'Copied!', 'digital-toc' ); ?>
+    </span>
+
 	<?php
 }
 public function dtoc_customization_custom_css_cb(){

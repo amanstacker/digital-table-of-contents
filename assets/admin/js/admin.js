@@ -13,9 +13,6 @@ function getParameterByName(name, url) {
 
 jQuery(document).ready(function($){
 
-  //
-  //jQuery(".dtoc-colorpicker").wpColorPicker();
-  // 
   // accordion js starts here
 
     var acc = document.getElementsByClassName("dtoc-accordion-header");
@@ -385,6 +382,23 @@ jQuery(document).ready(function($) {
     }
 });
 
+
+jQuery(document).ready(function($) {
+    $('#dtoc_shortcode_source_textarea').on('click', function() {
+        navigator.clipboard.writeText($(this).val()).then(function() {
+            var $msg = $('#dtoc_copy_inline');
+            $msg.stop(true, true).fadeIn(150);
+
+            setTimeout(function() {
+                $msg.fadeOut(150);
+            }, 1500);
+        }).catch(function(err) {
+            console.error('Failed to copy: ', err);
+        });
+    });
+});
+
+
 // React-like structure without React starts here
 
 jQuery(document).ready(function($) {
@@ -445,7 +459,7 @@ jQuery(document).ready(function($) {
     }
 
     const shortcode = `[digital_toc${params.length ? ' ' + params.join(' ') : ''}]`;
-    $('.dtoc_shortcode_source_textarea').val(shortcode);
+    $('#dtoc_shortcode_source_textarea').val(shortcode);
 }
 
 
