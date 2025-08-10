@@ -87,6 +87,8 @@ function dtoc_default_incontent_options(){
                 "5" => 1,
                 "6" => 1,
             ],
+            "hierarchy"          => 0,
+            "combine_page_break" => 0,
             "accessibility"     => 1,
             "exclude_headings"  => '',
             "placement" => [
@@ -272,6 +274,8 @@ function dtoc_default_shortcode_options() {
                 "5" => 1,
                 "6" => 1,
             ],
+            "hierarchy"          => 0,
+            "combine_page_break" => 0,
             "accessibility"     => 1,            
             "exclude_headings" => '',
             "bg_color" => "#f9f9f9",

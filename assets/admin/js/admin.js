@@ -416,36 +416,77 @@ jQuery(document).ready(function($) {
 });
 
 // React-like structure without React starts here
+
 jQuery(document).ready(function($) {
 
-    const state = dtoc_admin_cdata.active_module_state;    
-    
-    const reactive = new Proxy(state, {
+    const default_state = dtoc_admin_cdata.module_default_state;    
+    const current_state = dtoc_admin_cdata.module_state;    
+
+    const reactive = new Proxy(current_state, {
         set(target, prop, value) {
             target[prop] = value;
             updatePreview();
+            updateShortcode();
             return true;
         }
     });
-    
-    function updatePreview() {        
-        if ( reactive.jump_links ) {
+
+    function updateShortcode() {
+        let params = [];
+
+        for (let key in reactive) {
+            if (!reactive.hasOwnProperty(key)) continue;
+
+            let currentVal = reactive[key];
+            let defaultVal = default_state[key];
+
+            // Deep compare objects (like headings_include)
+            if (typeof currentVal === 'object' && currentVal !== null) {
+                if (JSON.stringify(currentVal) !== JSON.stringify(defaultVal)) {
+                    params.push(`${key}=${JSON.stringify(currentVal)}`);
+                }
+            } else {
+                // Convert numeric strings to actual numbers
+                if (!isNaN(currentVal) && currentVal !== '' && currentVal !== null) {
+                    currentVal = Number(currentVal);
+                }
+                if (!isNaN(defaultVal) && defaultVal !== '' && defaultVal !== null) {
+                    defaultVal = Number(defaultVal);
+                }
+
+                // Only add param if value differs from default
+                if (currentVal !== defaultVal) {
+                    if (typeof currentVal === 'number' || typeof currentVal === 'boolean') {
+                        params.push(`${key}=${currentVal}`); // no quotes
+                    } else {
+                        params.push(`${key}='${currentVal}'`); // quotes for strings
+                    }
+                }
+            }
+        }
+
+        const shortcode = `[digital_toc${params.length ? ' ' + params.join(' ') : ''}]`;
+        $('.dtoc_shortcode_source_textarea').val(shortcode);
+    }
+
+    function updatePreview() {
+        if (reactive.jump_links) {
             $('.dtoc_jump_links').show();
         } else {
             $('.dtoc_jump_links').hide();
         }
 
-        if ( reactive.display_title ) {
+        if (reactive.display_title) {
             $('.dtoc_display_title').show();
 
-            if ( reactive.toggle_body ) {
+            if (reactive.toggle_body) {
                 $('.dtoc_display_title.dtoc_2_label_child_opt').show();
                 $('.dtoc_display_title.dtoc_3_label_child_opt').hide();
 
-                if ( reactive.header_icon === 'show_hide' ) {
+                if (reactive.header_icon === 'show_hide') {
                     $('.dtoc_display_title.dtoc_3_label_child_opt').show();
                 }
-                if ( reactive.header_icon === 'custom_icon' ) {
+                if (reactive.header_icon === 'custom_icon') {
                     $('#custom-icon-wrapper').show();
                 } else {
                     $('#custom-icon-wrapper').hide();
@@ -459,11 +500,10 @@ jQuery(document).ready(function($) {
             $('.dtoc_display_title').hide();
         }
 
-        // 🔄 Custom Mode Field Visibility Control
         $('.smpg-mode-select').each(function () {
             const $select = $(this);
             const group = $select.data('group');
-            const value = reactive[$select.attr('id')]; // get from state
+            const value = reactive[$select.attr('id')];
             const $related = $('[data-group="' + group + '"]').not($select);
 
             if (value === 'custom') {
@@ -474,22 +514,20 @@ jQuery(document).ready(function($) {
         });
     }
 
-    // 🔁 Input/Select Handler (merged into one)
     $('.dtoc-settings-form').on('change', '.smpg-input', function (e) {
         const $input = $(e.target);
-        const tag = $input.prop('tagName').toLowerCase();
         const id = $input.attr('id');
-
         if (!id) return;
 
         if ($input.is(':checkbox')) {
-            reactive[id] = $input.is(':checked');
+            reactive[id] = $input.is(':checked') ? 1 : 0; // keep as number
         } else {
             reactive[id] = $input.val();
         }
     });
 
-    updatePreview(); // initial render
+    updatePreview();
+    updateShortcode();
 });
 
 
