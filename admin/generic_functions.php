@@ -244,14 +244,14 @@ function dtoc_different_four_sides_html($setting_name, $setting_options, $css_ty
 	foreach ($four_side as $key => $value) {
 		?>
 		<li>
-			<input data-group="<?php echo $section_type.'_'.$css_type; ?>" type="number" class="small-text" id="<?php echo $section_type.'_'.$css_type.'_'.$key; ?>" name="<?php echo $setting_name.'['.$section_type,'_'.$css_type.'_'.$key.']'; ?>" value="<?php echo isset( $setting_options[$section_type.'_'.$css_type.'_'.$key] ) ? esc_attr( $setting_options[$section_type.'_'.$css_type.'_'.$key]) : '0'; ?>">
+			<input data-group="<?php echo $section_type.'_'.$css_type; ?>" type="number" class="small-text smpg-input" id="<?php echo $section_type.'_'.$css_type.'_'.$key; ?>" name="<?php echo $setting_name.'['.$section_type,'_'.$css_type.'_'.$key.']'; ?>" value="<?php echo isset( $setting_options[$section_type.'_'.$css_type.'_'.$key] ) ? esc_attr( $setting_options[$section_type.'_'.$css_type.'_'.$key]) : '0'; ?>">
 			<span data-group="<?php echo $section_type.'_'.$css_type; ?>"><?php echo esc_html__($value, 'digital-table-of-contents'); ?></span>
         </li>
 		<?php
 	}
 	?>    	            
         <li>
-		<select data-group="<?php echo $section_type.'_'.$css_type; ?>" id="<?php echo $section_type.'_'.$css_type.'_unit'; ?>" name="<?php echo $setting_name.'['.$section_type.'_'.$css_type.'_unit'; ?>]">
+		<select data-group="<?php echo $section_type.'_'.$css_type; ?>" id="<?php echo $section_type.'_'.$css_type.'_unit'; ?>" class="small-text smpg-input" name="<?php echo $setting_name.'['.$section_type.'_'.$css_type.'_unit'; ?>]">
 			<?php
 				foreach ($units as $key => $value) {					
 					?><option value="<?php echo $key; ?>" <?php echo (isset($setting_options[$section_type.'_'.$css_type.'_unit']) && $setting_options[$section_type.'_'.$css_type.'_unit'] == $key ? 'selected' : '' ) ?>><?php echo esc_html__($value, 'digital-table-of-contents'); ?></option><?php					
