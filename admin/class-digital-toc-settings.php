@@ -1327,11 +1327,11 @@ public function dtoc_customization_icon_border_type_cb(){
 public function dtoc_general_rendering_style_cb(){ 
     $this->dtoc_resolve_meta_settings_name(); 	   	                
     ?>        
-        <input class="smpg-input" type="radio" id="js_rendering_style" name="<?php echo esc_attr( $this->_setting_name ); ?>[rendering_style]" value="js" 
+        <input class="smpg-input" data-id="rendering_style" type="radio" id="js_rendering_style" name="<?php echo esc_attr( $this->_setting_name ); ?>[rendering_style]" value="js" 
             <?php checked( isset( $this->_setting_option['rendering_style'] ) && $this->_setting_option['rendering_style'] === 'js' ); ?>>
         <label for="js_rendering_style" style="margin-right: 15px;"><?php esc_html_e( 'JS-based', 'digital-table-of-contents' ); ?></label>
 
-        <input class="smpg-input" type="radio" id="css_rendering_style" name="<?php echo esc_attr( $this->_setting_name ); ?>[rendering_style]" value="css" 
+        <input data-id="rendering_style" class="smpg-input" type="radio" id="css_rendering_style" name="<?php echo esc_attr( $this->_setting_name ); ?>[rendering_style]" value="css" 
             <?php checked( isset( $this->_setting_option['rendering_style'] ) && $this->_setting_option['rendering_style'] === 'css' ); ?>>
         <label for="css_rendering_style"><?php esc_html_e( 'CSS-based', 'digital-table-of-contents' ); ?></label>        
     <?php
@@ -1339,11 +1339,11 @@ public function dtoc_general_rendering_style_cb(){
 public function dtoc_general_scroll_behavior_cb(){ 
     $this->dtoc_resolve_meta_settings_name(); 	   	                
     ?>            
-    <input class="smpg-input" type="radio" id="auto_scroll_behavior" name="<?php echo esc_attr( $this->_setting_name ); ?>[scroll_behavior]" value="auto" 
+    <input class="smpg-input" data-id="scroll_behavior" type="radio" id="auto_scroll_behavior" name="<?php echo esc_attr( $this->_setting_name ); ?>[scroll_behavior]" value="auto" 
         <?php checked( isset( $this->_setting_option['scroll_behavior'] ) && $this->_setting_option['scroll_behavior'] === 'auto' ); ?>>
     <label for="auto_scroll_behavior" style="margin-right: 15px;"><?php esc_html_e( 'Auto', 'digital-table-of-contents' ); ?></label>
 
-    <input class="smpg-input" type="radio" id="smooth_scroll_behavior" name="<?php echo esc_attr( $this->_setting_name ); ?>[scroll_behavior]" value="smooth" 
+    <input class="smpg-input" data-id="scroll_behavior" type="radio" id="smooth_scroll_behavior" name="<?php echo esc_attr( $this->_setting_name ); ?>[scroll_behavior]" value="smooth" 
         <?php checked( isset( $this->_setting_option['scroll_behavior'] ) && $this->_setting_option['scroll_behavior'] === 'smooth' ); ?>>
     <label for="smooth_scroll_behavior"><?php esc_html_e( 'Smooth', 'digital-table-of-contents' ); ?></label>        
 
@@ -1353,13 +1353,13 @@ public function dtoc_general_alignment_cb() {
 	$this->dtoc_resolve_meta_settings_name();
 	?>
 
-	<input class="smpg-input" type="radio" id="left_alignment" name="<?php echo esc_attr( $this->_setting_name ); ?>[alignment]" value="left" <?php checked( isset( $this->_setting_option['alignment'] ) && $this->_setting_option['alignment'] === 'left' ); ?>>
+	<input class="smpg-input" data-id="alignment" type="radio" id="left_alignment" name="<?php echo esc_attr( $this->_setting_name ); ?>[alignment]" value="left" <?php checked( isset( $this->_setting_option['alignment'] ) && $this->_setting_option['alignment'] === 'left' ); ?>>
 	<label for="left_alignment" style="margin-right: 15px;"><?php esc_html_e( 'Left', 'digital-table-of-contents' ); ?></label>
 
-	<input class="smpg-input" type="radio" id="center_alignment" name="<?php echo esc_attr( $this->_setting_name ); ?>[alignment]" value="center" <?php checked( isset( $this->_setting_option['alignment'] ) && $this->_setting_option['alignment'] === 'center' ); ?>>
+	<input class="smpg-input" data-id="alignment" type="radio" id="center_alignment" name="<?php echo esc_attr( $this->_setting_name ); ?>[alignment]" value="center" <?php checked( isset( $this->_setting_option['alignment'] ) && $this->_setting_option['alignment'] === 'center' ); ?>>
 	<label for="center_alignment" style="margin-right: 15px;"><?php esc_html_e( 'Center', 'digital-table-of-contents' ); ?></label>
 
-	<input class="smpg-input" type="radio" id="right_alignment" name="<?php echo esc_attr( $this->_setting_name ); ?>[alignment]" value="right" <?php checked( isset( $this->_setting_option['alignment'] ) && $this->_setting_option['alignment'] === 'right' ); ?> >
+	<input class="smpg-input" data-id="alignment" type="radio" id="right_alignment" name="<?php echo esc_attr( $this->_setting_name ); ?>[alignment]" value="right" <?php checked( isset( $this->_setting_option['alignment'] ) && $this->_setting_option['alignment'] === 'right' ); ?> >
 	<label for="right_alignment"><?php esc_html_e( 'Right', 'digital-table-of-contents' ); ?></label>
 
 	<?php
@@ -1605,11 +1605,11 @@ public function dtoc_general_paragraph_number_cb(){
 public function dtoc_display_toggle_initial_cb() {
 	$this->dtoc_resolve_meta_settings_name();
 	?>
-	<input class="smpg-input" type="radio" id="toggle_initial_show" name="<?php echo esc_attr( $this->_setting_name ); ?>[toggle_initial]" value="show" 
+	<input class="smpg-input" data-id="toggle_initial" type="radio" id="toggle_initial_show" name="<?php echo esc_attr( $this->_setting_name ); ?>[toggle_initial]" value="show" 
 		<?php checked( isset( $this->_setting_option['toggle_initial'] ) && $this->_setting_option['toggle_initial'] === 'show' ); ?>>
 	<label for="toggle_initial_show" style="margin-right: 15px;"><?php esc_html_e( 'Show', 'digital-table-of-contents' ); ?></label>
 
-	<input class="smpg-input" type="radio" id="toggle_initial_hide" name="<?php echo esc_attr( $this->_setting_name ); ?>[toggle_initial]" value="hide" 
+	<input class="smpg-input" data-id="toggle_initial" type="radio" id="toggle_initial_hide" name="<?php echo esc_attr( $this->_setting_name ); ?>[toggle_initial]" value="hide" 
 		<?php checked( isset( $this->_setting_option['toggle_initial'] ) && $this->_setting_option['toggle_initial'] === 'hide' ); ?>>
 	<label for="toggle_initial_hide"><?php esc_html_e( 'Hide', 'digital-table-of-contents' ); ?></label>
 	<?php

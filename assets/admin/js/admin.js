@@ -515,16 +515,20 @@ jQuery(document).ready(function($) {
     }
 
     $('.dtoc-settings-form').on('change', '.smpg-input', function (e) {
+
         const $input = $(e.target);
-        const id = $input.attr('id');
+        const id = $input.data('id') || $input.attr('id');
         if (!id) return;
 
         if ($input.is(':checkbox')) {
-            reactive[id] = $input.is(':checked') ? 1 : 0; // keep as number
+            reactive[id] = $input.is(':checked') ? 1 : 0;
+        } else if ($input.is(':radio')) {
+            reactive[id] = $input.val();
         } else {
             reactive[id] = $input.val();
         }
     });
+
 
     updatePreview();
     updateShortcode();
