@@ -90,6 +90,7 @@ function dtoc_default_incontent_options(){
             "hierarchy"          => 0,
             "combine_page_break" => 0,
             "accessibility"     => 1,
+            "preserve_line_breaks" => 0,
             "exclude_headings"  => '',
             "placement" => [
                 "post" => [
@@ -276,7 +277,8 @@ function dtoc_default_shortcode_options() {
             ],
             "hierarchy"          => 0,
             "combine_page_break" => 0,
-            "accessibility"     => 1,            
+            "accessibility"     => 1, 
+            "preserve_line_breaks" => 0,           
             "exclude_headings" => '',
             "bg_color" => "#f9f9f9",
             "container_width_mode" => "default",

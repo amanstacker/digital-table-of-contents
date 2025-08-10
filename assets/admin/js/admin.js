@@ -422,6 +422,7 @@ jQuery(document).ready(function($) {
     const default_state = dtoc_admin_cdata.module_default_state;    
     const current_state = dtoc_admin_cdata.module_state;    
 
+    // Proxy to trigger on any top-level set
     const reactive = new Proxy(current_state, {
         set(target, prop, value) {
             target[prop] = value;
@@ -432,42 +433,51 @@ jQuery(document).ready(function($) {
     });
 
     function updateShortcode() {
-        let params = [];
+    let params = [];
 
-        for (let key in reactive) {
-            if (!reactive.hasOwnProperty(key)) continue;
+    for (let key in reactive) {
+        if (!reactive.hasOwnProperty(key)) continue;
 
-            let currentVal = reactive[key];
-            let defaultVal = default_state[key];
+        let currentVal = reactive[key];
+        let defaultVal = default_state[key];
 
-            // Deep compare objects (like headings_include)
-            if (typeof currentVal === 'object' && currentVal !== null) {
-                if (JSON.stringify(currentVal) !== JSON.stringify(defaultVal)) {
-                    params.push(`${key}=${JSON.stringify(currentVal)}`);
-                }
-            } else {
-                // Convert numeric strings to actual numbers
-                if (!isNaN(currentVal) && currentVal !== '' && currentVal !== null) {
-                    currentVal = Number(currentVal);
-                }
-                if (!isNaN(defaultVal) && defaultVal !== '' && defaultVal !== null) {
-                    defaultVal = Number(defaultVal);
-                }
+        // Special handling for headings_include → always include 1 to 6
+        if (key === 'headings_include' && typeof currentVal === 'object') {
+            let fixedObj = {};
+            for (let i = 1; i <= 6; i++) {
+                fixedObj[i] = currentVal[i] ? 1 : 0; // force 0/1
+            }
+            if (JSON.stringify(fixedObj) !== JSON.stringify(defaultVal)) {
+                params.push(`${key}=${JSON.stringify(fixedObj)}`);
+            }
+        }
+        else if (typeof currentVal === 'object' && currentVal !== null) {
+            if (JSON.stringify(currentVal) !== JSON.stringify(defaultVal)) {
+                params.push(`${key}=${JSON.stringify(currentVal)}`);
+            }
+        } 
+        else {
+            if (!isNaN(currentVal) && currentVal !== '' && currentVal !== null) {
+                currentVal = Number(currentVal);
+            }
+            if (!isNaN(defaultVal) && defaultVal !== '' && defaultVal !== null) {
+                defaultVal = Number(defaultVal);
+            }
 
-                // Only add param if value differs from default
-                if (currentVal !== defaultVal) {
-                    if (typeof currentVal === 'number' || typeof currentVal === 'boolean') {
-                        params.push(`${key}=${currentVal}`); // no quotes
-                    } else {
-                        params.push(`${key}='${currentVal}'`); // quotes for strings
-                    }
+            if (currentVal !== defaultVal) {
+                if (typeof currentVal === 'number' || typeof currentVal === 'boolean') {
+                    params.push(`${key}=${currentVal}`);
+                } else {
+                    params.push(`${key}='${currentVal}'`);
                 }
             }
         }
-
-        const shortcode = `[digital_toc${params.length ? ' ' + params.join(' ') : ''}]`;
-        $('.dtoc_shortcode_source_textarea').val(shortcode);
     }
+
+    const shortcode = `[digital_toc${params.length ? ' ' + params.join(' ') : ''}]`;
+    $('.dtoc_shortcode_source_textarea').val(shortcode);
+}
+
 
     function updatePreview() {
         if (reactive.jump_links) {
@@ -514,24 +524,37 @@ jQuery(document).ready(function($) {
         });
     }
 
+    // Change handler
     $('.dtoc-settings-form').on('change', '.smpg-input', function (e) {
-
         const $input = $(e.target);
-        const id = $input.data('id') || $input.attr('id');
-        if (!id) return;
+        const dataId = $input.data('id') || $input.attr('id');
+        if (!dataId) return;
 
-        if ($input.is(':checkbox')) {
-            reactive[id] = $input.is(':checked') ? 1 : 0;
-        } else if ($input.is(':radio')) {
-            reactive[id] = $input.val();
-        } else {
-            reactive[id] = $input.val();
+        if ($input.is(':checkbox') && dataId === 'headings_include') {
+            if (!reactive[dataId]) {
+                reactive[dataId] = {};
+            }
+            const number = $input.data('number');
+            if (number !== undefined) {
+                const updated = { ...reactive[dataId] }; // clone object
+                updated[number] = $input.is(':checked') ? 1 : 0;
+                reactive[dataId] = updated; // replace → triggers Proxy set()
+            }
+        }
+        else if ($input.is(':checkbox')) {
+            reactive[dataId] = $input.is(':checked') ? 1 : 0;
+        }
+        else if ($input.is(':radio')) {
+            reactive[dataId] = $input.val();
+        }
+        else {
+            reactive[dataId] = $input.val();
         }
     });
-
 
     updatePreview();
     updateShortcode();
 });
+
 
 //React like structure without react ends here
