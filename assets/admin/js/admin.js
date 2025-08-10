@@ -530,5 +530,4 @@ jQuery(document).ready(function($) {
     updateShortcode();
 });
 
-
 //React like structure without react ends here
