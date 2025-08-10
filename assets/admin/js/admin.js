@@ -155,8 +155,8 @@ jQuery(function($) {
 		}
 	});
 	
-	if(dtoc_admin_cdata.dtoc_modules_status){
-		$.each(dtoc_admin_cdata.dtoc_modules_status, function( index, value ) {
+	if(dtoc_admin_cdata.modules_status){
+		$.each(dtoc_admin_cdata.modules_status, function( index, value ) {
 			if(value){
 				$('a[href="admin.php?page=dtoc_'+index+'"]').css('display','block');
 			}else{

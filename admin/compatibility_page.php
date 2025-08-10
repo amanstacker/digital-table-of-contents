@@ -74,7 +74,7 @@ function dtoc_compatibility_page_render(){
 
 function dtoc_compatibility_tablet_settings_initiate(){
 
-    register_setting( 'dtoc_compatibility_options_group', 'dtoc_compatibility' );
+    register_setting( 'dtoc_compatibility_options_group', 'dtoc_compatibility', 'dtoc_sanitize_register_setting' );
     // general
     add_settings_section('dtoc_compatibility_plugins_setting_section', __return_false(), '__return_false', 'dtoc_compatibility_plugins_setting_section');
         

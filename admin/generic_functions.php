@@ -2,6 +2,33 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+function dtoc_sanitize_register_setting( $input = [] ) {
+    
+	$output = [];
+
+	foreach ( $input as $key => $value ) {
+		if ( is_array( $value ) ) {
+			// Recursively sanitize arrays
+			$output[ sanitize_key( $key ) ] = dtoc_sanitize_register_setting( $value );
+		} else {
+			// Determine sanitization type
+			if ( is_numeric( $value ) ) {
+				// Keep integers/floats as numbers (no quotes)
+				$output[ sanitize_key( $key ) ] = ( strpos( $value, '.' ) !== false ) ? floatval( $value ) : intval( $value );
+			} elseif ( filter_var( $value, FILTER_VALIDATE_URL ) ) {
+				$output[ sanitize_key( $key ) ] = esc_url_raw( $value );
+			} elseif ( strpos( $value, '#' ) === 0 && preg_match( '/^#[a-f0-9]{3,6}$/i', $value ) ) {
+				// Hex colors
+				$output[ sanitize_key( $key ) ] = sanitize_hex_color( $value );
+			} else {
+				$output[ sanitize_key( $key ) ] = sanitize_text_field( $value );
+			}
+		}
+	}
+    
+	return $output;
+}
+
 function dtoc_admin_tab_link($tab = '', $page = 'dtoc', $args = []){
     	
 	if ( ! is_multisite() ) {

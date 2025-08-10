@@ -88,6 +88,7 @@ function dtoc_default_incontent_options(){
                 "6" => 1,
             ],
             "accessibility"     => 1,
+            "exclude_headings"  => '',
             "placement" => [
                 "post" => [
                     "is_enabled" => 1,
@@ -272,6 +273,7 @@ function dtoc_default_shortcode_options() {
                 "6" => 1,
             ],
             "accessibility"     => 1,            
+            "exclude_headings" => '',
             "bg_color" => "#f9f9f9",
             "container_width_mode" => "default",
             "container_width" => 0,

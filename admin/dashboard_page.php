@@ -211,7 +211,7 @@ add_action('admin_init', 'dtoc_dashboard_settings_initiate');
 
 function dtoc_dashboard_settings_initiate(){
     // need sanitization of registered option
-    register_setting( 'dtoc_dashboard_options_group', 'dtoc_dashboard_options' );
+    register_setting( 'dtoc_dashboard_options_group', 'dtoc_dashboard_options', 'dtoc_sanitize_register_setting' );
                                 
     add_settings_section( 'dtoc_dashboard_tools_import_export_section', esc_html__( 'Import / Export', 'digital-table-of-contents' ), '__return_false', 'dtoc_dashboard_tools_setting_section_hook' );
         add_settings_field(

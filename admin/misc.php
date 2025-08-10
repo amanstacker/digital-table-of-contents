@@ -22,14 +22,16 @@ function dtoc_enqueue_admin_assets( $hook ) {
         $screen_id      = get_current_screen()->id;
 		$setting_name   = str_replace( 'digital-toc_page_','',$screen_id );
 		global $dtoc_dashboard, $dtoc_incontent, $dtoc_incontent_mobile,$dtoc_incontent_tablet, $dtoc_sticky, $dtoc_sticky_mobile, $dtoc_sticky_tablet, $dtoc_floating, $dtoc_floating_mobile, $dtoc_floating_tablet, $dtoc_shortcode, $dtoc_shortcode_mobile, $dtoc_shortcode_tablet;
-        $active_module_state = []; 
+        $module_state         = []; 
+        $module_default_state = [];
         
         switch ( $setting_name ) {
 			case 'dtoc_incontent':				
-				$active_module_state = $dtoc_incontent;
+				$module_state = $dtoc_incontent;                
 				break;
             case 'dtoc_shortcode':				
-                $active_module_state = $dtoc_shortcode;
+                $module_state = $dtoc_shortcode;
+                $module_default_state = dtoc_default_shortcode_options();
                 break;			
 				# code...
 				break;
@@ -47,8 +49,9 @@ function dtoc_enqueue_admin_assets( $hook ) {
         $data = [
             'ajaxurl'              => admin_url( 'admin-ajax.php' ),
             'dtoc_ajax_nonce'      => wp_create_nonce( "dtoc_ajax_nonce_string" ),
-			'dtoc_modules_status'  => $dtoc_dashboard['modules'],
-            'active_module_state'  => $active_module_state
+			'modules_status'       => $dtoc_dashboard['modules'],
+            'module_state'         => $module_state,
+            'module_default_state' => $module_default_state,
         ];
                         
         $data = apply_filters('dtoc_localize_admin_assets_filter', $data, 'dtoc_admin_cdata');

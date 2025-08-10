@@ -337,21 +337,21 @@ public function dtoc_settings_page_render(){
 
 public function dtoc_settings_initiate(){
 	
-    register_setting('dtoc_incontent_group', 'dtoc_incontent' );
-	register_setting('dtoc_incontent_mobile_group', 'dtoc_incontent_mobile' );
-    register_setting('dtoc_incontent_tablet_group', 'dtoc_incontent_tablet' );
+    register_setting('dtoc_incontent_group', 'dtoc_incontent', 'dtoc_sanitize_register_setting' );
+	register_setting('dtoc_incontent_mobile_group', 'dtoc_incontent_mobile', 'dtoc_sanitize_register_setting' );
+    register_setting('dtoc_incontent_tablet_group', 'dtoc_incontent_tablet', 'dtoc_sanitize_register_setting' );
 
-    register_setting('dtoc_sticky_group', 'dtoc_sticky' );
-	register_setting('dtoc_sticky_mobile_group', 'dtoc_sticky_mobile' );
-    register_setting('dtoc_sticky_tablet_group', 'dtoc_sticky_tablet' );
+    register_setting('dtoc_sticky_group', 'dtoc_sticky', 'dtoc_sanitize_register_setting' );
+	register_setting('dtoc_sticky_mobile_group', 'dtoc_sticky_mobile', 'dtoc_sanitize_register_setting' );
+    register_setting('dtoc_sticky_tablet_group', 'dtoc_sticky_tablet', 'dtoc_sanitize_register_setting' );
 
-    register_setting('dtoc_floating_group', 'dtoc_floating' );
-	register_setting('dtoc_floating_mobile_group', 'dtoc_floating_mobile' );
-    register_setting('dtoc_floating_tablet_group', 'dtoc_floating_tablet' );
+    register_setting('dtoc_floating_group', 'dtoc_floating', 'dtoc_sanitize_register_setting' );
+	register_setting('dtoc_floating_mobile_group', 'dtoc_floating_mobile', 'dtoc_sanitize_register_setting' );
+    register_setting('dtoc_floating_tablet_group', 'dtoc_floating_tablet', 'dtoc_sanitize_register_setting' );
 
-    register_setting('dtoc_shortcode_group', 'dtoc_shortcode' );
-	register_setting('dtoc_shortcode_mobile_group', 'dtoc_shortcode_mobile' );
-    register_setting('dtoc_shortcode_tablet_group', 'dtoc_shortcode_tablet' );
+    register_setting('dtoc_shortcode_group', 'dtoc_shortcode', 'dtoc_sanitize_register_setting' );
+	register_setting('dtoc_shortcode_mobile_group', 'dtoc_shortcode_mobile', 'dtoc_sanitize_register_setting' );
+    register_setting('dtoc_shortcode_tablet_group', 'dtoc_shortcode_tablet', 'dtoc_sanitize_register_setting' );
 
     // general
     add_settings_section('dtoc_general_setting_section', __return_false(), '__return_false', 'dtoc_general_setting_section');                                
@@ -998,7 +998,7 @@ public function dtoc_customization_design_type_cb(){
 public function dtoc_shortcode_source(){
     $this->dtoc_resolve_meta_settings_name(); 		
     ?>
-    <textarea rows="5" cols="60" readonly>[digital_toc]</textarea>
+    <textarea class="dtoc_shortcode_source_textarea" rows="5" cols="60" readonly>[digital_toc]</textarea>
 	<?php
 }
 public function dtoc_customization_custom_css_cb(){
