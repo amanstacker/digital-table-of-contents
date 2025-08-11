@@ -6,8 +6,8 @@ add_filter( 'plugin_action_links_' . DTOC_BASE_NAME, 'dtoc_plugin_action_links')
 
 function dtoc_plugin_action_links( $actions ) {
 
-     $url = add_query_arg( 'page', 'dtoc', self_admin_url( 'options-general.php' ) );
-     $actions[]  = '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Settings', 'digital-table-of-contents' ) . '</a>';     
+     $url = add_query_arg( 'page', 'dtoc', self_admin_url( 'admin.php' ) );
+     $actions[]  = '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Dashboard', 'digital-table-of-contents' ) . '</a>';     
     return $actions;
 }
 

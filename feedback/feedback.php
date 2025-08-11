@@ -60,7 +60,7 @@ function dtoc_deactivation_feedback_modal() {
             </li>
             <li>
                 <input type="radio" id="dtoc-reason2" name="dtoc_disable_reason" value="stopped_using" />
-                <label for="dtoc-reason2"><?php esc_html_e('No longer using schema markup', 'digital-table-of-contents') ?></label>
+                <label for="dtoc-reason2"><?php esc_html_e('No longer using toc', 'digital-table-of-contents') ?></label>
             </li>
             <li>
                 <input type="radio" id="dtoc-reason3" name="dtoc_disable_reason" value="missing_feature" />
@@ -146,8 +146,8 @@ function dtoc_send_feedback() {
             $text    = 'The deactivation is temporary';
         break;
         case 'stopped_using':
-            $subject = 'No longer using schema markup';
-            $text    = 'No longer using schema markup';
+            $subject = 'No longer using toc';
+            $text    = 'No longer using toc';
         break;
         case 'missing_feature':
             $subject = 'Needed feature not available';
