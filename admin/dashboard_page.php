@@ -100,6 +100,13 @@ function dtoc_dashboard_modules(){
             'learn' => 'https://digitaltableofcontents/documentation'
         ],
         [
+            'title' => 'Shortcode',
+            'desc'  => 'TOC shortcode generates a structured list of headings for a specific post or page, allowing you to place it at a desired position within the content.',
+            'name'  => 'shortcode',
+            'url'   => admin_url( 'admin.php?page=dtoc_shortcode'),
+            'learn' => 'https://digitaltableofcontents/documentation'
+        ],        
+        [
             'title' => 'Sticky',
             'desc'  => 'A Sticky TOC is a fixed navigation element that stays within a defined container, typically in the sidebar or at the top, while scrolling.',
             'name'  => 'sticky',
@@ -111,13 +118,6 @@ function dtoc_dashboard_modules(){
             'desc'  => 'A Floating TOC is a movable, draggable, or collapsible navigation element that isn\'t fixed, allowing repositioning and enhanced interaction',
             'name'  => 'floating',
             'url'   => admin_url( 'admin.php?page=dtoc_floating'),
-            'learn' => 'https://digitaltableofcontents/documentation'
-        ],
-        [
-            'title' => 'Shortcode',
-            'desc'  => 'TOC shortcode generates a structured list of headings for a specific post or page, allowing you to place it at a desired position within the content.',
-            'name'  => 'shortcode',
-            'url'   => admin_url( 'admin.php?page=dtoc_shortcode'),
             'learn' => 'https://digitaltableofcontents/documentation'
         ],        
         [            
