@@ -90,14 +90,14 @@ public function dtoc_add_menu_links(){
 	// 	'dtoc_floating_tablet',
     //     [$this, 'dtoc_settings_page_render']
 	// );
-	// add_submenu_page(
-	// 	'dtoc',
-	// 	'Digital Table of Contents Shortcode',
-    //     'Shortcode',
-	// 	'manage_options',
-	// 	'dtoc_shortcode',
-    //     [$this, 'dtoc_settings_page_render']				
-	// );
+	add_submenu_page(
+		'dtoc',
+		'Digital Table of Contents Shortcode',
+        'Shortcode',
+		'manage_options',
+		'dtoc_shortcode',
+        [$this, 'dtoc_settings_page_render']				
+	);
 	// add_submenu_page(
 	// 	'dtoc',
 	// 	'Digital Table of Contents Shortcode',
@@ -302,8 +302,8 @@ public function dtoc_settings_page_render(){
 
                  if ( in_array( $this->_setting_name, $this->_shortcode_modules ) ) {
                     //Shortcode Source
-                 echo "<div class='dtoc-shortcode_source' ".( $tab != 'shortcode_source' ? 'style="display:none;"' : '').">";
-                     do_settings_sections( 'dtoc_shortcode_source_setting_section' );
+                 echo "<div class='dtoc-shortcode_source' ".( $tab != 'shortcode_source' ? 'style="display:none;"' : '').">";                     
+                     $this->dtoc_shortcode_source(); 
                  echo "</div>"; 
 
                  }
@@ -337,21 +337,21 @@ public function dtoc_settings_page_render(){
 
 public function dtoc_settings_initiate(){
 	
-    register_setting('dtoc_incontent_group', 'dtoc_incontent' );
-	register_setting('dtoc_incontent_mobile_group', 'dtoc_incontent_mobile' );
-    register_setting('dtoc_incontent_tablet_group', 'dtoc_incontent_tablet' );
+    register_setting('dtoc_incontent_group', 'dtoc_incontent', 'dtoc_sanitize_register_setting' );
+	register_setting('dtoc_incontent_mobile_group', 'dtoc_incontent_mobile', 'dtoc_sanitize_register_setting' );
+    register_setting('dtoc_incontent_tablet_group', 'dtoc_incontent_tablet', 'dtoc_sanitize_register_setting' );
 
-    register_setting('dtoc_sticky_group', 'dtoc_sticky' );
-	register_setting('dtoc_sticky_mobile_group', 'dtoc_sticky_mobile' );
-    register_setting('dtoc_sticky_tablet_group', 'dtoc_sticky_tablet' );
+    register_setting('dtoc_sticky_group', 'dtoc_sticky', 'dtoc_sanitize_register_setting' );
+	register_setting('dtoc_sticky_mobile_group', 'dtoc_sticky_mobile', 'dtoc_sanitize_register_setting' );
+    register_setting('dtoc_sticky_tablet_group', 'dtoc_sticky_tablet', 'dtoc_sanitize_register_setting' );
 
-    register_setting('dtoc_floating_group', 'dtoc_floating' );
-	register_setting('dtoc_floating_mobile_group', 'dtoc_floating_mobile' );
-    register_setting('dtoc_floating_tablet_group', 'dtoc_floating_tablet' );
+    register_setting('dtoc_floating_group', 'dtoc_floating', 'dtoc_sanitize_register_setting' );
+	register_setting('dtoc_floating_mobile_group', 'dtoc_floating_mobile', 'dtoc_sanitize_register_setting' );
+    register_setting('dtoc_floating_tablet_group', 'dtoc_floating_tablet', 'dtoc_sanitize_register_setting' );
 
-    register_setting('dtoc_shortcode_group', 'dtoc_shortcode' );
-	register_setting('dtoc_shortcode_mobile_group', 'dtoc_shortcode_mobile' );
-    register_setting('dtoc_shortcode_tablet_group', 'dtoc_shortcode_tablet' );
+    register_setting('dtoc_shortcode_group', 'dtoc_shortcode', 'dtoc_sanitize_register_setting' );
+	register_setting('dtoc_shortcode_mobile_group', 'dtoc_shortcode_mobile', 'dtoc_sanitize_register_setting' );
+    register_setting('dtoc_shortcode_tablet_group', 'dtoc_shortcode_tablet', 'dtoc_sanitize_register_setting' );
 
     // general
     add_settings_section('dtoc_general_setting_section', __return_false(), '__return_false', 'dtoc_general_setting_section');                                
@@ -711,15 +711,7 @@ public function dtoc_settings_initiate(){
         'dtoc_customization_border_section',
         'dtoc_customization_border_section',
     );             
-    //Shortcode Source    
-    add_settings_section('dtoc_shortcode_source_setting_section', __return_false(), '__return_false', 'dtoc_shortcode_source_setting_section');
-    add_settings_field(
-        'dtoc_shortcode_source',
-            '',
-            [$this, 'dtoc_shortcode_source_cb'],        
-        'dtoc_shortcode_source_setting_section',
-        'dtoc_shortcode_source_setting_section'
-    );              
+    
     add_settings_section('dtoc_advanced_setting_section', __return_false(), '__return_false', 'dtoc_advanced_setting_section');                                
     add_settings_field(
         'dtoc_display_hierarchy',
@@ -760,11 +752,45 @@ public function dtoc_settings_initiate(){
         'dtoc_advanced_setting_section',
         'dtoc_advanced_setting_section',
         [ 'label_for' => 'accessibility' ]
+    );    
+    add_settings_field(
+        'dtoc_display_preserve_line_breaks',
+         esc_html__('Preserve Line Breaks', 'digital-table-of-contents'),
+		 [$this, 'dtoc_display_preserve_line_breaks_cb'],        		        
+        'dtoc_advanced_setting_section',
+        'dtoc_advanced_setting_section',
+        [ 'label_for' => 'preserve_line_breaks' ]
+    );
+    add_settings_field(
+        'dtoc_display_exclude_headings',
+         esc_html__('Exclude Headings', 'digital-table-of-contents'),
+		 [$this, 'dtoc_display_exclude_headings_cb'],
+        'dtoc_advanced_setting_section',
+        'dtoc_advanced_setting_section',
+        [ 'label_for' => 'exclude_headings' ]
     );
            
 
 }
 
+public function dtoc_display_exclude_headings_cb(){
+	$this->dtoc_resolve_meta_settings_name(); 	
+    ?>  
+        <textarea cols="45" rows="3" class="smpg-input" name="<?php echo $this->_setting_name; ?>[exclude_headings]" id="exclude_headings"><?php echo (isset($this->_setting_option['exclude_headings']) ? $this->_setting_option['exclude_headings'] : '' ) ?></textarea>        
+        <p>Separate multiple headings with a pipe |. Use an asterisk * as a wildcard to match other text.</p>
+        <strong>Example:</strong>
+        <p>Fruit* : Ignore headings starting with "Fruit".</p>
+        <p>*Fruit Diet* Ignore headings with "Fruit Diet" somewhere in the heading.</p>
+        <p>Apple Tree|Oranges|Yellow Bananas Ignore headings that are exactly "Apple Tree", "Oranges" or "Yellow Bananas".</p>
+    <?php
+}
+public function dtoc_display_preserve_line_breaks_cb(){
+	$this->dtoc_resolve_meta_settings_name(); 	
+    ?>  
+        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[preserve_line_breaks]" id="preserve_line_breaks" type="checkbox" value="1" <?php echo (isset($this->_setting_option['preserve_line_breaks']) && $this->_setting_option['preserve_line_breaks'] == 1 ? 'checked' : '' ) ?>>
+        
+    <?php
+}
 public function dtoc_display_accessibility_cb(){
 	$this->dtoc_resolve_meta_settings_name(); 	
     ?>  
@@ -968,6 +994,16 @@ public function dtoc_customization_design_type_cb(){
     </select>
 	
     <?php
+}
+public function dtoc_shortcode_source(){
+    $this->dtoc_resolve_meta_settings_name(); 		
+    ?>
+    <textarea id="dtoc_shortcode_source_textarea" rows="5" cols="60" readonly>[digital_toc]</textarea>
+    <span id="dtoc_copy_inline" style="display:none; color:#46b450; margin-left:8px; font-weight:600;">
+        <?php esc_html_e( 'Copied!', 'digital-toc' ); ?>
+    </span>
+
+	<?php
 }
 public function dtoc_customization_custom_css_cb(){
     $this->dtoc_resolve_meta_settings_name(); 		
@@ -1295,11 +1331,11 @@ public function dtoc_customization_icon_border_type_cb(){
 public function dtoc_general_rendering_style_cb(){ 
     $this->dtoc_resolve_meta_settings_name(); 	   	                
     ?>        
-        <input class="smpg-input" type="radio" id="js_rendering_style" name="<?php echo esc_attr( $this->_setting_name ); ?>[rendering_style]" value="js" 
+        <input class="smpg-input" data-id="rendering_style" type="radio" id="js_rendering_style" name="<?php echo esc_attr( $this->_setting_name ); ?>[rendering_style]" value="js" 
             <?php checked( isset( $this->_setting_option['rendering_style'] ) && $this->_setting_option['rendering_style'] === 'js' ); ?>>
         <label for="js_rendering_style" style="margin-right: 15px;"><?php esc_html_e( 'JS-based', 'digital-table-of-contents' ); ?></label>
 
-        <input class="smpg-input" type="radio" id="css_rendering_style" name="<?php echo esc_attr( $this->_setting_name ); ?>[rendering_style]" value="css" 
+        <input data-id="rendering_style" class="smpg-input" type="radio" id="css_rendering_style" name="<?php echo esc_attr( $this->_setting_name ); ?>[rendering_style]" value="css" 
             <?php checked( isset( $this->_setting_option['rendering_style'] ) && $this->_setting_option['rendering_style'] === 'css' ); ?>>
         <label for="css_rendering_style"><?php esc_html_e( 'CSS-based', 'digital-table-of-contents' ); ?></label>        
     <?php
@@ -1307,11 +1343,11 @@ public function dtoc_general_rendering_style_cb(){
 public function dtoc_general_scroll_behavior_cb(){ 
     $this->dtoc_resolve_meta_settings_name(); 	   	                
     ?>            
-    <input class="smpg-input" type="radio" id="auto_scroll_behavior" name="<?php echo esc_attr( $this->_setting_name ); ?>[scroll_behavior]" value="auto" 
+    <input class="smpg-input" data-id="scroll_behavior" type="radio" id="auto_scroll_behavior" name="<?php echo esc_attr( $this->_setting_name ); ?>[scroll_behavior]" value="auto" 
         <?php checked( isset( $this->_setting_option['scroll_behavior'] ) && $this->_setting_option['scroll_behavior'] === 'auto' ); ?>>
     <label for="auto_scroll_behavior" style="margin-right: 15px;"><?php esc_html_e( 'Auto', 'digital-table-of-contents' ); ?></label>
 
-    <input class="smpg-input" type="radio" id="smooth_scroll_behavior" name="<?php echo esc_attr( $this->_setting_name ); ?>[scroll_behavior]" value="smooth" 
+    <input class="smpg-input" data-id="scroll_behavior" type="radio" id="smooth_scroll_behavior" name="<?php echo esc_attr( $this->_setting_name ); ?>[scroll_behavior]" value="smooth" 
         <?php checked( isset( $this->_setting_option['scroll_behavior'] ) && $this->_setting_option['scroll_behavior'] === 'smooth' ); ?>>
     <label for="smooth_scroll_behavior"><?php esc_html_e( 'Smooth', 'digital-table-of-contents' ); ?></label>        
 
@@ -1321,13 +1357,13 @@ public function dtoc_general_alignment_cb() {
 	$this->dtoc_resolve_meta_settings_name();
 	?>
 
-	<input class="smpg-input" type="radio" id="left_alignment" name="<?php echo esc_attr( $this->_setting_name ); ?>[alignment]" value="left" <?php checked( isset( $this->_setting_option['alignment'] ) && $this->_setting_option['alignment'] === 'left' ); ?>>
+	<input class="smpg-input" data-id="alignment" type="radio" id="left_alignment" name="<?php echo esc_attr( $this->_setting_name ); ?>[alignment]" value="left" <?php checked( isset( $this->_setting_option['alignment'] ) && $this->_setting_option['alignment'] === 'left' ); ?>>
 	<label for="left_alignment" style="margin-right: 15px;"><?php esc_html_e( 'Left', 'digital-table-of-contents' ); ?></label>
 
-	<input class="smpg-input" type="radio" id="center_alignment" name="<?php echo esc_attr( $this->_setting_name ); ?>[alignment]" value="center" <?php checked( isset( $this->_setting_option['alignment'] ) && $this->_setting_option['alignment'] === 'center' ); ?>>
+	<input class="smpg-input" data-id="alignment" type="radio" id="center_alignment" name="<?php echo esc_attr( $this->_setting_name ); ?>[alignment]" value="center" <?php checked( isset( $this->_setting_option['alignment'] ) && $this->_setting_option['alignment'] === 'center' ); ?>>
 	<label for="center_alignment" style="margin-right: 15px;"><?php esc_html_e( 'Center', 'digital-table-of-contents' ); ?></label>
 
-	<input class="smpg-input" type="radio" id="right_alignment" name="<?php echo esc_attr( $this->_setting_name ); ?>[alignment]" value="right" <?php checked( isset( $this->_setting_option['alignment'] ) && $this->_setting_option['alignment'] === 'right' ); ?> >
+	<input class="smpg-input" data-id="alignment" type="radio" id="right_alignment" name="<?php echo esc_attr( $this->_setting_name ); ?>[alignment]" value="right" <?php checked( isset( $this->_setting_option['alignment'] ) && $this->_setting_option['alignment'] === 'right' ); ?> >
 	<label for="right_alignment"><?php esc_html_e( 'Right', 'digital-table-of-contents' ); ?></label>
 
 	<?php
@@ -1421,28 +1457,24 @@ public function dtoc_customization_remove_css_js_cb(){
 public function dtoc_general_headings_include_cb(){
     $this->dtoc_resolve_meta_settings_name();
     ?>        
-        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[headings_include][1]" id="headings_include_1" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][1]) && $this->_setting_option['headings_include'][1] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_1"><?php echo esc_html__('H1', 'digital-table-of-contents'); ?></label>
+        <input class="smpg-input" data-id="headings_include" data-number="1" name="<?php echo $this->_setting_name; ?>[headings_include][1]" id="headings_include_1" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][1]) && $this->_setting_option['headings_include'][1] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_1"><?php echo esc_html__('H1', 'digital-table-of-contents'); ?></label>
         <br>
-        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[headings_include][2]" id="headings_include_2" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][2]) && $this->_setting_option['headings_include'][2] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_2"><?php echo esc_html__('H2', 'digital-table-of-contents'); ?></label>
+        <input class="smpg-input" data-id="headings_include" data-number="2" name="<?php echo $this->_setting_name; ?>[headings_include][2]" id="headings_include_2" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][2]) && $this->_setting_option['headings_include'][2] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_2"><?php echo esc_html__('H2', 'digital-table-of-contents'); ?></label>
         <br>
-        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[headings_include][3]" id="headings_include_3" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][3]) && $this->_setting_option['headings_include'][3] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_3"><?php echo esc_html__('H3', 'digital-table-of-contents'); ?></label>
+        <input class="smpg-input" data-id="headings_include" data-number="3" name="<?php echo $this->_setting_name; ?>[headings_include][3]" id="headings_include_3" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][3]) && $this->_setting_option['headings_include'][3] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_3"><?php echo esc_html__('H3', 'digital-table-of-contents'); ?></label>
         <br>
-        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[headings_include][4]" id="headings_include_4" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][4]) && $this->_setting_option['headings_include'][4] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_4"><?php echo esc_html__('H4', 'digital-table-of-contents'); ?></label>
+        <input class="smpg-input" data-id="headings_include" data-number="4" name="<?php echo $this->_setting_name; ?>[headings_include][4]" id="headings_include_4" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][4]) && $this->_setting_option['headings_include'][4] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_4"><?php echo esc_html__('H4', 'digital-table-of-contents'); ?></label>
         <br>
-        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[headings_include][5]" id="headings_include_5" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][5]) && $this->_setting_option['headings_include'][5] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_5"><?php echo esc_html__('H5', 'digital-table-of-contents'); ?></label>
+        <input class="smpg-input" data-id="headings_include" data-number="5" name="<?php echo $this->_setting_name; ?>[headings_include][5]" id="headings_include_5" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][5]) && $this->_setting_option['headings_include'][5] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_5"><?php echo esc_html__('H5', 'digital-table-of-contents'); ?></label>
         <br>
-        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[headings_include][6]" id="headings_include_6" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][6]) && $this->_setting_option['headings_include'][6] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_6"><?php echo esc_html__('H6', 'digital-table-of-contents'); ?></label>
+        <input class="smpg-input" data-id="headings_include" data-number="6" name="<?php echo $this->_setting_name; ?>[headings_include][6]" id="headings_include_6" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][6]) && $this->_setting_option['headings_include'][6] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_6"><?php echo esc_html__('H6', 'digital-table-of-contents'); ?></label>
 
         <p class="description"><?php echo esc_html__('Select the headings to be added when the table of contents being created. Deselecting it will be excluded.', 'digital-table-of-contents'); ?></p>
                         
     <?php
 
 }
-public function dtoc_shortcode_source_cb(){
 
-    echo '[digital_toc]';
-
-}
 public function dtoc_placement_setting_section_cb(){
             
     $result = dtoc_get_all_post_types();    
@@ -1577,11 +1609,11 @@ public function dtoc_general_paragraph_number_cb(){
 public function dtoc_display_toggle_initial_cb() {
 	$this->dtoc_resolve_meta_settings_name();
 	?>
-	<input class="smpg-input" type="radio" id="toggle_initial_show" name="<?php echo esc_attr( $this->_setting_name ); ?>[toggle_initial]" value="show" 
+	<input class="smpg-input" data-id="toggle_initial" type="radio" id="toggle_initial_show" name="<?php echo esc_attr( $this->_setting_name ); ?>[toggle_initial]" value="show" 
 		<?php checked( isset( $this->_setting_option['toggle_initial'] ) && $this->_setting_option['toggle_initial'] === 'show' ); ?>>
 	<label for="toggle_initial_show" style="margin-right: 15px;"><?php esc_html_e( 'Show', 'digital-table-of-contents' ); ?></label>
 
-	<input class="smpg-input" type="radio" id="toggle_initial_hide" name="<?php echo esc_attr( $this->_setting_name ); ?>[toggle_initial]" value="hide" 
+	<input class="smpg-input" data-id="toggle_initial" type="radio" id="toggle_initial_hide" name="<?php echo esc_attr( $this->_setting_name ); ?>[toggle_initial]" value="hide" 
 		<?php checked( isset( $this->_setting_option['toggle_initial'] ) && $this->_setting_option['toggle_initial'] === 'hide' ); ?>>
 	<label for="toggle_initial_hide"><?php esc_html_e( 'Hide', 'digital-table-of-contents' ); ?></label>
 	<?php

@@ -100,6 +100,13 @@ function dtoc_dashboard_modules(){
             'learn' => 'https://digitaltableofcontents/documentation'
         ],
         [
+            'title' => 'Shortcode',
+            'desc'  => 'TOC shortcode generates a structured list of headings for a specific post or page, allowing you to place it at a desired position within the content.',
+            'name'  => 'shortcode',
+            'url'   => admin_url( 'admin.php?page=dtoc_shortcode'),
+            'learn' => 'https://digitaltableofcontents/documentation'
+        ],        
+        [
             'title' => 'Sticky',
             'desc'  => 'A Sticky TOC is a fixed navigation element that stays within a defined container, typically in the sidebar or at the top, while scrolling.',
             'name'  => 'sticky',
@@ -111,13 +118,6 @@ function dtoc_dashboard_modules(){
             'desc'  => 'A Floating TOC is a movable, draggable, or collapsible navigation element that isn\'t fixed, allowing repositioning and enhanced interaction',
             'name'  => 'floating',
             'url'   => admin_url( 'admin.php?page=dtoc_floating'),
-            'learn' => 'https://digitaltableofcontents/documentation'
-        ],
-        [
-            'title' => 'Shortcode',
-            'desc'  => 'TOC shortcode generates a structured list of headings for a specific post or page, allowing you to place it at a desired position within the content.',
-            'name'  => 'shortcode',
-            'url'   => admin_url( 'admin.php?page=dtoc_shortcode'),
             'learn' => 'https://digitaltableofcontents/documentation'
         ],        
         [            
@@ -184,10 +184,11 @@ function dtoc_dashboard_modules(){
     foreach ( $modules as $value ) {
         ?>
             <div class="dtoc-grid-item">    
-            <div class="dtoc-grid-header">
-                <!-- <img class="dtoc-grid-image" src="<?php echo esc_url( DTOC_URL.'/assets/admin/images/'.$value['name'].'.svg' ); ?>"> -->
+            <div class="dtoc-grid-header">                
                 <h3><?php esc_html_e($value['title'], 'digital-table-of-contents'); ?></h3>
-                <p><?php esc_html_e($value['desc'], 'digital-table-of-contents'); ?> <a href="<?php echo esc_url( $value['learn'] );  ?>">Learn More</a></p>
+                <p><?php esc_html_e($value['desc'], 'digital-table-of-contents'); ?> 
+                <!-- <a href="<?php echo esc_url( $value['learn'] );  ?>">Learn More</a> -->
+            </p>
             </div>
             <hr>
             <div class="dtoc-grid-footer">
@@ -212,7 +213,7 @@ add_action('admin_init', 'dtoc_dashboard_settings_initiate');
 
 function dtoc_dashboard_settings_initiate(){
     // need sanitization of registered option
-    register_setting( 'dtoc_dashboard_options_group', 'dtoc_dashboard_options' );
+    register_setting( 'dtoc_dashboard_options_group', 'dtoc_dashboard_options', 'dtoc_sanitize_register_setting' );
                                 
     add_settings_section( 'dtoc_dashboard_tools_import_export_section', esc_html__( 'Import / Export', 'digital-table-of-contents' ), '__return_false', 'dtoc_dashboard_tools_setting_section_hook' );
         add_settings_field(

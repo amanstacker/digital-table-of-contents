@@ -1,37 +1,57 @@
 === Digital Table of Contents ===
 Contributors: amanstacker  
 Donate link: https://www.paypal.com/paypalme/amanstacker  
-Tags: table of contents, toc, navigation, headings, content list, sticky toc  
+Tags: table of contents, toc, navigation, headings, sticky toc
 Requires at least: 5.0  
 Tested up to: 6.8  
 Requires PHP: 7.4
-Stable tag: 1.0.1  
+Stable tag: 1.0.2  
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html  
 
-A powerful and customizable TOC plugin for WordPress. Effortlessly navigate your content with advanced features and flexible styling.
+A powerful and customizable TOC plugin. Effortlessly navigate your content with advanced features and flexible styling.
 
 == Description ==
 
-**Digital Table of Contents** is a powerful, flexible, and SEO-friendly TOC (Table of Contents) plugin for WordPress. It helps you create TOCs with full control over appearance, behavior, and placement.
+**Digital Table of Contents** is a powerful, modular toc system that lets you effortlessly generate and manage table of contents across your content. With full control over styling, behavior, and placement, it offers a user-friendly and highly customizable experience.
 
 **Key Features:**
 
-🔹 In-Content Table of Contents (TOC)  
-🔹 Full customization (colors, borders, icons, padding, etc.)  
-🔹 Smart placement logic  
-🔹 Scroll behavior, toggle view, heading tag selection  
-🔹 SEO-optimized & accessible  
-🔹 Lightweight & performance-friendly  
-🔹 Tools: Import/Export, Reset & Plugin Data Removal  
-🔹 Live preview (coming soon)
+* <strong>Modular TOC System</strong>: Each major TOC feature is separated into its own module for better management and flexibility. Comes with a dedicated settings panel for full control — ensuring smooth operation without conflicts and making it stand out from other plugins.
+* <strong>Auto Insertion of TOC</strong>: Automatically insert a table of contents across all post types with a single setup.
+* <strong>Flexible TOC Positioning</strong>: Choose where to place the TOC — before the first heading, after the first heading, top of the content, bottom of the content, or after a specific paragraph number.
+* <strong>Heading Hierarchy Support</strong>: Automatically generate a hierarchical TOC based on headings from H1 to H6.
+* <strong>Smart Placement Controls</strong>: Display the TOC on specific post types, individual posts, selected categories, and more — with options to exclude specific posts or pages.
+* <strong>Paginated TOC support</strong>: Fully compatible with the `<!--nextpage-->` tag, creating individual or combine TOCs for each page of your split content.
+* <strong>Smooth Scrolling</strong>: Enables a seamless and fluid scroll experience when navigating through the table of contents, enhancing overall user experience.
+* <strong>Accessibility Attributes</strong>:  Adds essential ARIA and semantic HTML attributes to ensure the table of contents is fully accessible to screen readers and assistive technologies.
+* <strong>Rendering Style	</strong>: Choose between CSS-based (lightweight and fast with basic interactions) or JavaScript-based rendering (more interactive and dynamic behavior) depending on your performance and functionality needs.
+* <strong>Multiple Header Icon Options</strong>: Choose from various icon styles like List Icon (☰), Show/Hide, Plus (+)/Minus (−), or even use a custom icon of your choice.
+* <strong>Full Customization</strong>: No need to rely on predefined designs — easily customize colors, styles, icons, background, link colors, title, borders, and much more, all hassle-free.
+* <strong>Custom CSS</strong>: If the built-in customization options aren’t sufficient, you can add your own CSS directly in the provided Custom CSS box.
+* <strong>Jump Links Control</strong>: Option to generate a TOC without clickable jump links, ideal for visual structure without navigation.
+* <strong>Lightweight & Performance-Friendly</strong>: Built for speed and efficiency, the plugin is optimized to have minimal impact on your site’s load time and overall performance.
+* <strong>Import / Export</strong>: Easily back up or transfer your TOC settings and configurations between sites with the one-click import/export feature.
+* <strong>Delete Data on Uninstall</strong>: Option to remove all Digital Table of Contents plugin data from the database when Digital Table of Contents plugin is uninstalled, ensuring a clean removal.
+* <strong>Fast Help & Support</strong>: If you are unable to find any features related to Digital Table of Contents or found any bug. Please contact us, Digital Table of Contents team would try to solve it quickly.
+
+**Shortcode:**
+
+Turn on the Shortcode Module to unlock a powerful, beginner-friendly WordPress Table of Contents shortcode builder — no coding required. Forget manually typing or memorizing shortcode parameters; simply open the shortcode settings panel and start customizing your TOC design, layout, and behavior.
+
+As you adjust the settings, a real-time live preview instantly shows you exactly how your Table of Contents will appear, allowing you to fine-tune headings, styles, toggle options, icons, and more. This visual approach ensures you get the perfect look before placing it on your site.
+
+When you’re happy with the configuration, the plugin automatically generates a fully-parameterized TOC shortcode in the Shortcode Source tab. Just copy and paste it anywhere — inside posts, pages, widgets, or even custom templates — and your Table of Contents will appear exactly as previewed.
+
+With default settings, just use [digital_toc] for a quick, clean, and fully functional Table of Contents without any extra setup.
+
 
 **Available Modules (More Coming Soon!):**
 
 - ✅ In-Content TOC  
+- ✅ Shortcode TOC
 - 🔜 Sticky TOC  
-- 🔜 Floating TOC  
-- 🔜 Shortcode TOC  
+- 🔜 Floating TOC    
 - 🔜 In-Content (Mobile)  
 - 🔜 In-Content Table  
 - 🔜 Sticky (Mobile)  
@@ -40,47 +60,6 @@ A powerful and customizable TOC plugin for WordPress. Effortlessly navigate your
 - 🔜 Floating Table  
 - 🔜 Shortcode (Mobile)  
 - 🔜 Shortcode Table  
-
-== In-Content TOC Tabs ==
-
-### General Tab
-- Rendering Style (JavaScript or Auto)  
-- Title Options  
-  - Custom Heading Text  
-  - Toggle Option  
-  - Initial Body Visibility  
-  - Icon Style  
-- Jump Links  
-  - Scroll Behavior (Smooth/Instant)  
-- Alignment  
-- Wrap Content Around TOC  
-- Display Conditions  
-- Position (Top, After First Heading, Custom)  
-- List Style (Decimal, Bullet, etc.)  
-- Heading Tags Selection (H1–H6)  
-
-### Advanced Tab
-- Enable Heading Hierarchy  
-- Combine Headings Across Page Breaks  
-
-### Placement Tab
-- Enable TOC by Post Type  
-- Filter by Category or Tag  
-- Skip Individual Posts  
-
-### Customization Tab
-- **Container Styling:** Background color, width, height, margin, padding  
-- **Border Styling:** Type, color, width, radius  
-- **Title Styling:** Background color, text color, font size, font weight, padding  
-- **Icon Styling:** Background & foreground colors, size, border, spacing  
-- **Link Styling:** Normal, hover, visited colors, padding, margin  
-- **Custom CSS:** Write your own CSS for advanced control  
-
-== Tools ==
-
-- 🔄 **Import / Export** plugin settings  
-- 🧹 **Reset** to default  
-- 🗑️ **Delete Plugin Data** on uninstall  
 
 == Screenshots ==
 
@@ -93,10 +72,24 @@ A powerful and customizable TOC plugin for WordPress. Effortlessly navigate your
 
 == Installation ==
 
-1. Upload the plugin to your WordPress site or install it directly from the WordPress.org repository.  
-2. Activate the plugin through the “Plugins” menu.  
-3. Go to **Dashboard > Digital TOC** to configure the TOC for your content.  
-4. Customize the appearance, behavior, and placement as per your site needs.  
+1. **Automatic Installation:**
+   - Go to **Plugins > Add New** in your WordPress dashboard.
+   - Search for "Digital Table of Contents".
+   - Click **Install Now**, then **Activate** the plugin.
+
+2. **Manual Installation via WordPress:**
+   - Download the plugin ZIP file from the official source.
+   - Go to **Plugins > Add New** in WordPress.
+   - Click **Upload Plugin**, select the downloaded ZIP file, and click **Install Now**.
+   - Activate the plugin after installation.
+
+3. **Manual Installation via FTP:**
+   - Download the plugin ZIP file and extract it.
+   - Upload the extracted folder to the `/wp-content/plugins/` directory using an FTP client.
+   - Log in to your WordPress dashboard and go to **Plugins > Installed Plugins**.
+   - Find "Digital Table of Contents Plugin" and click **Activate**.
+
+4. From the WordPress dashboard, navigate to the **Digital Table of Contents** menu to access and configure the plugin settings.
 
 == Frequently Asked Questions ==
 
@@ -116,6 +109,12 @@ Mobile-specific modules are coming soon in future updates!
 Yes. Use the Tools section to reset or export/import your settings.
 
 == Changelog ==
+
+= 1.0.2 =
+* Shortcode module added.
+* Preserve Line Breaks option added.
+* Exclude Headings options added.
+* optimized ace editor to remove extra mb of size
 
 = 1.0.1 =
 * Initial release with In-Content TOC module  
