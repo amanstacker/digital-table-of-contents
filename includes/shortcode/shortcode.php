@@ -12,7 +12,7 @@ function dtoc_init_shortcode() {
 
 function dtoc_shortcode_callback( $attr , $tag_content, $tag ) {
             
-    global $dtoc_shortcode, $dtoc_dashboard;
+    global $dtoc_dashboard;
     
     if ( empty( $dtoc_dashboard['modules']['shortcode'] ) ) {
         return '';
@@ -23,6 +23,12 @@ function dtoc_shortcode_callback( $attr , $tag_content, $tag ) {
         $attr = [];
     }
 
+    $dtoc_shortcode = dtoc_default_shortcode_options();
+
+    if ( isset( $attr['headings_include'] ) && is_string( $attr['headings_include'] ) ) {
+        $attr['headings_include'] = json_decode( $attr['headings_include'], true );
+    }
+    
     $options = array_merge( $dtoc_shortcode, $attr );
         
     $post_id = isset( $options['post_id'] ) ? $options['post_id'] : get_the_ID();

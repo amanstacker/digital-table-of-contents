@@ -405,6 +405,7 @@ jQuery(document).ready(function($) {
 
     const default_state = dtoc_admin_cdata.module_default_state;    
     const current_state = dtoc_admin_cdata.module_state;    
+    console.log(current_state);
 
     // Proxy to trigger on any top-level set
     const reactive = new Proxy(current_state, {

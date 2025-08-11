@@ -35,12 +35,23 @@ A powerful and customizable TOC plugin. Effortlessly navigate your content with 
 * <strong>Delete Data on Uninstall</strong>: Option to remove all Digital Table of Contents plugin data from the database when Digital Table of Contents plugin is uninstalled, ensuring a clean removal.
 * <strong>Fast Help & Support</strong>: If you are unable to find any features related to Digital Table of Contents or found any bug. Please contact us, Digital Table of Contents team would try to solve it quickly.
 
+**Shortcode:**
+
+Turn on the Shortcode Module to unlock a powerful, beginner-friendly WordPress Table of Contents shortcode builder — no coding required. Forget manually typing or memorizing shortcode parameters; simply open the shortcode settings panel and start customizing your TOC design, layout, and behavior.
+
+As you adjust the settings, a real-time live preview instantly shows you exactly how your Table of Contents will appear, allowing you to fine-tune headings, styles, toggle options, icons, and more. This visual approach ensures you get the perfect look before placing it on your site.
+
+When you’re happy with the configuration, the plugin automatically generates a fully-parameterized TOC shortcode in the Shortcode Source tab. Just copy and paste it anywhere — inside posts, pages, widgets, or even custom templates — and your Table of Contents will appear exactly as previewed.
+
+With default settings, just use [digital_toc] for a quick, clean, and fully functional Table of Contents without any extra setup.
+
+
 **Available Modules (More Coming Soon!):**
 
 - ✅ In-Content TOC  
+- ✅ Shortcode TOC
 - 🔜 Sticky TOC  
-- 🔜 Floating TOC  
-- 🔜 Shortcode TOC  
+- 🔜 Floating TOC    
 - 🔜 In-Content (Mobile)  
 - 🔜 In-Content Table  
 - 🔜 Sticky (Mobile)  

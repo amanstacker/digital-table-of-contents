@@ -186,7 +186,9 @@ function dtoc_dashboard_modules(){
             <div class="dtoc-grid-item">    
             <div class="dtoc-grid-header">                
                 <h3><?php esc_html_e($value['title'], 'digital-table-of-contents'); ?></h3>
-                <p><?php esc_html_e($value['desc'], 'digital-table-of-contents'); ?> <a href="<?php echo esc_url( $value['learn'] );  ?>">Learn More</a></p>
+                <p><?php esc_html_e($value['desc'], 'digital-table-of-contents'); ?> 
+                <!-- <a href="<?php echo esc_url( $value['learn'] );  ?>">Learn More</a> -->
+            </p>
             </div>
             <hr>
             <div class="dtoc-grid-footer">
