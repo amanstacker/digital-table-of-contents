@@ -403,7 +403,7 @@ public function dtoc_settings_initiate(){
 			'title'    => __( 'Rendering Style', 'digital-table-of-contents' ),
 			'callback' => 'dtoc_general_rendering_style_cb',
 			'section'  => 'dtoc_general_setting_section',
-			'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_floating' ],
+			'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
 		],
 		'dtoc_display_title' => [
 			'title'    => __( 'Title', 'digital-table-of-contents' ),
