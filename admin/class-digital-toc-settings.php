@@ -42,14 +42,7 @@ public function dtoc_add_menu_links(){
 	// 	'dtoc_incontent_tablet',
     //     [$this, 'dtoc_settings_page_render']				
 	// );	
-    add_submenu_page(
-		'dtoc',
-		'Digital Table of Contents Sticky',
-        'Sticky',
-		'manage_options',
-		'dtoc_sticky',
-        [$this, 'dtoc_settings_page_render']				
-	);
+    
 	// add_submenu_page(
 	// 	'dtoc',
 	// 	'Digital Table of Contents Sticky',
@@ -96,6 +89,14 @@ public function dtoc_add_menu_links(){
         'Shortcode',
 		'manage_options',
 		'dtoc_shortcode',
+        [$this, 'dtoc_settings_page_render']				
+	);
+    add_submenu_page(
+		'dtoc',
+		'Digital Table of Contents Sticky',
+        'Sticky',
+		'manage_options',
+		'dtoc_sticky',
         [$this, 'dtoc_settings_page_render']				
 	);
 	// add_submenu_page(
