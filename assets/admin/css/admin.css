@@ -488,7 +488,7 @@ input:checked + .dtoc-slider:before {
 
 
 /* Overlay for all .dtoc-grid-item except the first one */
-.dtoc-grid-container .dtoc-grid-item:not(:first-child):not(:nth-child(2))::after {
+.dtoc-grid-container .dtoc-grid-item:not(:first-child):not(:nth-child(2)):not(:nth-child(3))::after {
 
   content: "Coming Soon";
   position: absolute;
@@ -509,7 +509,7 @@ input:checked + .dtoc-slider:before {
   border-radius: 6px;
 }
 
-.dtoc-grid-container .dtoc-grid-item:not(:first-child):not(:nth-child(2)) {
+.dtoc-grid-container .dtoc-grid-item:not(:first-child):not(:nth-child(2)):not(:nth-child(3)) {
   position: relative;
   pointer-events: none; /* Disable interaction */
   opacity: 0.6;
