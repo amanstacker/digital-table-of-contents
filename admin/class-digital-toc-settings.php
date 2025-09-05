@@ -498,13 +498,13 @@ public function dtoc_settings_initiate(){
 		'title'    => __( 'Alignment', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_general_alignment_cb',
 		'section'  => 'dtoc_general_setting_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_shortcode' ],
 	],
 	'dtoc_general_wrap_content' => [
 		'title'    => __( 'Wrap Content Around', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_general_wrap_content_cb',
 		'section'  => 'dtoc_general_setting_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_shortcode' ],
 		'args'     => [
 			'label_for' => 'wrap_content',
 		],
@@ -519,7 +519,13 @@ public function dtoc_settings_initiate(){
 		'title'    => __( 'Position', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_general_position_cb',
 		'section'  => 'dtoc_general_setting_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_shortcode' ],
+	],
+    'dtoc_position' => [
+		'title'    => __( 'Position', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_general_sticky_position_cb',
+		'section'  => 'dtoc_general_setting_section',
+		'pages'    => [ 'dtoc_sticky'],
 	],
 	'dtoc_paragraph_number' => [
 		'title'    => __( 'Paragraph Number', 'digital-table-of-contents' ),
@@ -1594,6 +1600,32 @@ public function dtoc_general_position_cb(){
     </select>	
     <?php
 }
+public function dtoc_general_sticky_position_cb() {
+	$this->dtoc_resolve_meta_settings_name();
+	?>
+	<select class="smpg-input" name="<?php echo esc_attr( $this->_setting_name ); ?>[sticky_position]" id="sticky_position">
+		<option value="left-top" <?php echo ( isset( $this->_setting_option['sticky_position'] ) && $this->_setting_option['sticky_position'] === 'left-top' ? 'selected' : '' ); ?>>
+			<?php echo esc_html__( 'Left Top', 'digital-table-of-contents' ); ?>
+		</option>
+		<option value="left-middle" <?php echo ( isset( $this->_setting_option['sticky_position'] ) && $this->_setting_option['sticky_position'] === 'left-middle' ? 'selected' : '' ); ?>>
+			<?php echo esc_html__( 'Left Middle', 'digital-table-of-contents' ); ?>
+		</option>
+		<option value="left-bottom" <?php echo ( isset( $this->_setting_option['sticky_position'] ) && $this->_setting_option['sticky_position'] === 'left-bottom' ? 'selected' : '' ); ?>>
+			<?php echo esc_html__( 'Left Bottom', 'digital-table-of-contents' ); ?>
+		</option>
+		<option value="right-top" <?php echo ( isset( $this->_setting_option['sticky_position'] ) && $this->_setting_option['sticky_position'] === 'right-top' ? 'selected' : '' ); ?>>
+			<?php echo esc_html__( 'Right Top', 'digital-table-of-contents' ); ?>
+		</option>
+		<option value="right-middle" <?php echo ( isset( $this->_setting_option['sticky_position'] ) && $this->_setting_option['sticky_position'] === 'right-middle' ? 'selected' : '' ); ?>>
+			<?php echo esc_html__( 'Right Middle', 'digital-table-of-contents' ); ?>
+		</option>
+		<option value="right-bottom" <?php echo ( isset( $this->_setting_option['sticky_position'] ) && $this->_setting_option['sticky_position'] === 'right-bottom' ? 'selected' : '' ); ?>>
+			<?php echo esc_html__( 'Right Bottom', 'digital-table-of-contents' ); ?>
+		</option>
+	</select>
+	<?php
+}
+
 public function dtoc_general_paragraph_number_cb(){ 
     $this->dtoc_resolve_meta_settings_name();     
     ?>    

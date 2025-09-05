@@ -2,6 +2,42 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+function dtoc_sticky_box_on_css( $matches , $options = [] ) {
+
+    $dbc_style = dtoc_box_container_style( $options );
+    $html = '<div class="dtoc-sticky-box-container dtoc-sticky-' . esc_attr( $options['sticky_position'] ) . '" style="'.$dbc_style.'">';    
+
+    if ( ! empty( $options['display_title'] ) ) {
+
+        if ( isset( $options['toggle_body'] ) ) {
+
+            if ( $options['toggle_initial'] == 'show' ) {
+                $html .= '<input type="checkbox" id="dtoc-toggle-check" checked>'; 
+            }else{
+                $html .= '<input type="checkbox" id="dtoc-toggle-check">'; 
+            }
+            
+        }
+        $t_style = dtoc_get_title_style( $options );
+        $html .= '<label for="dtoc-toggle-check" class="dtoc-toggle-label" style="'.$t_style.'">';
+        $html .= '<span class="dtoc-title-str">'.esc_html( $options['header_text'] ).'</span>';
+        $html .= dtoc_get_header_icon( $options );
+        $html .= '</label>';    
+            
+    }
+    $html .= dtoc_get_custom_style( $options );
+    $html .= dtoc_get_toc_link_style( $options );       
+    $html .= '<div class="dtoc-box-body dtoc-sticky-box-on-css-body">';
+
+    $html .= dtoc_get_plain_toc_html( $matches, $options );
+    
+    $html .= '</div>';
+    
+    $html .= '</div>';
+
+    return $html;
+}
+
 function dtoc_box_on_css( $matches , $options = [] ) {
 
     $dbc_style = dtoc_box_container_style( $options );
@@ -174,6 +210,35 @@ function dtoc_get_plain_toc_html($matches, $options){
         $html .= dtoc_box_heading_list($matches, $options);
     }    
     $html .= '</ul>';
+    return $html;
+}
+function dtoc_sticky_box_on_js( $matches, $options = [] ) {
+    
+    $dbc_style = dtoc_box_container_style( $options );
+    $html = '<div class="dtoc-sticky-box-container" dtoc-sticky-' . esc_attr( $options['sticky_position'] ) . '" style="'.$dbc_style.'">';
+    
+    if ( ! empty( $options['display_title'] ) ) {
+
+        $heading_text = '';                        
+        if ( isset( $options['header_text'] ) && $options['header_text'] === 'Table of Contents' ) {
+            $heading_text = '<span class="dtoc-title-str">'.esc_html__( 'Table of Contents', 'digital-table-of-contents' ).'</span>';
+        }else{
+            $heading_text = '<span class="dtoc-title-str">'.esc_html( $options['header_text'] ).'</span>';
+        }
+
+        $t_style = dtoc_get_title_style( $options );        
+        $html .= '<div class="dtoc-toggle-label" style="'.$t_style.'">'.$heading_text.'';
+        $html .= dtoc_get_header_icon( $options );
+        $html .= '</div>';        
+    }
+    $html .= dtoc_get_custom_style( $options );
+    $html .= dtoc_get_toc_link_style( $options );
+    $html .= '<div class="dtoc-box-body dtoc-sticky-box-on-js-body">';
+    $html .= dtoc_get_plain_toc_html( $matches, $options );
+    $html .= '</div>';
+    
+    $html .= '</div>';
+
     return $html;
 }
 function dtoc_box_on_js( $matches, $options = [] ) {
@@ -431,6 +496,7 @@ function dtoc_filter_heading( $content, $options = [] ) {
     global $post,$page;
     
     $response = [];
+    
 	$type = isset($options['type']) ? $options['type'] : 'incontent';
     if( is_object($post) && strpos( $post->post_content, '<!--nextpage-->' ) !== false){
 
