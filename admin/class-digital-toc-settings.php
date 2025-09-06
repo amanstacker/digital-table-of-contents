@@ -443,7 +443,7 @@ public function dtoc_settings_initiate(){
 		'title'    => __( 'Icon', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_general_header_icon_cb',
 		'section'  => 'dtoc_general_setting_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_shortcode' ],
 		'args'     => [
 			'class' => 'dtoc_child_opt dtoc_2_label_child_opt dtoc_display_title',
 		],
@@ -452,7 +452,7 @@ public function dtoc_settings_initiate(){
 		'title'    => __( 'Show Text', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_general_show_text_cb',
 		'section'  => 'dtoc_general_setting_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_shortcode' ],
 		'args'     => [
 			'class' => 'dtoc_child_opt dtoc_2_label_child_opt dtoc_3_label_child_opt dtoc_display_title',
 		],
@@ -461,7 +461,7 @@ public function dtoc_settings_initiate(){
 		'title'    => __( 'Hide Text', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_general_hide_text_cb',
 		'section'  => 'dtoc_general_setting_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_shortcode' ],
 		'args'     => [
 			'class' => 'dtoc_child_opt dtoc_2_label_child_opt dtoc_3_label_child_opt dtoc_display_title',
 		],
@@ -583,19 +583,19 @@ public function dtoc_settings_initiate(){
 		'title'    => __( 'Background Color', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_icon_bg_color_cb',
 		'section'  => 'dtoc_customization_icon_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_icon_fg_color' => [
 		'title'    => __( 'Foreground Color', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_icon_fg_color_cb',
 		'section'  => 'dtoc_customization_icon_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_icon_size_color' => [
 		'title'    => __( 'Size', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_icon_size_cb',
 		'section'  => 'dtoc_customization_icon_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_icon_border_type' => [
 		'title'    => __( 'Border Type', 'digital-table-of-contents' ),

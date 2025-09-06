@@ -4,10 +4,17 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 function dtoc_sticky_box_on_css( $matches , $options = [] ) {
 
+    $dbc_style = dtoc_box_container_style( $options );
     $html  = '<input type="checkbox" id="dtoc-sticky-toggle">' . "\n";
-    $html .= '<div class="dtoc-sticky-container dtoc-'. esc_attr( $options['sticky_position'] ) .'">' . "\n";
-    $html .= '  <label for="dtoc-sticky-toggle" class="dtoc-sticky-toggle-btn">TOC</label>' . "\n";
-    $html .= '  <h3>Table of Contents</h3>' . "\n";
+    $html .= '<div class="dtoc-sticky-container dtoc-'. esc_attr( $options['sticky_position'] ) .'" style="'.$dbc_style.'">' . "\n";
+    $html .= '  <label for="dtoc-sticky-toggle" class="dtoc-sticky-toggle-btn">Index</label>' . "\n";    
+
+    if ( ! empty( $options['display_title'] ) ) {
+
+        $html .= '<span class="dtoc-sticky-title-str">'.esc_html( $options['header_text'] ).'</span>';                
+            
+    }
+    
     $html .= dtoc_get_custom_style( $options );
     $html .= dtoc_get_toc_link_style( $options );       
     $html .= '<div class="dtoc-sticky-box-on-css-body">';
