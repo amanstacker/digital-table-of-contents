@@ -1603,23 +1603,23 @@ public function dtoc_general_position_cb(){
 public function dtoc_general_sticky_position_cb() {
 	$this->dtoc_resolve_meta_settings_name();
 	?>
-	<select class="smpg-input" name="<?php echo esc_attr( $this->_setting_name ); ?>[sticky_position]" id="sticky_position">
-		<option value="left-top" <?php echo ( isset( $this->_setting_option['sticky_position'] ) && $this->_setting_option['sticky_position'] === 'left-top' ? 'selected' : '' ); ?>>
+	<select class="smpg-input" name="<?php echo esc_attr( $this->_setting_name ); ?>[display_position]" id="display_position">
+		<option value="left-top" <?php echo ( isset( $this->_setting_option['display_position'] ) && $this->_setting_option['display_position'] === 'left-top' ? 'selected' : '' ); ?>>
 			<?php echo esc_html__( 'Left Top', 'digital-table-of-contents' ); ?>
 		</option>
-		<option value="left-middle" <?php echo ( isset( $this->_setting_option['sticky_position'] ) && $this->_setting_option['sticky_position'] === 'left-middle' ? 'selected' : '' ); ?>>
+		<option value="left-middle" <?php echo ( isset( $this->_setting_option['display_position'] ) && $this->_setting_option['display_position'] === 'left-middle' ? 'selected' : '' ); ?>>
 			<?php echo esc_html__( 'Left Middle', 'digital-table-of-contents' ); ?>
 		</option>
-		<option value="left-bottom" <?php echo ( isset( $this->_setting_option['sticky_position'] ) && $this->_setting_option['sticky_position'] === 'left-bottom' ? 'selected' : '' ); ?>>
+		<option value="left-bottom" <?php echo ( isset( $this->_setting_option['display_position'] ) && $this->_setting_option['display_position'] === 'left-bottom' ? 'selected' : '' ); ?>>
 			<?php echo esc_html__( 'Left Bottom', 'digital-table-of-contents' ); ?>
 		</option>
-		<option value="right-top" <?php echo ( isset( $this->_setting_option['sticky_position'] ) && $this->_setting_option['sticky_position'] === 'right-top' ? 'selected' : '' ); ?>>
+		<option value="right-top" <?php echo ( isset( $this->_setting_option['display_position'] ) && $this->_setting_option['display_position'] === 'right-top' ? 'selected' : '' ); ?>>
 			<?php echo esc_html__( 'Right Top', 'digital-table-of-contents' ); ?>
 		</option>
-		<option value="right-middle" <?php echo ( isset( $this->_setting_option['sticky_position'] ) && $this->_setting_option['sticky_position'] === 'right-middle' ? 'selected' : '' ); ?>>
+		<option value="right-middle" <?php echo ( isset( $this->_setting_option['display_position'] ) && $this->_setting_option['display_position'] === 'right-middle' ? 'selected' : '' ); ?>>
 			<?php echo esc_html__( 'Right Middle', 'digital-table-of-contents' ); ?>
 		</option>
-		<option value="right-bottom" <?php echo ( isset( $this->_setting_option['sticky_position'] ) && $this->_setting_option['sticky_position'] === 'right-bottom' ? 'selected' : '' ); ?>>
+		<option value="right-bottom" <?php echo ( isset( $this->_setting_option['display_position'] ) && $this->_setting_option['display_position'] === 'right-bottom' ? 'selected' : '' ); ?>>
 			<?php echo esc_html__( 'Right Bottom', 'digital-table-of-contents' ); ?>
 		</option>
 	</select>
