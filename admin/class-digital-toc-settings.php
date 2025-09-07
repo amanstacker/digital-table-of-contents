@@ -488,7 +488,7 @@ public function dtoc_settings_initiate(){
 		'title'    => __( 'Scroll Back to TOC', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_general_scroll_back_to_toc_cb',
 		'section'  => 'dtoc_general_setting_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_shortcode' ],
 		'args'     => [
 			'label_for' => 'scroll_back_to_toc',
 			'class'     => 'dtoc_child_opt dtoc_jump_links',
