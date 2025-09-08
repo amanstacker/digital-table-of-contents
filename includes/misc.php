@@ -19,8 +19,7 @@ function dtoc_sticky_modules_enqueue() {
 
                 $data['scroll_behaviour'] = isset( $dtoc_sticky['scroll_behavior'] ) ? $dtoc_sticky['scroll_behavior'] : 'auto';
                 $data['toggle_body']      = isset( $dtoc_sticky['toggle_body'] ) ? 1 : 0;
-                                
-                $data = apply_filters( 'dtoc_localize_frontend_sticky_assets', $data, 'dtoc_localize_frontend_sticky_data' );
+                $data['display_position'] = $dtoc_sticky['display_position'];                                                
 
                 wp_register_script( 'dtoc-sticky-frontend', DTOC_URL  . 'assets/frontend/js/dtoc_sticky.js', array('jquery'), DTOC_VERSION , true );                        
                 wp_localize_script( 'dtoc-sticky-frontend', 'dtoc_localize_frontend_sticky_data', $data );        
