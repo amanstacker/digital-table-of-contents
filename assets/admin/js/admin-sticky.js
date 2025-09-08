@@ -15,32 +15,20 @@ jQuery(document).ready(function($) {
     });
 
     function updatePreview() {
+        
         if (reactive.jump_links) {
             $('.dtoc_jump_links').show();
         } else {
             $('.dtoc_jump_links').hide();
         }
+        if (reactive.toggle_body) {
+            $('.dtoc_toggle_body').show();
+        } else {
+            $('.dtoc_toggle_body').hide();
+        }
 
         if (reactive.display_title) {
-            $('.dtoc_display_title').show();
-
-            if (reactive.toggle_body) {
-                $('.dtoc_display_title.dtoc_2_label_child_opt').show();
-                $('.dtoc_display_title.dtoc_3_label_child_opt').hide();
-
-                if (reactive.header_icon === 'show_hide') {
-                    $('.dtoc_display_title.dtoc_3_label_child_opt').show();
-                }
-                if (reactive.header_icon === 'custom_icon') {
-                    $('#custom-icon-wrapper').show();
-                } else {
-                    $('#custom-icon-wrapper').hide();
-                }
-
-            } else {
-                $('.dtoc_display_title.dtoc_2_label_child_opt').hide();
-            }
-
+            $('.dtoc_display_title').show();            
         } else {
             $('.dtoc_display_title').hide();
         }

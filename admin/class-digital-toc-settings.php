@@ -424,7 +424,7 @@ public function dtoc_settings_initiate(){
 		'title'    => __( 'Toggle', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_display_toggle_body_cb',
 		'section'  => 'dtoc_general_setting_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_shortcode' ],
 		'args'     => [
 			'class'     => 'dtoc_child_opt dtoc_display_title',
 			'label_for' => 'toggle_body',
@@ -434,11 +434,36 @@ public function dtoc_settings_initiate(){
 		'title'    => __( 'Initial Body View', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_display_toggle_initial_cb',
 		'section'  => 'dtoc_general_setting_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_shortcode' ],
 		'args'     => [
 			'class' => 'dtoc_child_opt dtoc_2_label_child_opt dtoc_display_title',
 		],
 	],
+    'dtoc_display_toggle_body' => [
+		'title'    => __( 'Toggle', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_display_toggle_body_cb',
+		'section'  => 'dtoc_general_setting_section',
+		'pages'    => [ 'dtoc_sticky' ],
+		'args'     => [			
+			'label_for' => 'toggle_body',
+		],
+	],
+	'dtoc_display_toggle_initial' => [
+		'title'    => __( 'Initial Body View', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_display_toggle_initial_cb',
+		'section'  => 'dtoc_general_setting_section',
+		'pages'    => [ 'dtoc_sticky' ],
+		'args'     => [
+			'class' => 'dtoc_child_opt dtoc_toggle_body',
+		],
+	], 
+    'dtoc_general_toggle_btn_text' => [
+			'title'    => __( 'Button Text', 'digital-table-of-contents' ),
+			'callback' => 'dtoc_general_toggle_btn_text_cb',
+			'section'  => 'dtoc_general_setting_section',
+			'pages'    => [ 'dtoc_sticky' ],
+			'args'     => [ 'class' => 'dtoc_child_opt dtoc_toggle_body' ],
+	],	   
 	'dtoc_general_header_icon' => [
 		'title'    => __( 'Icon', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_general_header_icon_cb',
@@ -1415,6 +1440,14 @@ public function dtoc_general_header_text_cb() {
     $this->dtoc_resolve_meta_settings_name(); 	
     ?>    
     <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[header_text]" id="header_text" type="text" value="<?php echo (isset($this->_setting_option['header_text']) ? $this->_setting_option['header_text'] : 'Table of Contents' ) ?>">
+    <?php
+    // dtoc_tooltip(__('text', 'digital-table-of-contents'), 'header_text');
+}
+
+public function dtoc_general_toggle_btn_text_cb() {
+    $this->dtoc_resolve_meta_settings_name(); 	
+    ?>    
+    <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[toggle_btn_text]" id="toggle_btn_text" type="text" value="<?php echo (isset($this->_setting_option['toggle_btn_text']) ? $this->_setting_option['toggle_btn_text'] : 'Index' ) ?>">
     <?php
     // dtoc_tooltip(__('text', 'digital-table-of-contents'), 'header_text');
 }
