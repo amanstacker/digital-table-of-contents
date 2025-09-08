@@ -61,14 +61,6 @@
   left: -210px; 
 }
 
-.dtoc-left-top .dtoc-sticky-toggle-btn,
-.dtoc-left-middle .dtoc-sticky-toggle-btn,
-.dtoc-left-bottom .dtoc-sticky-toggle-btn {
-  top: 50%;
-  right: -40px;
-  transform: translateY(-50%) rotate(-90deg);
-}
-
 /* Slide left TOC when checked */
 #dtoc-sticky-toggle:checked + .dtoc-sticky-container.dtoc-left-top,
 #dtoc-sticky-toggle:checked + .dtoc-sticky-container.dtoc-left-middle,
@@ -91,17 +83,47 @@
    left: auto; 
 }
 
-.dtoc-right-top .dtoc-sticky-toggle-btn,
-.dtoc-right-middle .dtoc-sticky-toggle-btn,
-.dtoc-right-bottom .dtoc-sticky-toggle-btn {
-  top: 50%;
-  left: -40px;
-  transform: translateY(-50%) rotate(90deg);
-}
-
 /* Slide right TOC when checked */
 #dtoc-sticky-toggle:checked + .dtoc-sticky-container.dtoc-right-top,
 #dtoc-sticky-toggle:checked + .dtoc-sticky-container.dtoc-right-middle,
 #dtoc-sticky-toggle:checked + .dtoc-sticky-container.dtoc-right-bottom {
   right: 0;
+}
+
+/* ---------- LEFT SIDE ---------- */
+.dtoc-left-top .dtoc-sticky-toggle-btn {
+  top: 30px;
+  right: -40px;
+  transform: rotate(-90deg);
+}
+
+.dtoc-left-middle .dtoc-sticky-toggle-btn {
+  top: 50%;
+  right: -40px;
+  transform: translateY(-50%) rotate(-90deg);
+}
+
+.dtoc-left-bottom .dtoc-sticky-toggle-btn {
+  bottom: 30px;
+  right: -40px;
+  transform: rotate(-90deg);
+}
+
+/* ---------- RIGHT SIDE ---------- */
+.dtoc-right-top .dtoc-sticky-toggle-btn {
+  top: 30px;
+  left: -40px;
+  transform: rotate(90deg);
+}
+
+.dtoc-right-middle .dtoc-sticky-toggle-btn {
+  top: 50%;
+  left: -40px;
+  transform: translateY(-50%) rotate(90deg);
+}
+
+.dtoc-right-bottom .dtoc-sticky-toggle-btn {
+  bottom: 30px;
+  left: -40px;
+  transform: rotate(90deg);
 }
