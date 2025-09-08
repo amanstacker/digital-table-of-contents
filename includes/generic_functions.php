@@ -6,9 +6,14 @@ function dtoc_sticky_box_on_css( $matches , $options = [] ) {
 
     $dbc_style = dtoc_box_container_style( $options );
     $html  = '<input type="checkbox" id="dtoc-sticky-toggle">' . "\n";
-    $html .= '<div class="dtoc-sticky-container dtoc-'. esc_attr( $options['sticky_position'] ) .'" style="'.$dbc_style.'">' . "\n";
-    $html .= '  <label for="dtoc-sticky-toggle" class="dtoc-sticky-toggle-btn">Index</label>' . "\n";    
+    $html .= '<div class="dtoc-sticky-container dtoc-'. esc_attr( $options['display_position'] ) .'" style="'.$dbc_style.'">' . "\n";
 
+    if ( ! empty( $options['toggle_body'] ) ) {
+
+        $html .= '<label for="dtoc-sticky-toggle" class="dtoc-sticky-toggle-btn">'.esc_html( $options['toggle_btn_text'] ).'</label>' . "\n";    
+            
+    }
+    
     if ( ! empty( $options['display_title'] ) ) {
 
         $html .= '<span class="dtoc-sticky-title-str">'.esc_html( $options['header_text'] ).'</span>';                
@@ -202,7 +207,7 @@ function dtoc_get_plain_toc_html($matches, $options){
 function dtoc_sticky_box_on_js( $matches, $options = [] ) {
     
     $dbc_style = dtoc_box_container_style( $options );
-    $html = '<div class="dtoc-sticky-box-container" dtoc-sticky-' . esc_attr( $options['sticky_position'] ) . '" style="'.$dbc_style.'">';
+    $html = '<div class="dtoc-sticky-box-container" dtoc-sticky-' . esc_attr( $options['display_position'] ) . '" style="'.$dbc_style.'">';
     
     if ( ! empty( $options['display_title'] ) ) {
 
