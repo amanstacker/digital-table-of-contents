@@ -45,9 +45,21 @@
 }
 
 /* LEFT SIDE POSITIONS */
-.dtoc-left-top { top: 50px; left: -210px; }
-.dtoc-left-middle { top: 50%; left: -210px; transform: translateY(-50%); }
-.dtoc-left-bottom { bottom: 50px; left: -210px; }
+.dtoc-left-top { 
+  top: 0px; 
+  margin-block-start:0px;
+  left: -210px; 
+}
+.dtoc-left-middle { 
+   top: 50%;
+   left: -210px; 
+   transform: translateY(-50%); 
+  }
+.dtoc-left-bottom { 
+  bottom: 0px; 
+  margin-block-start:0px;
+  left: -210px; 
+}
 
 .dtoc-left-top .dtoc-sticky-toggle-btn,
 .dtoc-left-middle .dtoc-sticky-toggle-btn,
@@ -65,9 +77,19 @@
 }
 
 /* RIGHT SIDE POSITIONS */
-.dtoc-right-top { top: 50px; right: -210px; left: auto; }
+.dtoc-right-top { 
+  top: 0px; 
+  margin-block-start:0px; 
+  right: -210px; 
+  left: auto; 
+}
 .dtoc-right-middle { top: 50%; right: -210px; left: auto; transform: translateY(-50%); }
-.dtoc-right-bottom { bottom: 50px; right: -210px; left: auto; }
+.dtoc-right-bottom { 
+   bottom: 0px;
+   margin-block-start:0px; 
+   right: -210px; 
+   left: auto; 
+}
 
 .dtoc-right-top .dtoc-sticky-toggle-btn,
 .dtoc-right-middle .dtoc-sticky-toggle-btn,
