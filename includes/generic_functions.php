@@ -5,30 +5,35 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 function dtoc_sticky_box_on_css( $matches , $options = [] ) {
 
     $dbc_style = dtoc_box_container_style( $options );
+
     $html  = '<input type="checkbox" id="dtoc-sticky-toggle">' . "\n";
+
     $html .= '<div class="dtoc-sticky-container dtoc-'. esc_attr( $options['display_position'] ) .'" style="'.$dbc_style.'">' . "\n";
 
     if ( ! empty( $options['toggle_body'] ) ) {
-
-        $html .= '<label for="dtoc-sticky-toggle" class="dtoc-sticky-toggle-btn">'.esc_html( $options['toggle_btn_text'] ).'</label>' . "\n";    
-            
+        $html .= '<label for="dtoc-sticky-toggle" class="dtoc-sticky-toggle-btn">'. esc_html( $options['toggle_btn_text'] ) .'</label>' . "\n";    
     }
-    
+
+    // Scrollable inner wrapper
+    $html .= '<div class="dtoc-sticky-inner">' . "\n";
+
     if ( ! empty( $options['display_title'] ) ) {
-
-        $html .= '<span class="dtoc-sticky-title-str">'.esc_html( $options['header_text'] ).'</span>';                
-            
+        $html .= '<span class="dtoc-sticky-title-str">'. esc_html( $options['header_text'] ) .'</span>' . "\n";                
     }
-    
+
     $html .= dtoc_get_custom_style( $options );
     $html .= dtoc_get_toc_link_style( $options );       
-    $html .= '<div class="dtoc-sticky-box-on-css-body">';
+
+    $html .= '<div class="dtoc-sticky-box-on-css-body">' . "\n";
     $html .= dtoc_get_plain_toc_html( $matches, $options );    
-    $html .= '</div>';
-    $html .= '</div>';
+    $html .= '</div>' . "\n"; // close body
+
+    $html .= '</div>' . "\n"; // close inner
+    $html .= '</div>' . "\n"; // close container
 
     return $html;
 }
+
 
 function dtoc_sticky_box_on_js( $matches, $options = [] ) {
     
