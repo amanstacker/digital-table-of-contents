@@ -69,8 +69,8 @@
 
 /* ---------------- LEFT SIDE ---------------- */
 .dtoc-left-top { top: 0; left: 0; transform: translateX(-100%); }
-.dtoc-left-middle { top: 50%; transform: translate(-100%, -50%); }
-.dtoc-left-bottom { bottom: 0; transform: translateX(-100%); }
+.dtoc-left-middle { top: 0; left: 0; transform: translate(-100%); }
+.dtoc-left-bottom { bottom: 0; left: 0; top: 0; transform: translateX(-100%); }
 
 /* Slide left TOC when checked */
 #dtoc-sticky-toggle:checked + .dtoc-sticky-container.dtoc-left-top,
@@ -86,8 +86,8 @@
 
 /* ---------------- RIGHT SIDE ---------------- */
 .dtoc-right-top { top: 0; right: 0; left: auto; transform: translateX(100%); }
-.dtoc-right-middle { top: 50%; right: 0; left: auto; transform: translate(100%, -50%); }
-.dtoc-right-bottom { bottom: 0; right: 0; left: auto; transform: translateX(100%); }
+.dtoc-right-middle { top: 0; right: 0; left: auto; transform: translate(100%); }
+.dtoc-right-bottom { bottom: 0; top: 0; right: 0; left: auto; transform: translateX(100%); }
 
 /* Slide right TOC when checked */
 #dtoc-sticky-toggle:checked + .dtoc-sticky-container.dtoc-right-top,
