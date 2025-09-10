@@ -29,6 +29,41 @@ function dtoc_sticky_modules_enqueue() {
                 
         wp_enqueue_style( 'dtoc-sticky-frontend', DTOC_URL  . 'assets/frontend/css/dtoc-sticky-front.css', false , DTOC_VERSION );            
 
+        $list_style_type = 'decimal';
+        $counter_end =  "'.'";
+
+        if ( ! empty( $dtoc_sticky['list_style_type'] ) ) {
+
+                $list_style_type = $dtoc_sticky['list_style_type'];
+
+                if ( in_array( $list_style_type, array( 'circle','disc','square' ) ) ) {
+                        $counter_end =  '';
+                }
+                                
+        }
+        $custom_css = "";
+        $custom_css = "
+                .dtoc-sticky-container ul{
+                        counter-reset: dtoc_item;
+                        list-style-type: none;                 
+                }
+                .dtoc-sticky-container ul li::before{
+                        counter-increment: dtoc_item;
+                        content: counters(dtoc_item,'.', $list_style_type) $counter_end;
+                        padding-right: 4px;
+                }";                                
+                if ( isset( $dtoc_sticky['scroll_behavior'] ) && $dtoc_sticky['scroll_behavior'] == 'smooth' ) {
+                        $custom_css .= "html {
+                                scroll-behavior: smooth;
+                        }";
+                }
+                
+                
+        if(isset($dtoc_sticky['custom_css']) && !empty($dtoc_sticky['custom_css'])){
+                $custom_css .= $dtoc_sticky['custom_css'];
+        }    
+        wp_add_inline_style( 'dtoc-sticky-frontend', $custom_css );
+
 }
 
 add_action( 'wp_enqueue_scripts', 'dtoc_incontent_and_shortcode_modules_enqueue' );
