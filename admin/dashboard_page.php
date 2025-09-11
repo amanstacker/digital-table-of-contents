@@ -107,8 +107,8 @@ function dtoc_dashboard_modules(){
             'learn' => 'https://digitaltableofcontents/documentation'
         ],        
         [
-            'title' => 'Sticky',
-            'desc'  => 'A Sticky TOC is a fixed navigation element that stays within a defined container, typically in the sidebar or at the top, while scrolling.',
+            'title' => 'Sliding Sticky',
+            'desc'  => 'A sticky TOC that stays hidden and slides in from the left or right when toggled. Best for users who want to save space and show TOC only when needed.',
             'name'  => 'sticky',
             'url'   => admin_url( 'admin.php?page=dtoc_sticky'),
             'learn' => 'https://digitaltableofcontents/documentation'

@@ -272,14 +272,30 @@ public function dtoc_settings_page_render(){
                  echo "</div>";
                  echo "</div>";
 
-                 echo "<div class='dtoc-accordion'>";
-                 echo "<div class='dtoc-accordion-header'>";                 
-                 echo '<span>'. esc_html__( 'Icon', 'digital-table-of-contents' ). '</span>';
-                 echo "</div>";
-                 echo "<div class='dtoc-accordion-panel'>";                 
-                 do_settings_sections( 'dtoc_customization_icon_section' );
-                 echo "</div>";
-                 echo "</div>";
+                 if ( $this->_setting_name == 'dtoc_sticky' ) {
+
+                    echo "<div class='dtoc-accordion'>";
+                    echo "<div class='dtoc-accordion-header'>";                 
+                    echo '<span>'. esc_html__( 'Toggle Button', 'digital-table-of-contents' ). '</span>';
+                    echo "</div>";
+                    echo "<div class='dtoc-accordion-panel'>";                 
+                    do_settings_sections( 'dtoc_customization_toggle_btn_section' );
+                    echo "</div>";
+                    echo "</div>";
+
+                 }else{
+
+                    echo "<div class='dtoc-accordion'>";
+                    echo "<div class='dtoc-accordion-header'>";                 
+                    echo '<span>'. esc_html__( 'Icon', 'digital-table-of-contents' ). '</span>';
+                    echo "</div>";
+                    echo "<div class='dtoc-accordion-panel'>";                 
+                    do_settings_sections( 'dtoc_customization_icon_section' );
+                    echo "</div>";
+                    echo "</div>";
+
+                 }
+                 
                  
                  echo "<div class='dtoc-accordion'>";
                  echo "<div class='dtoc-accordion-header'>";                 
@@ -382,6 +398,7 @@ public function dtoc_settings_initiate(){
 		'dtoc_customization_container_section',
 		'dtoc_customization_title_section',
 		'dtoc_customization_icon_section',
+        'dtoc_customization_toggle_btn_section',
 		'dtoc_customization_border_section',
 		'dtoc_customization_link_section',
 		'dtoc_advanced_setting_section',
@@ -604,6 +621,54 @@ public function dtoc_settings_initiate(){
 		'section'  => 'dtoc_customization_title_section',
 		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
 	],
+    'dtoc_customization_toggle_btn_bg_color' => [
+		'title'    => __( 'Background Color', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_toggle_btn_bg_color_cb',
+		'section'  => 'dtoc_customization_toggle_btn_section',
+		'pages'    => [ 'dtoc_sticky'],
+	],
+	'dtoc_customization_toggle_btn_fg_color' => [
+		'title'    => __( 'Foreground Color', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_toggle_btn_fg_color_cb',
+		'section'  => 'dtoc_customization_toggle_btn_section',
+		'pages'    => [ 'dtoc_sticky' ],
+	],
+	'dtoc_customization_toggle_btn_size_color' => [
+		'title'    => __( 'Size', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_toggle_btn_size_cb',
+		'section'  => 'dtoc_customization_toggle_btn_section',
+		'pages'    => [ 'dtoc_sticky' ],
+	],
+	'dtoc_customization_toggle_btn_border_type' => [
+		'title'    => __( 'Border Type', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_toggle_btn_border_type_cb',
+		'section'  => 'dtoc_customization_toggle_btn_section',
+		'pages'    => [ 'dtoc_sticky'],
+	],
+	'dtoc_customization_toggle_btn_border_color' => [
+		'title'    => __( 'Border Color', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_toggle_btn_border_color_cb',
+		'section'  => 'dtoc_customization_toggle_btn_section',
+		'pages'    => [ 'dtoc_sticky' ],
+	],
+	'dtoc_customization_toggle_btn_border_width' => [
+		'title'    => __( 'Border Width', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_toggle_btn_border_width_cb',
+		'section'  => 'dtoc_customization_toggle_btn_section',
+		'pages'    => [ 'dtoc_sticky' ],
+	],
+	'dtoc_customization_toggle_btn_border_radius' => [
+		'title'    => __( 'Border Radius', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_toggle_btn_border_radius_cb',
+		'section'  => 'dtoc_customization_toggle_btn_section',
+		'pages'    => [ 'dtoc_sticky' ],
+	],
+	'dtoc_customization_toggle_btn_padding' => [
+		'title'    => __( 'Padding', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_toggle_btn_padding_cb',
+		'section'  => 'dtoc_customization_toggle_btn_section',
+		'pages'    => [ 'dtoc_sticky' ],
+	],	
     'dtoc_customization_icon_bg_color' => [
 		'title'    => __( 'Background Color', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_icon_bg_color_cb',
@@ -971,6 +1036,12 @@ public function dtoc_customization_icon_border_color_cb(){
     <input type="text" name="<?php echo $this->_setting_name; ?>[icon_border_color]" id="icon_border_color" class="smpg-input dtoc-colorpicker" data-alpha-enabled="true" value="<?php echo isset( $this->_setting_option['icon_border_color'] ) ? esc_attr( $this->_setting_option['icon_border_color']) : '#D5E0EB'; ?>" data-default-color="#D5E0EB">
 <?php
 }
+public function dtoc_customization_toggle_btn_border_color_cb(){
+	    $this->dtoc_resolve_meta_settings_name(); 	
+    ?>    
+    <input type="text" name="<?php echo $this->_setting_name; ?>[toggle_btn_border_color]" id="toggle_btn_border_color" class="smpg-input dtoc-colorpicker" data-alpha-enabled="true" value="<?php echo isset( $this->_setting_option['toggle_btn_border_color'] ) ? esc_attr( $this->_setting_option['toggle_btn_border_color']) : '#D5E0EB'; ?>" data-default-color="#D5E0EB">
+<?php
+}
 public function dtoc_customization_link_color_cb(){
     $this->dtoc_resolve_meta_settings_name(); 		
     ?>    
@@ -1005,6 +1076,18 @@ public function dtoc_customization_bg_color_cb(){
 	    $this->dtoc_resolve_meta_settings_name(); 	
     ?>    
         <input type="text" name="<?php echo $this->_setting_name; ?>[bg_color]" id="bg_color" class="smpg-input dtoc-colorpicker" data-alpha-enabled="true" value="<?php echo isset( $this->_setting_option['bg_color'] ) ? esc_attr( $this->_setting_option['bg_color']) : '#D5E0EB'; ?>" data-default-color="#D5E0EB">
+    <?php
+}
+public function dtoc_customization_toggle_btn_bg_color_cb(){
+	    $this->dtoc_resolve_meta_settings_name(); 	
+    ?>    
+        <input type="text" name="<?php echo $this->_setting_name; ?>[toggle_btn_bg_color]" id="toggle_btn_bg_color" class="smpg-input dtoc-colorpicker" data-alpha-enabled="true" value="<?php echo isset( $this->_setting_option['toggle_btn_bg_color'] ) ? esc_attr( $this->_setting_option['toggle_btn_bg_color']) : '#D5E0EB'; ?>" data-default-color="#D5E0EB">
+    <?php
+}
+public function dtoc_customization_toggle_btn_fg_color_cb(){
+	    $this->dtoc_resolve_meta_settings_name(); 	
+    ?>    
+        <input type="text" name="<?php echo $this->_setting_name; ?>[toggle_btn_fg_color]" id="toggle_btn_fg_color" class="smpg-input dtoc-colorpicker" data-alpha-enabled="true" value="<?php echo isset( $this->_setting_option['toggle_btn_fg_color'] ) ? esc_attr( $this->_setting_option['toggle_btn_fg_color']) : '#D5E0EB'; ?>" data-default-color="#D5E0EB">
     <?php
 }
 public function dtoc_customization_icon_bg_color_cb(){
@@ -1066,6 +1149,39 @@ public function dtoc_customization_icon_size_cb(){
             <option value="em" <?php echo (isset($this->_setting_option['icon_size_unit']) && $this->_setting_option['icon_size_unit'] == 'em' ? 'selected' : '' ) ?>><?php echo esc_html__('em', 'digital-table-of-contents'); ?></option>        
         </select>
         <span data-group="icon_size"><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></span>
+        </li>
+    </ul>    	    
+    <?php
+}
+public function dtoc_customization_toggle_btn_size_cb(){
+    $this->dtoc_resolve_meta_settings_name();	
+    ?>    	
+    <select data-group="toggle_btn_size" class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[toggle_btn_size_mode]" id="toggle_btn_size_mode">
+        <option value="default" <?php echo (isset($this->_setting_option['toggle_btn_size_mode']) && $this->_setting_option['toggle_btn_size_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>
+        <option value="auto" <?php echo (isset($this->_setting_option['toggle_btn_size_mode']) && $this->_setting_option['toggle_btn_size_mode'] == 'auto' ? 'selected' : '' ) ?>><?php echo esc_html__('Auto', 'digital-table-of-contents'); ?></option>
+        <option value="custom" <?php echo (isset($this->_setting_option['toggle_btn_size_mode']) && $this->_setting_option['toggle_btn_size_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
+    </select>
+    <ul style="display: flex;">
+        <li>
+        <input data-group="toggle_btn_size" type="number" class="smpg-input small-text" id="toggle_btn_width" name="<?php echo $this->_setting_name; ?>[toggle_btn_width]" value="<?php echo isset( $this->_setting_option['toggle_btn_width'] ) ? esc_attr( $this->_setting_option['toggle_btn_width']) : '25'; ?>">
+        <br>
+        <span data-group="toggle_btn_size"><?php echo esc_html__('Width', 'digital-table-of-contents'); ?></span>
+        </li>
+
+        <li>
+        <input data-group="toggle_btn_size" type="number" class="smpg-input small-text" id="toggle_btn_height" name="<?php echo $this->_setting_name; ?>[toggle_btn_height]" value="<?php echo isset( $this->_setting_option['toggle_btn_height'] ) ? esc_attr( $this->_setting_option['toggle_btn_height']) : '25'; ?>">
+        <br>
+        <span data-group="toggle_btn_size"><?php echo esc_html__('Height', 'digital-table-of-contents'); ?></span>
+        </li>
+        
+        <li>
+        <select data-group="toggle_btn_size" class="smpg-input" name="<?php echo $this->_setting_name; ?>[toggle_btn_size_unit]" id="toggle_btn_size_unit">
+            <option value="px" <?php echo (isset($this->_setting_option['toggle_btn_size_unit']) && $this->_setting_option['toggle_btn_size_unit'] == 'px' ? 'selected' : '' ) ?>><?php echo esc_html__('px', 'digital-table-of-contents'); ?></option>
+            <option value="pt" <?php echo (isset($this->_setting_option['toggle_btn_size_unit']) && $this->_setting_option['toggle_btn_size_unit'] == 'pt' ? 'selected' : '' ) ?>><?php echo esc_html__('pt', 'digital-table-of-contents'); ?></option>
+            <option value="%" <?php echo (isset($this->_setting_option['toggle_btn_size_unit']) && $this->_setting_option['toggle_btn_size_unit'] == '%' ? 'selected' : '' ) ?>><?php echo esc_html__('%', 'digital-table-of-contents'); ?></option>
+            <option value="em" <?php echo (isset($this->_setting_option['toggle_btn_size_unit']) && $this->_setting_option['toggle_btn_size_unit'] == 'em' ? 'selected' : '' ) ?>><?php echo esc_html__('em', 'digital-table-of-contents'); ?></option>        
+        </select>
+        <span data-group="toggle_btn_size"><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></span>
         </li>
     </ul>    	    
     <?php
@@ -1144,6 +1260,42 @@ public function dtoc_customization_icon_border_radius_cb(){
     </ul>    	    
     <?php
 }
+public function dtoc_customization_toggle_btn_border_radius_cb(){ 
+    $this->dtoc_resolve_meta_settings_name(); 	   
+    ?>    	
+    <select data-group="toggle_btn_border_radius" class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[toggle_btn_border_radius_mode]" id="toggle_btn_border_radius_mode">
+        <option value="default" <?php echo (isset($this->_setting_option['toggle_btn_border_radius_mode']) && $this->_setting_option['toggle_btn_border_radius_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>        
+        <option value="custom" <?php echo (isset($this->_setting_option['toggle_btn_border_radius_mode']) && $this->_setting_option['toggle_btn_border_radius_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
+    </select>
+    <ul style="display: flex;">
+        <li>
+        <input data-group="toggle_btn_border_radius" type="number" class="smpg-input small-text" id="toggle_btn_border_radius_top_left" name="<?php echo $this->_setting_name; ?>[toggle_btn_border_radius_top_left]" value="<?php echo isset( $this->_setting_option['toggle_btn_border_radius_top_left'] ) ? esc_attr( $this->_setting_option['toggle_btn_border_radius_top_left']) : '0'; ?>">
+        <span data-group="toggle_btn_border_radius"><?php echo esc_html__('Top Left', 'digital-table-of-contents'); ?></span>
+        </li>
+        <li>
+        <input data-group="toggle_btn_border_radius" type="number" class="smpg-input small-text" id="toggle_btn_border_radius_top_right" name="<?php echo $this->_setting_name; ?>[toggle_btn_border_radius_top_right]" value="<?php echo isset( $this->_setting_option['toggle_btn_border_radius_top_right'] ) ? esc_attr( $this->_setting_option['toggle_btn_border_radius_top_right']) : '0'; ?>">
+        <span data-group="toggle_btn_border_radius"><?php echo esc_html__('Top Right', 'digital-table-of-contents'); ?></span>
+        </li>
+        <li>
+        <input data-group="toggle_btn_border_radius" type="number" class="smpg-input small-text" id="toggle_btn_border_radius_bottom_left" name="<?php echo $this->_setting_name; ?>[toggle_btn_border_radius_bottom_left]" value="<?php echo isset( $this->_setting_option['toggle_btn_border_radius_bottom_left'] ) ? esc_attr( $this->_setting_option['toggle_btn_border_radius_bottom_left']) : '0'; ?>">
+        <span data-group="toggle_btn_border_radius"><?php echo esc_html__('Bottom Left', 'digital-table-of-contents'); ?></span>
+        </li>
+        <li>
+        <input data-group="toggle_btn_border_radius" type="number" class="smpg-input small-text" id="toggle_btn_border_radius_bottom_right" name="<?php echo $this->_setting_name; ?>[toggle_btn_border_radius_bottom_right]" value="<?php echo isset( $this->_setting_option['toggle_btn_border_radius_bottom_right'] ) ? esc_attr( $this->_setting_option['toggle_btn_border_radius_bottom_right']) : '0'; ?>">
+        <span data-group="toggle_btn_border_radius"><?php echo esc_html__('Bottom Right', 'digital-table-of-contents'); ?></span>
+        </li>
+        <li>
+        <select data-group="toggle_btn_border_radius" class="smpg-input" name="<?php echo $this->_setting_name; ?>[toggle_btn_border_radius_unit]" id="toggle_btn_border_radius_unit">
+            <option value="px" <?php echo (isset($this->_setting_option['toggle_btn_border_radius_unit']) && $this->_setting_option['toggle_btn_border_radius_unit'] == 'px' ? 'selected' : '' ) ?>><?php echo esc_html__('px', 'digital-table-of-contents'); ?></option>
+            <option value="pt" <?php echo (isset($this->_setting_option['toggle_btn_border_radius_unit']) && $this->_setting_option['toggle_btn_border_radius_unit'] == 'pt' ? 'selected' : '' ) ?>><?php echo esc_html__('pt', 'digital-table-of-contents'); ?></option>
+            <option value="%" <?php echo (isset($this->_setting_option['toggle_btn_border_radius_unit']) && $this->_setting_option['toggle_btn_border_radius_unit'] == '%' ? 'selected' : '' ) ?>><?php echo esc_html__('%', 'digital-table-of-contents'); ?></option>
+            <option value="em" <?php echo (isset($this->_setting_option['toggle_btn_border_radius_unit']) && $this->_setting_option['toggle_btn_border_radius_unit'] == 'em' ? 'selected' : '' ) ?>><?php echo esc_html__('em', 'digital-table-of-contents'); ?></option>        
+        </select>
+        <span data-group="toggle_btn_border_radius"><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></span>
+        </li>
+    </ul>    	    
+    <?php
+}
 public function dtoc_customization_link_margin_cb(){
     ?>
     <select data-group="link_margin" class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[link_margin_mode]" id="link_margin_mode">
@@ -1173,6 +1325,16 @@ public function dtoc_customization_icon_padding_cb(){
     </select>
     <?php
     dtoc_different_four_sides_html($this->_setting_name, $this->_setting_option, 'padding', 'icon');
+}
+public function dtoc_customization_toggle_btn_padding_cb(){    
+    ?>
+    <select data-group="toggle_btn_padding" class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[toggle_btn_padding_mode]" id="toggle_btn_padding_mode">
+        <option value="default" <?php echo (isset($this->_setting_option['toggle_btn_padding_mode']) && $this->_setting_option['toggle_btn_padding_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>
+        <option value="auto" <?php echo (isset($this->_setting_option['toggle_btn_padding_mode']) && $this->_setting_option['toggle_btn_padding_mode'] == 'auto' ? 'selected' : '' ) ?>><?php echo esc_html__('Auto', 'digital-table-of-contents'); ?></option>
+        <option value="custom" <?php echo (isset($this->_setting_option['toggle_btn_padding_mode']) && $this->_setting_option['toggle_btn_padding_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
+    </select>
+    <?php
+    dtoc_different_four_sides_html($this->_setting_name, $this->_setting_option, 'padding', 'toggle_btn');
 }
 public function dtoc_customization_title_padding_cb(){
     ?>
@@ -1313,6 +1475,15 @@ public function dtoc_customization_icon_border_width_cb(){
     <?php
     dtoc_different_four_sides_html($this->_setting_name, $this->_setting_option, 'width', 'icon_border');
 }
+public function dtoc_customization_toggle_btn_border_width_cb(){    
+    ?>
+    <select data-group="toggle_btn_border_width" class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[toggle_btn_border_width_mode]" id="toggle_btn_border_width_mode">
+        <option value="default" <?php echo (isset($this->_setting_option['toggle_btn_border_width_mode']) && $this->_setting_option['toggle_btn_border_width_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>        
+        <option value="custom" <?php echo (isset($this->_setting_option['toggle_btn_border_width_mode']) && $this->_setting_option['toggle_btn_border_width_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
+    </select>
+    <?php
+    dtoc_different_four_sides_html($this->_setting_name, $this->_setting_option, 'width', 'toggle_btn_border');
+}
 public function dtoc_customization_border_width_cb(){    
     ?>
     <select data-group="border_width" class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[border_width_mode]" id="border_width_mode">
@@ -1352,6 +1523,21 @@ public function dtoc_customization_icon_border_type_cb(){
     </select>	
     <?php
     // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'icon_border_type'); 
+}
+public function dtoc_customization_toggle_btn_border_type_cb(){
+	$this->dtoc_resolve_meta_settings_name(); 	
+    ?>    
+	<select class="smpg-input" name="<?php echo $this->_setting_name; ?>[toggle_btn_border_type]" id="toggle_btn_border_type">
+        <option value="default" <?php echo (isset($this->_setting_option['toggle_btn_border_type']) && $this->_setting_option['toggle_btn_border_type'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>
+        <option value="none" <?php echo (isset($this->_setting_option['toggle_btn_border_type']) && $this->_setting_option['toggle_btn_border_type'] == 'none' ? 'selected' : '' ) ?>><?php echo esc_html__('None', 'digital-table-of-contents'); ?></option>
+        <option value="solid" <?php echo (isset($this->_setting_option['toggle_btn_border_type']) && $this->_setting_option['toggle_btn_border_type'] == 'solid' ? 'selected' : '' ) ?>><?php echo esc_html__('Solid', 'digital-table-of-contents'); ?></option>
+        <option value="double" <?php echo (isset($this->_setting_option['toggle_btn_border_type']) && $this->_setting_option['toggle_btn_border_type'] == 'double' ? 'selected' : '' ) ?>><?php echo esc_html__('Double', 'digital-table-of-contents'); ?></option>
+        <option value="dotted" <?php echo (isset($this->_setting_option['toggle_btn_border_type']) && $this->_setting_option['toggle_btn_border_type'] == 'dotted' ? 'selected' : '' ) ?>><?php echo esc_html__('Dotted', 'digital-table-of-contents'); ?></option>
+        <option value="dashed" <?php echo (isset($this->_setting_option['toggle_btn_border_type']) && $this->_setting_option['toggle_btn_border_type'] == 'dashed' ? 'selected' : '' ) ?>><?php echo esc_html__('Dashed', 'digital-table-of-contents'); ?></option>
+        <option value="groove" <?php echo (isset($this->_setting_option['toggle_btn_border_type']) && $this->_setting_option['toggle_btn_border_type'] == 'groove' ? 'selected' : '' ) ?>><?php echo esc_html__('Groove', 'digital-table-of-contents'); ?></option>
+    </select>	
+    <?php
+    // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'toggle_btn_border_type'); 
 }
 public function dtoc_general_rendering_style_cb(){ 
     $this->dtoc_resolve_meta_settings_name(); 	   	                
