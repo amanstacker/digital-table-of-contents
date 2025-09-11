@@ -460,17 +460,13 @@ public function dtoc_settings_initiate(){
 		'title'    => __( 'Initial Body View', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_display_toggle_initial_cb',
 		'section'  => 'dtoc_general_setting_section',
-		'pages'    => [ 'dtoc_sticky' ],
-		'args'     => [
-			'class' => 'dtoc_toggle_body',
-		],
+		'pages'    => [ 'dtoc_sticky' ],		
 	], 
     'dtoc_general_toggle_btn_text' => [
 			'title'    => __( 'Toggle Button Text', 'digital-table-of-contents' ),
 			'callback' => 'dtoc_general_toggle_btn_text_cb',
 			'section'  => 'dtoc_general_setting_section',
-			'pages'    => [ 'dtoc_sticky' ],
-			'args'     => [ 'class' => 'dtoc_toggle_body' ],
+			'pages'    => [ 'dtoc_sticky' ]			
 	],	   
 	'dtoc_general_header_icon' => [
 		'title'    => __( 'Icon', 'digital-table-of-contents' ),

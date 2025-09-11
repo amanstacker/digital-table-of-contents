@@ -24,10 +24,14 @@ function dtoc_sticky_modules_enqueue() {
                 wp_register_script( 'dtoc-sticky-frontend', DTOC_URL  . 'assets/frontend/js/dtoc_sticky.js', array('jquery'), DTOC_VERSION , true );                        
                 wp_localize_script( 'dtoc-sticky-frontend', 'dtoc_localize_frontend_sticky_data', $data );        
                 wp_enqueue_script( 'dtoc-sticky-frontend' );                        
+                wp_enqueue_style( 'dtoc-sticky-frontend', DTOC_URL  . 'assets/frontend/css/dtoc-sticky-front-js-based.css', false , DTOC_VERSION );
 
+        }else{
+
+                wp_enqueue_style( 'dtoc-sticky-frontend', DTOC_URL  . 'assets/frontend/css/dtoc-sticky-front-css-based.css', false , DTOC_VERSION );
         }
                 
-        wp_enqueue_style( 'dtoc-sticky-frontend', DTOC_URL  . 'assets/frontend/css/dtoc-sticky-front.css', false , DTOC_VERSION );            
+                    
 
         $list_style_type = 'decimal';
         $counter_end =  "'.'";

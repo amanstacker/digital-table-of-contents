@@ -3,7 +3,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 function dtoc_sticky_box_on_css( $matches , $options = [] ) {
-    
+
     $dbc_style = dtoc_box_container_style( $options );
 
     // Handle toggle initial state
@@ -40,34 +40,41 @@ function dtoc_sticky_box_on_css( $matches , $options = [] ) {
 }
 
 
-
 function dtoc_sticky_box_on_js( $matches, $options = [] ) {
-    
-    $dbc_style = dtoc_box_container_style( $options );    
-    $html = '<div class="dtoc-sticky-container dtoc-'. esc_attr( $options['display_position'] ) .'" style="'.$dbc_style.'">' . "\n";
 
-    if ( ! empty( $options['toggle_body'] ) ) {
+	$dbc_style = dtoc_box_container_style( $options );
 
-        $html .= '<span class="dtoc-sticky-toggle-btn">'.esc_html( $options['toggle_btn_text'] ).'</span>' . "\n";    
-            
-    }
-    
-    if ( ! empty( $options['display_title'] ) ) {
+	// Initial state (show/hide)
+	$initial_state = ! empty( $options['toggle_initial'] ) ? $options['toggle_initial'] : 'hide';
+	$initial_class = ( $initial_state === 'show' ) ? ' dtoc-open' : ' dtoc-closed';
 
-        $html .= '<span class="dtoc-sticky-title-str">'.esc_html( $options['header_text'] ).'</span>';                
-            
-    }
-    
-    $html .= dtoc_get_custom_style( $options );
-    $html .= dtoc_get_toc_link_style( $options, 'incontent' );       
-    $html .= '<div class="dtoc-sticky-box-body dtoc-sticky-box-on-css-body">';
-    $html .= dtoc_get_plain_toc_html( $matches, $options );    
-    $html .= '</div>';
-    $html .= '</div>';
+	$html  = '<div class="dtoc-sticky-container dtoc-' . esc_attr( $options['display_position'] ) . $initial_class . '" style="' . $dbc_style . '">' . "\n";
 
-    return $html;
-    
+	// Toggle button
+	$t_style = dtoc_get_toggle_btn_style( $options );
+	$html .= '<button type="button" class="dtoc-sticky-toggle-btn" style="' . $t_style . '">' . esc_html( $options['toggle_btn_text'] ) . '</button>' . "\n";
+
+	// Scrollable inner wrapper
+	$html .= '<div class="dtoc-sticky-inner">' . "\n";
+
+	if ( ! empty( $options['display_title'] ) ) {
+		$t_style = dtoc_get_title_style( $options );
+		$html   .= '<span class="dtoc-sticky-title-str" style="' . $t_style . '">' . esc_html( $options['header_text'] ) . '</span>' . "\n";
+	}
+
+	$html .= dtoc_get_custom_style( $options );
+	$html .= dtoc_get_toc_link_style( $options, 'sticky' );
+
+	$html .= '<div class="dtoc-sticky-box-body dtoc-sticky-box-on-js-body">' . "\n";
+	$html .= dtoc_get_plain_toc_html( $matches, $options );
+	$html .= '</div>' . "\n"; // close body
+
+	$html .= '</div>' . "\n"; // close inner
+	$html .= '</div>' . "\n"; // close container
+
+	return $html;
 }
+
 
 function dtoc_box_on_css( $matches , $options = [] ) {
 
