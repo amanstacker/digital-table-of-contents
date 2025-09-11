@@ -3,10 +3,14 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 function dtoc_sticky_box_on_css( $matches , $options = [] ) {
-
     $dbc_style = dtoc_box_container_style( $options );
 
-    $html  = '<input type="checkbox" id="dtoc-sticky-toggle">' . "\n";
+    // Handle toggle initial state
+    $initial_state = ! empty( $options['toggle_initial'] ) ? $options['toggle_initial'] : 'hide';
+    $checked_attr  = ( $initial_state === 'show' ) ? ' checked="checked"' : '';
+
+    // Add checkbox with conditional checked
+    $html  = '<input type="checkbox" id="dtoc-sticky-toggle"'. $checked_attr .'>' . "\n";
 
     $html .= '<div class="dtoc-sticky-container dtoc-'. esc_attr( $options['display_position'] ) .'" style="'.$dbc_style.'">' . "\n";
 
@@ -35,6 +39,7 @@ function dtoc_sticky_box_on_css( $matches , $options = [] ) {
 
     return $html;
 }
+
 
 
 function dtoc_sticky_box_on_js( $matches, $options = [] ) {
