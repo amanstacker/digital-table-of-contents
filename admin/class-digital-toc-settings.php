@@ -455,31 +455,22 @@ public function dtoc_settings_initiate(){
 		'args'     => [
 			'class' => 'dtoc_child_opt dtoc_2_label_child_opt dtoc_display_title',
 		],
-	],
-    'dtoc_display_toggle_body' => [
-		'title'    => __( 'Toggle', 'digital-table-of-contents' ),
-		'callback' => 'dtoc_display_toggle_body_cb',
-		'section'  => 'dtoc_general_setting_section',
-		'pages'    => [ 'dtoc_sticky' ],
-		'args'     => [			
-			'label_for' => 'toggle_body',
-		],
-	],
+	],    
 	'dtoc_display_toggle_initial' => [
 		'title'    => __( 'Initial Body View', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_display_toggle_initial_cb',
 		'section'  => 'dtoc_general_setting_section',
 		'pages'    => [ 'dtoc_sticky' ],
 		'args'     => [
-			'class' => 'dtoc_child_opt dtoc_toggle_body',
+			'class' => 'dtoc_toggle_body',
 		],
 	], 
     'dtoc_general_toggle_btn_text' => [
-			'title'    => __( 'Button Text', 'digital-table-of-contents' ),
+			'title'    => __( 'Toggle Button Text', 'digital-table-of-contents' ),
 			'callback' => 'dtoc_general_toggle_btn_text_cb',
 			'section'  => 'dtoc_general_setting_section',
 			'pages'    => [ 'dtoc_sticky' ],
-			'args'     => [ 'class' => 'dtoc_child_opt dtoc_toggle_body' ],
+			'args'     => [ 'class' => 'dtoc_toggle_body' ],
 	],	   
 	'dtoc_general_header_icon' => [
 		'title'    => __( 'Icon', 'digital-table-of-contents' ),

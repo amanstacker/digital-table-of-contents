@@ -3,6 +3,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 function dtoc_sticky_box_on_css( $matches , $options = [] ) {
+    
     $dbc_style = dtoc_box_container_style( $options );
 
     // Handle toggle initial state
@@ -13,12 +14,10 @@ function dtoc_sticky_box_on_css( $matches , $options = [] ) {
     $html  = '<input type="checkbox" id="dtoc-sticky-toggle"'. $checked_attr .'>' . "\n";
 
     $html .= '<div class="dtoc-sticky-container dtoc-'. esc_attr( $options['display_position'] ) .'" style="'.$dbc_style.'">' . "\n";
-
-    if ( ! empty( $options['toggle_body'] ) ) {
-        $t_style = dtoc_get_toggle_btn_style( $options );
-        $html .= '<label for="dtoc-sticky-toggle" class="dtoc-sticky-toggle-btn" style="'.$t_style.'">'. esc_html( $options['toggle_btn_text'] ) .'</label>' . "\n";    
-    }
-
+    
+    $t_style = dtoc_get_toggle_btn_style( $options );
+    $html .= '<label for="dtoc-sticky-toggle" class="dtoc-sticky-toggle-btn" style="'.$t_style.'">'. esc_html( $options['toggle_btn_text'] ) .'</label>' . "\n";    
+    
     // Scrollable inner wrapper
     $html .= '<div class="dtoc-sticky-inner">' . "\n";
 
