@@ -41,14 +41,14 @@
 
 /* Toggle button */
 .dtoc-sticky-toggle-btn {
-  position: absolute;
-  background: #0073aa;
-  color: white;
+  position: absolute;    
   padding: 10px 15px;
   cursor: pointer;  
   font-size: 14px;
   user-select: none;
   transition: background 0.3s;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0);
+  outline: none;      /* removes default outline */
 }
 .dtoc-sticky-toggle-btn:hover {
   background: #005177;

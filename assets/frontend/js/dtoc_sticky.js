@@ -53,6 +53,7 @@ jQuery(document).ready(function($) {
                 );
             }
         }
+        
     });
 
     // Optional: fix offset dynamically on resize

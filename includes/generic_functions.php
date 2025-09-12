@@ -991,9 +991,9 @@ function dtoc_get_toc_link_style( $options, $type ) {
     if ( ! empty( $options['link_hover_color'] ) ) {
         
         if ( $type == 'sticky' ) {
-            $css .= "dtoc-sticky-box-body .dtoc-link:hover {";            
+            $css .= " .dtoc-sticky-box-body .dtoc-link:hover {";            
         }else{
-            $css .= ".dtoc-box-body .dtoc-link:hover {";
+            $css .= " .dtoc-box-body .dtoc-link:hover {";
         }
 
         $css .= "color: " . esc_attr( $options['link_hover_color'] ) . ";";
@@ -1004,9 +1004,9 @@ function dtoc_get_toc_link_style( $options, $type ) {
     if ( ! empty( $options['link_visited_color'] ) ) {
         
         if ( $type == 'sticky' ) {
-            $css .= ".dtoc-sticky-box-body .dtoc-link:visited {";            
+            $css .= " .dtoc-sticky-box-body .dtoc-link:visited {";            
         }else{
-            $css .= ".dtoc-box-body .dtoc-link:visited {";
+            $css .= " .dtoc-box-body .dtoc-link:visited {";
         }
 
         $css .= "color: " . esc_attr( $options['link_visited_color'] ) . ";";

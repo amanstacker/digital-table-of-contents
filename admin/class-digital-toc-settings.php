@@ -94,7 +94,7 @@ public function dtoc_add_menu_links(){
     add_submenu_page(
 		'dtoc',
 		'Digital Table of Contents Sticky',
-        'Sticky',
+        'Sliding Sticky',
 		'manage_options',
 		'dtoc_sticky',
         [$this, 'dtoc_settings_page_render']				
