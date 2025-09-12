@@ -48,18 +48,28 @@ function dtoc_sticky_box_on_js( $matches, $options = [] ) {
 	$initial_state = ! empty( $options['toggle_initial'] ) ? $options['toggle_initial'] : 'hide';
 	$initial_class = ( $initial_state === 'show' ) ? ' dtoc-open' : ' dtoc-closed';
 
-	$html  = '<div class="dtoc-sticky-container dtoc-' . esc_attr( $options['display_position'] ) . $initial_class . '" style="' . $dbc_style . '">' . "\n";
+	// Detect if left or right positioned
+	$is_left = strpos( $options['display_position'], 'left' ) !== false;
+
+	// Safe offset to avoid flicker (about 300px, adjust if needed)
+	if ( $initial_state === 'show' ) {
+		$dbc_style .= $is_left ? 'left:0;' : 'right:0;';
+	} else {
+		$dbc_style .= $is_left ? 'left:-300px;visibility:hidden;' : 'right:-300px;visibility:hidden;';
+	}
+
+	$html  = '<div class="dtoc-sticky-container dtoc-' . esc_attr( $options['display_position'] ) . $initial_class . '" style="' . esc_attr( $dbc_style ) . '">' . "\n";
 
 	// Toggle button
 	$t_style = dtoc_get_toggle_btn_style( $options );
-	$html .= '<button type="button" class="dtoc-sticky-toggle-btn" style="' . $t_style . '">' . esc_html( $options['toggle_btn_text'] ) . '</button>' . "\n";
+	$html .= '<button type="button" class="dtoc-sticky-toggle-btn" style="' . esc_attr( $t_style ) . '">' . esc_html( $options['toggle_btn_text'] ) . '</button>' . "\n";
 
 	// Scrollable inner wrapper
 	$html .= '<div class="dtoc-sticky-inner">' . "\n";
 
 	if ( ! empty( $options['display_title'] ) ) {
 		$t_style = dtoc_get_title_style( $options );
-		$html   .= '<span class="dtoc-sticky-title-str" style="' . $t_style . '">' . esc_html( $options['header_text'] ) . '</span>' . "\n";
+		$html   .= '<span class="dtoc-sticky-title-str" style="' . esc_attr( $t_style ) . '">' . esc_html( $options['header_text'] ) . '</span>' . "\n";
 	}
 
 	$html .= dtoc_get_custom_style( $options );
