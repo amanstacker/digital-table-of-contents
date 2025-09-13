@@ -22,7 +22,7 @@ function dtoc_enqueue_admin_assets( $hook ) {
         $screen_id      = get_current_screen()->id;
 		$setting_name   = str_replace( 'digital-toc_page_','',$screen_id );
 
-		global $dtoc_dashboard, $dtoc_incontent, $dtoc_incontent_mobile,$dtoc_incontent_tablet, $dtoc_sticky, $dtoc_sticky_mobile, $dtoc_sticky_tablet, $dtoc_floating, $dtoc_floating_mobile, $dtoc_floating_tablet, $dtoc_shortcode, $dtoc_shortcode_mobile, $dtoc_shortcode_tablet;
+		global $dtoc_dashboard, $dtoc_incontent, $dtoc_incontent_mobile,$dtoc_incontent_tablet, $dtoc_sliding_sticky, $dtoc_sliding_sticky_mobile, $dtoc_sliding_sticky_tablet, $dtoc_floating, $dtoc_floating_mobile, $dtoc_floating_tablet, $dtoc_shortcode, $dtoc_shortcode_mobile, $dtoc_shortcode_tablet;
                 
         $admin_data = [];
         $reg_url    = '';
@@ -55,8 +55,8 @@ function dtoc_enqueue_admin_assets( $hook ) {
                 $admin_data['module_state'] = $dtoc_incontent;                
                 $reg_url = DTOC_URL . 'assets/admin/js/admin-incontent.js';
 				break;
-            case 'dtoc_sticky':				
-                $admin_data['module_state'] = $dtoc_sticky;      
+            case 'dtoc_sliding_sticky':				
+                $admin_data['module_state'] = $dtoc_sliding_sticky;      
                 $reg_url = DTOC_URL . 'assets/admin/js/admin-sticky.js';                   
             break;
             case 'dtoc_shortcode':				
@@ -213,14 +213,14 @@ function dtoc_import_options_ajax() {
             if (isset($options['shortcode_tablet'])) {
                 update_option('dtoc_shortcode_tablet', $options['shortcode_tablet']);
             }
-            if (isset($options['sticky'])) {
-                update_option('dtoc_sticky', $options['sticky']);
+            if (isset($options['sliding_sticky'])) {
+                update_option('dtoc_sliding_sticky', $options['sliding_sticky']);
             }
             if (isset($options['sticky_mobile'])) {
-                update_option('dtoc_sticky_mobile', $options['sticky_mobile']);
+                update_option('dtoc_sliding_sticky_mobile', $options['sticky_mobile']);
             }
             if (isset($options['sticky_tablet'])) {
-                update_option('dtoc_sticky_tablet', $options['sticky_tablet']);
+                update_option('dtoc_sliding_sticky_tablet', $options['sticky_tablet']);
             }
             if (isset($options['floating'])) {
                 update_option('dtoc_floating', $options['floating']);
@@ -265,9 +265,9 @@ function dtoc_export_options_ajax() {
         'shortcode' => get_option('dtoc_shortcode'),
         'shortcode_mobile' => get_option('dtoc_shortcode_mobile'),
         'shortcode_tablet' => get_option('dtoc_shortcode_tablet'),
-        'sticky' => get_option('dtoc_sticky'),
-        'sticky_mobile' => get_option('dtoc_sticky_mobile'),
-        'sticky_tablet' => get_option('dtoc_sticky_tablet'),
+        'sliding_sticky' => get_option('dtoc_sliding_sticky'),
+        'sticky_mobile' => get_option('dtoc_sliding_sticky_mobile'),
+        'sticky_tablet' => get_option('dtoc_sliding_sticky_tablet'),
         'floating' => get_option('dtoc_floating'),
         'floating_mobile' => get_option('dtoc_floating_mobile'),
         'floating_tablet' => get_option('dtoc_floating_tablet'),
@@ -335,9 +335,9 @@ function dtoc_reset_options_cb() {
     delete_option('dtoc_shortcode');
     delete_option('dtoc_shortcode_mobile');
     delete_option('dtoc_shortcode_tablet');
-    delete_option('dtoc_sticky');
-    delete_option('dtoc_sticky_mobile');
-    delete_option('dtoc_sticky_tablet');
+    delete_option('dtoc_sliding_sticky');
+    delete_option('dtoc_sliding_sticky_mobile');
+    delete_option('dtoc_sliding_sticky_tablet');
     delete_option('dtoc_floating');
     delete_option('dtoc_floating_mobile');
     delete_option('dtoc_floating_tablet');

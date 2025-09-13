@@ -1,5 +1,5 @@
 jQuery(document).ready(function($) {
-    $(".dtoc-sticky-container").each(function() {
+    $(".dtoc-sliding-sticky-container").each(function() {
         let $container = $(this);
         let isLeft = $container.hasClass("dtoc-left-top") ||
                      $container.hasClass("dtoc-left-middle") ||
@@ -16,8 +16,8 @@ jQuery(document).ready(function($) {
         }
     });
 
-    $(".dtoc-sticky-toggle-btn").on("click", function() {
-        let $container = $(this).closest(".dtoc-sticky-container");
+    $(".dtoc-sliding-sticky-toggle-btn").on("click", function() {
+        let $container = $(this).closest(".dtoc-sliding-sticky-container");
         let isLeft = $container.hasClass("dtoc-left-top") ||
                      $container.hasClass("dtoc-left-middle") ||
                      $container.hasClass("dtoc-left-bottom");
@@ -58,7 +58,7 @@ jQuery(document).ready(function($) {
 
     // Optional: fix offset dynamically on resize
     $(window).on("resize", function() {
-        $(".dtoc-sticky-container.dtoc-closed").each(function() {
+        $(".dtoc-sliding-sticky-container.dtoc-closed").each(function() {
             let $container = $(this);
             let isLeft = $container.hasClass("dtoc-left-top") ||
                          $container.hasClass("dtoc-left-middle") ||

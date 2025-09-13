@@ -109,8 +109,8 @@ function dtoc_dashboard_modules(){
         [
             'title' => 'Sliding Sticky',
             'desc'  => 'A sticky TOC that stays hidden and slides in from the left or right when toggled. Best for users who want to save space and show TOC only when needed.',
-            'name'  => 'sticky',
-            'url'   => admin_url( 'admin.php?page=dtoc_sticky'),
+            'name'  => 'sliding_sticky',
+            'url'   => admin_url( 'admin.php?page=dtoc_sliding_sticky'),
             'learn' => 'https://digitaltableofcontents/documentation'
         ],
         [
@@ -138,14 +138,14 @@ function dtoc_dashboard_modules(){
             'title' => 'Sticky Mobile',
             'desc'  => 'Enable for advanced, separate customization of the Sticky TOC in mobile. If disabled, the TOC will display by default based on the Sticky module.',
             'name'  => 'sticky_mobile',
-            'url'   => admin_url( 'admin.php?page=dtoc_sticky_mobile'),
+            'url'   => admin_url( 'admin.php?page=dtoc_sliding_sticky_mobile'),
             'learn' => 'https://digitaltableofcontents/documentation'
         ],
         [
             'title' => 'Sticky Tablet',
             'desc'  => 'Enable for advanced, separate customization of the Sticky TOC in tablet. If disabled, the TOC will display by default based on the Sticky module.',
             'name'  => 'sticky_tablet',
-            'url'   => admin_url( 'admin.php?page=dtoc_sticky_tablet'),
+            'url'   => admin_url( 'admin.php?page=dtoc_sliding_sticky_tablet'),
             'learn' => 'https://digitaltableofcontents/documentation'
         ],        
         [

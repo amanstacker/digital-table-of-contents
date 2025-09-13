@@ -48,7 +48,7 @@ public function dtoc_add_menu_links(){
 	// 	'Digital Table of Contents Sticky',
     //     'Sticky Mobile',
 	// 	'manage_options',
-	// 	'dtoc_sticky_mobile',
+	// 	'dtoc_sliding_sticky_mobile',
     //     [$this, 'dtoc_settings_page_render']				
 	// );
 	// add_submenu_page(
@@ -56,7 +56,7 @@ public function dtoc_add_menu_links(){
 	// 	'Digital Table of Contents Sticky',
     //     'Sticky Tablet',
 	// 	'manage_options',
-	// 	'dtoc_sticky_tablet',
+	// 	'dtoc_sliding_sticky_tablet',
     //     [$this, 'dtoc_settings_page_render']				
 	// );
     // add_submenu_page(
@@ -93,10 +93,10 @@ public function dtoc_add_menu_links(){
 	);
     add_submenu_page(
 		'dtoc',
-		'Digital Table of Contents Sticky',
+		'Digital Table of Contents Sliding Sticky',
         'Sliding Sticky',
 		'manage_options',
-		'dtoc_sticky',
+		'dtoc_sliding_sticky',
         [$this, 'dtoc_settings_page_render']				
 	);
 	// add_submenu_page(
@@ -124,7 +124,7 @@ if(function_exists('get_current_screen')){
 		
 		$screen_id = get_current_screen()->id;
 		$this->_setting_name = str_replace('digital-toc_page_','',$screen_id);
-		global $dtoc_incontent, $dtoc_incontent_mobile,$dtoc_incontent_tablet, $dtoc_sticky, $dtoc_sticky_mobile, $dtoc_sticky_tablet, $dtoc_floating, $dtoc_floating_mobile, $dtoc_floating_tablet, $dtoc_shortcode, $dtoc_shortcode_mobile, $dtoc_shortcode_tablet;
+		global $dtoc_incontent, $dtoc_incontent_mobile,$dtoc_incontent_tablet, $dtoc_sliding_sticky, $dtoc_sliding_sticky_mobile, $dtoc_sliding_sticky_tablet, $dtoc_floating, $dtoc_floating_mobile, $dtoc_floating_tablet, $dtoc_shortcode, $dtoc_shortcode_mobile, $dtoc_shortcode_tablet;
 		
 		switch ($this->_setting_name) {
 			case 'dtoc_incontent':				
@@ -139,17 +139,17 @@ if(function_exists('get_current_screen')){
 				$this->_page_title     = 'In-Content Tablet';			
 				$this->_setting_option = $dtoc_incontent_tablet;
 				break;
-			case 'dtoc_sticky':				
-				$this->_page_title     = 'Sticky';
-				$this->_setting_option = $dtoc_sticky;
+			case 'dtoc_sliding_sticky':				
+				$this->_page_title     = 'Sliding Sticky';
+				$this->_setting_option = $dtoc_sliding_sticky;
 				break;
-			case 'dtoc_sticky_mobile':		
+			case 'dtoc_sliding_sticky_mobile':		
 				$this->_page_title     = 'Sticky Mobile';		
-				$this->_setting_option = $dtoc_sticky_mobile;
+				$this->_setting_option = $dtoc_sliding_sticky_mobile;
 				break;
-			case 'dtoc_sticky_tablet':		
+			case 'dtoc_sliding_sticky_tablet':		
 				$this->_page_title     = 'Sticky Tablet';		
-				$this->_setting_option = $dtoc_sticky_tablet;
+				$this->_setting_option = $dtoc_sliding_sticky_tablet;
 				break;
 			case 'dtoc_floating':			
 				$this->_page_title     = 'Floating';	
@@ -272,7 +272,7 @@ public function dtoc_settings_page_render(){
                  echo "</div>";
                  echo "</div>";
 
-                 if ( $this->_setting_name == 'dtoc_sticky' ) {
+                 if ( $this->_setting_name == 'dtoc_sliding_sticky' ) {
 
                     echo "<div class='dtoc-accordion'>";
                     echo "<div class='dtoc-accordion-header'>";                 
@@ -371,9 +371,9 @@ public function dtoc_settings_initiate(){
 		'dtoc_incontent_mobile_group'  => 'dtoc_incontent_mobile',
 		'dtoc_incontent_tablet_group'  => 'dtoc_incontent_tablet',
 
-		'dtoc_sticky_group'            => 'dtoc_sticky',
-		'dtoc_sticky_mobile_group'     => 'dtoc_sticky_mobile',
-		'dtoc_sticky_tablet_group'     => 'dtoc_sticky_tablet',
+		'dtoc_sliding_sticky_group'            => 'dtoc_sliding_sticky',
+		'dtoc_sliding_sticky_mobile_group'     => 'dtoc_sliding_sticky_mobile',
+		'dtoc_sliding_sticky_tablet_group'     => 'dtoc_sliding_sticky_tablet',
 
 		'dtoc_floating_group'          => 'dtoc_floating',
 		'dtoc_floating_mobile_group'   => 'dtoc_floating_mobile',
@@ -411,7 +411,7 @@ public function dtoc_settings_initiate(){
     /**
 	 * ---------------------------------
 	 * Settings Fields (generic config)
-	 * Each field can define "pages" => ['dtoc_incontent', 'dtoc_sticky', ...]
+	 * Each field can define "pages" => ['dtoc_incontent', 'dtoc_sliding_sticky', ...]
 	 * If "pages" not set, it will show everywhere.
 	 * ---------------------------------
 	 */
@@ -421,20 +421,20 @@ public function dtoc_settings_initiate(){
 			'title'    => __( 'Rendering Style', 'digital-table-of-contents' ),
 			'callback' => 'dtoc_general_rendering_style_cb',
 			'section'  => 'dtoc_general_setting_section',
-			'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+			'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 		],
 		'dtoc_display_title' => [
 			'title'    => __( 'Title', 'digital-table-of-contents' ),
 			'callback' => 'dtoc_display_title_cb',
 			'section'  => 'dtoc_general_setting_section',
-			'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+			'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 			'args'     => [ 'label_for' => 'display_title' ],
 		],
 		'dtoc_general_header_text' => [
 			'title'    => __( 'Text', 'digital-table-of-contents' ),
 			'callback' => 'dtoc_general_header_text_cb',
 			'section'  => 'dtoc_general_setting_section',
-			'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+			'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 			'args'     => [ 'class' => 'dtoc_child_opt dtoc_display_title' ],
 		],	
         'dtoc_display_toggle_body' => [
@@ -460,13 +460,13 @@ public function dtoc_settings_initiate(){
 		'title'    => __( 'Initial Body View', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_display_toggle_initial_cb',
 		'section'  => 'dtoc_general_setting_section',
-		'pages'    => [ 'dtoc_sticky' ],		
+		'pages'    => [ 'dtoc_sliding_sticky' ],		
 	], 
     'dtoc_general_toggle_btn_text' => [
 			'title'    => __( 'Toggle Button Text', 'digital-table-of-contents' ),
 			'callback' => 'dtoc_general_toggle_btn_text_cb',
 			'section'  => 'dtoc_general_setting_section',
-			'pages'    => [ 'dtoc_sticky' ]			
+			'pages'    => [ 'dtoc_sliding_sticky' ]			
 	],	   
 	'dtoc_general_header_icon' => [
 		'title'    => __( 'Icon', 'digital-table-of-contents' ),
@@ -499,7 +499,7 @@ public function dtoc_settings_initiate(){
 		'title'    => __( 'Jump Links', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_general_jump_links_cb',
 		'section'  => 'dtoc_general_setting_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 		'args'     => [
 			'label_for' => 'jump_links',
 		],
@@ -508,7 +508,7 @@ public function dtoc_settings_initiate(){
 		'title'    => __( 'Scroll Behavior', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_general_scroll_behavior_cb',
 		'section'  => 'dtoc_general_setting_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 		'args'     => [
 			'class' => 'dtoc_child_opt dtoc_jump_links',
 		],
@@ -542,7 +542,7 @@ public function dtoc_settings_initiate(){
 		'title'    => __( 'Display When', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_general_when_cb',
 		'section'  => 'dtoc_general_setting_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 	],
 	'dtoc_position' => [
 		'title'    => __( 'Position', 'digital-table-of-contents' ),
@@ -554,13 +554,13 @@ public function dtoc_settings_initiate(){
 		'title'    => __( 'Position', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_general_sticky_position_cb',
 		'section'  => 'dtoc_general_setting_section',
-		'pages'    => [ 'dtoc_sticky'],
+		'pages'    => [ 'dtoc_sliding_sticky'],
 	],
 	'dtoc_paragraph_number' => [
 		'title'    => __( 'Paragraph Number', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_general_paragraph_number_cb',
 		'section'  => 'dtoc_general_setting_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 		'args'     => [
 			'label_for' => 'paragraph_number',
 			'class'     => 'dtoc_child_opt dtoc_paragraph_number',
@@ -570,91 +570,91 @@ public function dtoc_settings_initiate(){
 		'title'    => __( 'List Style Type', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_general_list_style_type_cb',
 		'section'  => 'dtoc_general_setting_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 	],
 	'dtoc_general_headings_include' => [
 		'title'    => __( 'Select Heading Tags', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_general_headings_include_cb',
 		'section'  => 'dtoc_general_setting_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 	],
     'dtoc_customization_title_bg_color' => [
 		'title'    => __( 'Background Color', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_title_bg_color_cb',
 		'section'  => 'dtoc_customization_title_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_title_fg_color' => [
 		'title'    => __( 'Foreground Color', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_title_fg_color_cb',
 		'section'  => 'dtoc_customization_title_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_title_font_size' => [
 		'title'    => __( 'Font Size', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_title_font_size_cb',
 		'section'  => 'dtoc_customization_title_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_title_font_weight' => [
 		'title'    => __( 'Font Weight', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_title_font_weight_cb',
 		'section'  => 'dtoc_customization_title_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_title_padding' => [
 		'title'    => __( 'Padding', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_title_padding_cb',
 		'section'  => 'dtoc_customization_title_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 	],
     'dtoc_customization_toggle_btn_bg_color' => [
 		'title'    => __( 'Background Color', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_toggle_btn_bg_color_cb',
 		'section'  => 'dtoc_customization_toggle_btn_section',
-		'pages'    => [ 'dtoc_sticky'],
+		'pages'    => [ 'dtoc_sliding_sticky'],
 	],
 	'dtoc_customization_toggle_btn_fg_color' => [
 		'title'    => __( 'Foreground Color', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_toggle_btn_fg_color_cb',
 		'section'  => 'dtoc_customization_toggle_btn_section',
-		'pages'    => [ 'dtoc_sticky' ],
+		'pages'    => [ 'dtoc_sliding_sticky' ],
 	],
 	'dtoc_customization_toggle_btn_size_color' => [
 		'title'    => __( 'Size', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_toggle_btn_size_cb',
 		'section'  => 'dtoc_customization_toggle_btn_section',
-		'pages'    => [ 'dtoc_sticky' ],
+		'pages'    => [ 'dtoc_sliding_sticky' ],
 	],
 	'dtoc_customization_toggle_btn_border_type' => [
 		'title'    => __( 'Border Type', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_toggle_btn_border_type_cb',
 		'section'  => 'dtoc_customization_toggle_btn_section',
-		'pages'    => [ 'dtoc_sticky'],
+		'pages'    => [ 'dtoc_sliding_sticky'],
 	],
 	'dtoc_customization_toggle_btn_border_color' => [
 		'title'    => __( 'Border Color', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_toggle_btn_border_color_cb',
 		'section'  => 'dtoc_customization_toggle_btn_section',
-		'pages'    => [ 'dtoc_sticky' ],
+		'pages'    => [ 'dtoc_sliding_sticky' ],
 	],
 	'dtoc_customization_toggle_btn_border_width' => [
 		'title'    => __( 'Border Width', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_toggle_btn_border_width_cb',
 		'section'  => 'dtoc_customization_toggle_btn_section',
-		'pages'    => [ 'dtoc_sticky' ],
+		'pages'    => [ 'dtoc_sliding_sticky' ],
 	],
 	'dtoc_customization_toggle_btn_border_radius' => [
 		'title'    => __( 'Border Radius', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_toggle_btn_border_radius_cb',
 		'section'  => 'dtoc_customization_toggle_btn_section',
-		'pages'    => [ 'dtoc_sticky' ],
+		'pages'    => [ 'dtoc_sliding_sticky' ],
 	],
 	'dtoc_customization_toggle_btn_padding' => [
 		'title'    => __( 'Padding', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_toggle_btn_padding_cb',
 		'section'  => 'dtoc_customization_toggle_btn_section',
-		'pages'    => [ 'dtoc_sticky' ],
+		'pages'    => [ 'dtoc_sliding_sticky' ],
 	],	
     'dtoc_customization_icon_bg_color' => [
 		'title'    => __( 'Background Color', 'digital-table-of-contents' ),
@@ -678,170 +678,170 @@ public function dtoc_settings_initiate(){
 		'title'    => __( 'Border Type', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_icon_border_type_cb',
 		'section'  => 'dtoc_customization_icon_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_icon_border_color' => [
 		'title'    => __( 'Border Color', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_icon_border_color_cb',
 		'section'  => 'dtoc_customization_icon_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_icon_border_width' => [
 		'title'    => __( 'Border Width', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_icon_border_width_cb',
 		'section'  => 'dtoc_customization_icon_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_icon_border_radius' => [
 		'title'    => __( 'Border Radius', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_icon_border_radius_cb',
 		'section'  => 'dtoc_customization_icon_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_icon_padding' => [
 		'title'    => __( 'Padding', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_icon_padding_cb',
 		'section'  => 'dtoc_customization_icon_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_icon_margin' => [
 		'title'    => __( 'Margin', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_icon_margin_cb',
 		'section'  => 'dtoc_customization_icon_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 	],
     
 	'dtoc_customization_bg_color' => [
 		'title'    => __( 'Background Color', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_bg_color_cb',
 		'section'  => 'dtoc_customization_container_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_link_color' => [
 		'title'    => __( 'Color', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_link_color_cb',
 		'section'  => 'dtoc_customization_link_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_link_hover_color' => [
 		'title'    => __( 'Hover Color', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_link_hover_color_cb',
 		'section'  => 'dtoc_customization_link_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_link_visited_color' => [
 		'title'    => __( 'Visited Color', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_link_visited_color_cb',
 		'section'  => 'dtoc_customization_link_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_link_padding' => [
 		'title'    => __( 'Padding', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_link_padding_cb',
 		'section'  => 'dtoc_customization_link_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_link_margin' => [
 		'title'    => __( 'Margin', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_link_margin_cb',
 		'section'  => 'dtoc_customization_link_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_container_width' => [
 		'title'    => __( 'Width', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_container_width_cb',
 		'section'  => 'dtoc_customization_container_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_container_height' => [
 		'title'    => __( 'Height', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_container_height_cb',
 		'section'  => 'dtoc_customization_container_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_container_margin' => [
 		'title'    => __( 'Margin', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_container_margin_cb',
 		'section'  => 'dtoc_customization_container_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_container_padding' => [
 		'title'    => __( 'Padding', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_container_padding_cb',
 		'section'  => 'dtoc_customization_container_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_border_type' => [
 		'title'    => __( 'Type', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_border_type_cb',
 		'section'  => 'dtoc_customization_border_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_border_color' => [
 		'title'    => __( 'Color', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_border_color_cb',
 		'section'  => 'dtoc_customization_border_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_border_width' => [
 		'title'    => __( 'Width', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_border_width_cb',
 		'section'  => 'dtoc_customization_border_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_border_radius' => [
 		'title'    => __( 'Radius', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_border_radius_cb',
 		'section'  => 'dtoc_customization_border_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 	],
 	'dtoc_display_hierarchy' => [
 		'title'    => __( 'Hierarchy', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_display_hierarchy_cb',
 		'section'  => 'dtoc_advanced_setting_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 		'args'     => [ 'label_for' => 'hierarchy' ],
 	],
-	'dtoc_display_exp_col_subheadings' => [
-		'title'    => __( 'Expand / Collapse', 'digital-table-of-contents' ),
-		'callback' => 'dtoc_display_exp_col_subheadings_cb',
-		'section'  => 'dtoc_advanced_setting_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
-		'args'     => [ 'label_for' => 'exp_col_subheadings', 'class' => 'dtoc_child_opt dtoc_hierarchy' ],
-	],
-	'dtoc_display_show_more' => [
-		'title'    => __( 'Show More', 'digital-table-of-contents' ),
-		'callback' => 'dtoc_display_show_more_cb',
-		'section'  => 'dtoc_advanced_setting_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
-		'args'     => [ 'label_for' => 'show_more' ],
-	],
-	'dtoc_display_combine_page_break' => [
-		'title'    => __( 'Combine Page Break', 'digital-table-of-contents' ),
-		'callback' => 'dtoc_display_combine_page_break_cb',
-		'section'  => 'dtoc_advanced_setting_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
-		'args'     => [ 'label_for' => 'combine_page_break' ],
-	],
+	// 'dtoc_display_exp_col_subheadings' => [
+	// 	'title'    => __( 'Expand / Collapse', 'digital-table-of-contents' ),
+	// 	'callback' => 'dtoc_display_exp_col_subheadings_cb',
+	// 	'section'  => 'dtoc_advanced_setting_section',
+	// 	'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	// 	'args'     => [ 'label_for' => 'exp_col_subheadings', 'class' => 'dtoc_child_opt dtoc_hierarchy' ],
+	// ],
+	// 'dtoc_display_show_more' => [
+	// 	'title'    => __( 'Show More', 'digital-table-of-contents' ),
+	// 	'callback' => 'dtoc_display_show_more_cb',
+	// 	'section'  => 'dtoc_advanced_setting_section',
+	// 	'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	// 	'args'     => [ 'label_for' => 'show_more' ],
+	// ],
+	// 'dtoc_display_combine_page_break' => [
+	// 	'title'    => __( 'Combine Page Break', 'digital-table-of-contents' ),
+	// 	'callback' => 'dtoc_display_combine_page_break_cb',
+	// 	'section'  => 'dtoc_advanced_setting_section',
+	// 	'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	// 	'args'     => [ 'label_for' => 'combine_page_break' ],
+	// ],
 	'dtoc_display_accessibility' => [
 		'title'    => __( 'Accessibility', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_display_accessibility_cb',
 		'section'  => 'dtoc_advanced_setting_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 		'args'     => [ 'label_for' => 'accessibility' ],
 	],
 	'dtoc_display_preserve_line_breaks' => [
 		'title'    => __( 'Preserve Line Breaks', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_display_preserve_line_breaks_cb',
 		'section'  => 'dtoc_advanced_setting_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 		'args'     => [ 'label_for' => 'preserve_line_breaks' ],
 	],
 	'dtoc_display_exclude_headings' => [
 		'title'    => __( 'Exclude Headings', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_display_exclude_headings_cb',
 		'section'  => 'dtoc_advanced_setting_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sticky', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 		'args'     => [ 'label_for' => 'exclude_headings' ],
 	],
 	];

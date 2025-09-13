@@ -6,7 +6,7 @@ add_action( 'plugins_loaded', 'dtoc_options_init' );
 
 function dtoc_options_init(){
     
-	global $dtoc_dashboard, $dtoc_incontent, $dtoc_incontent_mobile, $dtoc_incontent_tablet, $dtoc_sticky, $dtoc_sticky_mobile, $dtoc_sticky_tablet, $dtoc_floating, $dtoc_floating_mobile, $dtoc_floating_tablet, $dtoc_shortcode, $dtoc_shortcode_mobile, $dtoc_shortcode_tablet, $dtoc_compatibility;
+	global $dtoc_dashboard, $dtoc_incontent, $dtoc_incontent_mobile, $dtoc_incontent_tablet, $dtoc_sliding_sticky, $dtoc_sliding_sticky_mobile, $dtoc_sliding_sticky_tablet, $dtoc_floating, $dtoc_floating_mobile, $dtoc_floating_tablet, $dtoc_shortcode, $dtoc_shortcode_mobile, $dtoc_shortcode_tablet, $dtoc_compatibility;
 
         $dtoc_dashboard          = get_option( 'dtoc_dashboard', dtoc_default_dashboard_options() );
 
@@ -18,9 +18,9 @@ function dtoc_options_init(){
         $dtoc_shortcode_mobile   = get_option( 'dtoc_shortcode_mobile', dtoc_default_shortcode_mobile_options() );
         $dtoc_shortcode_tablet   = get_option( 'dtoc_shortcode_tablet', dtoc_default_shortcode_tablet_options() );
 
-        $dtoc_sticky             = get_option( 'dtoc_sticky', dtoc_default_sticky_options() );
-        $dtoc_sticky_mobile      = get_option( 'dtoc_sticky_mobile', dtoc_default_sticky_mobile_options() );
-        $dtoc_sticky_tablet      = get_option( 'dtoc_sticky_tablet', dtoc_default_sticky_tablet_options() );
+        $dtoc_sliding_sticky             = get_option( 'dtoc_sliding_sticky', dtoc_default_sticky_options() );
+        $dtoc_sliding_sticky_mobile      = get_option( 'dtoc_sliding_sticky_mobile', dtoc_default_sticky_mobile_options() );
+        $dtoc_sliding_sticky_tablet      = get_option( 'dtoc_sliding_sticky_tablet', dtoc_default_sticky_tablet_options() );
 
         $dtoc_floating           = get_option( 'dtoc_floating', dtoc_default_floating_options() );
         $dtoc_floating_mobile    = get_option( 'dtoc_floating_mobile', dtoc_default_floating_mobile_options() );
@@ -347,7 +347,7 @@ function dtoc_default_dashboard_options() {
                 'incontent'        => true,
                 'incontent_mobile' => false,
                 'incontent_tablet' => false,
-                'sticky'           => false,
+                'sliding_sticky'           => false,
                 'sticky_mobile'    => false,
                 'sticky_tablet'    => false,
                 'floating'         => false,
@@ -570,7 +570,7 @@ function dtoc_option_types ( $tab = 'all' , $settings = [] , $type ="default" ) 
         'type' => 'checkbox',
         'value' => '1',
 		'default'=> '1',
-		'settings_for' => ['incontent','sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
+		'settings_for' => ['incontent','sliding_sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
     ],
     [
         'tab' => 'General',
@@ -591,7 +591,7 @@ function dtoc_option_types ( $tab = 'all' , $settings = [] , $type ="default" ) 
         ],
 		'value' => 'js',
 		'default' =>'js',
-		'settings_for' => ['incontent','sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
+		'settings_for' => ['incontent','sliding_sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
     ],
     [
         'tab' => 'General',
@@ -612,7 +612,7 @@ function dtoc_option_types ( $tab = 'all' , $settings = [] , $type ="default" ) 
         ],
 		'value' => 'smooth',
 		'default' =>'smooth',
-		'settings_for' => ['incontent','sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
+		'settings_for' => ['incontent','sliding_sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
     ],
     [
         'tab' => 'General',
@@ -621,7 +621,7 @@ function dtoc_option_types ( $tab = 'all' , $settings = [] , $type ="default" ) 
         'type' => 'checkbox',
         'value' => '1',
 		'default'=> false,
-		'settings_for' => ['incontent','sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
+		'settings_for' => ['incontent','sliding_sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
     ],
     [
         'tab' => 'General',
@@ -631,7 +631,7 @@ function dtoc_option_types ( $tab = 'all' , $settings = [] , $type ="default" ) 
         'value' => '',
 		'placeholder'=>'Table of Contents',
 		'default' =>'Table of Contents',
-		'settings_for' => ['incontent','sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
+		'settings_for' => ['incontent','sliding_sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
     ],
     [
         'tab' => 'General',
@@ -649,7 +649,7 @@ function dtoc_option_types ( $tab = 'all' , $settings = [] , $type ="default" ) 
 		'selected'=> '',
 		'value' => 'list_updown_arrow',
 		'default' =>'list_updown_arrow',
-		'settings_for' => ['incontent','sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
+		'settings_for' => ['incontent','sliding_sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
     ],
     [
         'tab' => 'General',
@@ -675,7 +675,7 @@ function dtoc_option_types ( $tab = 'all' , $settings = [] , $type ="default" ) 
         ],
 		'value' => 'left',
 		'default' =>'left',
-		'settings_for' => ['incontent','sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
+		'settings_for' => ['incontent','sliding_sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
     ],
     [
         'tab' => 'General',
@@ -684,7 +684,7 @@ function dtoc_option_types ( $tab = 'all' , $settings = [] , $type ="default" ) 
         'type' => 'checkbox',
         'value' => '1',
 		'default' =>'',
-		'settings_for' => ['incontent','sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
+		'settings_for' => ['incontent','sliding_sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
     ],
     [
         'tab' => 'General',
@@ -693,7 +693,7 @@ function dtoc_option_types ( $tab = 'all' , $settings = [] , $type ="default" ) 
         'type' => 'checkbox',
         'value' => '1',
 		'default'=> false,
-		'settings_for' => ['incontent','sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
+		'settings_for' => ['incontent','sliding_sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
     ],
     [
         'tab' => 'General',
@@ -702,7 +702,7 @@ function dtoc_option_types ( $tab = 'all' , $settings = [] , $type ="default" ) 
         'type' => 'checkbox',
         'value' => '1',
 		'default'=> false,
-		'settings_for' => ['incontent','sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
+		'settings_for' => ['incontent','sliding_sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
     ],
     [
         'tab' => 'General',
@@ -711,7 +711,7 @@ function dtoc_option_types ( $tab = 'all' , $settings = [] , $type ="default" ) 
         'type' => 'checkbox',
         'value' => '1',
 		'default'=> false,
-		'settings_for' => ['incontent','sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
+		'settings_for' => ['incontent','sliding_sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
     ],
     [
         'tab' => 'General',
@@ -729,7 +729,7 @@ function dtoc_option_types ( $tab = 'all' , $settings = [] , $type ="default" ) 
 		'selected' => '',
 		'value' => 'decimal',
 		'default' =>'decimal',
-		'settings_for' => ['incontent','sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
+		'settings_for' => ['incontent','sliding_sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
     ],
     [
         'tab' => 'General',
@@ -738,7 +738,7 @@ function dtoc_option_types ( $tab = 'all' , $settings = [] , $type ="default" ) 
         'type' => 'checkbox',
         'value' => '1',
 		'default'=> false,
-		'settings_for' => ['incontent','sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
+		'settings_for' => ['incontent','sliding_sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
     ],
     [
         'tab' => 'General',
@@ -756,7 +756,7 @@ function dtoc_option_types ( $tab = 'all' , $settings = [] , $type ="default" ) 
 		'selected' => [],
 		'value' => ['1'=> true,'2'=> true,'3'=> true,'4'=> true,'5'=> true,'6'=> true],
 		'default' =>['1'=> true,'2'=> true,'3'=> true,'4'=> true,'5'=> true,'6'=> true],
-		'settings_for' => ['incontent','sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
+		'settings_for' => ['incontent','sliding_sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
     ],
 	    [
         'tab' => 'Display',
@@ -767,7 +767,7 @@ function dtoc_option_types ( $tab = 'all' , $settings = [] , $type ="default" ) 
         'max' => 1000,
         'value' => '2',
         'description' => 'Headings is greater or equal to above number.',
-		'settings_for' => ['incontent','sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
+		'settings_for' => ['incontent','sliding_sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
     ],
     [
         'tab' => 'Display',
@@ -785,7 +785,7 @@ function dtoc_option_types ( $tab = 'all' , $settings = [] , $type ="default" ) 
         'selected' => '',
 		'value' => 'top_of_the_content',
 		'default'=> 'top_of_the_content',
-		'settings_for' => ['incontent','sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
+		'settings_for' => ['incontent','sliding_sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
     ],
     [
         'tab' => 'Display',
@@ -795,7 +795,7 @@ function dtoc_option_types ( $tab = 'all' , $settings = [] , $type ="default" ) 
         'value' => '1',
         'checked' => false,
 		'default'=> false,
-		'settings_for' => ['incontent','sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
+		'settings_for' => ['incontent','sliding_sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
     ],
     [
         'tab' => 'Display',
@@ -805,7 +805,7 @@ function dtoc_option_types ( $tab = 'all' , $settings = [] , $type ="default" ) 
         'value' => '1',
         'checked' => false,
 		'default'=> false,
-		'settings_for' => ['incontent','sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
+		'settings_for' => ['incontent','sliding_sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
     ],
     [
         'tab' => 'Display',
@@ -819,7 +819,7 @@ function dtoc_option_types ( $tab = 'all' , $settings = [] , $type ="default" ) 
         ],
 		'value' => 'show',
         'selected' => 'show',
-		'settings_for' => ['incontent','sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
+		'settings_for' => ['incontent','sliding_sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
     ]
 	
 	,
@@ -834,7 +834,7 @@ function dtoc_option_types ( $tab = 'all' , $settings = [] , $type ="default" ) 
         ],
 		'value' => 'show',
         'selected' => 'show',
-		'settings_for' => ['incontent','sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
+		'settings_for' => ['incontent','sliding_sticky','floating','shortcode','incontent_mobile','sticky_mobile','floating_mobile','shortcode_mobile','incontent_tablet','sticky_tablet','floating_tablet','shortcode_tablet']
     ]
 
 	

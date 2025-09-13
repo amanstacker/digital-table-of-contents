@@ -189,13 +189,13 @@ function dtoc_get_live_preview_by_type($type, $options){
 		case 'dtoc_incontent_tablet':	
 			$preview = dtoc_preview_html_by_device_type('tablet', $options);
 			break;
-		case 'dtoc_sticky':				
+		case 'dtoc_sliding_sticky':				
 			$preview = dtoc_preview_html_by_device_type('laptop', $options);
 			break;
-		case 'dtoc_sticky_mobile':		
+		case 'dtoc_sliding_sticky_mobile':		
 			$preview = dtoc_preview_html_by_device_type('mobile', $options);
 			break;
-		case 'dtoc_sticky_tablet':		
+		case 'dtoc_sliding_sticky_tablet':		
 			$preview = dtoc_preview_html_by_device_type('tablet', $options);
 			break;
 		case 'dtoc_floating':			

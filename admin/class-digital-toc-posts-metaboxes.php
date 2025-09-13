@@ -10,9 +10,9 @@ class Digital_TOC_POSTS_Metaboxes {
         'dtoc_incontent'            => 'Digital TOC In-Content',
         'dtoc_incontent_mobile'     => 'Digital TOC In-Content Mobile',
         'dtoc_incontent_tablet'     => 'Digital TOC In-Content Tablet',
-        'dtoc_sticky'               => 'Digital TOC Sticky',
-        'dtoc_sticky_mobile'        => 'Digital TOC Sticky Mobile',
-        'dtoc_sticky_tablet'        => 'Digital TOC Sticky Tablet',
+        'dtoc_sliding_sticky'               => 'Digital TOC Sticky',
+        'dtoc_sliding_sticky_mobile'        => 'Digital TOC Sticky Mobile',
+        'dtoc_sliding_sticky_tablet'        => 'Digital TOC Sticky Tablet',
         'dtoc_floating'             => 'Digital TOC Floating',
         'dtoc_floating_mobile'      => 'Digital TOC Floating Mobile',
         'dtoc_floating_tablet'      => 'Digital TOC Floating Tablet',
@@ -114,13 +114,13 @@ class Digital_TOC_POSTS_Metaboxes {
 			case 'dtoc_incontent_tablet':
 			    $type = '_dtoc_options[incontent_tablet]';
 			break;
-			case 'dtoc_sticky' :
+			case 'dtoc_sliding_sticky' :
 				 $type = '_dtoc_options[sticky]';
 			break;
-			case 'dtoc_sticky_mobile':
+			case 'dtoc_sliding_sticky_mobile':
 				 $type = '_dtoc_options[sticky_mobile]';
 			break;
-			case 'dtoc_sticky_tablet':
+			case 'dtoc_sliding_sticky_tablet':
 			    $type = '_dtoc_options[sticky_tablet]';
 			break;
 			case 'dtoc_floating' :
