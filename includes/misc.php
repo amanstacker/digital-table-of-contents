@@ -74,12 +74,10 @@ add_action( 'wp_enqueue_scripts', 'dtoc_incontent_and_shortcode_modules_enqueue'
 
 function dtoc_incontent_and_shortcode_modules_enqueue() {
 
-                global $dtoc_dashboard, $dtoc_incontent;
+        global $dtoc_dashboard, $dtoc_incontent;
 
-                if ( empty( $dtoc_dashboard['modules']['incontent'] ) || empty( $dtoc_dashboard['modules']['shortcode'] ) ) {
-                        return '';
-                }
-        
+        if ( empty( $dtoc_dashboard['modules']['incontent'] ) || empty( $dtoc_dashboard['modules']['shortcode'] ) ) {
+                        
                 $data = [];
 
                 if ( $dtoc_incontent[ 'rendering_style' ] == 'js' ) {
@@ -210,6 +208,7 @@ function dtoc_incontent_and_shortcode_modules_enqueue() {
                 }    
                 wp_add_inline_style( 'dtoc-frontend', $custom_css );
 
+        }                        
         		        
 }
 
