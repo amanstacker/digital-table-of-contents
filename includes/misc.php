@@ -76,7 +76,7 @@ function dtoc_incontent_and_shortcode_modules_enqueue() {
 
         global $dtoc_dashboard, $dtoc_incontent;
 
-        if ( empty( $dtoc_dashboard['modules']['incontent'] ) || empty( $dtoc_dashboard['modules']['shortcode'] ) ) {
+        if ( !empty( $dtoc_dashboard['modules']['incontent'] ) || !empty( $dtoc_dashboard['modules']['shortcode'] ) ) {
                         
                 $data = [];
 

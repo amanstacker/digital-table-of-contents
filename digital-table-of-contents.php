@@ -2,7 +2,7 @@
 /*
 Plugin Name: Digital Table of Contents
 Description: Show automated table of contents generated from the post content.
-Version: 1.0.3
+Version: 1.0.3.1
 Text Domain: digital-table-of-contents
 Domain Path: /languages
 Author: amanstacker
@@ -13,7 +13,7 @@ License: GPLv2 or later
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define('DTOC_VERSION', '1.0.3');
+define('DTOC_VERSION', '1.0.3.1');
 define('DTOC_DIR_NAME', plugin_basename( dirname( __FILE__ ) ) );
 define('DTOC_BASE_NAME', plugin_basename( __FILE__ ) );
 define('DTOC_PATH', dirname( __FILE__ ) );
