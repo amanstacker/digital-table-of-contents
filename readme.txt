@@ -5,7 +5,7 @@ Tags: table of contents, toc, navigation, headings, sticky toc
 Requires at least: 5.0  
 Tested up to: 6.8  
 Requires PHP: 7.4
-Stable tag: 1.0.2  
+Stable tag: 1.0.3  
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -48,18 +48,17 @@ With default settings, just use [digital_toc] for a quick, clean, and fully func
 
 **Available Modules (More Coming Soon!):**
 
-- ✅ In-Content TOC  
-- ✅ Shortcode TOC
-- 🔜 Sticky TOC  
+- ✅ In-Content 
+- ✅ Shortcode
+- ✅ Sliding Sticky
+- 🔜 Sidebar Sticky  
 - 🔜 Floating TOC    
 - 🔜 In-Content (Mobile)  
 - 🔜 In-Content Table  
 - 🔜 Sticky (Mobile)  
 - 🔜 Sticky Table  
 - 🔜 Floating (Mobile)  
-- 🔜 Floating Table  
-- 🔜 Shortcode (Mobile)  
-- 🔜 Shortcode Table  
+- 🔜 Floating Table 
 
 == Screenshots ==
 
@@ -109,6 +108,9 @@ Mobile-specific modules are coming soon in future updates!
 Yes. Use the Tools section to reset or export/import your settings.
 
 == Changelog ==
+
+= 1.0.3 =
+* Sliding Sticky module added.
 
 = 1.0.2 =
 * Shortcode module added.

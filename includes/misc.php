@@ -2,147 +2,222 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-add_action( 'wp_enqueue_scripts', 'dtoc_frontend_enqueue' );
+add_action( 'wp_enqueue_scripts', 'dtoc_sliding_sticky_modules_enqueue' );
+
+
+function dtoc_sliding_sticky_modules_enqueue() {
+
+        global $dtoc_dashboard, $dtoc_sliding_sticky;
+
+        if ( empty( $dtoc_dashboard['modules']['sliding_sticky'] ) ) {
+           return '';
+        }                
+                
+        $data = [];
+
+        if ( $dtoc_sliding_sticky[ 'rendering_style' ] == 'js' ) {
+
+                $data['scroll_behaviour'] = isset( $dtoc_sliding_sticky['scroll_behavior'] ) ? $dtoc_sliding_sticky['scroll_behavior'] : 'auto';
+                $data['toggle_body']      = isset( $dtoc_sliding_sticky['toggle_body'] ) ? 1 : 0;
+                $data['display_position'] = $dtoc_sliding_sticky['display_position'];                                                
+
+                wp_register_script( 'dtoc-sliding-sticky-frontend', DTOC_URL  . 'assets/frontend/js/dtoc-sliding-sticky.js', array('jquery'), DTOC_VERSION , true );                        
+                wp_localize_script( 'dtoc-sliding-sticky-frontend', 'dtoc_localize_frontend_sticky_data', $data );        
+                wp_enqueue_script( 'dtoc-sliding-sticky-frontend' );                        
+                wp_enqueue_style( 'dtoc-sliding-sticky-frontend', DTOC_URL  . 'assets/frontend/css/dtoc-sliding-sticky-front-js-based.css', false , DTOC_VERSION );
+
+        }else{
+
+                wp_enqueue_style( 'dtoc-sliding-sticky-frontend', DTOC_URL  . 'assets/frontend/css/dtoc-sliding-sticky-front-css-based.css', false , DTOC_VERSION );
+        }
+                
+                    
+
+        $list_style_type = 'decimal';
+        $counter_end =  "'.'";
+
+        if ( ! empty( $dtoc_sliding_sticky['list_style_type'] ) ) {
+
+                $list_style_type = $dtoc_sliding_sticky['list_style_type'];
+
+                if ( in_array( $list_style_type, array( 'circle','disc','square' ) ) ) {
+                        $counter_end =  '';
+                }
+                                
+        }
+        $custom_css = "";
+        $custom_css = "
+                .dtoc-sliding-sticky-container ul{
+                        counter-reset: dtoc_item;
+                        list-style-type: none;                 
+                }
+                .dtoc-sliding-sticky-container ul li::before{
+                        counter-increment: dtoc_item;
+                        content: counters(dtoc_item,'.', $list_style_type) $counter_end;
+                        padding-right: 4px;
+                }";                                
+                if ( isset( $dtoc_sliding_sticky['scroll_behavior'] ) && $dtoc_sliding_sticky['scroll_behavior'] == 'smooth' ) {
+                        $custom_css .= "html {
+                                scroll-behavior: smooth;
+                        }";
+                }
+                
+                
+        if(isset($dtoc_sliding_sticky['custom_css']) && !empty($dtoc_sliding_sticky['custom_css'])){
+                $custom_css .= $dtoc_sliding_sticky['custom_css'];
+        }    
+        wp_add_inline_style( 'dtoc-sliding-sticky-frontend', $custom_css );
+
+}
+
+add_action( 'wp_enqueue_scripts', 'dtoc_incontent_and_shortcode_modules_enqueue' );
+
+function dtoc_incontent_and_shortcode_modules_enqueue() {
+
+        global $dtoc_dashboard, $dtoc_incontent;
+
+        if ( empty( $dtoc_dashboard['modules']['incontent'] ) || empty( $dtoc_dashboard['modules']['shortcode'] ) ) {
+                        
+                $data = [];
+
+                if ( $dtoc_incontent[ 'rendering_style' ] == 'js' ) {
+
+                        $data['scroll_behaviour'] = isset( $dtoc_incontent['scroll_behavior'] ) ? $dtoc_incontent['scroll_behavior'] : 'auto';
+                        $data['toggle_body']      = isset( $dtoc_incontent['toggle_body'] ) ? 1 : 0;
+                                        
+                        $data = apply_filters( 'dtoc_localize_frontend_assets', $data, 'dtoc_localize_frontend_data' );
+
+                        wp_register_script( 'dtoc-frontend', DTOC_URL  . 'assets/frontend/js/dtoc_auto_place.js', array('jquery'), DTOC_VERSION , true );                        
+                        wp_localize_script( 'dtoc-frontend', 'dtoc_localize_frontend_data', $data );        
+                        wp_enqueue_script( 'dtoc-frontend' );                        
+
+                }
+                        
+                wp_enqueue_style( 'dtoc-frontend', DTOC_URL  . 'assets/frontend/css/dtoc-front.css', false , DTOC_VERSION );    
+                                
+                $list_style_type = 'decimal';
+                        $counter_end =  "'.'";
+                if(!empty($dtoc_incontent['list_style_type'])){
+                        $list_style_type = $dtoc_incontent['list_style_type'];
+                                        if(in_array($list_style_type,array('circle','disc','square'))){
+                                                $counter_end =  '';
+                                        }
+                                        
+                }
+                $custom_css = "";
+                $custom_css = "
+                        .dtoc-box-container ul{
+                                counter-reset: dtoc_item;
+                                list-style-type: none;                 
+                        }
+                        .dtoc-box-container ul li::before{
+                                counter-increment: dtoc_item;
+                                content: counters(dtoc_item,'.', $list_style_type) $counter_end;
+                                                        padding-right: 4px;
+                        }";
+        
+
+                if ( $dtoc_incontent['rendering_style'] == 'js' ) {
+
+                        if ( isset( $dtoc_incontent['display_title'] ) && isset( $dtoc_incontent['toggle_body'] ) ) {        
+
+                                if ( $dtoc_incontent['toggle_initial'] == 'hide' ) {
+
+                                        $custom_css .= ".dtoc-box-on-js-body{
+                                                display: none;
+                                        }
+                                        .dtoc-hide-text {
+                                                display: none;
+                                        }                                
+                                        ";      
+                                        
+                                }else{
+
+                                        $custom_css .= "
+                                        .dtoc-show-text {
+                                                display: none;
+                                        }                                
+                                        ";      
+                                }
+
+                                $custom_css .= "
+                                        .dtoc-toggle-label{
+                                                cursor: pointer;
+                                        }                                
+                                        ";
+
+                                
+                        }                        
+                }
+
+                        
+                if ( $dtoc_incontent['rendering_style'] == 'css' ) {
+
+                        if ( isset( $dtoc_incontent['display_title'] ) && isset( $dtoc_incontent['toggle_body'] ) ) {
+                                $custom_css .= ".dtoc-box-on-css-body{
+                                                display: none;
+                                        }
+                                        .dtoc-show-text {
+                                                display: none;
+                                        }
+                                        .dtoc-toggle-label{
+                                                cursor: pointer;
+                                        }
+                                        #dtoc-toggle-check:checked ~ .dtoc-box-on-css-body {
+                                                display: block;
+                                        }                                        
+                                        #dtoc-toggle-check:checked ~ .dtoc-toggle-label .dtoc-hide-text {
+                                                display: inline;
+                                        }
+                                        #dtoc-toggle-check:checked ~ .dtoc-toggle-label .dtoc-show-text {
+                                                display: none;
+                                        }
+
+                                        #dtoc-toggle-check:not(:checked) ~ .dtoc-toggle-label .dtoc-show-text {
+                                                display: inline;
+                                        }
+                                        #dtoc-toggle-check:not(:checked) ~ .dtoc-toggle-label .dtoc-hide-text {
+                                                display: none;
+                                        }
+                                        ";      
+                        }        
+                        if ( isset( $dtoc_incontent['scroll_behavior'] ) && $dtoc_incontent['scroll_behavior'] == 'smooth' ) {
+                                $custom_css .= "html {
+                                        scroll-behavior: smooth;
+                                }";
+                        }
+                }        
+                
+                if($dtoc_incontent['alignment'] == 'left'){
+                        $custom_css .= "body .dtoc-box-container {
+                                margin: 0px auto 0px 0px !important;
+                        }";
+                }
+                if($dtoc_incontent['alignment'] == 'centre'){
+                        $custom_css .= "body .dtoc-box-container {
+                                margin: 0 auto !important;
+                        }";
+                }        
+                if($dtoc_incontent['alignment'] == 'right'){
+                        $custom_css .= "body .dtoc-box-container {
+                                margin: 0px 0px 0px auto !important;
+                        }";
+                }
+                if(isset($dtoc_incontent['custom_css']) && !empty($dtoc_incontent['custom_css'])){
+                        $custom_css .= $dtoc_incontent['custom_css'];
+                }    
+                wp_add_inline_style( 'dtoc-frontend', $custom_css );
+
+        }                        
+        		        
+}
+
 add_action( 'init', 'dtoc_init_misc' );
 
 function dtoc_init_misc() {
         ob_start('dtoc_remove_unused_scripts');
 }
 
-function dtoc_frontend_enqueue(){
-
-        global $dtoc_incontent;        
-		
-        $data = [];
-
-        if ( $dtoc_incontent[ 'rendering_style' ] == 'js' ) {
-
-                $data['scroll_behaviour'] = isset( $dtoc_incontent['scroll_behavior'] ) ? $dtoc_incontent['scroll_behavior'] : 'auto';
-                $data['toggle_body']      = isset( $dtoc_incontent['toggle_body'] ) ? 1 : 0;
-                                
-                $data = apply_filters( 'dtoc_localize_frontend_assets', $data, 'dtoc_localize_frontend_data' );
-
-                wp_register_script( 'dtoc-frontend', DTOC_URL  . 'assets/frontend/js/dtoc_auto_place.js', array('jquery'), DTOC_VERSION , true );                        
-                wp_localize_script( 'dtoc-frontend', 'dtoc_localize_frontend_data', $data );        
-                wp_enqueue_script( 'dtoc-frontend' );                        
-
-        }
-                
-        wp_enqueue_style( 'dtoc-frontend', DTOC_URL  . 'assets/frontend/css/dtoc-front.css', false , DTOC_VERSION );    
-                        
-        $list_style_type = 'decimal';
-		$counter_end =  "'.'";
-        if(!empty($dtoc_incontent['list_style_type'])){
-                $list_style_type = $dtoc_incontent['list_style_type'];
-				if(in_array($list_style_type,array('circle','disc','square'))){
-					$counter_end =  '';
-				}
-				
-        }
-        $custom_css = "";
-        $custom_css = "
-                .dtoc-box-container ul{
-                        counter-reset: dtoc_item;
-                        list-style-type: none;                 
-                }
-                .dtoc-box-container ul li::before{
-                        counter-increment: dtoc_item;
-                        content: counters(dtoc_item,'.', $list_style_type) $counter_end;
-						padding-right: 4px;
-                }";
-       
-
-        if ( $dtoc_incontent['rendering_style'] == 'js' ) {
-
-                if ( isset( $dtoc_incontent['display_title'] ) && isset( $dtoc_incontent['toggle_body'] ) ) {        
-
-                        if ( $dtoc_incontent['toggle_initial'] == 'hide' ) {
-
-                                $custom_css .= ".dtoc-box-on-js-body{
-                                        display: none;
-                                }
-                                .dtoc-hide-text {
-                                        display: none;
-                                }                                
-                                ";      
-                                
-                        }else{
-
-                                $custom_css .= "
-                                .dtoc-show-text {
-                                        display: none;
-                                }                                
-                                ";      
-                        }
-
-                        $custom_css .= "
-                                .dtoc-toggle-label{
-                                        cursor: pointer;
-                                }                                
-                                ";
-
-                        
-                }                        
-        }
-
-                
-        if ( $dtoc_incontent['rendering_style'] == 'css' ) {
-
-                if ( isset( $dtoc_incontent['display_title'] ) && isset( $dtoc_incontent['toggle_body'] ) ) {
-                        $custom_css .= ".dtoc-box-on-css-body{
-                                        display: none;
-                                }
-                                .dtoc-show-text {
-                                        display: none;
-                                }
-                                .dtoc-toggle-label{
-                                        cursor: pointer;
-                                }
-                                #dtoc-toggle-check:checked ~ .dtoc-box-on-css-body {
-                                        display: block;
-                                }                                        
-                                #dtoc-toggle-check:checked ~ .dtoc-toggle-label .dtoc-hide-text {
-                                        display: inline;
-                                }
-                                #dtoc-toggle-check:checked ~ .dtoc-toggle-label .dtoc-show-text {
-                                        display: none;
-                                }
-
-                                #dtoc-toggle-check:not(:checked) ~ .dtoc-toggle-label .dtoc-show-text {
-                                        display: inline;
-                                }
-                                #dtoc-toggle-check:not(:checked) ~ .dtoc-toggle-label .dtoc-hide-text {
-                                        display: none;
-                                }
-                                ";      
-                }        
-                if ( isset( $dtoc_incontent['scroll_behavior'] ) && $dtoc_incontent['scroll_behavior'] == 'smooth' ) {
-                        $custom_css .= "html {
-                                scroll-behavior: smooth;
-                        }";
-                }
-        }        
-        
-        if($dtoc_incontent['alignment'] == 'left'){
-                $custom_css .= "body .dtoc-box-container {
-                        margin: 0px auto 0px 0px !important;
-                }";
-        }
-        if($dtoc_incontent['alignment'] == 'centre'){
-                $custom_css .= "body .dtoc-box-container {
-                        margin: 0 auto !important;
-                }";
-        }        
-        if($dtoc_incontent['alignment'] == 'right'){
-                $custom_css .= "body .dtoc-box-container {
-                        margin: 0px 0px 0px auto !important;
-                }";
-        }
-         if(isset($dtoc_incontent['custom_css']) && !empty($dtoc_incontent['custom_css'])){
-                $custom_css .= $dtoc_incontent['custom_css'];
-         }    
-        wp_add_inline_style( 'dtoc-frontend', $custom_css );
-}
 function dtoc_remove_unused_scripts($content){
 
         global $dtoc_incontent;		

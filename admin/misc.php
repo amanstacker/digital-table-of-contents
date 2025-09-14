@@ -6,8 +6,8 @@ add_filter( 'plugin_action_links_' . DTOC_BASE_NAME, 'dtoc_plugin_action_links')
 
 function dtoc_plugin_action_links( $actions ) {
 
-     $url = add_query_arg( 'page', 'dtoc', self_admin_url( 'options-general.php' ) );
-     $actions[]  = '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Settings', 'digital-table-of-contents' ) . '</a>';     
+     $url = add_query_arg( 'page', 'dtoc', self_admin_url( 'admin.php' ) );
+     $actions[]  = '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Dashboard', 'digital-table-of-contents' ) . '</a>';     
     return $actions;
 }
 
@@ -21,49 +21,56 @@ function dtoc_enqueue_admin_assets( $hook ) {
 
         $screen_id      = get_current_screen()->id;
 		$setting_name   = str_replace( 'digital-toc_page_','',$screen_id );
-		global $dtoc_dashboard, $dtoc_incontent, $dtoc_incontent_mobile,$dtoc_incontent_tablet, $dtoc_sticky, $dtoc_sticky_mobile, $dtoc_sticky_tablet, $dtoc_floating, $dtoc_floating_mobile, $dtoc_floating_tablet, $dtoc_shortcode, $dtoc_shortcode_mobile, $dtoc_shortcode_tablet;
-        $module_state         = []; 
-        $module_default_state = [];
-        
-        switch ( $setting_name ) {
-			case 'dtoc_incontent':				
-				$module_state = $dtoc_incontent;                
-				break;
-            case 'dtoc_shortcode':				
-                $module_state = $dtoc_shortcode;
-                $module_default_state = dtoc_default_shortcode_options();
-                break;			
-				# code...
-				break;
-		}                
-        
+
+		global $dtoc_dashboard, $dtoc_incontent, $dtoc_incontent_mobile,$dtoc_incontent_tablet, $dtoc_sliding_sticky, $dtoc_sliding_sticky_mobile, $dtoc_sliding_sticky_tablet, $dtoc_floating, $dtoc_floating_mobile, $dtoc_floating_tablet, $dtoc_shortcode, $dtoc_shortcode_mobile, $dtoc_shortcode_tablet;
+                
+        $admin_data = [];
+        $reg_url    = '';
+
+        $admin_data['ajaxurl'] = admin_url( 'admin-ajax.php' );
+        $admin_data['dtoc_ajax_nonce'] = wp_create_nonce( "dtoc_ajax_nonce_string" );
+        $admin_data['modules_status'] = $dtoc_dashboard['modules'];                                        
+
         wp_enqueue_style( 'dtoc-admin-select2', DTOC_URL . 'assets/admin/select2/css/select2.min.css', false , DTOC_VERSION );
         wp_enqueue_script( 'dtoc-admin-select2', DTOC_URL . 'assets/admin/select2/js/select2.min.js', array('jquery'), DTOC_VERSION , true );
 
         wp_register_script( 'dtoc-ace', DTOC_URL . 'assets/admin/ace_editor/js/ace.js',false, DTOC_VERSION , true );
         wp_enqueue_script( 'dtoc-ace' );
+
         wp_register_script( 'dtoc-ace-tools', DTOC_URL . 'assets/admin/ace_editor/js/ext-language_tools.js',false, DTOC_VERSION , true );
         wp_enqueue_script( 'dtoc-ace-tools' );
 
-        //Enqueue custom scripts        
-        $data = [
-            'ajaxurl'              => admin_url( 'admin-ajax.php' ),
-            'dtoc_ajax_nonce'      => wp_create_nonce( "dtoc_ajax_nonce_string" ),
-			'modules_status'       => $dtoc_dashboard['modules'],
-            'module_state'         => $module_state,
-            'module_default_state' => $module_default_state,
-        ];
-                        
-        $data = apply_filters('dtoc_localize_admin_assets_filter', $data, 'dtoc_admin_cdata');
         wp_enqueue_style( 'wp-color-picker' );
 		wp_enqueue_script( 'wp-color-picker' );
-        wp_enqueue_media();
-        wp_register_script( 'dtoc-admin', DTOC_URL . 'assets/admin/js/admin.js', [ 'jquery' ], DTOC_VERSION , true );
-                        
-        wp_localize_script( 'dtoc-admin', 'dtoc_admin_cdata', $data );
-                
-        wp_enqueue_script( 'dtoc-admin' );
+        wp_enqueue_media();        
+
         wp_enqueue_style( 'dtoc-admin', DTOC_URL . 'assets/admin/css/admin.css', false , DTOC_VERSION );            
+        
+        wp_register_script( 'dtoc-admin', DTOC_URL . 'assets/admin/js/admin.js', [ 'jquery' ], DTOC_VERSION , true );                        
+        wp_localize_script( 'dtoc-admin', 'dtoc_admin_cdata', $admin_data );                
+        wp_enqueue_script( 'dtoc-admin' );        
+        
+        switch ( $setting_name ) {
+			case 'dtoc_incontent':								             
+                $admin_data['module_state'] = $dtoc_incontent;                
+                $reg_url = DTOC_URL . 'assets/admin/js/admin-incontent.js';
+				break;
+            case 'dtoc_sliding_sticky':				
+                $admin_data['module_state'] = $dtoc_sliding_sticky;      
+                $reg_url = DTOC_URL . 'assets/admin/js/admin-sticky.js';                   
+            break;
+            case 'dtoc_shortcode':				
+                $admin_data['module_state'] = $dtoc_shortcode;
+                $admin_data['module_default_state'] = dtoc_default_shortcode_options();                                
+                $reg_url = DTOC_URL . 'assets/admin/js/admin-incontent.js';
+                break;			
+				# code...
+				break;
+		}                                        
+        
+        wp_register_script( 'dtoc-admin-modules', $reg_url , [ 'jquery' ], DTOC_VERSION , true );                        
+        wp_localize_script( 'dtoc-admin-modules', 'dtoc_admin_modules_cdata', $admin_data );                
+        wp_enqueue_script( 'dtoc-admin-modules' );                
 
 }   
 
@@ -206,14 +213,14 @@ function dtoc_import_options_ajax() {
             if (isset($options['shortcode_tablet'])) {
                 update_option('dtoc_shortcode_tablet', $options['shortcode_tablet']);
             }
-            if (isset($options['sticky'])) {
-                update_option('dtoc_sticky', $options['sticky']);
+            if (isset($options['sliding_sticky'])) {
+                update_option('dtoc_sliding_sticky', $options['sliding_sticky']);
             }
             if (isset($options['sticky_mobile'])) {
-                update_option('dtoc_sticky_mobile', $options['sticky_mobile']);
+                update_option('dtoc_sliding_sticky_mobile', $options['sticky_mobile']);
             }
             if (isset($options['sticky_tablet'])) {
-                update_option('dtoc_sticky_tablet', $options['sticky_tablet']);
+                update_option('dtoc_sliding_sticky_tablet', $options['sticky_tablet']);
             }
             if (isset($options['floating'])) {
                 update_option('dtoc_floating', $options['floating']);
@@ -258,9 +265,9 @@ function dtoc_export_options_ajax() {
         'shortcode' => get_option('dtoc_shortcode'),
         'shortcode_mobile' => get_option('dtoc_shortcode_mobile'),
         'shortcode_tablet' => get_option('dtoc_shortcode_tablet'),
-        'sticky' => get_option('dtoc_sticky'),
-        'sticky_mobile' => get_option('dtoc_sticky_mobile'),
-        'sticky_tablet' => get_option('dtoc_sticky_tablet'),
+        'sliding_sticky' => get_option('dtoc_sliding_sticky'),
+        'sticky_mobile' => get_option('dtoc_sliding_sticky_mobile'),
+        'sticky_tablet' => get_option('dtoc_sliding_sticky_tablet'),
         'floating' => get_option('dtoc_floating'),
         'floating_mobile' => get_option('dtoc_floating_mobile'),
         'floating_tablet' => get_option('dtoc_floating_tablet'),
@@ -328,9 +335,9 @@ function dtoc_reset_options_cb() {
     delete_option('dtoc_shortcode');
     delete_option('dtoc_shortcode_mobile');
     delete_option('dtoc_shortcode_tablet');
-    delete_option('dtoc_sticky');
-    delete_option('dtoc_sticky_mobile');
-    delete_option('dtoc_sticky_tablet');
+    delete_option('dtoc_sliding_sticky');
+    delete_option('dtoc_sliding_sticky_mobile');
+    delete_option('dtoc_sliding_sticky_tablet');
     delete_option('dtoc_floating');
     delete_option('dtoc_floating_mobile');
     delete_option('dtoc_floating_tablet');

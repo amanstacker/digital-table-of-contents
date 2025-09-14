@@ -2,6 +2,90 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+function dtoc_sliding_sticky_box_on_css( $matches , $options = [] ) {
+
+    $dbc_style = dtoc_box_container_style( $options );
+
+    // Handle toggle initial state
+    $initial_state = ! empty( $options['toggle_initial'] ) ? $options['toggle_initial'] : 'hide';
+    $checked_attr  = ( $initial_state === 'show' ) ? ' checked="checked"' : '';
+
+    // Add checkbox with conditional checked
+    $html  = '<input type="checkbox" id="dtoc-sliding-sticky-toggle"'. $checked_attr .'>' . "\n";
+
+    $html .= '<div class="dtoc-sliding-sticky-container dtoc-'. esc_attr( $options['display_position'] ) .'" style="'.$dbc_style.'">' . "\n";
+    
+    $t_style = dtoc_get_toggle_btn_style( $options );
+    $html .= '<label for="dtoc-sliding-sticky-toggle" class="dtoc-sliding-sticky-toggle-btn" style="'.$t_style.'">'. esc_html( $options['toggle_btn_text'] ) .'</label>' . "\n";    
+    
+    // Scrollable inner wrapper
+    $html .= '<div class="dtoc-sliding-sticky-inner">' . "\n";
+
+    if ( ! empty( $options['display_title'] ) ) {
+        $t_style = dtoc_get_title_style( $options );        
+        $html .= '<span class="dtoc-sliding-sticky-title-str" style="'.$t_style.'">'. esc_html( $options['header_text'] ) .'</span>' . "\n";                
+    }
+
+    $html .= dtoc_get_custom_style( $options );
+    $html .= dtoc_get_toc_link_style( $options, 'sliding_sticky' );       
+
+    $html .= '<div class="dtoc-sliding-sticky-box-body dtoc-sliding-sticky-box-on-css-body">' . "\n";
+    $html .= dtoc_get_plain_toc_html( $matches, $options );    
+    $html .= '</div>' . "\n"; // close body
+
+    $html .= '</div>' . "\n"; // close inner
+    $html .= '</div>' . "\n"; // close container
+
+    return $html;
+}
+
+
+function dtoc_sliding_sticky_box_on_js( $matches, $options = [] ) {
+
+	$dbc_style = dtoc_box_container_style( $options );
+
+	// Initial state (show/hide)
+	$initial_state = ! empty( $options['toggle_initial'] ) ? $options['toggle_initial'] : 'hide';
+	$initial_class = ( $initial_state === 'show' ) ? ' dtoc-open' : ' dtoc-closed';
+
+	// Detect if left or right positioned
+	$is_left = strpos( $options['display_position'], 'left' ) !== false;
+
+	// Safe offset to avoid flicker (about 300px, adjust if needed)
+	if ( $initial_state === 'show' ) {
+		$dbc_style .= $is_left ? 'left:0;' : 'right:0;';
+	} else {
+		$dbc_style .= $is_left ? 'left:-300px;visibility:hidden;' : 'right:-300px;visibility:hidden;';
+	}
+
+	$html  = '<div class="dtoc-sliding-sticky-container dtoc-' . esc_attr( $options['display_position'] ) . $initial_class . '" style="' . esc_attr( $dbc_style ) . '">' . "\n";
+
+	// Toggle button
+	$t_style = dtoc_get_toggle_btn_style( $options );
+	$html .= '<button type="button" class="dtoc-sliding-sticky-toggle-btn" style="' . esc_attr( $t_style ) . '">' . esc_html( $options['toggle_btn_text'] ) . '</button>' . "\n";
+
+	// Scrollable inner wrapper
+	$html .= '<div class="dtoc-sliding-sticky-inner">' . "\n";
+
+	if ( ! empty( $options['display_title'] ) ) {
+		$t_style = dtoc_get_title_style( $options );
+		$html   .= '<span class="dtoc-sliding-sticky-title-str" style="' . esc_attr( $t_style ) . '">' . esc_html( $options['header_text'] ) . '</span>' . "\n";
+	}
+
+	$html .= dtoc_get_custom_style( $options );
+	$html .= dtoc_get_toc_link_style( $options, 'sliding_sticky' );
+
+	$html .= '<div class="dtoc-sliding-sticky-box-body dtoc-sliding-sticky-box-on-js-body">' . "\n";
+	$html .= dtoc_get_plain_toc_html( $matches, $options );
+	$html .= '</div>' . "\n"; // close body
+
+	$html .= '</div>' . "\n"; // close inner
+	$html .= '</div>' . "\n"; // close container
+
+	return $html;
+}
+
+
 function dtoc_box_on_css( $matches , $options = [] ) {
 
     $dbc_style = dtoc_box_container_style( $options );
@@ -26,7 +110,7 @@ function dtoc_box_on_css( $matches , $options = [] ) {
             
     }
     $html .= dtoc_get_custom_style( $options );
-    $html .= dtoc_get_toc_link_style( $options );       
+    $html .= dtoc_get_toc_link_style( $options, 'incontent' );       
     $html .= '<div class="dtoc-box-body dtoc-box-on-css-body">';
 
     $html .= dtoc_get_plain_toc_html( $matches, $options );
@@ -176,6 +260,7 @@ function dtoc_get_plain_toc_html($matches, $options){
     $html .= '</ul>';
     return $html;
 }
+
 function dtoc_box_on_js( $matches, $options = [] ) {
     
     $dbc_style = dtoc_box_container_style( $options );
@@ -196,7 +281,7 @@ function dtoc_box_on_js( $matches, $options = [] ) {
         $html .= '</div>';        
     }
     $html .= dtoc_get_custom_style( $options );
-    $html .= dtoc_get_toc_link_style( $options );
+    $html .= dtoc_get_toc_link_style( $options, 'incontent' );
     $html .= '<div class="dtoc-box-body dtoc-box-on-js-body">';
     $html .= dtoc_get_plain_toc_html( $matches, $options );
     $html .= '</div>';
@@ -431,6 +516,7 @@ function dtoc_filter_heading( $content, $options = [] ) {
     global $post,$page;
     
     $response = [];
+    
 	$type = isset($options['type']) ? $options['type'] : 'incontent';
     if( is_object($post) && strpos( $post->post_content, '<!--nextpage-->' ) !== false){
 
@@ -722,6 +808,87 @@ function dtoc_box_container_style( $options = [] ) {
 	return $style;
 }
 
+
+function dtoc_get_toggle_btn_style( $options ) {
+	$style = '';
+
+	// Background color.
+	if ( ! empty( $options['toggle_btn_bg_color'] ) ) {
+		$style .= 'background:' . esc_attr( $options['toggle_btn_bg_color'] ) . ';';
+	}
+
+	// Foreground color.
+	if ( ! empty( $options['toggle_btn_fg_color'] ) ) {
+		$style .= 'color:' . esc_attr( $options['toggle_btn_fg_color'] ) . ';';
+	}
+
+	// Size (only if mode is custom).
+	if ( isset( $options['toggle_btn_size_mode'] ) && $options['toggle_btn_size_mode'] === 'custom' ) {
+		$width  = isset( $options['toggle_btn_width'] ) ? (int) $options['toggle_btn_width'] : 0;
+		$height = isset( $options['toggle_btn_height'] ) ? (int) $options['toggle_btn_height'] : 0;
+		$unit   = ! empty( $options['toggle_btn_size_unit'] ) ? esc_attr( $options['toggle_btn_size_unit'] ) : 'px';
+
+		if ( $width > 0 ) {
+			$style .= 'width:' . $width . $unit . ';';
+		}
+		if ( $height > 0 ) {
+			$style .= 'height:' . $height . $unit . ';';
+		}
+	}
+
+	// Border type.
+	if ( ! empty( $options['toggle_btn_border_type'] ) && $options['toggle_btn_border_type'] !== 'default' ) {
+		$style .= 'border-style:' . esc_attr( $options['toggle_btn_border_type'] ) . ';';
+	}
+
+	// Border color.
+	if ( ! empty( $options['toggle_btn_border_color'] ) ) {
+		$style .= 'border-color:' . esc_attr( $options['toggle_btn_border_color'] ) . ';';
+	}
+
+	// Border width (only if custom).
+	if ( isset( $options['toggle_btn_border_width_mode'] ) && $options['toggle_btn_border_width_mode'] === 'custom' ) {
+		$top    = isset( $options['toggle_btn_border_width_top'] ) ? (int) $options['toggle_btn_border_width_top'] : 0;
+		$right  = isset( $options['toggle_btn_border_width_right'] ) ? (int) $options['toggle_btn_border_width_right'] : 0;
+		$bottom = isset( $options['toggle_btn_border_width_bottom'] ) ? (int) $options['toggle_btn_border_width_bottom'] : 0;
+		$left   = isset( $options['toggle_btn_border_width_left'] ) ? (int) $options['toggle_btn_border_width_left'] : 0;
+
+		if ( $top > 0 || $right > 0 || $bottom > 0 || $left > 0 ) {
+			$unit = ! empty( $options['toggle_btn_border_width_unit'] ) ? esc_attr( $options['toggle_btn_border_width_unit'] ) : 'px';
+			$style .= 'border-width:' . $top . $unit . ' ' . $right . $unit . ' ' . $bottom . $unit . ' ' . $left . $unit . ';';
+		}
+	}
+
+	// Border radius (only if custom).
+	if ( isset( $options['toggle_btn_border_radius_mode'] ) && $options['toggle_btn_border_radius_mode'] === 'custom' ) {
+		$tl = isset( $options['toggle_btn_border_radius_top_left'] ) ? (int) $options['toggle_btn_border_radius_top_left'] : 0;
+		$tr = isset( $options['toggle_btn_border_radius_top_right'] ) ? (int) $options['toggle_btn_border_radius_top_right'] : 0;
+		$bl = isset( $options['toggle_btn_border_radius_bottom_left'] ) ? (int) $options['toggle_btn_border_radius_bottom_left'] : 0;
+		$br = isset( $options['toggle_btn_border_radius_bottom_right'] ) ? (int) $options['toggle_btn_border_radius_bottom_right'] : 0;
+
+		if ( $tl > 0 || $tr > 0 || $bl > 0 || $br > 0 ) {
+			$unit = ! empty( $options['toggle_btn_border_radius_unit'] ) ? esc_attr( $options['toggle_btn_border_radius_unit'] ) : 'px';
+			$style .= 'border-radius:' . $tl . $unit . ' ' . $tr . $unit . ' ' . $br . $unit . ' ' . $bl . $unit . ';';
+		}
+	}
+
+	// Padding (only if custom).
+	if ( isset( $options['toggle_btn_padding_mode'] ) && $options['toggle_btn_padding_mode'] === 'custom' ) {
+		$top    = isset( $options['toggle_btn_padding_top'] ) ? (int) $options['toggle_btn_padding_top'] : 0;
+		$right  = isset( $options['toggle_btn_padding_right'] ) ? (int) $options['toggle_btn_padding_right'] : 0;
+		$bottom = isset( $options['toggle_btn_padding_bottom'] ) ? (int) $options['toggle_btn_padding_bottom'] : 0;
+		$left   = isset( $options['toggle_btn_padding_left'] ) ? (int) $options['toggle_btn_padding_left'] : 0;
+
+		if ( $top > 0 || $right > 0 || $bottom > 0 || $left > 0 ) {
+			$unit = ! empty( $options['toggle_btn_padding_unit'] ) ? esc_attr( $options['toggle_btn_padding_unit'] ) : 'px';
+			$style .= 'padding:' . $top . $unit . ' ' . $right . $unit . ' ' . $bottom . $unit . ' ' . $left . $unit . ';';
+		}
+	}
+
+	return $style;
+}
+
+
 function dtoc_get_title_style( $options ) {
 	$style = '';
 
@@ -777,8 +944,13 @@ function dtoc_get_title_style( $options ) {
 	return $style;
 }
 
-function dtoc_get_toc_link_style( $options ) {
+function dtoc_get_toc_link_style( $options, $type ) {
+
     $css = ".dtoc-box-body .dtoc-link {";
+
+    if($type == 'sliding_sticky'){
+        $css = ".dtoc-sliding-sticky-box-body .dtoc-link {";
+    }    
 
     // Link color
     if ( ! empty( $options['link_color'] ) ) {
@@ -817,16 +989,29 @@ function dtoc_get_toc_link_style( $options ) {
 
     // Hover color
     if ( ! empty( $options['link_hover_color'] ) ) {
-        $css .= ".dtoc-box-body .dtoc-link:hover {";
+        
+        if ( $type == 'sliding_sticky' ) {
+            $css .= " .dtoc-sliding-sticky-box-body .dtoc-link:hover {";            
+        }else{
+            $css .= " .dtoc-box-body .dtoc-link:hover {";
+        }
+
         $css .= "color: " . esc_attr( $options['link_hover_color'] ) . ";";
         $css .= "}";
     }
 
     // Visited color
     if ( ! empty( $options['link_visited_color'] ) ) {
-        $css .= ".dtoc-box-body .dtoc-link:visited {";
+        
+        if ( $type == 'sliding_sticky' ) {
+            $css .= " .dtoc-sliding-sticky-box-body .dtoc-link:visited {";            
+        }else{
+            $css .= " .dtoc-box-body .dtoc-link:visited {";
+        }
+
         $css .= "color: " . esc_attr( $options['link_visited_color'] ) . ";";
         $css .= "}";
+        
     }
 
     return '<style id="dtoc-link-css">' . $css . '</style>';

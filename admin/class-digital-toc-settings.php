@@ -42,20 +42,13 @@ public function dtoc_add_menu_links(){
 	// 	'dtoc_incontent_tablet',
     //     [$this, 'dtoc_settings_page_render']				
 	// );	
-    // add_submenu_page(
-	// 	'dtoc',
-	// 	'Digital Table of Contents Sticky',
-    //     'Sticky',
-	// 	'manage_options',
-	// 	'dtoc_sticky',
-    //     [$this, 'dtoc_settings_page_render']				
-	// );
+    
 	// add_submenu_page(
 	// 	'dtoc',
 	// 	'Digital Table of Contents Sticky',
     //     'Sticky Mobile',
 	// 	'manage_options',
-	// 	'dtoc_sticky_mobile',
+	// 	'dtoc_sliding_sticky_mobile',
     //     [$this, 'dtoc_settings_page_render']				
 	// );
 	// add_submenu_page(
@@ -63,7 +56,7 @@ public function dtoc_add_menu_links(){
 	// 	'Digital Table of Contents Sticky',
     //     'Sticky Tablet',
 	// 	'manage_options',
-	// 	'dtoc_sticky_tablet',
+	// 	'dtoc_sliding_sticky_tablet',
     //     [$this, 'dtoc_settings_page_render']				
 	// );
     // add_submenu_page(
@@ -98,6 +91,14 @@ public function dtoc_add_menu_links(){
 		'dtoc_shortcode',
         [$this, 'dtoc_settings_page_render']				
 	);
+    add_submenu_page(
+		'dtoc',
+		'Digital Table of Contents Sliding Sticky',
+        'Sliding Sticky',
+		'manage_options',
+		'dtoc_sliding_sticky',
+        [$this, 'dtoc_settings_page_render']				
+	);
 	// add_submenu_page(
 	// 	'dtoc',
 	// 	'Digital Table of Contents Shortcode',
@@ -123,7 +124,7 @@ if(function_exists('get_current_screen')){
 		
 		$screen_id = get_current_screen()->id;
 		$this->_setting_name = str_replace('digital-toc_page_','',$screen_id);
-		global $dtoc_incontent, $dtoc_incontent_mobile,$dtoc_incontent_tablet, $dtoc_sticky, $dtoc_sticky_mobile, $dtoc_sticky_tablet, $dtoc_floating, $dtoc_floating_mobile, $dtoc_floating_tablet, $dtoc_shortcode, $dtoc_shortcode_mobile, $dtoc_shortcode_tablet;
+		global $dtoc_incontent, $dtoc_incontent_mobile,$dtoc_incontent_tablet, $dtoc_sliding_sticky, $dtoc_sliding_sticky_mobile, $dtoc_sliding_sticky_tablet, $dtoc_floating, $dtoc_floating_mobile, $dtoc_floating_tablet, $dtoc_shortcode, $dtoc_shortcode_mobile, $dtoc_shortcode_tablet;
 		
 		switch ($this->_setting_name) {
 			case 'dtoc_incontent':				
@@ -138,17 +139,17 @@ if(function_exists('get_current_screen')){
 				$this->_page_title     = 'In-Content Tablet';			
 				$this->_setting_option = $dtoc_incontent_tablet;
 				break;
-			case 'dtoc_sticky':				
-				$this->_page_title     = 'Sticky';
-				$this->_setting_option = $dtoc_sticky;
+			case 'dtoc_sliding_sticky':				
+				$this->_page_title     = 'Sliding Sticky';
+				$this->_setting_option = $dtoc_sliding_sticky;
 				break;
-			case 'dtoc_sticky_mobile':		
+			case 'dtoc_sliding_sticky_mobile':		
 				$this->_page_title     = 'Sticky Mobile';		
-				$this->_setting_option = $dtoc_sticky_mobile;
+				$this->_setting_option = $dtoc_sliding_sticky_mobile;
 				break;
-			case 'dtoc_sticky_tablet':		
+			case 'dtoc_sliding_sticky_tablet':		
 				$this->_page_title     = 'Sticky Tablet';		
-				$this->_setting_option = $dtoc_sticky_tablet;
+				$this->_setting_option = $dtoc_sliding_sticky_tablet;
 				break;
 			case 'dtoc_floating':			
 				$this->_page_title     = 'Floating';	
@@ -271,14 +272,30 @@ public function dtoc_settings_page_render(){
                  echo "</div>";
                  echo "</div>";
 
-                 echo "<div class='dtoc-accordion'>";
-                 echo "<div class='dtoc-accordion-header'>";                 
-                 echo '<span>'. esc_html__( 'Icon', 'digital-table-of-contents' ). '</span>';
-                 echo "</div>";
-                 echo "<div class='dtoc-accordion-panel'>";                 
-                 do_settings_sections( 'dtoc_customization_icon_section' );
-                 echo "</div>";
-                 echo "</div>";
+                 if ( $this->_setting_name == 'dtoc_sliding_sticky' ) {
+
+                    echo "<div class='dtoc-accordion'>";
+                    echo "<div class='dtoc-accordion-header'>";                 
+                    echo '<span>'. esc_html__( 'Toggle Button', 'digital-table-of-contents' ). '</span>';
+                    echo "</div>";
+                    echo "<div class='dtoc-accordion-panel'>";                 
+                    do_settings_sections( 'dtoc_customization_toggle_btn_section' );
+                    echo "</div>";
+                    echo "</div>";
+
+                 }else{
+
+                    echo "<div class='dtoc-accordion'>";
+                    echo "<div class='dtoc-accordion-header'>";                 
+                    echo '<span>'. esc_html__( 'Icon', 'digital-table-of-contents' ). '</span>';
+                    echo "</div>";
+                    echo "<div class='dtoc-accordion-panel'>";                 
+                    do_settings_sections( 'dtoc_customization_icon_section' );
+                    echo "</div>";
+                    echo "</div>";
+
+                 }
+                 
                  
                  echo "<div class='dtoc-accordion'>";
                  echo "<div class='dtoc-accordion-header'>";                 
@@ -336,441 +353,514 @@ public function dtoc_settings_page_render(){
 }
 
 public function dtoc_settings_initiate(){
+
+    $page = 'dtoc_incontent';
+
+    if ( isset( $_GET['page'] ) ) {
+		$page = sanitize_key( wp_unslash( $_GET['page'] ) );
+	}    
 	
-    register_setting('dtoc_incontent_group', 'dtoc_incontent', 'dtoc_sanitize_register_setting' );
-	register_setting('dtoc_incontent_mobile_group', 'dtoc_incontent_mobile', 'dtoc_sanitize_register_setting' );
-    register_setting('dtoc_incontent_tablet_group', 'dtoc_incontent_tablet', 'dtoc_sanitize_register_setting' );
+    /**
+	 * ---------------------------------
+	 * Register Setting Groups
+	 * ---------------------------------
+	 */
 
-    register_setting('dtoc_sticky_group', 'dtoc_sticky', 'dtoc_sanitize_register_setting' );
-	register_setting('dtoc_sticky_mobile_group', 'dtoc_sticky_mobile', 'dtoc_sanitize_register_setting' );
-    register_setting('dtoc_sticky_tablet_group', 'dtoc_sticky_tablet', 'dtoc_sanitize_register_setting' );
+    $settings_groups = [
+		'dtoc_incontent_group'         => 'dtoc_incontent',
+		'dtoc_incontent_mobile_group'  => 'dtoc_incontent_mobile',
+		'dtoc_incontent_tablet_group'  => 'dtoc_incontent_tablet',
 
-    register_setting('dtoc_floating_group', 'dtoc_floating', 'dtoc_sanitize_register_setting' );
-	register_setting('dtoc_floating_mobile_group', 'dtoc_floating_mobile', 'dtoc_sanitize_register_setting' );
-    register_setting('dtoc_floating_tablet_group', 'dtoc_floating_tablet', 'dtoc_sanitize_register_setting' );
+		'dtoc_sliding_sticky_group'            => 'dtoc_sliding_sticky',
+		'dtoc_sliding_sticky_mobile_group'     => 'dtoc_sliding_sticky_mobile',
+		'dtoc_sliding_sticky_tablet_group'     => 'dtoc_sliding_sticky_tablet',
 
-    register_setting('dtoc_shortcode_group', 'dtoc_shortcode', 'dtoc_sanitize_register_setting' );
-	register_setting('dtoc_shortcode_mobile_group', 'dtoc_shortcode_mobile', 'dtoc_sanitize_register_setting' );
-    register_setting('dtoc_shortcode_tablet_group', 'dtoc_shortcode_tablet', 'dtoc_sanitize_register_setting' );
+		'dtoc_floating_group'          => 'dtoc_floating',
+		'dtoc_floating_mobile_group'   => 'dtoc_floating_mobile',
+		'dtoc_floating_tablet_group'   => 'dtoc_floating_tablet',
 
-    // general
-    add_settings_section('dtoc_general_setting_section', __return_false(), '__return_false', 'dtoc_general_setting_section');                                
-    add_settings_field(
-        'dtoc_general_rendering_style',
-         esc_html__('Rendering Style', 'digital-table-of-contents'),
-		 [$this, 'dtoc_general_rendering_style_cb'],        		
-        'dtoc_general_setting_section',
-        'dtoc_general_setting_section'        
-    );
-    add_settings_field(
-        'dtoc_display_title',
-         esc_html__('Title', 'digital-table-of-contents'),
-         [$this, 'dtoc_display_title_cb'],            
-        'dtoc_general_setting_section',
-        'dtoc_general_setting_section',
-         [ 'label_for' => 'display_title' ]
-    );
-    add_settings_field(
-        'dtoc_general_header_text',
-         esc_html__('Text', 'digital-table-of-contents'),
-		 [$this, 'dtoc_general_header_text_cb'],        
-        'dtoc_general_setting_section',
-        'dtoc_general_setting_section',
-        [ 'class' => 'dtoc_child_opt dtoc_display_title' ]
-    );
-    add_settings_field(
-        'dtoc_display_toggle_body',
-         esc_html__('Toggle', 'digital-table-of-contents'),
-		 [$this, 'dtoc_display_toggle_body_cb'],        		        
-        'dtoc_general_setting_section',
-        'dtoc_general_setting_section',
-        [ 'class' => 'dtoc_child_opt dtoc_display_title', 'label_for' => 'toggle_body' ]
-    );
-    add_settings_field(
-        'dtoc_display_toggle_initial',
-         esc_html__(' Initial Body View', 'digital-table-of-contents'),
-		 [$this, 'dtoc_display_toggle_initial_cb'],        
-        'dtoc_general_setting_section',
-        'dtoc_general_setting_section',
-        [ 'class' => 'dtoc_child_opt dtoc_2_label_child_opt dtoc_display_title' ]
-    );
-    add_settings_field(
-        'dtoc_general_header_icon',
-         esc_html__('Icon', 'digital-table-of-contents'),
-		 [$this, 'dtoc_general_header_icon_cb'],        
-        'dtoc_general_setting_section',
-        'dtoc_general_setting_section',
-        [ 'class' => 'dtoc_child_opt dtoc_2_label_child_opt dtoc_display_title' ]
-    );
-    add_settings_field(
-        'dtoc_general_show_text',
-         esc_html__('Show Text', 'digital-table-of-contents'),
-		 [$this, 'dtoc_general_show_text_cb'],
-        'dtoc_general_setting_section',
-        'dtoc_general_setting_section',
-        [ 'class' => 'dtoc_child_opt dtoc_2_label_child_opt dtoc_3_label_child_opt dtoc_display_title' ]
-    );
-    add_settings_field(
-        'dtoc_general_hide_text',
-         esc_html__('Hide Text', 'digital-table-of-contents'),
-		 [$this, 'dtoc_general_hide_text_cb'],        
-        'dtoc_general_setting_section',
-        'dtoc_general_setting_section',
-        [ 'class' => 'dtoc_child_opt dtoc_2_label_child_opt dtoc_3_label_child_opt dtoc_display_title' ]
-    );    
-    add_settings_field(
-        'dtoc_general_jump_links',
-         esc_html__('Jump Links', 'digital-table-of-contents'),
-        [$this, 'dtoc_general_jump_links_cb'],
-        'dtoc_general_setting_section',
-        'dtoc_general_setting_section',
-         [ 'label_for' => 'jump_links' ]
-    );    
-    add_settings_field(
-        'dtoc_general_scroll_behavior',
-         esc_html__('Scroll Behavior', 'digital-table-of-contents'),
-		 [$this, 'dtoc_general_scroll_behavior_cb'],        
-        'dtoc_general_setting_section',
-        'dtoc_general_setting_section',
-        [ 'class' => 'dtoc_child_opt dtoc_jump_links' ]
-    );
-    // add_settings_field(
-    //     'dtoc_general_scroll_back_to_toc',
-    //      esc_html__('Scroll Back to TOC', 'digital-table-of-contents'),
-	// 	 [$this, 'dtoc_general_scroll_back_to_toc_cb'],        		        
-    //     'dtoc_general_setting_section',
-    //     'dtoc_general_setting_section',
-    //      array( 'label_for' => 'scroll_back_to_toc', 'class' => 'dtoc_child_opt dtoc_jump_links')
-    // );        
-    add_settings_field(
-        'dtoc_general_alignment',
-         esc_html__('Alignment', 'digital-table-of-contents'),
-		 [$this, 'dtoc_general_alignment_cb'],        
-        'dtoc_general_setting_section',
-        'dtoc_general_setting_section',
-    );
-    add_settings_field(
-        'dtoc_general_wrap_content',
-         esc_html__('Wrap Content Around', 'digital-table-of-contents'),
-		 [$this, 'dtoc_general_wrap_content_cb'],        
-        'dtoc_general_setting_section',
-        'dtoc_general_setting_section',
-         [ 'label_for' => 'wrap_content' ]
-    );
-    add_settings_field(
-        'dtoc_display_When',
-         esc_html__('Display When', 'digital-table-of-contents'),
-         [$this, 'dtoc_general_when_cb'],        		            
-        'dtoc_general_setting_section',
-        'dtoc_general_setting_section'
-    );    
-    add_settings_field(
-        'dtoc_position',
-         esc_html__('Position', 'digital-table-of-contents'),
-         [$this, 'dtoc_general_position_cb'],            
-        'dtoc_general_setting_section',
-        'dtoc_general_setting_section'
-    );
-    add_settings_field(
-        'dtoc_paragraph_number',
-        esc_html__('Paragraph Number', 'digital-table-of-contents'),
-        [$this, 'dtoc_general_paragraph_number_cb'],            
-        'dtoc_general_setting_section',
-        'dtoc_general_setting_section',
-        [ 'label_for' => 'paragraph_number', 'class' => 'dtoc_child_opt dtoc_paragraph_number' ]
-    );    
-    add_settings_field(
-        'dtoc_general_list_style_type',
-        esc_html__('List Style Type', 'digital-table-of-contents'),
-        [$this, 'dtoc_general_list_style_type_cb'],        		        
-        'dtoc_general_setting_section',
-        'dtoc_general_setting_section',
-    ); 
-    add_settings_field(
-        'dtoc_general_headings_include',
-        esc_html__('Select Heading Tags', 'digital-table-of-contents'),
-        [$this, 'dtoc_general_headings_include_cb'],        
-        'dtoc_general_setting_section',
-        'dtoc_general_setting_section',
-    );     
-        
-    // Customization
+		'dtoc_shortcode_group'         => 'dtoc_shortcode',
+		'dtoc_shortcode_mobile_group'  => 'dtoc_shortcode_mobile',
+		'dtoc_shortcode_tablet_group'  => 'dtoc_shortcode_tablet',
+	];
 
-	// Customization
-    // add_settings_section('dtoc_customization_setting_section', __return_false(), '__return_false', 'dtoc_customization_setting_section');
-    // add_settings_field(
-    //     'dtoc_customization_design_type',
-    //      esc_html__('Design Type', 'digital-table-of-contents'),        
-	// 	[$this, 'dtoc_customization_design_type_cb'],  
-    //     'dtoc_customization_setting_section',
-    //     'dtoc_customization_setting_section',
-    // );
-    add_settings_section('dtoc_customization_container_section', __return_false(), '__return_false', 'dtoc_customization_container_section');
-    add_settings_section('dtoc_customization_title_section', __return_false(), '__return_false', 'dtoc_customization_title_section');
-    add_settings_section('dtoc_customization_icon_section', __return_false(), '__return_false', 'dtoc_customization_icon_section');
-    add_settings_section('dtoc_customization_border_section', __return_false(), '__return_false', 'dtoc_customization_border_section');
-    add_settings_section('dtoc_customization_link_section', __return_false(), '__return_false', 'dtoc_customization_link_section');
-    // add_settings_section('dtoc_customization_custom_css_section', __return_false(), '__return_false', 'dtoc_customization_custom_css_section');    
+	foreach ( $settings_groups as $group => $option ) {
+		register_setting( $group, $option, 'dtoc_sanitize_register_setting' );
+	}
 
-    add_settings_field(
-        'dtoc_customization_title_bg_color',
-         esc_html__('Background Color', 'digital-table-of-contents'),        		
-		[$this, 'dtoc_customization_title_bg_color_cb'],  
-        'dtoc_customization_title_section',
-        'dtoc_customization_title_section',
-    );
-    add_settings_field(
-        'dtoc_customization_title_fg_color',
-         esc_html__('Foreground Color', 'digital-table-of-contents'),        		
-		[$this, 'dtoc_customization_title_fg_color_cb'],  
-        'dtoc_customization_title_section',
-        'dtoc_customization_title_section',
-    );
-    add_settings_field(
-        'dtoc_customization_title_font_size',
-         esc_html__('Font Size', 'digital-table-of-contents'),        
-		[$this, 'dtoc_customization_title_font_size_cb'],  
-        'dtoc_customization_title_section',
-        'dtoc_customization_title_section'
-    );
-    add_settings_field(
-        'dtoc_customization_title_font_weight',
-         esc_html__('Font Weight', 'digital-table-of-contents'),        
-		[$this, 'dtoc_customization_title_font_weight_cb'],  
-        'dtoc_customization_title_section',
-        'dtoc_customization_title_section'
-    );
-    add_settings_field(
-        'dtoc_customization_title_padding',
-         esc_html__('Padding', 'digital-table-of-contents'),        
-		[$this, 'dtoc_customization_title_padding_cb'],  
-        'dtoc_customization_title_section',
-        'dtoc_customization_title_section'
-    );
-    // Icon customization starts here
-    add_settings_field(
-        'dtoc_customization_icon_bg_color',
-         esc_html__('Background Color', 'digital-table-of-contents'),        		
-		[$this, 'dtoc_customization_icon_bg_color_cb'],  
-        'dtoc_customization_icon_section',
-        'dtoc_customization_icon_section',
-    );
-    add_settings_field(
-        'dtoc_customization_icon_fg_color',
-         esc_html__('Foreground Color', 'digital-table-of-contents'),        		
-		[$this, 'dtoc_customization_icon_fg_color_cb'],  
-        'dtoc_customization_icon_section',
-        'dtoc_customization_icon_section',
-    );
-    add_settings_field(
-        'dtoc_customization_icon_size_color',
-         esc_html__('Size', 'digital-table-of-contents'),        		
-		[$this, 'dtoc_customization_icon_size_cb'],  
-        'dtoc_customization_icon_section',
-        'dtoc_customization_icon_section',
-    );
-    add_settings_field(
-        'dtoc_customization_icon_border_type',
-         esc_html__('Border Type', 'digital-table-of-contents'),
-		[$this, 'dtoc_customization_icon_border_type_cb'],  
-        'dtoc_customization_icon_section',
-        'dtoc_customization_icon_section',
-    );
-    add_settings_field(
-        'dtoc_customization_icon_border_color',
-         esc_html__('Border Color', 'digital-table-of-contents'),        
-		[$this, 'dtoc_customization_icon_border_color_cb'],  		
-        'dtoc_customization_icon_section',
-        'dtoc_customization_icon_section',
-    );
-    add_settings_field(
-        'dtoc_customization_icon_border_width',
-         esc_html__('Border Width', 'digital-table-of-contents'),        
-		[$this, 'dtoc_customization_icon_border_width_cb'],  
-        'dtoc_customization_icon_section',
-        'dtoc_customization_icon_section',
-    );    
-    add_settings_field(
-        'dtoc_customization_icon_border_radius',
-         esc_html__('Border Radius', 'digital-table-of-contents'),        
-		[$this, 'dtoc_customization_icon_border_radius_cb'],  
-        'dtoc_customization_icon_section',
-        'dtoc_customization_icon_section',
-    );
-    add_settings_field(
-        'dtoc_customization_icon_padding',
-         esc_html__('Padding', 'digital-table-of-contents'),        
-		[$this, 'dtoc_customization_icon_padding_cb'],  
-        'dtoc_customization_icon_section',
-        'dtoc_customization_icon_section',
-    );
-    add_settings_field(
-        'dtoc_customization_icon_margin',
-         esc_html__('Margin', 'digital-table-of-contents'),
-		[$this, 'dtoc_customization_icon_margin_cb'],  
-        'dtoc_customization_icon_section',
-        'dtoc_customization_icon_section',
-    );
+    /**
+	 * ---------------------------------
+	 * Settings Sections
+	 * ---------------------------------
+	 */
+	$sections = [
+		'dtoc_general_setting_section',
+		'dtoc_customization_container_section',
+		'dtoc_customization_title_section',
+		'dtoc_customization_icon_section',
+        'dtoc_customization_toggle_btn_section',
+		'dtoc_customization_border_section',
+		'dtoc_customization_link_section',
+		'dtoc_advanced_setting_section',
+	];
+
+	foreach ( $sections as $section ) {
+		add_settings_section( $section, __return_false(), '__return_false', $section );
+	} 
     
-    // Icon customization ends here        
-    add_settings_field(
-        'dtoc_customization_bg_color',
-         esc_html__('Background Color', 'digital-table-of-contents'),        		
-		[$this, 'dtoc_customization_bg_color_cb'],  
-        'dtoc_customization_container_section',
-        'dtoc_customization_container_section',
-    );    
-    add_settings_field(
-        'dtoc_customization_link_color',
-         esc_html__('Color', 'digital-table-of-contents'),        
-		[$this, 'dtoc_customization_link_color_cb'],  
-        'dtoc_customization_link_section',
-        'dtoc_customization_link_section',
-    );
-    add_settings_field(
-        'dtoc_customization_link_hover_color',
-         esc_html__('Hover Color', 'digital-table-of-contents'),        
-		[$this, 'dtoc_customization_link_hover_color_cb'],  	
-        'dtoc_customization_link_section',
-        'dtoc_customization_link_section',
-    );
-    add_settings_field(
-        'dtoc_customization_link_visited_color',
-         esc_html__('Visited Color', 'digital-table-of-contents'),        
-		[$this, 'dtoc_customization_link_visited_color_cb'],  	
-        'dtoc_customization_link_section',
-        'dtoc_customization_link_section',
-    );
-    add_settings_field(
-        'dtoc_customization_link_padding',
-         esc_html__('Padding', 'digital-table-of-contents'),        
-		[$this, 'dtoc_customization_link_padding_cb'],
-        'dtoc_customization_link_section',
-        'dtoc_customization_link_section',
-    );
-    add_settings_field(
-        'dtoc_customization_link_margin',
-         esc_html__('Margin', 'digital-table-of-contents'),        
-		[$this, 'dtoc_customization_link_margin_cb'],
-        'dtoc_customization_link_section',
-        'dtoc_customization_link_section',
-    );
-    add_settings_field(
-        'dtoc_customization_container_width',
-         esc_html__('Width', 'digital-table-of-contents'),        
-		[$this, 'dtoc_customization_container_width_cb'],  	
-        'dtoc_customization_container_section',
-        'dtoc_customization_container_section',
-    );
-    add_settings_field(
-        'dtoc_customization_container_height',
-         esc_html__('Height', 'digital-table-of-contents'),        
-		[$this, 'dtoc_customization_container_height_cb'],  	
-        'dtoc_customization_container_section',
-        'dtoc_customization_container_section',
-    );
-    add_settings_field(
-        'dtoc_customization_container_margin',
-         esc_html__('Margin', 'digital-table-of-contents'),        
-		[$this, 'dtoc_customization_container_margin_cb'],  	
-        'dtoc_customization_container_section',
-        'dtoc_customization_container_section',
-    );
-    add_settings_field(
-        'dtoc_customization_container_padding',
-         esc_html__('Padding', 'digital-table-of-contents'),        
-		[$this, 'dtoc_customization_container_padding_cb'],  
-        'dtoc_customization_container_section',
-        'dtoc_customization_container_section',
-    );
-    add_settings_field(
-        'dtoc_customization_border_type',
-         esc_html__('Type', 'digital-table-of-contents'),        
-		[$this, 'dtoc_customization_border_type_cb'],  
-        'dtoc_customization_border_section',
-        'dtoc_customization_border_section',
-    );
-    add_settings_field(
-        'dtoc_customization_border_color',
-         esc_html__('Color', 'digital-table-of-contents'),        
-		[$this, 'dtoc_customization_border_color_cb'],  		
-        'dtoc_customization_border_section',
-        'dtoc_customization_border_section',
-    );
-    add_settings_field(
-        'dtoc_customization_border_width',
-         esc_html__('Width', 'digital-table-of-contents'),        
-		[$this, 'dtoc_customization_border_width_cb'],  
-        'dtoc_customization_border_section',
-        'dtoc_customization_border_section',
-    );    
-    add_settings_field(
-        'dtoc_customization_border_radius',
-         esc_html__('Radius', 'digital-table-of-contents'),        
-		[$this, 'dtoc_customization_border_radius_cb'],  
-        'dtoc_customization_border_section',
-        'dtoc_customization_border_section',
-    );             
-    
-    add_settings_section('dtoc_advanced_setting_section', __return_false(), '__return_false', 'dtoc_advanced_setting_section');                                
-    add_settings_field(
-        'dtoc_display_hierarchy',
-        esc_html__('Hierarchy', 'digital-table-of-contents'),
-        [$this, 'dtoc_display_hierarchy_cb'],        		        
-        'dtoc_advanced_setting_section',
-        'dtoc_advanced_setting_section',
-        [ 'label_for' => 'hierarchy' ]
-    );    
-    // add_settings_field(                
-    //     'dtoc_display_exp_col_subheadings',
-    //      esc_html__('Expand / Collapse', 'digital-table-of-contents'),
-	// 	 [$this, 'dtoc_display_exp_col_subheadings_cb'],        		        
-    //     'dtoc_advanced_setting_section',
-    //     'dtoc_advanced_setting_section',
-    //     array( 'label_for' => 'exp_col_subheadings', 'class' => 'dtoc_child_opt dtoc_hierarchy')
-    // );
-    // add_settings_field(
-    //     'dtoc_display_show_more',
-    //      esc_html__('Show More', 'digital-table-of-contents'),
-	// 	 [$this, 'dtoc_display_show_more_cb'],        		        
-    //     'dtoc_advanced_setting_section',
-    //     'dtoc_advanced_setting_section',
-    //      array( 'label_for' => 'show_more')
-    // );               
-    add_settings_field(
-        'dtoc_display_combine_page_break',
-         esc_html__('Combine Page Break', 'digital-table-of-contents'),
-		 [$this, 'dtoc_display_combine_page_break_cb'],        		        
-        'dtoc_advanced_setting_section',
-        'dtoc_advanced_setting_section',
-        [ 'label_for' => 'combine_page_break' ]
-    );
-    add_settings_field(
-        'dtoc_display_accessibility',
-         esc_html__('Accessibility', 'digital-table-of-contents'),
-		 [$this, 'dtoc_display_accessibility_cb'],        		        
-        'dtoc_advanced_setting_section',
-        'dtoc_advanced_setting_section',
-        [ 'label_for' => 'accessibility' ]
-    );    
-    add_settings_field(
-        'dtoc_display_preserve_line_breaks',
-         esc_html__('Preserve Line Breaks', 'digital-table-of-contents'),
-		 [$this, 'dtoc_display_preserve_line_breaks_cb'],        		        
-        'dtoc_advanced_setting_section',
-        'dtoc_advanced_setting_section',
-        [ 'label_for' => 'preserve_line_breaks' ]
-    );
-    add_settings_field(
-        'dtoc_display_exclude_headings',
-         esc_html__('Exclude Headings', 'digital-table-of-contents'),
-		 [$this, 'dtoc_display_exclude_headings_cb'],
-        'dtoc_advanced_setting_section',
-        'dtoc_advanced_setting_section',
-        [ 'label_for' => 'exclude_headings' ]
-    );
-           
+    /**
+	 * ---------------------------------
+	 * Settings Fields (generic config)
+	 * Each field can define "pages" => ['dtoc_incontent', 'dtoc_sliding_sticky', ...]
+	 * If "pages" not set, it will show everywhere.
+	 * ---------------------------------
+	 */
 
+    $fields = [
+		'dtoc_general_rendering_style' => [
+			'title'    => __( 'Rendering Style', 'digital-table-of-contents' ),
+			'callback' => 'dtoc_general_rendering_style_cb',
+			'section'  => 'dtoc_general_setting_section',
+			'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+		],
+		'dtoc_display_title' => [
+			'title'    => __( 'Title', 'digital-table-of-contents' ),
+			'callback' => 'dtoc_display_title_cb',
+			'section'  => 'dtoc_general_setting_section',
+			'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+			'args'     => [ 'label_for' => 'display_title' ],
+		],
+		'dtoc_general_header_text' => [
+			'title'    => __( 'Text', 'digital-table-of-contents' ),
+			'callback' => 'dtoc_general_header_text_cb',
+			'section'  => 'dtoc_general_setting_section',
+			'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+			'args'     => [ 'class' => 'dtoc_child_opt dtoc_display_title' ],
+		],	
+        'dtoc_display_toggle_body' => [
+		'title'    => __( 'Toggle', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_display_toggle_body_cb',
+		'section'  => 'dtoc_general_setting_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_shortcode' ],
+		'args'     => [
+			'class'     => 'dtoc_child_opt dtoc_display_title',
+			'label_for' => 'toggle_body',
+		],
+	],
+	'dtoc_display_toggle_initial' => [
+		'title'    => __( 'Initial Body View', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_display_toggle_initial_cb',
+		'section'  => 'dtoc_general_setting_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_shortcode' ],
+		'args'     => [
+			'class' => 'dtoc_child_opt dtoc_2_label_child_opt dtoc_display_title',
+		],
+	],    
+	'dtoc_display_toggle_initial' => [
+		'title'    => __( 'Initial Body View', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_display_toggle_initial_cb',
+		'section'  => 'dtoc_general_setting_section',
+		'pages'    => [ 'dtoc_sliding_sticky' ],		
+	], 
+    'dtoc_general_toggle_btn_text' => [
+			'title'    => __( 'Toggle Button Text', 'digital-table-of-contents' ),
+			'callback' => 'dtoc_general_toggle_btn_text_cb',
+			'section'  => 'dtoc_general_setting_section',
+			'pages'    => [ 'dtoc_sliding_sticky' ]			
+	],	   
+	'dtoc_general_header_icon' => [
+		'title'    => __( 'Icon', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_general_header_icon_cb',
+		'section'  => 'dtoc_general_setting_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_shortcode' ],
+		'args'     => [
+			'class' => 'dtoc_child_opt dtoc_2_label_child_opt dtoc_display_title',
+		],
+	],
+	'dtoc_general_show_text' => [
+		'title'    => __( 'Show Text', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_general_show_text_cb',
+		'section'  => 'dtoc_general_setting_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_shortcode' ],
+		'args'     => [
+			'class' => 'dtoc_child_opt dtoc_2_label_child_opt dtoc_3_label_child_opt dtoc_display_title',
+		],
+	],
+	'dtoc_general_hide_text' => [
+		'title'    => __( 'Hide Text', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_general_hide_text_cb',
+		'section'  => 'dtoc_general_setting_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_shortcode' ],
+		'args'     => [
+			'class' => 'dtoc_child_opt dtoc_2_label_child_opt dtoc_3_label_child_opt dtoc_display_title',
+		],
+	],	
+    'dtoc_general_jump_links' => [
+		'title'    => __( 'Jump Links', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_general_jump_links_cb',
+		'section'  => 'dtoc_general_setting_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+		'args'     => [
+			'label_for' => 'jump_links',
+		],
+	],
+	'dtoc_general_scroll_behavior' => [
+		'title'    => __( 'Scroll Behavior', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_general_scroll_behavior_cb',
+		'section'  => 'dtoc_general_setting_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+		'args'     => [
+			'class' => 'dtoc_child_opt dtoc_jump_links',
+		],
+	],
+	'dtoc_general_scroll_back_to_toc' => [
+		'title'    => __( 'Scroll Back to TOC', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_general_scroll_back_to_toc_cb',
+		'section'  => 'dtoc_general_setting_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_shortcode' ],
+		'args'     => [
+			'label_for' => 'scroll_back_to_toc',
+			'class'     => 'dtoc_child_opt dtoc_jump_links',
+		],
+	],
+	'dtoc_general_alignment' => [
+		'title'    => __( 'Alignment', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_general_alignment_cb',
+		'section'  => 'dtoc_general_setting_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_shortcode' ],
+	],
+	'dtoc_general_wrap_content' => [
+		'title'    => __( 'Wrap Content Around', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_general_wrap_content_cb',
+		'section'  => 'dtoc_general_setting_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_shortcode' ],
+		'args'     => [
+			'label_for' => 'wrap_content',
+		],
+	],
+    'dtoc_display_When' => [
+		'title'    => __( 'Display When', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_general_when_cb',
+		'section'  => 'dtoc_general_setting_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	],
+	'dtoc_position' => [
+		'title'    => __( 'Position', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_general_position_cb',
+		'section'  => 'dtoc_general_setting_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_shortcode' ],
+	],
+    'dtoc_position' => [
+		'title'    => __( 'Position', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_general_sticky_position_cb',
+		'section'  => 'dtoc_general_setting_section',
+		'pages'    => [ 'dtoc_sliding_sticky'],
+	],
+	'dtoc_paragraph_number' => [
+		'title'    => __( 'Paragraph Number', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_general_paragraph_number_cb',
+		'section'  => 'dtoc_general_setting_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+		'args'     => [
+			'label_for' => 'paragraph_number',
+			'class'     => 'dtoc_child_opt dtoc_paragraph_number',
+		],
+	],
+	'dtoc_general_list_style_type' => [
+		'title'    => __( 'List Style Type', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_general_list_style_type_cb',
+		'section'  => 'dtoc_general_setting_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	],
+	'dtoc_general_headings_include' => [
+		'title'    => __( 'Select Heading Tags', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_general_headings_include_cb',
+		'section'  => 'dtoc_general_setting_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	],
+    'dtoc_customization_title_bg_color' => [
+		'title'    => __( 'Background Color', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_title_bg_color_cb',
+		'section'  => 'dtoc_customization_title_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	],
+	'dtoc_customization_title_fg_color' => [
+		'title'    => __( 'Foreground Color', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_title_fg_color_cb',
+		'section'  => 'dtoc_customization_title_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	],
+	'dtoc_customization_title_font_size' => [
+		'title'    => __( 'Font Size', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_title_font_size_cb',
+		'section'  => 'dtoc_customization_title_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	],
+	'dtoc_customization_title_font_weight' => [
+		'title'    => __( 'Font Weight', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_title_font_weight_cb',
+		'section'  => 'dtoc_customization_title_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	],
+	'dtoc_customization_title_padding' => [
+		'title'    => __( 'Padding', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_title_padding_cb',
+		'section'  => 'dtoc_customization_title_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	],
+    'dtoc_customization_toggle_btn_bg_color' => [
+		'title'    => __( 'Background Color', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_toggle_btn_bg_color_cb',
+		'section'  => 'dtoc_customization_toggle_btn_section',
+		'pages'    => [ 'dtoc_sliding_sticky'],
+	],
+	'dtoc_customization_toggle_btn_fg_color' => [
+		'title'    => __( 'Foreground Color', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_toggle_btn_fg_color_cb',
+		'section'  => 'dtoc_customization_toggle_btn_section',
+		'pages'    => [ 'dtoc_sliding_sticky' ],
+	],
+	'dtoc_customization_toggle_btn_size_color' => [
+		'title'    => __( 'Size', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_toggle_btn_size_cb',
+		'section'  => 'dtoc_customization_toggle_btn_section',
+		'pages'    => [ 'dtoc_sliding_sticky' ],
+	],
+	'dtoc_customization_toggle_btn_border_type' => [
+		'title'    => __( 'Border Type', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_toggle_btn_border_type_cb',
+		'section'  => 'dtoc_customization_toggle_btn_section',
+		'pages'    => [ 'dtoc_sliding_sticky'],
+	],
+	'dtoc_customization_toggle_btn_border_color' => [
+		'title'    => __( 'Border Color', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_toggle_btn_border_color_cb',
+		'section'  => 'dtoc_customization_toggle_btn_section',
+		'pages'    => [ 'dtoc_sliding_sticky' ],
+	],
+	'dtoc_customization_toggle_btn_border_width' => [
+		'title'    => __( 'Border Width', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_toggle_btn_border_width_cb',
+		'section'  => 'dtoc_customization_toggle_btn_section',
+		'pages'    => [ 'dtoc_sliding_sticky' ],
+	],
+	'dtoc_customization_toggle_btn_border_radius' => [
+		'title'    => __( 'Border Radius', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_toggle_btn_border_radius_cb',
+		'section'  => 'dtoc_customization_toggle_btn_section',
+		'pages'    => [ 'dtoc_sliding_sticky' ],
+	],
+	'dtoc_customization_toggle_btn_padding' => [
+		'title'    => __( 'Padding', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_toggle_btn_padding_cb',
+		'section'  => 'dtoc_customization_toggle_btn_section',
+		'pages'    => [ 'dtoc_sliding_sticky' ],
+	],	
+    'dtoc_customization_icon_bg_color' => [
+		'title'    => __( 'Background Color', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_icon_bg_color_cb',
+		'section'  => 'dtoc_customization_icon_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_shortcode' ],
+	],
+	'dtoc_customization_icon_fg_color' => [
+		'title'    => __( 'Foreground Color', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_icon_fg_color_cb',
+		'section'  => 'dtoc_customization_icon_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_shortcode' ],
+	],
+	'dtoc_customization_icon_size_color' => [
+		'title'    => __( 'Size', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_icon_size_cb',
+		'section'  => 'dtoc_customization_icon_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_shortcode' ],
+	],
+	'dtoc_customization_icon_border_type' => [
+		'title'    => __( 'Border Type', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_icon_border_type_cb',
+		'section'  => 'dtoc_customization_icon_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	],
+	'dtoc_customization_icon_border_color' => [
+		'title'    => __( 'Border Color', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_icon_border_color_cb',
+		'section'  => 'dtoc_customization_icon_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	],
+	'dtoc_customization_icon_border_width' => [
+		'title'    => __( 'Border Width', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_icon_border_width_cb',
+		'section'  => 'dtoc_customization_icon_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	],
+	'dtoc_customization_icon_border_radius' => [
+		'title'    => __( 'Border Radius', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_icon_border_radius_cb',
+		'section'  => 'dtoc_customization_icon_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	],
+	'dtoc_customization_icon_padding' => [
+		'title'    => __( 'Padding', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_icon_padding_cb',
+		'section'  => 'dtoc_customization_icon_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	],
+	'dtoc_customization_icon_margin' => [
+		'title'    => __( 'Margin', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_icon_margin_cb',
+		'section'  => 'dtoc_customization_icon_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	],
+    
+	'dtoc_customization_bg_color' => [
+		'title'    => __( 'Background Color', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_bg_color_cb',
+		'section'  => 'dtoc_customization_container_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	],
+	'dtoc_customization_link_color' => [
+		'title'    => __( 'Color', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_link_color_cb',
+		'section'  => 'dtoc_customization_link_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	],
+	'dtoc_customization_link_hover_color' => [
+		'title'    => __( 'Hover Color', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_link_hover_color_cb',
+		'section'  => 'dtoc_customization_link_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	],
+	'dtoc_customization_link_visited_color' => [
+		'title'    => __( 'Visited Color', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_link_visited_color_cb',
+		'section'  => 'dtoc_customization_link_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	],
+	'dtoc_customization_link_padding' => [
+		'title'    => __( 'Padding', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_link_padding_cb',
+		'section'  => 'dtoc_customization_link_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	],
+	'dtoc_customization_link_margin' => [
+		'title'    => __( 'Margin', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_link_margin_cb',
+		'section'  => 'dtoc_customization_link_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	],
+	'dtoc_customization_container_width' => [
+		'title'    => __( 'Width', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_container_width_cb',
+		'section'  => 'dtoc_customization_container_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	],
+	'dtoc_customization_container_height' => [
+		'title'    => __( 'Height', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_container_height_cb',
+		'section'  => 'dtoc_customization_container_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	],
+	'dtoc_customization_container_margin' => [
+		'title'    => __( 'Margin', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_container_margin_cb',
+		'section'  => 'dtoc_customization_container_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	],
+	'dtoc_customization_container_padding' => [
+		'title'    => __( 'Padding', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_container_padding_cb',
+		'section'  => 'dtoc_customization_container_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	],
+	'dtoc_customization_border_type' => [
+		'title'    => __( 'Type', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_border_type_cb',
+		'section'  => 'dtoc_customization_border_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	],
+	'dtoc_customization_border_color' => [
+		'title'    => __( 'Color', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_border_color_cb',
+		'section'  => 'dtoc_customization_border_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	],
+	'dtoc_customization_border_width' => [
+		'title'    => __( 'Width', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_border_width_cb',
+		'section'  => 'dtoc_customization_border_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	],
+	'dtoc_customization_border_radius' => [
+		'title'    => __( 'Radius', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_border_radius_cb',
+		'section'  => 'dtoc_customization_border_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	],
+	'dtoc_display_hierarchy' => [
+		'title'    => __( 'Hierarchy', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_display_hierarchy_cb',
+		'section'  => 'dtoc_advanced_setting_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+		'args'     => [ 'label_for' => 'hierarchy' ],
+	],
+	// 'dtoc_display_exp_col_subheadings' => [
+	// 	'title'    => __( 'Expand / Collapse', 'digital-table-of-contents' ),
+	// 	'callback' => 'dtoc_display_exp_col_subheadings_cb',
+	// 	'section'  => 'dtoc_advanced_setting_section',
+	// 	'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	// 	'args'     => [ 'label_for' => 'exp_col_subheadings', 'class' => 'dtoc_child_opt dtoc_hierarchy' ],
+	// ],
+	// 'dtoc_display_show_more' => [
+	// 	'title'    => __( 'Show More', 'digital-table-of-contents' ),
+	// 	'callback' => 'dtoc_display_show_more_cb',
+	// 	'section'  => 'dtoc_advanced_setting_section',
+	// 	'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	// 	'args'     => [ 'label_for' => 'show_more' ],
+	// ],
+	// 'dtoc_display_combine_page_break' => [
+	// 	'title'    => __( 'Combine Page Break', 'digital-table-of-contents' ),
+	// 	'callback' => 'dtoc_display_combine_page_break_cb',
+	// 	'section'  => 'dtoc_advanced_setting_section',
+	// 	'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+	// 	'args'     => [ 'label_for' => 'combine_page_break' ],
+	// ],
+	'dtoc_display_accessibility' => [
+		'title'    => __( 'Accessibility', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_display_accessibility_cb',
+		'section'  => 'dtoc_advanced_setting_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+		'args'     => [ 'label_for' => 'accessibility' ],
+	],
+	'dtoc_display_preserve_line_breaks' => [
+		'title'    => __( 'Preserve Line Breaks', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_display_preserve_line_breaks_cb',
+		'section'  => 'dtoc_advanced_setting_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+		'args'     => [ 'label_for' => 'preserve_line_breaks' ],
+	],
+	'dtoc_display_exclude_headings' => [
+		'title'    => __( 'Exclude Headings', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_display_exclude_headings_cb',
+		'section'  => 'dtoc_advanced_setting_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+		'args'     => [ 'label_for' => 'exclude_headings' ],
+	],
+	];
+    
+    // Dynamically register fields for this page
+	foreach ( $fields as $id => $field ) {
+		$pages = ! empty( $field['pages'] ) ? $field['pages'] : [ $page ]; // if no pages set, assume all
+		if ( in_array( $page, $pages, true ) ) {
+			add_settings_field(
+				$id,
+				esc_html( $field['title'] ),
+				[ $this, $field['callback'] ],
+				$field['section'],
+				$field['section'],
+				! empty( $field['args'] ) ? $field['args'] : []
+			);
+		}
+	}
+                       
 }
 
 public function dtoc_display_exclude_headings_cb(){
@@ -933,6 +1023,12 @@ public function dtoc_customization_icon_border_color_cb(){
     <input type="text" name="<?php echo $this->_setting_name; ?>[icon_border_color]" id="icon_border_color" class="smpg-input dtoc-colorpicker" data-alpha-enabled="true" value="<?php echo isset( $this->_setting_option['icon_border_color'] ) ? esc_attr( $this->_setting_option['icon_border_color']) : '#D5E0EB'; ?>" data-default-color="#D5E0EB">
 <?php
 }
+public function dtoc_customization_toggle_btn_border_color_cb(){
+	    $this->dtoc_resolve_meta_settings_name(); 	
+    ?>    
+    <input type="text" name="<?php echo $this->_setting_name; ?>[toggle_btn_border_color]" id="toggle_btn_border_color" class="smpg-input dtoc-colorpicker" data-alpha-enabled="true" value="<?php echo isset( $this->_setting_option['toggle_btn_border_color'] ) ? esc_attr( $this->_setting_option['toggle_btn_border_color']) : '#D5E0EB'; ?>" data-default-color="#D5E0EB">
+<?php
+}
 public function dtoc_customization_link_color_cb(){
     $this->dtoc_resolve_meta_settings_name(); 		
     ?>    
@@ -969,6 +1065,18 @@ public function dtoc_customization_bg_color_cb(){
         <input type="text" name="<?php echo $this->_setting_name; ?>[bg_color]" id="bg_color" class="smpg-input dtoc-colorpicker" data-alpha-enabled="true" value="<?php echo isset( $this->_setting_option['bg_color'] ) ? esc_attr( $this->_setting_option['bg_color']) : '#D5E0EB'; ?>" data-default-color="#D5E0EB">
     <?php
 }
+public function dtoc_customization_toggle_btn_bg_color_cb(){
+	    $this->dtoc_resolve_meta_settings_name(); 	
+    ?>    
+        <input type="text" name="<?php echo $this->_setting_name; ?>[toggle_btn_bg_color]" id="toggle_btn_bg_color" class="smpg-input dtoc-colorpicker" data-alpha-enabled="true" value="<?php echo isset( $this->_setting_option['toggle_btn_bg_color'] ) ? esc_attr( $this->_setting_option['toggle_btn_bg_color']) : '#D5E0EB'; ?>" data-default-color="#D5E0EB">
+    <?php
+}
+public function dtoc_customization_toggle_btn_fg_color_cb(){
+	    $this->dtoc_resolve_meta_settings_name(); 	
+    ?>    
+        <input type="text" name="<?php echo $this->_setting_name; ?>[toggle_btn_fg_color]" id="toggle_btn_fg_color" class="smpg-input dtoc-colorpicker" data-alpha-enabled="true" value="<?php echo isset( $this->_setting_option['toggle_btn_fg_color'] ) ? esc_attr( $this->_setting_option['toggle_btn_fg_color']) : '#D5E0EB'; ?>" data-default-color="#D5E0EB">
+    <?php
+}
 public function dtoc_customization_icon_bg_color_cb(){
 	    $this->dtoc_resolve_meta_settings_name(); 	
     ?>    
@@ -981,20 +1089,7 @@ public function dtoc_customization_icon_fg_color_cb(){
         <input type="text" name="<?php echo $this->_setting_name; ?>[icon_fg_color]" id="icon_fg_color" class="smpg-input dtoc-colorpicker" data-alpha-enabled="true" value="<?php echo isset( $this->_setting_option['icon_fg_color'] ) ? esc_attr( $this->_setting_option['icon_fg_color']) : '#D5E0EB'; ?>" data-default-color="#D5E0EB">
     <?php
 }
-public function dtoc_customization_design_type_cb(){
-	    $this->dtoc_resolve_meta_settings_name(); 	
-    ?>    
-	<select class="smpg-input" name="<?php echo $this->_setting_name; ?>[design_type]" id="design_type">
-        <option value="grey" <?php echo (isset($this->_setting_option['design_type']) && $this->_setting_option['design_type'] == 'grey' ? 'selected' : '' ) ?>><?php echo esc_html__('Grey', 'digital-table-of-contents'); ?></option>
-        <option value="light_blue" <?php echo (isset($this->_setting_option['design_type']) && $this->_setting_option['design_type'] == 'light_blue' ? 'selected' : '' ) ?>><?php echo esc_html__('Light Blue', 'digital-table-of-contents'); ?></option>
-        <option value="white" <?php echo (isset($this->_setting_option['design_type']) && $this->_setting_option['design_type'] == 'white' ? 'selected' : '' ) ?>><?php echo esc_html__('White', 'digital-table-of-contents'); ?></option>
-        <option value="black" <?php echo (isset($this->_setting_option['design_type']) && $this->_setting_option['design_type'] == 'black' ? 'selected' : '' ) ?>><?php echo esc_html__('Black', 'digital-table-of-contents'); ?></option>
-        <option value="transparent" <?php echo (isset($this->_setting_option['design_type']) && $this->_setting_option['design_type'] == 'transparent' ? 'selected' : '' ) ?>><?php echo esc_html__('Transparent', 'digital-table-of-contents'); ?></option>
-        <option value="custom" <?php echo (isset($this->_setting_option['design_type']) && $this->_setting_option['design_type'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>
-    </select>
-	
-    <?php
-}
+
 public function dtoc_shortcode_source(){
     $this->dtoc_resolve_meta_settings_name(); 		
     ?>
@@ -1041,6 +1136,39 @@ public function dtoc_customization_icon_size_cb(){
             <option value="em" <?php echo (isset($this->_setting_option['icon_size_unit']) && $this->_setting_option['icon_size_unit'] == 'em' ? 'selected' : '' ) ?>><?php echo esc_html__('em', 'digital-table-of-contents'); ?></option>        
         </select>
         <span data-group="icon_size"><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></span>
+        </li>
+    </ul>    	    
+    <?php
+}
+public function dtoc_customization_toggle_btn_size_cb(){
+    $this->dtoc_resolve_meta_settings_name();	
+    ?>    	
+    <select data-group="toggle_btn_size" class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[toggle_btn_size_mode]" id="toggle_btn_size_mode">
+        <option value="default" <?php echo (isset($this->_setting_option['toggle_btn_size_mode']) && $this->_setting_option['toggle_btn_size_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>
+        <option value="auto" <?php echo (isset($this->_setting_option['toggle_btn_size_mode']) && $this->_setting_option['toggle_btn_size_mode'] == 'auto' ? 'selected' : '' ) ?>><?php echo esc_html__('Auto', 'digital-table-of-contents'); ?></option>
+        <option value="custom" <?php echo (isset($this->_setting_option['toggle_btn_size_mode']) && $this->_setting_option['toggle_btn_size_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
+    </select>
+    <ul style="display: flex;">
+        <li>
+        <input data-group="toggle_btn_size" type="number" class="smpg-input small-text" id="toggle_btn_width" name="<?php echo $this->_setting_name; ?>[toggle_btn_width]" value="<?php echo isset( $this->_setting_option['toggle_btn_width'] ) ? esc_attr( $this->_setting_option['toggle_btn_width']) : '25'; ?>">
+        <br>
+        <span data-group="toggle_btn_size"><?php echo esc_html__('Width', 'digital-table-of-contents'); ?></span>
+        </li>
+
+        <li>
+        <input data-group="toggle_btn_size" type="number" class="smpg-input small-text" id="toggle_btn_height" name="<?php echo $this->_setting_name; ?>[toggle_btn_height]" value="<?php echo isset( $this->_setting_option['toggle_btn_height'] ) ? esc_attr( $this->_setting_option['toggle_btn_height']) : '25'; ?>">
+        <br>
+        <span data-group="toggle_btn_size"><?php echo esc_html__('Height', 'digital-table-of-contents'); ?></span>
+        </li>
+        
+        <li>
+        <select data-group="toggle_btn_size" class="smpg-input" name="<?php echo $this->_setting_name; ?>[toggle_btn_size_unit]" id="toggle_btn_size_unit">
+            <option value="px" <?php echo (isset($this->_setting_option['toggle_btn_size_unit']) && $this->_setting_option['toggle_btn_size_unit'] == 'px' ? 'selected' : '' ) ?>><?php echo esc_html__('px', 'digital-table-of-contents'); ?></option>
+            <option value="pt" <?php echo (isset($this->_setting_option['toggle_btn_size_unit']) && $this->_setting_option['toggle_btn_size_unit'] == 'pt' ? 'selected' : '' ) ?>><?php echo esc_html__('pt', 'digital-table-of-contents'); ?></option>
+            <option value="%" <?php echo (isset($this->_setting_option['toggle_btn_size_unit']) && $this->_setting_option['toggle_btn_size_unit'] == '%' ? 'selected' : '' ) ?>><?php echo esc_html__('%', 'digital-table-of-contents'); ?></option>
+            <option value="em" <?php echo (isset($this->_setting_option['toggle_btn_size_unit']) && $this->_setting_option['toggle_btn_size_unit'] == 'em' ? 'selected' : '' ) ?>><?php echo esc_html__('em', 'digital-table-of-contents'); ?></option>        
+        </select>
+        <span data-group="toggle_btn_size"><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></span>
         </li>
     </ul>    	    
     <?php
@@ -1119,6 +1247,42 @@ public function dtoc_customization_icon_border_radius_cb(){
     </ul>    	    
     <?php
 }
+public function dtoc_customization_toggle_btn_border_radius_cb(){ 
+    $this->dtoc_resolve_meta_settings_name(); 	   
+    ?>    	
+    <select data-group="toggle_btn_border_radius" class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[toggle_btn_border_radius_mode]" id="toggle_btn_border_radius_mode">
+        <option value="default" <?php echo (isset($this->_setting_option['toggle_btn_border_radius_mode']) && $this->_setting_option['toggle_btn_border_radius_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>        
+        <option value="custom" <?php echo (isset($this->_setting_option['toggle_btn_border_radius_mode']) && $this->_setting_option['toggle_btn_border_radius_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
+    </select>
+    <ul style="display: flex;">
+        <li>
+        <input data-group="toggle_btn_border_radius" type="number" class="smpg-input small-text" id="toggle_btn_border_radius_top_left" name="<?php echo $this->_setting_name; ?>[toggle_btn_border_radius_top_left]" value="<?php echo isset( $this->_setting_option['toggle_btn_border_radius_top_left'] ) ? esc_attr( $this->_setting_option['toggle_btn_border_radius_top_left']) : '0'; ?>">
+        <span data-group="toggle_btn_border_radius"><?php echo esc_html__('Top Left', 'digital-table-of-contents'); ?></span>
+        </li>
+        <li>
+        <input data-group="toggle_btn_border_radius" type="number" class="smpg-input small-text" id="toggle_btn_border_radius_top_right" name="<?php echo $this->_setting_name; ?>[toggle_btn_border_radius_top_right]" value="<?php echo isset( $this->_setting_option['toggle_btn_border_radius_top_right'] ) ? esc_attr( $this->_setting_option['toggle_btn_border_radius_top_right']) : '0'; ?>">
+        <span data-group="toggle_btn_border_radius"><?php echo esc_html__('Top Right', 'digital-table-of-contents'); ?></span>
+        </li>
+        <li>
+        <input data-group="toggle_btn_border_radius" type="number" class="smpg-input small-text" id="toggle_btn_border_radius_bottom_left" name="<?php echo $this->_setting_name; ?>[toggle_btn_border_radius_bottom_left]" value="<?php echo isset( $this->_setting_option['toggle_btn_border_radius_bottom_left'] ) ? esc_attr( $this->_setting_option['toggle_btn_border_radius_bottom_left']) : '0'; ?>">
+        <span data-group="toggle_btn_border_radius"><?php echo esc_html__('Bottom Left', 'digital-table-of-contents'); ?></span>
+        </li>
+        <li>
+        <input data-group="toggle_btn_border_radius" type="number" class="smpg-input small-text" id="toggle_btn_border_radius_bottom_right" name="<?php echo $this->_setting_name; ?>[toggle_btn_border_radius_bottom_right]" value="<?php echo isset( $this->_setting_option['toggle_btn_border_radius_bottom_right'] ) ? esc_attr( $this->_setting_option['toggle_btn_border_radius_bottom_right']) : '0'; ?>">
+        <span data-group="toggle_btn_border_radius"><?php echo esc_html__('Bottom Right', 'digital-table-of-contents'); ?></span>
+        </li>
+        <li>
+        <select data-group="toggle_btn_border_radius" class="smpg-input" name="<?php echo $this->_setting_name; ?>[toggle_btn_border_radius_unit]" id="toggle_btn_border_radius_unit">
+            <option value="px" <?php echo (isset($this->_setting_option['toggle_btn_border_radius_unit']) && $this->_setting_option['toggle_btn_border_radius_unit'] == 'px' ? 'selected' : '' ) ?>><?php echo esc_html__('px', 'digital-table-of-contents'); ?></option>
+            <option value="pt" <?php echo (isset($this->_setting_option['toggle_btn_border_radius_unit']) && $this->_setting_option['toggle_btn_border_radius_unit'] == 'pt' ? 'selected' : '' ) ?>><?php echo esc_html__('pt', 'digital-table-of-contents'); ?></option>
+            <option value="%" <?php echo (isset($this->_setting_option['toggle_btn_border_radius_unit']) && $this->_setting_option['toggle_btn_border_radius_unit'] == '%' ? 'selected' : '' ) ?>><?php echo esc_html__('%', 'digital-table-of-contents'); ?></option>
+            <option value="em" <?php echo (isset($this->_setting_option['toggle_btn_border_radius_unit']) && $this->_setting_option['toggle_btn_border_radius_unit'] == 'em' ? 'selected' : '' ) ?>><?php echo esc_html__('em', 'digital-table-of-contents'); ?></option>        
+        </select>
+        <span data-group="toggle_btn_border_radius"><?php echo esc_html__('Unit', 'digital-table-of-contents'); ?></span>
+        </li>
+    </ul>    	    
+    <?php
+}
 public function dtoc_customization_link_margin_cb(){
     ?>
     <select data-group="link_margin" class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[link_margin_mode]" id="link_margin_mode">
@@ -1148,6 +1312,16 @@ public function dtoc_customization_icon_padding_cb(){
     </select>
     <?php
     dtoc_different_four_sides_html($this->_setting_name, $this->_setting_option, 'padding', 'icon');
+}
+public function dtoc_customization_toggle_btn_padding_cb(){    
+    ?>
+    <select data-group="toggle_btn_padding" class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[toggle_btn_padding_mode]" id="toggle_btn_padding_mode">
+        <option value="default" <?php echo (isset($this->_setting_option['toggle_btn_padding_mode']) && $this->_setting_option['toggle_btn_padding_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>
+        <option value="auto" <?php echo (isset($this->_setting_option['toggle_btn_padding_mode']) && $this->_setting_option['toggle_btn_padding_mode'] == 'auto' ? 'selected' : '' ) ?>><?php echo esc_html__('Auto', 'digital-table-of-contents'); ?></option>
+        <option value="custom" <?php echo (isset($this->_setting_option['toggle_btn_padding_mode']) && $this->_setting_option['toggle_btn_padding_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
+    </select>
+    <?php
+    dtoc_different_four_sides_html($this->_setting_name, $this->_setting_option, 'padding', 'toggle_btn');
 }
 public function dtoc_customization_title_padding_cb(){
     ?>
@@ -1288,6 +1462,15 @@ public function dtoc_customization_icon_border_width_cb(){
     <?php
     dtoc_different_four_sides_html($this->_setting_name, $this->_setting_option, 'width', 'icon_border');
 }
+public function dtoc_customization_toggle_btn_border_width_cb(){    
+    ?>
+    <select data-group="toggle_btn_border_width" class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[toggle_btn_border_width_mode]" id="toggle_btn_border_width_mode">
+        <option value="default" <?php echo (isset($this->_setting_option['toggle_btn_border_width_mode']) && $this->_setting_option['toggle_btn_border_width_mode'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>        
+        <option value="custom" <?php echo (isset($this->_setting_option['toggle_btn_border_width_mode']) && $this->_setting_option['toggle_btn_border_width_mode'] == 'custom' ? 'selected' : '' ) ?>><?php echo esc_html__('Custom', 'digital-table-of-contents'); ?></option>        
+    </select>
+    <?php
+    dtoc_different_four_sides_html($this->_setting_name, $this->_setting_option, 'width', 'toggle_btn_border');
+}
 public function dtoc_customization_border_width_cb(){    
     ?>
     <select data-group="border_width" class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[border_width_mode]" id="border_width_mode">
@@ -1327,6 +1510,21 @@ public function dtoc_customization_icon_border_type_cb(){
     </select>	
     <?php
     // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'icon_border_type'); 
+}
+public function dtoc_customization_toggle_btn_border_type_cb(){
+	$this->dtoc_resolve_meta_settings_name(); 	
+    ?>    
+	<select class="smpg-input" name="<?php echo $this->_setting_name; ?>[toggle_btn_border_type]" id="toggle_btn_border_type">
+        <option value="default" <?php echo (isset($this->_setting_option['toggle_btn_border_type']) && $this->_setting_option['toggle_btn_border_type'] == 'default' ? 'selected' : '' ) ?>><?php echo esc_html__('Default', 'digital-table-of-contents'); ?></option>
+        <option value="none" <?php echo (isset($this->_setting_option['toggle_btn_border_type']) && $this->_setting_option['toggle_btn_border_type'] == 'none' ? 'selected' : '' ) ?>><?php echo esc_html__('None', 'digital-table-of-contents'); ?></option>
+        <option value="solid" <?php echo (isset($this->_setting_option['toggle_btn_border_type']) && $this->_setting_option['toggle_btn_border_type'] == 'solid' ? 'selected' : '' ) ?>><?php echo esc_html__('Solid', 'digital-table-of-contents'); ?></option>
+        <option value="double" <?php echo (isset($this->_setting_option['toggle_btn_border_type']) && $this->_setting_option['toggle_btn_border_type'] == 'double' ? 'selected' : '' ) ?>><?php echo esc_html__('Double', 'digital-table-of-contents'); ?></option>
+        <option value="dotted" <?php echo (isset($this->_setting_option['toggle_btn_border_type']) && $this->_setting_option['toggle_btn_border_type'] == 'dotted' ? 'selected' : '' ) ?>><?php echo esc_html__('Dotted', 'digital-table-of-contents'); ?></option>
+        <option value="dashed" <?php echo (isset($this->_setting_option['toggle_btn_border_type']) && $this->_setting_option['toggle_btn_border_type'] == 'dashed' ? 'selected' : '' ) ?>><?php echo esc_html__('Dashed', 'digital-table-of-contents'); ?></option>
+        <option value="groove" <?php echo (isset($this->_setting_option['toggle_btn_border_type']) && $this->_setting_option['toggle_btn_border_type'] == 'groove' ? 'selected' : '' ) ?>><?php echo esc_html__('Groove', 'digital-table-of-contents'); ?></option>
+    </select>	
+    <?php
+    // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'toggle_btn_border_type'); 
 }
 public function dtoc_general_rendering_style_cb(){ 
     $this->dtoc_resolve_meta_settings_name(); 	   	                
@@ -1415,6 +1613,14 @@ public function dtoc_general_header_text_cb() {
     $this->dtoc_resolve_meta_settings_name(); 	
     ?>    
     <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[header_text]" id="header_text" type="text" value="<?php echo (isset($this->_setting_option['header_text']) ? $this->_setting_option['header_text'] : 'Table of Contents' ) ?>">
+    <?php
+    // dtoc_tooltip(__('text', 'digital-table-of-contents'), 'header_text');
+}
+
+public function dtoc_general_toggle_btn_text_cb() {
+    $this->dtoc_resolve_meta_settings_name(); 	
+    ?>    
+    <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[toggle_btn_text]" id="toggle_btn_text" type="text" value="<?php echo (isset($this->_setting_option['toggle_btn_text']) ? $this->_setting_option['toggle_btn_text'] : 'Index' ) ?>">
     <?php
     // dtoc_tooltip(__('text', 'digital-table-of-contents'), 'header_text');
 }
@@ -1600,6 +1806,32 @@ public function dtoc_general_position_cb(){
     </select>	
     <?php
 }
+public function dtoc_general_sticky_position_cb() {
+	$this->dtoc_resolve_meta_settings_name();
+	?>
+	<select class="smpg-input" name="<?php echo esc_attr( $this->_setting_name ); ?>[display_position]" id="display_position">
+		<option value="left-top" <?php echo ( isset( $this->_setting_option['display_position'] ) && $this->_setting_option['display_position'] === 'left-top' ? 'selected' : '' ); ?>>
+			<?php echo esc_html__( 'Left Top', 'digital-table-of-contents' ); ?>
+		</option>
+		<option value="left-middle" <?php echo ( isset( $this->_setting_option['display_position'] ) && $this->_setting_option['display_position'] === 'left-middle' ? 'selected' : '' ); ?>>
+			<?php echo esc_html__( 'Left Middle', 'digital-table-of-contents' ); ?>
+		</option>
+		<option value="left-bottom" <?php echo ( isset( $this->_setting_option['display_position'] ) && $this->_setting_option['display_position'] === 'left-bottom' ? 'selected' : '' ); ?>>
+			<?php echo esc_html__( 'Left Bottom', 'digital-table-of-contents' ); ?>
+		</option>
+		<option value="right-top" <?php echo ( isset( $this->_setting_option['display_position'] ) && $this->_setting_option['display_position'] === 'right-top' ? 'selected' : '' ); ?>>
+			<?php echo esc_html__( 'Right Top', 'digital-table-of-contents' ); ?>
+		</option>
+		<option value="right-middle" <?php echo ( isset( $this->_setting_option['display_position'] ) && $this->_setting_option['display_position'] === 'right-middle' ? 'selected' : '' ); ?>>
+			<?php echo esc_html__( 'Right Middle', 'digital-table-of-contents' ); ?>
+		</option>
+		<option value="right-bottom" <?php echo ( isset( $this->_setting_option['display_position'] ) && $this->_setting_option['display_position'] === 'right-bottom' ? 'selected' : '' ); ?>>
+			<?php echo esc_html__( 'Right Bottom', 'digital-table-of-contents' ); ?>
+		</option>
+	</select>
+	<?php
+}
+
 public function dtoc_general_paragraph_number_cb(){ 
     $this->dtoc_resolve_meta_settings_name();     
     ?>    
