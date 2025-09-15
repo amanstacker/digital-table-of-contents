@@ -114,6 +114,13 @@ function dtoc_dashboard_modules(){
             'learn' => 'https://digitaltableofcontents/documentation'
         ],
         [
+            'title' => 'Sliding Sticky Mobile',
+            'desc'  => 'A sticky TOC that stays hidden and slides in from the Bottom to Topp or Top to Bottom when toggled. Best for users who want to save space and show TOC only when needed.',
+            'name'  => 'sliding_sticky_mobile',
+            'url'   => admin_url( 'admin.php?page=dtoc_sliding_sticky_mobile'),
+            'learn' => 'https://digitaltableofcontents/documentation'
+        ],
+        [
             'title' => 'Floating',
             'desc'  => 'A Floating TOC is a movable, draggable, or collapsible navigation element that isn\'t fixed, allowing repositioning and enhanced interaction',
             'name'  => 'floating',
@@ -133,14 +140,7 @@ function dtoc_dashboard_modules(){
             'name'  => 'incontent_tablet',
             'url'   => admin_url( 'admin.php?page=dtoc_incontent_tablet'),
             'learn' => 'https://digitaltableofcontents/documentation'
-        ],        
-        [            
-            'title' => 'Sticky Mobile',
-            'desc'  => 'Enable for advanced, separate customization of the Sticky TOC in mobile. If disabled, the TOC will display by default based on the Sticky module.',
-            'name'  => 'sticky_mobile',
-            'url'   => admin_url( 'admin.php?page=dtoc_sliding_sticky_mobile'),
-            'learn' => 'https://digitaltableofcontents/documentation'
-        ],
+        ],                
         [
             'title' => 'Sticky Tablet',
             'desc'  => 'Enable for advanced, separate customization of the Sticky TOC in tablet. If disabled, the TOC will display by default based on the Sticky module.',
@@ -195,7 +195,7 @@ function dtoc_dashboard_modules(){
             <div class="dtoc-switch-block">
             <div class="dtoc-loader"></div>
             <label class="dtoc-switch">
-                <input type="checkbox" class="dtoc-grid-checkbox" name="<?php echo esc_attr($value['name']) ?>" <?php if($dtoc_dashboard['modules'][$value['name']] == true){ echo 'checked';}?> >
+                <input type="checkbox" class="dtoc-grid-checkbox" name="<?php echo esc_attr($value['name']) ?>" <?php if( !empty( $dtoc_dashboard['modules'][$value['name']] ) ){ echo 'checked';}?> >
                 <span class="dtoc-slider"></span>
             </label>
             </div>

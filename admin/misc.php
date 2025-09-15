@@ -56,6 +56,7 @@ function dtoc_enqueue_admin_assets( $hook ) {
                 $reg_url = DTOC_URL . 'assets/admin/js/admin-incontent.js';
 				break;
             case 'dtoc_sliding_sticky':				
+            case 'dtoc_sliding_sticky_mobile':				
                 $admin_data['module_state'] = $dtoc_sliding_sticky;      
                 $reg_url = DTOC_URL . 'assets/admin/js/admin-sticky.js';                   
             break;
@@ -216,8 +217,8 @@ function dtoc_import_options_ajax() {
             if (isset($options['sliding_sticky'])) {
                 update_option('dtoc_sliding_sticky', $options['sliding_sticky']);
             }
-            if (isset($options['sticky_mobile'])) {
-                update_option('dtoc_sliding_sticky_mobile', $options['sticky_mobile']);
+            if (isset($options['sliding_sticky_mobile'])) {
+                update_option('dtoc_sliding_sticky_mobile', $options['sliding_sticky_mobile']);
             }
             if (isset($options['sticky_tablet'])) {
                 update_option('dtoc_sliding_sticky_tablet', $options['sticky_tablet']);
