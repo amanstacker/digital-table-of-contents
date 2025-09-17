@@ -1,0 +1,95 @@
+/* TOC Panel Common */
+.dtoc-sliding-sticky-mobile-container {
+  position: fixed;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  max-width: 100%;
+  background: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.3);
+  max-height: 70%;
+  transition: transform 0.3s ease-in-out;
+  z-index: 9999;
+  border-radius: 10px 10px 10px 10px;  
+}
+
+.dtoc-sliding-sticky-mobile-container ul {
+  padding: 15px;
+  margin: 0;
+  list-style: none;
+}
+.dtoc-sliding-sticky-mobile-container li {
+  margin-bottom: 10px;
+}
+.dtoc-sliding-sticky-mobile-container a {
+  text-decoration: none;
+  color: #0073aa;
+}
+
+/* Header / Handle */
+.dtoc-sliding-sticky-mobile-header {
+  text-align: center;
+  padding: 8px;
+  background: #f1f1f1;
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Default arrow */
+.dtoc-sliding-sticky-mobile-header::after {
+  content: "";
+  display: block;
+  font-size: 14px;
+  margin-top: 3px;
+  opacity: 0.6;
+}
+
+/* =========================
+   BOTTOM SHEET VARIANT
+   ========================= */
+.dtoc-bottom-sheet {
+  bottom: 0;
+  transform: translateY(calc(100% - 40px)); /* collapsed: only header visible */
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+.dtoc-bottom-sheet.active {
+  transform: translateY(0); /* expanded */
+}
+
+/* =========================
+   TOP SHEET VARIANT
+   ========================= */
+.dtoc-top-sheet {
+  top: 0;
+  transform: translateY(-100%); /* collapsed: hide panel above viewport */
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+.dtoc-top-sheet.active {
+  transform: translateY(0); /* expanded: full panel slides down */
+}
+
+/* BUT: leave header visible when collapsed */
+.dtoc-top-sheet .dtoc-sliding-sticky-mobile-header {
+  position: absolute;
+  top: 100%;   /* push header below the hidden panel */
+  left: 0;
+  right: 0;
+  border-bottom: none;
+  border-top: 1px solid #ddd;
+  border-radius: 0 0 8px 8px;
+  background: #f1f1f1;
+}
+
+
+/* =========================
+   Body Scroll Area
+   ========================= */
+.dtoc-sliding-sticky-mobile-box-body {
+  overflow-y: auto;
+  max-height: 300px;
+}

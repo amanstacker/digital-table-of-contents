@@ -272,7 +272,7 @@ public function dtoc_settings_page_render(){
                  echo "</div>";
                  echo "</div>";
 
-                 if ( $this->_setting_name == 'dtoc_sliding_sticky' || $this->_setting_name == 'dtoc_sliding_sticky_mobile' ) {
+                 if ( $this->_setting_name == 'dtoc_sliding_sticky' ) {
 
                     echo "<div class='dtoc-accordion'>";
                     echo "<div class='dtoc-accordion-header'>";                 
@@ -421,21 +421,27 @@ public function dtoc_settings_initiate(){
 			'title'    => __( 'Rendering Style', 'digital-table-of-contents' ),
 			'callback' => 'dtoc_general_rendering_style_cb',
 			'section'  => 'dtoc_general_setting_section',
-			'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
+			'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 		],
 		'dtoc_display_title' => [
 			'title'    => __( 'Title', 'digital-table-of-contents' ),
 			'callback' => 'dtoc_display_title_cb',
 			'section'  => 'dtoc_general_setting_section',
-			'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
+			'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 			'args'     => [ 'label_for' => 'display_title' ],
 		],
-		'dtoc_general_header_text' => [
+        'dtoc_general_header_text' => [
 			'title'    => __( 'Text', 'digital-table-of-contents' ),
 			'callback' => 'dtoc_general_header_text_cb',
 			'section'  => 'dtoc_general_setting_section',
 			'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 			'args'     => [ 'class' => 'dtoc_child_opt dtoc_display_title' ],
+		],	
+		'dtoc_general_header_text' => [
+			'title'    => __( 'Title Text', 'digital-table-of-contents' ),
+			'callback' => 'dtoc_general_header_text_cb',
+			'section'  => 'dtoc_general_setting_section',
+			'pages'    => [ 'dtoc_sliding_sticky_mobile' ],			
 		],	
         'dtoc_display_toggle_body' => [
 		'title'    => __( 'Toggle', 'digital-table-of-contents' ),
@@ -466,7 +472,7 @@ public function dtoc_settings_initiate(){
 			'title'    => __( 'Toggle Button Text', 'digital-table-of-contents' ),
 			'callback' => 'dtoc_general_toggle_btn_text_cb',
 			'section'  => 'dtoc_general_setting_section',
-			'pages'    => [ 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile' ]			
+			'pages'    => [ 'dtoc_sliding_sticky' ]			
 	],	   
 	'dtoc_general_header_icon' => [
 		'title'    => __( 'Icon', 'digital-table-of-contents' ),
@@ -618,49 +624,49 @@ public function dtoc_settings_initiate(){
 		'title'    => __( 'Background Color', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_toggle_btn_bg_color_cb',
 		'section'  => 'dtoc_customization_toggle_btn_section',
-		'pages'    => [ 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile' ],
+		'pages'    => [ 'dtoc_sliding_sticky' ],
 	],
 	'dtoc_customization_toggle_btn_fg_color' => [
 		'title'    => __( 'Foreground Color', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_toggle_btn_fg_color_cb',
 		'section'  => 'dtoc_customization_toggle_btn_section',
-		'pages'    => [ 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile' ],
+		'pages'    => [ 'dtoc_sliding_sticky' ],
 	],
 	'dtoc_customization_toggle_btn_size_color' => [
 		'title'    => __( 'Size', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_toggle_btn_size_cb',
 		'section'  => 'dtoc_customization_toggle_btn_section',
-		'pages'    => [ 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile' ],
+		'pages'    => [ 'dtoc_sliding_sticky' ],
 	],
 	'dtoc_customization_toggle_btn_border_type' => [
 		'title'    => __( 'Border Type', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_toggle_btn_border_type_cb',
 		'section'  => 'dtoc_customization_toggle_btn_section',
-		'pages'    => [ 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile'],
+		'pages'    => [ 'dtoc_sliding_sticky'],
 	],
 	'dtoc_customization_toggle_btn_border_color' => [
 		'title'    => __( 'Border Color', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_toggle_btn_border_color_cb',
 		'section'  => 'dtoc_customization_toggle_btn_section',
-		'pages'    => [ 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile' ],
+		'pages'    => [ 'dtoc_sliding_sticky' ],
 	],
 	'dtoc_customization_toggle_btn_border_width' => [
 		'title'    => __( 'Border Width', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_toggle_btn_border_width_cb',
 		'section'  => 'dtoc_customization_toggle_btn_section',
-		'pages'    => [ 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile' ],
+		'pages'    => [ 'dtoc_sliding_sticky' ],
 	],
 	'dtoc_customization_toggle_btn_border_radius' => [
 		'title'    => __( 'Border Radius', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_toggle_btn_border_radius_cb',
 		'section'  => 'dtoc_customization_toggle_btn_section',
-		'pages'    => [ 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile' ],
+		'pages'    => [ 'dtoc_sliding_sticky' ],
 	],
 	'dtoc_customization_toggle_btn_padding' => [
 		'title'    => __( 'Padding', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_toggle_btn_padding_cb',
 		'section'  => 'dtoc_customization_toggle_btn_section',
-		'pages'    => [ 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile' ],
+		'pages'    => [ 'dtoc_sliding_sticky' ],
 	],	
     'dtoc_customization_icon_bg_color' => [
 		'title'    => __( 'Background Color', 'digital-table-of-contents' ),
@@ -805,7 +811,7 @@ public function dtoc_settings_initiate(){
 		'title'    => __( 'Hierarchy', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_display_hierarchy_cb',
 		'section'  => 'dtoc_advanced_setting_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
+		'pages'    => [ 'dtoc_incontent', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 		'args'     => [ 'label_for' => 'hierarchy' ],
 	],
 	// 'dtoc_display_exp_col_subheadings' => [
@@ -1842,10 +1848,10 @@ public function dtoc_general_sticky_mobile_position_cb() {
 	$this->dtoc_resolve_meta_settings_name();
 	?>
 	<select class="smpg-input" name="<?php echo esc_attr( $this->_setting_name ); ?>[display_position]" id="display_position">
-		<option value="bottom_sheet" <?php echo ( isset( $this->_setting_option['display_position'] ) && $this->_setting_option['display_position'] === 'bottom_sheet' ? 'selected' : '' ); ?>>
+		<option value="bottom-sheet" <?php echo ( isset( $this->_setting_option['display_position'] ) && $this->_setting_option['display_position'] === 'bottom-sheet' ? 'selected' : '' ); ?>>
 			<?php echo esc_html__( 'Bottom Sheet', 'digital-table-of-contents' ); ?>
 		</option>
-		<option value="top_sheet" <?php echo ( isset( $this->_setting_option['display_position'] ) && $this->_setting_option['display_position'] === 'top_sheet' ? 'selected' : '' ); ?>>
+		<option value="top-sheet" <?php echo ( isset( $this->_setting_option['display_position'] ) && $this->_setting_option['display_position'] === 'top-sheet' ? 'selected' : '' ); ?>>
 			<?php echo esc_html__( 'Top Sheet', 'digital-table-of-contents' ); ?>
 		</option>		
 	</select>

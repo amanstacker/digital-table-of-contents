@@ -166,17 +166,13 @@ function dtoc_default_sticky_options() {
 	return $default;
 }
 function dtoc_default_sticky_mobile_options(){
-        $default = [
-		"rendering_style" => "js",
-		"display_title" => 1,
+        $default = [				
 		"header_text" => "Table of Contents",
-		"toggle_initial" => "hide",
-		"toggle_btn_text" => "Index",
+		"toggle_initial" => "hide",		
 		"jump_links" => 1,
 		"scroll_behavior" => "smooth",
 		"display_when" => 2,
-		"display_position" => "left-top",
-		"paragraph_number" => 1,
+		"display_position" => "bottom-sheet",		
 		"list_style_type" => "decimal",
 		"headings_include" => [
 			"1" => 1,

@@ -38,5 +38,6 @@ require_once( DTOC_PATH . '/includes/misc.php' );
 require_once( DTOC_PATH . '/includes/generic_functions.php' );
 require_once( DTOC_PATH . '/includes/incontent/in_content.php' );
 require_once( DTOC_PATH . '/includes/sticky/sliding-sticky.php' );
+require_once( DTOC_PATH . '/includes/sticky/sliding-sticky-mobile.php' );
 require_once( DTOC_PATH . '/includes/floating/floating.php' );
 require_once( DTOC_PATH . '/includes/shortcode/shortcode.php' );

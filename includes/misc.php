@@ -1,6 +1,64 @@
 <?php
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
+add_action( 'wp_enqueue_scripts', 'dtoc_sliding_sticky_mobile_modules_enqueue' );
+
+
+function dtoc_sliding_sticky_mobile_modules_enqueue() {
+
+        global $dtoc_dashboard, $dtoc_sliding_sticky_mobile;
+
+        if ( empty( $dtoc_dashboard['modules']['sliding_sticky_mobile'] ) ) {
+           return '';
+        }                
+                
+        $data = [];        
+
+        $data['scroll_behaviour'] = isset( $dtoc_sliding_sticky_mobile['scroll_behavior'] ) ? $dtoc_sliding_sticky_mobile['scroll_behavior'] : 'auto';
+        $data['toggle_body']      = isset( $dtoc_sliding_sticky_mobile['toggle_body'] ) ? 1 : 0;
+        $data['display_position'] = $dtoc_sliding_sticky_mobile['display_position'];                                                
+
+        wp_register_script( 'dtoc-sliding-sticky-mobile-frontend', DTOC_URL  . 'assets/frontend/js/dtoc-sliding-sticky-mobile.js', array('jquery'), DTOC_VERSION , true );                        
+        wp_localize_script( 'dtoc-sliding-sticky-mobile-frontend', 'dtoc_localize_frontend_sticky_data', $data );        
+        wp_enqueue_script( 'dtoc-sliding-sticky-mobile-frontend' );                        
+        wp_enqueue_style( 'dtoc-sliding-sticky-mobile-frontend', DTOC_URL  . 'assets/frontend/css/dtoc-sliding-sticky-mobile-front.css', false , DTOC_VERSION );
+                                            
+        $list_style_type = 'decimal';
+        $counter_end =  "'.'";
+
+        if ( ! empty( $dtoc_sliding_sticky_mobile['list_style_type'] ) ) {
+
+                $list_style_type = $dtoc_sliding_sticky_mobile['list_style_type'];
+
+                if ( in_array( $list_style_type, array( 'circle','disc','square' ) ) ) {
+                        $counter_end =  '';
+                }
+                                
+        }
+        $custom_css = "";
+        $custom_css = "
+                .dtoc-sliding-sticky-mobile-container ul{
+                        counter-reset: dtoc_item;
+                        list-style-type: none;                 
+                }
+                .dtoc-sliding-sticky-mobile-container ul li::before{
+                        counter-increment: dtoc_item;
+                        content: counters(dtoc_item,'.', $list_style_type) $counter_end;
+                        padding-right: 4px;
+                }";                                
+                if ( isset( $dtoc_sliding_sticky_mobile['scroll_behavior'] ) && $dtoc_sliding_sticky_mobile['scroll_behavior'] == 'smooth' ) {
+                        $custom_css .= "html {
+                                scroll-behavior: smooth;
+                        }";
+                }
+                
+                
+        if(isset($dtoc_sliding_sticky_mobile['custom_css']) && !empty($dtoc_sliding_sticky_mobile['custom_css'])){
+                $custom_css .= $dtoc_sliding_sticky_mobile['custom_css'];
+        }    
+        wp_add_inline_style( 'dtoc-sliding-sticky-mobile-frontend', $custom_css );
+
+}
 
 add_action( 'wp_enqueue_scripts', 'dtoc_sliding_sticky_modules_enqueue' );
 
