@@ -7,11 +7,11 @@
   max-width: 100%;
   background: #fff;
   border: 1px solid #ddd;
+  border-radius: 15px 15px 0 0;
   box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.3);
   max-height: 70%;
   transition: transform 0.3s ease-in-out;
-  z-index: 9999;
-  border-radius: 10px 10px 10px 10px;  
+  z-index: 9999;  
 }
 
 .dtoc-sliding-sticky-mobile-container ul {
@@ -26,7 +26,6 @@
   text-decoration: none;
   color: #0073aa;
 }
-
 /* Header / Handle */
 .dtoc-sliding-sticky-mobile-header {
   text-align: center;
@@ -34,8 +33,9 @@
   background: #f1f1f1;
   font-weight: bold;
   border-bottom: 1px solid #ddd;
+  border-radius: 15px 15px 0 0;
   cursor: pointer;
-  position: relative;
+  position: relative;  
 }
 
 /* Default arrow */
@@ -52,9 +52,7 @@
    ========================= */
 .dtoc-bottom-sheet {
   bottom: 0;
-  transform: translateY(calc(100% - 40px)); /* collapsed: only header visible */
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
+  transform: translateY(calc(100% - 40px)); /* collapsed: only header visible */    
 }
 .dtoc-bottom-sheet.active {
   transform: translateY(0); /* expanded */
@@ -65,9 +63,7 @@
    ========================= */
 .dtoc-top-sheet {
   top: 0;
-  transform: translateY(-100%); /* collapsed: hide panel above viewport */
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
+  transform: translateY(-100%); /* collapsed: hide panel above viewport */  
 }
 .dtoc-top-sheet.active {
   transform: translateY(0); /* expanded: full panel slides down */
@@ -80,12 +76,9 @@
   left: 0;
   right: 0;
   border-bottom: none;
-  border-top: 1px solid #ddd;
-  border-radius: 0 0 8px 8px;
+  border-top: 1px solid #ddd;  
   background: #f1f1f1;
 }
-
-
 /* =========================
    Body Scroll Area
    ========================= */
