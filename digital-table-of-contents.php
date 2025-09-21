@@ -2,7 +2,7 @@
 /*
 Plugin Name: Digital Table of Contents
 Description: Show automated table of contents generated from the post content.
-Version: 1.0.3
+Version: 1.0.4
 Text Domain: digital-table-of-contents
 Domain Path: /languages
 Author: amanstacker
@@ -13,7 +13,7 @@ License: GPLv2 or later
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define('DTOC_VERSION', '1.0.3');
+define('DTOC_VERSION', '1.0.4');
 define('DTOC_DIR_NAME', plugin_basename( dirname( __FILE__ ) ) );
 define('DTOC_BASE_NAME', plugin_basename( __FILE__ ) );
 define('DTOC_PATH', dirname( __FILE__ ) );
@@ -36,7 +36,9 @@ require_once( DTOC_PATH . '/admin/class-digital-toc-taxonomies-metaboxes.php' );
 //includes
 require_once( DTOC_PATH . '/includes/misc.php' );
 require_once( DTOC_PATH . '/includes/generic_functions.php' );
-require_once( DTOC_PATH . '/includes/incontent/in_content.php' );
-require_once( DTOC_PATH . '/includes/sticky/sliding-sticky.php' );
-require_once( DTOC_PATH . '/includes/floating/floating.php' );
+require_once( DTOC_PATH . '/includes/incontent/in-content.php' );
+require_once( DTOC_PATH . '/includes/incontent/in-content-mobile.php' );
 require_once( DTOC_PATH . '/includes/shortcode/shortcode.php' );
+require_once( DTOC_PATH . '/includes/sticky/sliding-sticky.php' );
+require_once( DTOC_PATH . '/includes/sticky/sliding-sticky-mobile.php' );
+require_once( DTOC_PATH . '/includes/floating/floating.php' );
