@@ -5,7 +5,7 @@ Tags: table of contents, toc, navigation, headings, sticky toc
 Requires at least: 5.0  
 Tested up to: 6.8  
 Requires PHP: 7.4
-Stable tag: 1.0.3.1  
+Stable tag: 1.0.4
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -103,6 +103,12 @@ Mobile-specific modules are coming soon in future updates!
 Yes. Use the Tools section to reset or export/import your settings.
 
 == Changelog ==
+
+
+= 1.0.4 =
+* Sliding Sticky Mobile module added.
+* Incontent Mobile module added.
+* Floating module added.
 
 = 1.0.3.1 =
 * Fixed Incontent toc is broken
