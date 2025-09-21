@@ -27,13 +27,13 @@ A powerful and customizable TOC plugin. Effortlessly navigate your content with 
 * <strong>Accessibility Attributes</strong>:  Adds essential ARIA and semantic HTML attributes to ensure the table of contents is fully accessible to screen readers and assistive technologies.
 * <strong>Rendering Style	</strong>: Choose between CSS-based (lightweight and fast with basic interactions) or JavaScript-based rendering (more interactive and dynamic behavior) depending on your performance and functionality needs.
 * <strong>Multiple Header Icon Options</strong>: Choose from various icon styles like List Icon (☰), Show/Hide, Plus (+)/Minus (−), or even use a custom icon of your choice.
-* <strong>Full Customization</strong>: No need to rely on predefined designs — easily customize colors, styles, icons, background, link colors, title, borders, and much more, all hassle-free.
+* <strong>Full Customization</strong>: No need to rely on predefined designs — easily customize colors, styles, icons, backgrounds, links, titles, borders, and much more. Hassle-free, giving you the freedom to create almost any type of table of contents design.
 * <strong>Custom CSS</strong>: If the built-in customization options aren’t sufficient, you can add your own CSS directly in the provided Custom CSS box.
 * <strong>Jump Links Control</strong>: Option to generate a TOC without clickable jump links, ideal for visual structure without navigation.
 * <strong>Lightweight & Performance-Friendly</strong>: Built for speed and efficiency, the plugin is optimized to have minimal impact on your site’s load time and overall performance.
 * <strong>Import / Export</strong>: Easily back up or transfer your TOC settings and configurations between sites with the one-click import/export feature.
-* <strong>Delete Data on Uninstall</strong>: Option to remove all Digital Table of Contents plugin data from the database when Digital Table of Contents plugin is uninstalled, ensuring a clean removal.
-* <strong>Fast Help & Support</strong>: If you are unable to find any features related to Digital Table of Contents or found any bug. Please contact us, Digital Table of Contents team would try to solve it quickly.
+* <strong>Delete Plugin Data & Reset</strong>: Option to remove all Digital Table of Contents plugin data from the database when Digital Table of Contents plugin is uninstalled, ensuring a clean removal.
+* <strong>Fast Help & Support</strong>: Facing issues or unable to find a feature in Digital Table of Contents? Our team is available 24/7 to assist you and resolve bugs or concerns as quickly as possible.
 
 **Shortcode:**
 
@@ -46,19 +46,14 @@ When you’re happy with the configuration, the plugin automatically generates a
 With default settings, just use [digital_toc] for a quick, clean, and fully functional Table of Contents without any extra setup.
 
 
-**Available Modules (More Coming Soon!):**
+**Available Modules :**
 
-- ✅ In-Content 
-- ✅ Shortcode
-- ✅ Sliding Sticky
-- 🔜 Sidebar Sticky  
-- 🔜 Floating TOC    
-- 🔜 In-Content (Mobile)  
-- 🔜 In-Content Table  
-- 🔜 Sticky (Mobile)  
-- 🔜 Sticky Table  
-- 🔜 Floating (Mobile)  
-- 🔜 Floating Table 
+- ✅ <strong>In-Content<strong> : Embed the table of contents directly within your post or page content for seamless navigation.
+- ✅ <strong>In-Content Mobile<strong> : Optimized version of In-Content specifically designed for mobile devices.
+- ✅ <strong>Shortcode<strong> : Easily insert the TOC anywhere using a simple shortcode, giving you full placement flexibility.
+- ✅ <strong>Sliding Sticky<strong> : A sticky TOC that stays hidden and slides in from the left or right when toggled. Best for users who want to save space and show TOC only when needed.
+- ✅ <strong>Sliding Sticky Mobile<strong> : A sticky TOC that stays hidden and slides in from the Bottom to Topp or Top to Bottom when toggled. Best for users who want to save space and show TOC only when needed.
+- ✅ <strong>Floating<strong> : A Floating TOC is a movable, draggable, or collapsible navigation element that isn't fixed, allowing repositioning and enhanced interaction
 
 == Screenshots ==
 
