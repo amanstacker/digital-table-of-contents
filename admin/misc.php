@@ -22,7 +22,7 @@ function dtoc_enqueue_admin_assets( $hook ) {
         $screen_id      = get_current_screen()->id;
 		$setting_name   = str_replace( 'digital-toc_page_','',$screen_id );
 
-		global $dtoc_dashboard, $dtoc_incontent, $dtoc_incontent_mobile,$dtoc_incontent_tablet, $dtoc_sliding_sticky, $dtoc_sliding_sticky_mobile, $dtoc_sliding_sticky_tablet, $dtoc_floating, $dtoc_floating_mobile, $dtoc_floating_tablet, $dtoc_shortcode, $dtoc_shortcode_mobile, $dtoc_shortcode_tablet;
+		global $dtoc_dashboard, $dtoc_incontent, $dtoc_incontent_mobile, $dtoc_sliding_sticky, $dtoc_sliding_sticky_mobile, $dtoc_floating, $dtoc_shortcode;
                 
         $admin_data = [];
         $reg_url    = '';
@@ -55,16 +55,27 @@ function dtoc_enqueue_admin_assets( $hook ) {
                 $admin_data['module_state'] = $dtoc_incontent;                
                 $reg_url = DTOC_URL . 'assets/admin/js/admin-incontent.js';
 				break;
-            case 'dtoc_sliding_sticky':				
-            case 'dtoc_sliding_sticky_mobile':				
+            case 'dtoc_sliding_sticky':				            
                 $admin_data['module_state'] = $dtoc_sliding_sticky;      
+                $reg_url = DTOC_URL . 'assets/admin/js/admin-sticky.js';                   
+            break;            
+            case 'dtoc_sliding_sticky_mobile':				
+                $admin_data['module_state'] = $dtoc_sliding_sticky_mobile;      
                 $reg_url = DTOC_URL . 'assets/admin/js/admin-sticky.js';                   
             break;
             case 'dtoc_shortcode':				
                 $admin_data['module_state'] = $dtoc_shortcode;
                 $admin_data['module_default_state'] = dtoc_default_shortcode_options();                                
                 $reg_url = DTOC_URL . 'assets/admin/js/admin-incontent.js';
-                break;			
+                break;
+            case 'dtoc_floating':
+                $admin_data['module_state'] = $dtoc_floating;                
+                $reg_url = DTOC_URL . 'assets/admin/js/admin-floating.js';
+            break;
+            case 'dtoc_incontent_mobile':				
+                $admin_data['module_state'] = $dtoc_incontent_mobile;                
+                $reg_url = DTOC_URL . 'assets/admin/js/admin-incontent.js';
+            break;			
 				# code...
 				break;
 		}                                        

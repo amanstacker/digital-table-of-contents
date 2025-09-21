@@ -1,8 +1,89 @@
 <?php
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
-add_action( 'wp_enqueue_scripts', 'dtoc_sliding_sticky_mobile_modules_enqueue' );
 
+add_action( 'wp_enqueue_scripts', 'dtoc_floating_modules_enqueue' );
+
+function dtoc_floating_modules_enqueue() {
+
+        global $dtoc_dashboard, $dtoc_floating;
+
+        if (  ! empty( $dtoc_dashboard['modules']['floating'] ) ) {
+                        
+                $data = [];
+                
+                $data['scroll_behaviour'] = isset( $dtoc_floating['scroll_behavior'] ) ? $dtoc_floating['scroll_behavior'] : 'auto';
+                $data['toggle_body']      = isset( $dtoc_floating['toggle_body'] ) ? 1 : 0;
+                                
+                $data = apply_filters( 'dtoc_localize_frontend_assets', $data, 'dtoc_localize_frontend_data' );
+
+                wp_register_script( 'dtoc-floating-frontend', DTOC_URL  . 'assets/frontend/js/dtoc_floating.js', array('jquery'), DTOC_VERSION , true );                        
+                wp_localize_script( 'dtoc-floating-frontend', 'dtoc_localize_frontend_data', $data );        
+                wp_enqueue_script( 'dtoc-floating-frontend' );                        
+
+                wp_enqueue_style( 'dtoc-floating-frontend', DTOC_URL  . 'assets/frontend/css/dtoc-floating.css', false , DTOC_VERSION );    
+                                
+                $list_style_type = 'decimal';
+                        $counter_end =  "'.'";
+                if(!empty($dtoc_floating['list_style_type'])){
+                        $list_style_type = $dtoc_floating['list_style_type'];
+                                        if(in_array($list_style_type,array('circle','disc','square'))){
+                                                $counter_end =  '';
+                                        }
+                                        
+                }
+                $custom_css = "";
+                $custom_css = "
+                        .dtoc-floating-box-container ul{
+                                counter-reset: dtoc_item;
+                                list-style-type: none;                 
+                        }
+                        .dtoc-floating-box-container ul li::before{
+                                counter-increment: dtoc_item;
+                                content: counters(dtoc_item,'.', $list_style_type) $counter_end;
+                                padding-right: 4px;
+                        }";
+                        
+                        if ( isset( $dtoc_floating['display_title'] ) && isset( $dtoc_floating['toggle_body'] ) ) {        
+
+                                if ( $dtoc_floating['toggle_initial'] == 'hide' ) {
+
+                                        $custom_css .= ".dtoc-floating-box-body{
+                                                display: none;
+                                        }
+                                        .dtoc-hide-text {
+                                                display: none;
+                                        }                                
+                                        ";      
+                                        
+                                }else{
+
+                                        $custom_css .= "
+                                        .dtoc-show-text {
+                                                display: none;
+                                        }                                
+                                        ";      
+                                }
+
+                                $custom_css .= "
+                                        .dtoc-floating-toggle-label{
+                                                cursor: pointer;
+                                        }                                
+                                        ";
+
+                                
+                        }                                                                     
+                                
+                if(isset($dtoc_floating['custom_css']) && !empty($dtoc_floating['custom_css'])){
+                        $custom_css .= $dtoc_floating['custom_css'];
+                }    
+                wp_add_inline_style( 'dtoc-frontend', $custom_css );
+
+        }                        
+        		        
+}
+
+add_action( 'wp_enqueue_scripts', 'dtoc_sliding_sticky_mobile_modules_enqueue' );
 
 function dtoc_sliding_sticky_mobile_modules_enqueue() {
 
@@ -21,7 +102,7 @@ function dtoc_sliding_sticky_mobile_modules_enqueue() {
         wp_register_script( 'dtoc-sliding-sticky-mobile-frontend', DTOC_URL  . 'assets/frontend/js/dtoc-sliding-sticky-mobile.js', array('jquery'), DTOC_VERSION , true );                        
         wp_localize_script( 'dtoc-sliding-sticky-mobile-frontend', 'dtoc_localize_frontend_sticky_data', $data );        
         wp_enqueue_script( 'dtoc-sliding-sticky-mobile-frontend' );                        
-        wp_enqueue_style( 'dtoc-sliding-sticky-mobile-frontend', DTOC_URL  . 'assets/frontend/css/dtoc-sliding-sticky-mobile-front.css', false , DTOC_VERSION );
+        wp_enqueue_style( 'dtoc-sliding-sticky-mobile-frontend', DTOC_URL  . 'assets/frontend/css/dtoc-sliding-sticky-mobile.css', false , DTOC_VERSION );
                                             
         $list_style_type = 'decimal';
         $counter_end =  "'.'";
@@ -82,11 +163,11 @@ function dtoc_sliding_sticky_modules_enqueue() {
                 wp_register_script( 'dtoc-sliding-sticky-frontend', DTOC_URL  . 'assets/frontend/js/dtoc-sliding-sticky.js', array('jquery'), DTOC_VERSION , true );                        
                 wp_localize_script( 'dtoc-sliding-sticky-frontend', 'dtoc_localize_frontend_sticky_data', $data );        
                 wp_enqueue_script( 'dtoc-sliding-sticky-frontend' );                        
-                wp_enqueue_style( 'dtoc-sliding-sticky-frontend', DTOC_URL  . 'assets/frontend/css/dtoc-sliding-sticky-front-js-based.css', false , DTOC_VERSION );
+                wp_enqueue_style( 'dtoc-sliding-sticky-frontend', DTOC_URL  . 'assets/frontend/css/dtoc-sliding-sticky-js-based.css', false , DTOC_VERSION );
 
         }else{
 
-                wp_enqueue_style( 'dtoc-sliding-sticky-frontend', DTOC_URL  . 'assets/frontend/css/dtoc-sliding-sticky-front-css-based.css', false , DTOC_VERSION );
+                wp_enqueue_style( 'dtoc-sliding-sticky-frontend', DTOC_URL  . 'assets/frontend/css/dtoc-sliding-sticky-css-based.css', false , DTOC_VERSION );
         }
                 
                     
@@ -134,7 +215,7 @@ function dtoc_incontent_and_shortcode_modules_enqueue() {
 
         global $dtoc_dashboard, $dtoc_incontent;
 
-        if ( !empty( $dtoc_dashboard['modules']['incontent'] ) || !empty( $dtoc_dashboard['modules']['shortcode'] ) ) {
+        if ( !empty( $dtoc_dashboard['modules']['incontent'] ) || !empty( $dtoc_dashboard['modules']['incontent_mobile'] ) || !empty( $dtoc_dashboard['modules']['shortcode'] ) ) {
                         
                 $data = [];
 
@@ -145,13 +226,13 @@ function dtoc_incontent_and_shortcode_modules_enqueue() {
                                         
                         $data = apply_filters( 'dtoc_localize_frontend_assets', $data, 'dtoc_localize_frontend_data' );
 
-                        wp_register_script( 'dtoc-frontend', DTOC_URL  . 'assets/frontend/js/dtoc_auto_place.js', array('jquery'), DTOC_VERSION , true );                        
+                        wp_register_script( 'dtoc-frontend', DTOC_URL  . 'assets/frontend/js/dtoc_incontent.js', array('jquery'), DTOC_VERSION , true );                        
                         wp_localize_script( 'dtoc-frontend', 'dtoc_localize_frontend_data', $data );        
                         wp_enqueue_script( 'dtoc-frontend' );                        
 
                 }
                         
-                wp_enqueue_style( 'dtoc-frontend', DTOC_URL  . 'assets/frontend/css/dtoc-front.css', false , DTOC_VERSION );    
+                wp_enqueue_style( 'dtoc-frontend', DTOC_URL  . 'assets/frontend/css/dtoc-incontent.css', false , DTOC_VERSION );    
                                 
                 $list_style_type = 'decimal';
                         $counter_end =  "'.'";

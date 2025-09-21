@@ -36,8 +36,9 @@ require_once( DTOC_PATH . '/admin/class-digital-toc-taxonomies-metaboxes.php' );
 //includes
 require_once( DTOC_PATH . '/includes/misc.php' );
 require_once( DTOC_PATH . '/includes/generic_functions.php' );
-require_once( DTOC_PATH . '/includes/incontent/in_content.php' );
+require_once( DTOC_PATH . '/includes/incontent/in-content.php' );
+require_once( DTOC_PATH . '/includes/incontent/in-content-mobile.php' );
+require_once( DTOC_PATH . '/includes/shortcode/shortcode.php' );
 require_once( DTOC_PATH . '/includes/sticky/sliding-sticky.php' );
 require_once( DTOC_PATH . '/includes/sticky/sliding-sticky-mobile.php' );
 require_once( DTOC_PATH . '/includes/floating/floating.php' );
-require_once( DTOC_PATH . '/includes/shortcode/shortcode.php' );

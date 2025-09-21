@@ -120,13 +120,6 @@ function dtoc_dashboard_modules(){
             'url'   => admin_url( 'admin.php?page=dtoc_sliding_sticky_mobile'),
             'learn' => 'https://digitaltableofcontents/documentation'
         ],
-        [
-            'title' => 'Floating',
-            'desc'  => 'A Floating TOC is a movable, draggable, or collapsible navigation element that isn\'t fixed, allowing repositioning and enhanced interaction',
-            'name'  => 'floating',
-            'url'   => admin_url( 'admin.php?page=dtoc_floating'),
-            'learn' => 'https://digitaltableofcontents/documentation'
-        ],        
         [            
             'title' => 'In-Content Mobile',
             'desc'  => 'Enable for advanced, separate customization of the In-Content TOC in mobile. If disabled, the TOC will display by default based on the In-Content module.',
@@ -135,47 +128,12 @@ function dtoc_dashboard_modules(){
             'learn' => 'https://digitaltableofcontents/documentation'
         ],
         [
-            'title' => 'In-Content Tablet',
-            'desc'  => 'Enable for advanced, separate customization of the In-Content TOC in tablet. If disabled, the TOC will display by default based on the In-Content module.',
-            'name'  => 'incontent_tablet',
-            'url'   => admin_url( 'admin.php?page=dtoc_incontent_tablet'),
+            'title' => 'Floating',
+            'desc'  => 'A Floating TOC is a movable, draggable, or collapsible navigation element that isn\'t fixed, allowing repositioning and enhanced interaction',
+            'name'  => 'floating',
+            'url'   => admin_url( 'admin.php?page=dtoc_floating'),
             'learn' => 'https://digitaltableofcontents/documentation'
-        ],                
-        [
-            'title' => 'Sticky Tablet',
-            'desc'  => 'Enable for advanced, separate customization of the Sticky TOC in tablet. If disabled, the TOC will display by default based on the Sticky module.',
-            'name'  => 'sticky_tablet',
-            'url'   => admin_url( 'admin.php?page=dtoc_sliding_sticky_tablet'),
-            'learn' => 'https://digitaltableofcontents/documentation'
-        ],        
-        [
-            'title' => 'Floating Mobile',
-            'desc'  => 'Enable for advanced, separate customization of the Floating TOC in mobile. If disabled, the TOC will display by default based on the floating module.',
-            'name'  => 'floating_mobile',
-            'url'   => admin_url( 'admin.php?page=dtoc_floating_mobile'),
-            'learn' => 'https://digitaltableofcontents/documentation'
-        ],
-        [           
-            'title' => 'Floating Tablet',
-            'desc'  => 'Enable for advanced, separate customization of the Floating TOC in tablet. If disabled, the TOC will display by default based on the floating module.',
-            'name'  => 'floating_tablet',
-            'url'   => admin_url( 'admin.php?page=dtoc_floating_tablet'),
-            'learn' => 'https://digitaltableofcontents/documentation'
-        ],        
-        [
-            'title' => 'Shortcode Mobile',
-            'desc'  => 'Enable for advanced, separate customization of the Shortcode in mobile. If disabled, the TOC will display by default based on the Shortcode module.',
-            'name'  => 'shortcode_mobile',
-            'url'   => admin_url( 'admin.php?page=dtoc_shortcode_mobile'),
-            'learn' => 'https://digitaltableofcontents/documentation'
-        ],
-        [
-            'title' => 'Shortcode Tablet',
-            'desc'  => 'Enable for advanced, separate customization of the Shortcode in tablet. If disabled, the TOC will display by default based on the Shortcode module.',
-            'name'  => 'shortcode_tablet',
-            'url'   => admin_url( 'admin.php?page=dtoc_shortcode_tablet'),
-            'learn' => 'https://digitaltableofcontents/documentation'
-        ]                
+        ],                                               
     ];
     ?> 
         <div class="dtoc-grid-container"> 
