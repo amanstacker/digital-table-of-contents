@@ -4,26 +4,431 @@ jQuery(document).ready(function($) {
 
     const default_state = dtoc_admin_modules_cdata.module_default_state;    
     const current_state = dtoc_admin_modules_cdata.module_state;        
-    console.log(dtoc_admin_modules_cdata);
-
+    
     // Proxy to trigger on any top-level set
-    const reactive = new Proxy(current_state, {
+    const options = new Proxy(current_state, {
         set(target, prop, value) {
             target[prop] = value;
-            updatePreview();
+            updateSettings();
             updateShortcode();
+            renderLivePreview();
+
             return true;
         }
     });
 
+function dtocBoxContainerStyle(options = {}) {
+
+    let style = '';
+    
+    // Background color
+    if (options.bg_color) {
+        style += `background-color:${options.bg_color};`;
+    }
+
+    // Width
+    if (options.container_width_mode) {
+        switch (options.container_width_mode) {
+            case 'auto':
+                style += 'width:auto;';
+                break;
+            case 'full':
+                style += 'width:100%;';
+                break;
+            case 'fit-content':
+                style += 'width:fit-content;';
+                break;
+            case 'custom':
+                if (options.container_width && options.container_width_unit) {
+                    style += `width:${options.container_width}${options.container_width_unit};`;
+                }
+                break;
+        }
+    }
+
+    // Height
+    if (options.container_height_mode) {
+        switch (options.container_height_mode) {
+            case 'auto':
+                style += 'height:auto;';
+                break;
+            case 'full':
+                style += 'height:100%;';
+                break;
+            case 'fit-content':
+                style += 'height:fit-content;';
+                break;
+            case 'custom':
+                if (options.container_height && options.container_height_unit) {
+                    style += `height:${options.container_height}${options.container_height_unit};`;
+                }
+                break;
+        }
+    }
+
+    // Margin
+    if (options.container_margin_mode) {
+        if (options.container_margin_mode === 'auto') {
+            style += 'margin:auto;';
+        } else if (options.container_margin_mode === 'custom') {
+            const unit = options.container_margin_unit || 'px';
+            style += `margin-top:${options.container_margin_top || 0}${unit};`;
+            style += `margin-right:${options.container_margin_right || 0}${unit};`;
+            style += `margin-bottom:${options.container_margin_bottom || 0}${unit};`;
+            style += `margin-left:${options.container_margin_left || 0}${unit};`;
+        }
+    }
+
+    // Padding
+    if (options.container_padding_mode) {
+        if (options.container_padding_mode === 'auto') {
+            style += 'padding:auto;';
+        } else if (options.container_padding_mode === 'custom') {
+            const unit = options.container_padding_unit || 'px';
+            style += `padding-top:${options.container_padding_top || 0}${unit};`;
+            style += `padding-right:${options.container_padding_right || 0}${unit};`;
+            style += `padding-bottom:${options.container_padding_bottom || 0}${unit};`;
+            style += `padding-left:${options.container_padding_left || 0}${unit};`;
+        }
+    }
+
+    // Border style
+    if (options.border_type && options.border_type !== 'default') {
+        style += `border-style:${options.border_type};`;
+    }
+
+    // Border color
+    if (options.border_color) {
+        style += `border-color:${options.border_color};`;
+    }
+
+    // Border width
+    if (options.border_width_mode === 'custom' && options.border_width_unit) {
+        const unit = options.border_width_unit;
+        style += `border-top-width:${options.border_width_top || 0}${unit};`;
+        style += `border-right-width:${options.border_width_right || 0}${unit};`;
+        style += `border-bottom-width:${options.border_width_bottom || 0}${unit};`;
+        style += `border-left-width:${options.border_width_left || 0}${unit};`;
+    }
+
+    // Border radius
+    if (options.border_radius_mode === 'custom' && options.border_radius_unit) {
+        const unit = options.border_radius_unit;
+        style += `border-top-left-radius:${options.border_radius_top_left || 0}${unit};`;
+        style += `border-top-right-radius:${options.border_radius_top_right || 0}${unit};`;
+        style += `border-bottom-right-radius:${options.border_radius_bottom_right || 0}${unit};`;
+        style += `border-bottom-left-radius:${options.border_radius_bottom_left || 0}${unit};`;
+    }
+
+    return style;
+}
+
+function dtocGetHeaderIcon(options = {}) {
+    if (!options.header_icon || options.header_icon === 'none') return '';
+
+    let iconHtml = '';
+    let cStyle = '';
+
+    // Accessibility setup
+    const addAccessibility = options.accessibility === 1;
+    const ariaLabel = 'Toggle Table of Contents';
+
+    // Border style
+    if (options.icon_border_type && options.icon_border_type !== 'default') {
+        cStyle += `border-style:${options.icon_border_type};`;
+    }
+
+    // Border color
+    if (options.icon_border_color) {
+        cStyle += `border-color:${options.icon_border_color};`;
+    }
+
+    // Border width
+    if (options.icon_border_width_mode === 'custom') {
+        ['top', 'right', 'bottom', 'left'].forEach(side => {
+            const key = `icon_border_width_${side}`;
+            if (options[key] != null && options.icon_border_width_unit) {
+                cStyle += `border-${side}-width:${options[key]}${options.icon_border_width_unit};`;
+            }
+        });
+    }
+
+    // Border radius
+    if (options.icon_border_radius_mode === 'custom') {
+        const corners = {
+            top_left: 'top-left',
+            top_right: 'top-right',
+            bottom_right: 'bottom-right',
+            bottom_left: 'bottom-left'
+        };
+        for (let key in corners) {
+            const field = `icon_border_radius_${key}`;
+            if (options[field] != null && options.icon_border_radius_unit) {
+                cStyle += `border-${corners[key]}-radius:${options[field]}${options.icon_border_radius_unit};`;
+            }
+        }
+    }
+
+    // Margin
+    if (options.icon_margin_mode === 'custom') {
+        ['top', 'right', 'bottom', 'left'].forEach(side => {
+            const key = `icon_margin_${side}`;
+            if (options[key] != null && options.icon_margin_unit) {
+                cStyle += `margin-${side}:${options[key]}${options.icon_margin_unit};`;
+            }
+        });
+    }
+
+    // Padding
+    if (options.icon_padding_mode === 'custom') {
+        ['top', 'right', 'bottom', 'left'].forEach(side => {
+            const key = `icon_padding_${side}`;
+            if (options[key] != null && options.icon_padding_unit) {
+                cStyle += `padding-${side}:${options[key]}${options.icon_padding_unit};`;
+            }
+        });
+    }
+
+    // Size
+    let iconWidth = '';
+    let iconHeight = '';
+    if (options.icon_size_mode === 'custom') {
+        iconWidth = options.icon_width ? options.icon_width + (options.icon_size_unit || 'px') : '';
+        iconHeight = options.icon_height ? options.icon_height + (options.icon_size_unit || 'px') : '';
+        if (iconWidth) cStyle += `width:${iconWidth};`;
+        if (iconHeight) cStyle += `height:${iconHeight};`;
+    }
+
+    const bgColor = options.icon_bg_color || 'transparent';
+    const fgColor = options.icon_fg_color || '#000';
+
+    // ICON HTML OUTPUT
+    switch (options.header_icon) {
+        case 'list_icon':
+            if (options.icon_size_mode === 'custom') {
+                iconWidth = options.icon_width ? options.icon_width + (options.icon_size_unit || 'px') : '35px';
+                iconHeight = options.icon_height ? options.icon_height + (options.icon_size_unit || 'px') : '35px';
+            } else {
+                iconWidth = '35px';
+                iconHeight = '35px';
+            }
+
+            iconHtml = `<span class="dtoc_icon_toggle"${addAccessibility ? ` role="button" aria-label="${ariaLabel}"` : ''}>
+                <svg style="${cStyle}" width="${iconWidth}" height="${iconHeight}" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill="none" aria-hidden="true">
+                    <rect x="1" y="1" width="46" height="46" rx="4" stroke="#aaa" fill="${bgColor}"></rect>
+                    <circle cx="10" cy="14" r="1.5" fill="${fgColor}"></circle>
+                    <rect x="14" y="13" width="14" height="2" rx="1" fill="${fgColor}"></rect>
+                    <circle cx="10" cy="24" r="1.5" fill="${fgColor}"></circle>
+                    <rect x="14" y="23" width="14" height="2" rx="1" fill="${fgColor}"></rect>
+                    <circle cx="10" cy="34" r="1.5" fill="${fgColor}"></circle>
+                    <rect x="14" y="33" width="14" height="2" rx="1" fill="${fgColor}"></rect>
+                    <path d="M36 18L32 22H40L36 18Z" fill="${fgColor}"></path>
+                    <path d="M36 30L40 26H32L36 30Z" fill="${fgColor}"></path>
+                </svg>
+            </span>`;
+            break;
+
+        case 'plus_minus':
+            iconHtml = `<span class="dtoc_icon_toggle" style="${cStyle}"${addAccessibility ? ` role="button" aria-label="${ariaLabel}"` : ''}>
+                <span class="dtoc_icon_brackets">[</span>
+                <span class="dtoc-show-text dtoc-plus">+</span>
+                <span class="dtoc-hide-text dtoc-minus">-</span>
+                <span class="dtoc_icon_brackets">]</span>
+            </span>`;
+            break;
+
+        case 'show_hide':
+            iconHtml = `<span class="dtoc_icon_toggle" style="${cStyle}"${addAccessibility ? ` role="button" aria-label="${ariaLabel}"` : ''}>
+                <span class="dtoc_icon_brackets">[</span>
+                <span class="dtoc-show-text">${options.show_text || 'Show'}</span>
+                <span class="dtoc-hide-text">${options.hide_text || 'Hide'}</span>
+                <span class="dtoc_icon_brackets">]</span>
+            </span>`;
+            break;
+
+        case 'custom_icon':
+            iconHtml = `<span class="dtoc_icon_toggle" style="${cStyle}"${addAccessibility ? ` role="button" aria-label="${ariaLabel}"` : ''}>
+                <img src="${options.custom_icon_url || ''}" alt="${addAccessibility ? ariaLabel : 'Icon'}" />
+            </span>`;
+            break;
+    }
+
+    return iconHtml;
+}
+
+function dtocGetTitleStyle(options = {}) {
+    let style = '';
+
+    // Background color
+    if (options.title_bg_color) {
+        style += `background:${options.title_bg_color};`;
+    }
+
+    // Foreground color
+    if (options.title_fg_color) {
+        style += `color:${options.title_fg_color};`;
+    }
+
+    // Font size
+    if (
+        options.title_font_size_mode === 'custom' &&
+        options.title_font_size != null &&
+        !isNaN(options.title_font_size) &&
+        options.title_font_size > 0 &&
+        options.title_font_size_unit
+    ) {
+        style += `font-size:${options.title_font_size}${options.title_font_size_unit};`;
+    }
+
+    // Font weight
+    if (
+        options.title_font_weight_mode === 'custom' &&
+        options.title_font_weight != null &&
+        !isNaN(options.title_font_weight) &&
+        options.title_font_weight > 0
+    ) {
+        style += `font-weight:${options.title_font_weight};`;
+    }
+
+    // Padding (custom mode)
+    if (options.title_padding_mode === 'custom') {
+        const top = parseInt(options.title_padding_top) || 0;
+        const right = parseInt(options.title_padding_right) || 0;
+        const bottom = parseInt(options.title_padding_bottom) || 0;
+        const left = parseInt(options.title_padding_left) || 0;
+
+        if (top > 0 || right > 0 || bottom > 0 || left > 0) {
+            const unit = options.title_padding_unit || 'px';
+            style += `padding:${top}${unit} ${right}${unit} ${bottom}${unit} ${left}${unit};`;
+        }
+    }
+
+    return style;
+}
+
+    function dtocGetCustomStyle(options) {
+    // Default TOC CSS
+    const defaultCSS = `
+        .dtoc-box-container {                    
+            display: table;       
+            width: fit-content;     
+            max-width: 100%;            
+            overflow: hidden;
+        }        
+
+        .dtoc-toggle-label {
+            display: flex;    
+            justify-content: space-between;        
+            font-weight: 600;
+            font-size: 100%;   
+            padding: 10px;     
+        }        
+
+        span.dtoc_icon_toggle svg {
+            vertical-align: middle;
+        }
+
+        .dtoc_icon_toggle img {
+            width: 30px;
+        }
+
+        .dtoc_icon_toggle {
+            font-weight: 400;
+            font-size: 90%;
+        }
+
+        .dtoc-box-container ul {
+            margin: auto;
+            padding-left: 0;
+        }
+
+        .dtoc-box-container ul ul {
+            margin: revert;
+            padding-left: revert;
+        }
+
+        .dtoc-box-container ul li {
+            font-size: 100%;
+            margin-bottom: 0;
+        }
+
+        .dtoc-box-container a {
+            color: #444; 
+            box-shadow: none;
+            text-decoration: none;
+            text-shadow: none;
+            display: inline-flex;    
+            flex-wrap: nowrap;
+        }
+
+        .dtoc-box-body {
+            padding: 10px;
+        }
+    `;
+
+    // If no custom CSS provided
+    if (!options.custom_css) {
+        return `<style id="dtoc-custom-css">${defaultCSS}</style>`;
+    }
+
+    // Sanitize custom CSS: strip HTML tags and trim
+    const customCSS = options.custom_css.replace(/<\/?[^>]+(>|$)/g, '').trim();
+
+    // Combine default + custom CSS safely
+    const finalCSS = defaultCSS + (customCSS ? `\n${customCSS}` : '');
+
+    return `<style id="dtoc-custom-css">${finalCSS}</style>`;
+}
+
+
+
+    function renderLivePreview(){
+        	
+            $('.dtoc-preview-wrapper').html('');
+            
+            const html = `${dtocGetCustomStyle( options ) }
+                <div class="dtoc-box-container" style="${dtocBoxContainerStyle(options)}">
+                ${options.display_title ? `
+                    <div class="dtoc-toggle-label" style="${dtocGetTitleStyle(options)}">
+                        <span class="dtoc-title-str">${
+                            options.header_text === 'Table of Contents'
+                                ? 'Table of Contents'
+                                : options.header_text
+                        }</span>
+                        ${dtocGetHeaderIcon(options)}
+                    </div>` : ''}                    
+                    <div class="dtoc-box-body dtoc-box-on-js-body">
+                        <ul>                            
+                            <li><a class="dtoc-link dtoc-heading-2" aria-label="Introduction">Introduction</a></li>
+                            <li><a class="dtoc-link dtoc-heading-3" aria-label="Why a TOC Is Important">Why a TOC Is Important</a></li>
+                            <li><a class="dtoc-link dtoc-heading-4" aria-label="Improves Readability">Improves Readability</a></li>
+                            <li><a class="dtoc-link dtoc-heading-5" aria-label="Enhances SEO">Enhances SEO</a></li>
+                            <li><a class="dtoc-link dtoc-heading-13" aria-label="Formatting Elements">Formatting Elements</a></li>
+                            <li><a class="dtoc-link dtoc-heading-14" aria-label="Bold, Italic, and Links">Bold, Italic, and Links</a></li>
+                            <li><a class="dtoc-link dtoc-heading-16" aria-label="Code Snippets">Code Snippets</a></li>
+                            <li><a class="dtoc-link dtoc-heading-18" aria-label="Unordered List">Unordered List</a></li>
+                            <li><a class="dtoc-link dtoc-heading-20" aria-label="Table Example">Table Example</a></li>
+                            <li><a class="dtoc-link dtoc-heading-25" aria-label="Advanced TOC Testing">Advanced TOC Testing</a></li>
+                            <li><a class="dtoc-link dtoc-heading-27" aria-label="Dynamic Headings (JavaScript Loaded)">Dynamic Headings (JavaScript Loaded)</a></li>
+                            <li><a class="dtoc-link dtoc-heading-29" aria-label="Accessibility & Performance">Accessibility & Performance</a></li>
+                            <li><a class="dtoc-link dtoc-heading-33" aria-label="Best Practices for Developers">Best Practices for Developers</a></li>
+                            <li><a class="dtoc-link dtoc-heading-37" aria-label="Conclusion">Conclusion</a></li>
+                        </ul>
+                    </div>
+                </div>
+                `;
+            $('.dtoc-preview-wrapper').append(html);
+    }
+
+
     function updateShortcode() {
     let params = [];
 
-    for (let key in reactive) {
-        if (!reactive.hasOwnProperty(key)) continue;
+    for (let key in options) {
+        if (!options.hasOwnProperty(key)) continue;
 
-        let currentVal = reactive[key];
-        let defaultVal = default_state[key];
+        let currentVal = options[key];
+        let defaultVal = default_state?.[key] ?? '';
 
         // Special handling for headings_include → always include 1 to 6
         if (key === 'headings_include' && typeof currentVal === 'object') {
@@ -63,24 +468,24 @@ jQuery(document).ready(function($) {
 }
 
 
-    function updatePreview() {
-        if (reactive.jump_links) {
+    function updateSettings() {
+        if (options.jump_links) {
             $('.dtoc_jump_links').show();
         } else {
             $('.dtoc_jump_links').hide();
         }
 
-        if (reactive.display_title) {
+        if (options.display_title) {
             $('.dtoc_display_title').show();
 
-            if (reactive.toggle_body) {
+            if (options.toggle_body) {
                 $('.dtoc_display_title.dtoc_2_label_child_opt').show();
                 $('.dtoc_display_title.dtoc_3_label_child_opt').hide();
 
-                if (reactive.header_icon === 'show_hide') {
+                if (options.header_icon === 'show_hide') {
                     $('.dtoc_display_title.dtoc_3_label_child_opt').show();
                 }
-                if (reactive.header_icon === 'custom_icon') {
+                if (options.header_icon === 'custom_icon') {
                     $('#custom-icon-wrapper').show();
                 } else {
                     $('#custom-icon-wrapper').hide();
@@ -97,7 +502,7 @@ jQuery(document).ready(function($) {
         $('.smpg-mode-select').each(function () {
             const $select = $(this);
             const group = $select.data('group');
-            const value = reactive[$select.attr('id')];
+            const value = options[$select.attr('id')];
             const $related = $('[data-group="' + group + '"]').not($select);
 
             if (value === 'custom') {
@@ -115,24 +520,24 @@ jQuery(document).ready(function($) {
         if (!dataId) return;
 
         if ($input.is(':checkbox') && dataId === 'headings_include') {
-            if (!reactive[dataId]) {
-                reactive[dataId] = {};
+            if (!options[dataId]) {
+                options[dataId] = {};
             }
             const number = $input.data('number');
             if (number !== undefined) {
-                const updated = { ...reactive[dataId] }; // clone object
+                const updated = { ...options[dataId] }; // clone object
                 updated[number] = $input.is(':checked') ? 1 : 0;
-                reactive[dataId] = updated; // replace → triggers Proxy set()
+                options[dataId] = updated; // replace → triggers Proxy set()
             }
         }
         else if ($input.is(':checkbox')) {
-            reactive[dataId] = $input.is(':checked') ? 1 : 0;
+            options[dataId] = $input.is(':checked') ? 1 : 0;
         }
         else if ($input.is(':radio')) {
-            reactive[dataId] = $input.val();
+            options[dataId] = $input.val();
         }
         else {
-            reactive[dataId] = $input.val();
+            options[dataId] = $input.val();
         }
     });
      
@@ -187,13 +592,14 @@ jQuery(document).ready(function($) {
             // Update textarea & trigger preview on change
             editor.session.on('change', function () {
                 $customCssTarget.val(editor.session.getValue());
-                reactive.custom_css = editor.session.getValue(); // bind to state
+                options.custom_css = editor.session.getValue(); // bind to state
             });
         });
     }
 
-    updatePreview();
+    updateSettings();
     updateShortcode();
+    renderLivePreview();
 });
 
 

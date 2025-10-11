@@ -31,11 +31,13 @@
     
 }
 .dtoc-preview-wrapper{
+    display: flex;
+    justify-content: center;
     flex: 1;
     padding: 15px;
     background: white;
     border-radius: 5px;    
-    margin-left: 10px;
+    margin-left: 10px;    
 }
 .dtoc-preview-heading{
     text-align: center;

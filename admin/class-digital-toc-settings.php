@@ -285,18 +285,7 @@ public function dtoc_settings_page_render(){
              
          </form>
      </div>
-    <div class="dtoc-preview-wrapper">
-
-    <?php
-        echo '<div class="wrap">';
-    // your settings UI
-    require_once( DTOC_PATH . '/admin/live-preview-soon.php' );
-    
-    echo '</div>';
-       // echo dtoc_get_live_preview_by_type($this->_setting_name, $this->_setting_option);
-     ?>
-        
-    </div>
+        <div class="dtoc-preview-wrapper"></div>    
     </div>    
     <!-- setting form ends here -->
     </div>
