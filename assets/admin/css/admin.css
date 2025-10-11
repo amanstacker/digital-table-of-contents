@@ -38,6 +38,7 @@
     background: white;
     border-radius: 5px;    
     margin-left: 10px;    
+    max-height: 1200px;
 }
 .dtoc-preview-heading{
     text-align: center;
