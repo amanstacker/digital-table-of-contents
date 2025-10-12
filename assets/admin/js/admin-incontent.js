@@ -346,7 +346,7 @@ function dtocGetTitleStyle(options = {}) {
 
 		.dtoc-box-container ul {
 			margin: auto;
-			padding-left: 20px;
+			padding-left: 25px;
 			list-style-type: ${listStyleType};
 		}
 
