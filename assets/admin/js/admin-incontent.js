@@ -307,75 +307,83 @@ function dtocGetTitleStyle(options = {}) {
 }
 
     function dtocGetCustomStyle(options) {
-    // Default TOC CSS
-    const defaultCSS = `
-        .dtoc-box-container {                    
-            display: table;       
-            width: fit-content;     
-            max-width: 100%;            
-            overflow: hidden;
-            height:fit-content;
-            font-size:20px;
-            font-family:auto;
-            line-height:1.25
-        }        
+	// Extract list style type safely
+	const listStyleType = options?.list_style_type || 'decimal';
 
-        .dtoc-toggle-label {
-            display: flex;    
-            justify-content: space-between;        
-            font-weight: 600;
-            font-size: 100%;   
-            padding: 10px;     
-        }        
+	// Default TOC CSS
+	const defaultCSS = `
+		.dtoc-box-container {                    
+			display: table;       
+			width: fit-content;     
+			max-width: 100%;            
+			overflow: hidden;
+			height: fit-content;
+			font-size: 20px;
+			font-family: auto;
+			line-height: 1.25;
+		}        
 
-        span.dtoc_icon_toggle svg {
-            vertical-align: middle;
-        }
+		.dtoc-toggle-label {
+			display: flex;    
+			justify-content: space-between;        
+			font-weight: 600;
+			font-size: 100%;   
+			padding: 10px;     
+		}        
 
-        .dtoc_icon_toggle img {
-            width: 30px;
-        }
+		span.dtoc_icon_toggle svg {
+			vertical-align: middle;
+		}
 
-        .dtoc_icon_toggle {
-            font-weight: 400;
-            font-size: 90%;
-        }
+		.dtoc_icon_toggle img {
+			width: 30px;
+		}
 
-        .dtoc-box-container ul {
-            margin: auto;
-            padding-left: 0;
-        }
+		.dtoc_icon_toggle {
+			font-weight: 400;
+			font-size: 90%;
+		}
 
-        .dtoc-box-container ul ul {
-            margin: revert;
-            padding-left: revert;
-        }
+		.dtoc-box-container ul {
+			margin: auto;
+			padding-left: 20px;
+			list-style-type: ${listStyleType};
+		}
 
-        .dtoc-box-container ul li {
-            font-size: 100%;
-            margin-bottom: 0;
-        }
-        .dtoc-box-container a {                        
-            text-decoration: none;                                    
-        }         
-        .dtoc-box-body {
-            padding: 10px;
-        }
-    `;
+		.dtoc-box-container ul ul {
+			margin: revert;
+			padding-left: 25px;
+			list-style-type: ${listStyleType};
+		}
 
-    // If no custom CSS provided
-    if (!options.custom_css) {
-        return `<style id="dtoc-custom-css">${defaultCSS}</style>`;
-    }
+		.dtoc-box-container ul li {
+			font-size: 100%;
+			margin-bottom: 0;
+		}
 
-    // Sanitize custom CSS: strip HTML tags and trim
-    const customCSS = options.custom_css.replace(/<\/?[^>]+(>|$)/g, '').trim();
+		.dtoc-box-container a {                        
+			text-decoration: none;                                    
+		}         
 
-    // Combine default + custom CSS safely
-    const finalCSS = defaultCSS + (customCSS ? `\n${customCSS}` : '');
+		.dtoc-box-body {
+			padding: 10px;
+		}
+	`;
 
-    return `<style id="dtoc-custom-css">${finalCSS}</style>`;
+	// If no custom CSS provided
+	if (!options.custom_css) {
+		return `<style id="dtoc-custom-css">${defaultCSS}</style>`;
+	}
+
+	// Sanitize custom CSS: strip HTML tags and trim
+	const customCSS = options.custom_css.replace(/<\/?[^>]+(>|$)/g, '').trim();
+
+	// Combine default + custom CSS safely
+	const finalCSS = defaultCSS + (customCSS ? `\n${customCSS}` : '');
+
+	return `<style id="dtoc-custom-css">${finalCSS}</style>`;
 }
+
 
 function dtocGetTocLinkStyle(options = {}, type = '') {
     
@@ -448,6 +456,8 @@ function dtocGetTocLinkStyle(options = {}, type = '') {
 
 
     function renderLivePreview(){
+
+            $('.dtoc-preview-body').append('');
         	                        
             const html = `${dtocGetCustomStyle( options ) + dtocGetTocLinkStyle( options, 'incontent' ) }
             
