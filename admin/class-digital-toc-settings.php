@@ -285,7 +285,20 @@ public function dtoc_settings_page_render(){
              
          </form>
      </div>
-        <div class="dtoc-preview-wrapper"></div>    
+        <div class="dtoc-preview-wrapper">
+            <div class="dtoc-preview-header">
+		<h1 class="dtoc-preview-title"> <?php esc_html_e('Live Preview', 'digital-table-of-contents') ?> </h1>
+		        
+	</div>
+            <div class="dtoc-preview-body"></div>
+            <hr>
+            <p class="dtoc-preview-note">
+                <strong>
+                 <?php esc_html_e('Disclaimer:', 'digital-table-of-contents') ?>
+                </strong> 
+                <?php esc_html_e('This is a live preview for demonstration only. The actual appearance of your Table of Contents on the frontend might differ or might not, depending on your website theme.', 'digital-table-of-contents') ?>                
+		    </p>
+        </div>    
     </div>    
     <!-- setting form ends here -->
     </div>

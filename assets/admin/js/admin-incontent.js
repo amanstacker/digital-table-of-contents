@@ -314,6 +314,10 @@ function dtocGetTitleStyle(options = {}) {
             width: fit-content;     
             max-width: 100%;            
             overflow: hidden;
+            height:fit-content;
+            font-size:20px;
+            font-family:auto;
+            line-height:1.25
         }        
 
         .dtoc-toggle-label {
@@ -351,16 +355,9 @@ function dtocGetTitleStyle(options = {}) {
             font-size: 100%;
             margin-bottom: 0;
         }
-
-        .dtoc-box-container a {
-            color: #444; 
-            box-shadow: none;
-            text-decoration: none;
-            text-shadow: none;
-            display: inline-flex;    
-            flex-wrap: nowrap;
-        }
-
+        .dtoc-box-container a {                        
+            text-decoration: none;                                    
+        }         
         .dtoc-box-body {
             padding: 10px;
         }
@@ -380,13 +377,80 @@ function dtocGetTitleStyle(options = {}) {
     return `<style id="dtoc-custom-css">${finalCSS}</style>`;
 }
 
+function dtocGetTocLinkStyle(options = {}, type = '') {
+    
+	let css = '.dtoc-box-body .dtoc-link {';
+
+	if (type === 'sliding_sticky') {
+		css = '.dtoc-sliding-sticky-box-body .dtoc-link {';
+	}
+
+	// Link color
+	if (options.link_color) {
+		css += `color: ${options.link_color};`;
+	}
+
+	// Padding
+	if (options.link_padding_mode) {
+		if (options.link_padding_mode === 'auto') {
+			css += 'padding: auto;';
+		} else if (options.link_padding_mode === 'custom') {
+			const unit = options.link_padding_unit || 'px';
+			const top = options.link_padding_top ? `${parseInt(options.link_padding_top)}${unit}` : `0${unit}`;
+			const right = options.link_padding_right ? `${parseInt(options.link_padding_right)}${unit}` : `0${unit}`;
+			const bottom = options.link_padding_bottom ? `${parseInt(options.link_padding_bottom)}${unit}` : `0${unit}`;
+			const left = options.link_padding_left ? `${parseInt(options.link_padding_left)}${unit}` : `0${unit}`;
+			css += `padding: ${top} ${right} ${bottom} ${left};`;
+		}
+	}
+
+	// Margin
+	if (options.link_margin_mode) {
+		if (options.link_margin_mode === 'auto') {
+			css += 'margin: auto;';
+		} else if (options.link_margin_mode === 'custom') {
+			const unit = options.link_margin_unit || 'px';
+			const top = options.link_margin_top ? `${parseInt(options.link_margin_top)}${unit}` : `0${unit}`;
+			const right = options.link_margin_right ? `${parseInt(options.link_margin_right)}${unit}` : `0${unit}`;
+			const bottom = options.link_margin_bottom ? `${parseInt(options.link_margin_bottom)}${unit}` : `0${unit}`;
+			const left = options.link_margin_left ? `${parseInt(options.link_margin_left)}${unit}` : `0${unit}`;
+			css += `margin: ${top} ${right} ${bottom} ${left};`;
+		}
+	}
+
+	css += '}';
+
+	// Hover color
+	if (options.link_hover_color) {
+		if (type === 'sliding_sticky') {
+			css += ' .dtoc-sliding-sticky-box-body .dtoc-link:hover {';
+		} else {
+			css += ' .dtoc-box-body .dtoc-link:hover {';
+		}
+		css += `color: ${options.link_hover_color};`;
+		css += '}';
+	}
+
+	// Visited color
+	if (options.link_visited_color) {
+		if (type === 'sliding_sticky') {
+			css += ' .dtoc-sliding-sticky-box-body .dtoc-link:visited {';
+		} else {
+			css += ' .dtoc-box-body .dtoc-link:visited {';
+		}
+		css += `color: ${options.link_visited_color};`;
+		css += '}';
+	}
+
+	// Return full style element
+	return `<style id="dtoc-link-css">${css}</style>`;
+}
 
 
     function renderLivePreview(){
-        	
-            $('.dtoc-preview-wrapper').html('');
+        	                        
+            const html = `${dtocGetCustomStyle( options ) + dtocGetTocLinkStyle( options, 'incontent' ) }
             
-            const html = `${dtocGetCustomStyle( options ) }
                 <div class="dtoc-box-container" style="${dtocBoxContainerStyle(options)}">
                 ${options.display_title ? `
                     <div class="dtoc-toggle-label" style="${dtocGetTitleStyle(options)}">
@@ -399,25 +463,25 @@ function dtocGetTitleStyle(options = {}) {
                     </div>` : ''}                    
                     <div class="dtoc-box-body dtoc-box-on-js-body">
                         <ul>                            
-                            <li><a class="dtoc-link dtoc-heading-2" aria-label="Introduction">Introduction</a></li>
-                            <li><a class="dtoc-link dtoc-heading-3" aria-label="Why a TOC Is Important">Why a TOC Is Important</a></li>
-                            <li><a class="dtoc-link dtoc-heading-4" aria-label="Improves Readability">Improves Readability</a></li>
-                            <li><a class="dtoc-link dtoc-heading-5" aria-label="Enhances SEO">Enhances SEO</a></li>
-                            <li><a class="dtoc-link dtoc-heading-13" aria-label="Formatting Elements">Formatting Elements</a></li>
-                            <li><a class="dtoc-link dtoc-heading-14" aria-label="Bold, Italic, and Links">Bold, Italic, and Links</a></li>
-                            <li><a class="dtoc-link dtoc-heading-16" aria-label="Code Snippets">Code Snippets</a></li>
-                            <li><a class="dtoc-link dtoc-heading-18" aria-label="Unordered List">Unordered List</a></li>
-                            <li><a class="dtoc-link dtoc-heading-20" aria-label="Table Example">Table Example</a></li>
-                            <li><a class="dtoc-link dtoc-heading-25" aria-label="Advanced TOC Testing">Advanced TOC Testing</a></li>
-                            <li><a class="dtoc-link dtoc-heading-27" aria-label="Dynamic Headings (JavaScript Loaded)">Dynamic Headings (JavaScript Loaded)</a></li>
-                            <li><a class="dtoc-link dtoc-heading-29" aria-label="Accessibility & Performance">Accessibility & Performance</a></li>
-                            <li><a class="dtoc-link dtoc-heading-33" aria-label="Best Practices for Developers">Best Practices for Developers</a></li>
-                            <li><a class="dtoc-link dtoc-heading-37" aria-label="Conclusion">Conclusion</a></li>
+                            <li><a href="#" class="dtoc-link dtoc-heading-2" aria-label="Introduction">Introduction</a></li>
+                            <li><a href="#" class="dtoc-link dtoc-heading-3" aria-label="Why a TOC Is Important">Why a TOC Is Important</a></li>
+                            <li><a href="#" class="dtoc-link dtoc-heading-4" aria-label="Improves Readability">Improves Readability</a></li>
+                            <li><a href="#" class="dtoc-link dtoc-heading-5" aria-label="Enhances SEO">Enhances SEO</a></li>
+                            <li><a href="#" class="dtoc-link dtoc-heading-13" aria-label="Formatting Elements">Formatting Elements</a></li>
+                            <li><a href="#" class="dtoc-link dtoc-heading-14" aria-label="Bold, Italic, and Links">Bold, Italic, and Links</a></li>
+                            <li><a href="#" class="dtoc-link dtoc-heading-16" aria-label="Code Snippets">Code Snippets</a></li>
+                            <li><a href="#" class="dtoc-link dtoc-heading-18" aria-label="Unordered List">Unordered List</a></li>
+                            <li><a href="#" class="dtoc-link dtoc-heading-20" aria-label="Table Example">Table Example</a></li>
+                            <li><a href="#" class="dtoc-link dtoc-heading-25" aria-label="Advanced TOC Testing">Advanced TOC Testing</a></li>
+                            <li><a href="#" class="dtoc-link dtoc-heading-27" aria-label="Dynamic Headings (JavaScript Loaded)">Dynamic Headings (JavaScript Loaded)</a></li>
+                            <li><a href="#" class="dtoc-link dtoc-heading-29" aria-label="Accessibility & Performance">Accessibility & Performance</a></li>
+                            <li><a href="#" class="dtoc-link dtoc-heading-33" aria-label="Best Practices for Developers">Best Practices for Developers</a></li>
+                            <li><a href="#" class="dtoc-link dtoc-heading-37" aria-label="Conclusion">Conclusion</a></li>
                         </ul>
                     </div>
                 </div>
                 `;
-            $('.dtoc-preview-wrapper').append(html);
+            $('.dtoc-preview-body').append(html);
     }
 
 

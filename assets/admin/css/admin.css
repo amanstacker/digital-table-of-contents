@@ -30,11 +30,21 @@
     border-radius: 5px;    
     
 }
-.dtoc-preview-wrapper{
+.dtoc-preview-body{
     display: flex;
     justify-content: center;
-    flex: 1;
     padding: 15px;
+}
+.dtoc-preview-note{
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.dtoc-preview-title{
+  text-align: center;
+  background-color: #ccc;
+}
+.dtoc-preview-wrapper{    
+    flex: 1;    
     background: white;
     border-radius: 5px;    
     margin-left: 10px;    
