@@ -352,28 +352,7 @@ jQuery(document).ready(function($) {
             height: '32px',
             objectFit: 'contain'
         });
-    });
-    
-    // Upload button handler
-    $('.dtoc-icon-upload').on('click', function(e) {
-        e.preventDefault();
-
-        const file_frame = wp.media.frames.file_frame = wp.media({
-            title: 'Select or Upload Icon',
-            button: {
-                text: 'Use this icon',
-            },
-            multiple: false
-        });
-
-        file_frame.on('select', function() {
-            const attachment = file_frame.state().get('selection').first().toJSON();
-            $('#custom_icon_url').val(attachment.url);
-            $('#custom-icon-preview').attr('src', attachment.url).show();
-        });
-
-        file_frame.open();
-    });
+    });            
 
     // Show preview if already set (for saved settings)
     const existingIcon = $('#custom_icon_url').val();
