@@ -108,6 +108,30 @@ jQuery(document).ready(function($) {
         });
     }
 
+    $('.dtoc-icon-upload').on('click', function(e) {
+        e.preventDefault();
+
+        const file_frame = wp.media.frames.file_frame = wp.media({
+            title: 'Select or Upload Icon',
+            button: {
+                text: 'Use this icon',
+            },
+            multiple: false
+        });
+
+        file_frame.on('select', function() {
+            const attachment = file_frame.state().get('selection').first().toJSON();
+            $('#custom_icon_url').val(attachment.url);
+            $('#custom-icon-preview').attr('src', attachment.url).show();
+
+            if (typeof options !== 'undefined') {
+		    	options.custom_icon_url = attachment.url;
+		    }
+        });
+
+        file_frame.open();
+    });
+    
     // Change handler
     $('.dtoc-settings-form').on('change', '.smpg-input', function (e) {
         const $input = $(e.target);

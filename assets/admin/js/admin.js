@@ -352,8 +352,8 @@ jQuery(document).ready(function($) {
             height: '32px',
             objectFit: 'contain'
         });
-    });            
-
+    });
+            
     // Show preview if already set (for saved settings)
     const existingIcon = $('#custom_icon_url').val();
     if (existingIcon) {
