@@ -471,7 +471,7 @@ function dtocGetTocLinkStyle(options = {}, type = '') {
                         }</span>
                         ${dtocGetHeaderIcon(options)}
                     </div>` : ''}                    
-                    <div class="dtoc-box-body dtoc-box-on-js-body">
+                    <div class="dtoc-box-body" style="${ ( options.toggle_body &&  options.toggle_initial === 'show' ) ? '' : 'display:none;'}">
                         <ul>                            
                             <li><a href="#" class="dtoc-link dtoc-heading-2" aria-label="Introduction">Introduction</a></li>
                             <li><a href="#" class="dtoc-link dtoc-heading-3" aria-label="Why a TOC Is Important">Why a TOC Is Important</a></li>
@@ -492,6 +492,15 @@ function dtocGetTocLinkStyle(options = {}, type = '') {
                 </div>
                 `;
             $('.dtoc-preview-body').append(html);
+
+            if (options.toggle_body) {
+                $('.dtoc-toggle-label').off('click').on('click', function () {
+                    const $container = $(this).closest('.dtoc-box-container');
+                    const $body = $container.find('.dtoc-box-body');
+                    $body.slideToggle(200);
+                    $(this).toggleClass('dtoc-open');
+                });
+            }
     }
 
 
