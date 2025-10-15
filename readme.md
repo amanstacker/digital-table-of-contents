@@ -4,7 +4,15 @@
 [![GPLv2 License](https://img.shields.io/badge/license-GPLv2-blue.svg?style=flat-square)](https://www.gnu.org/licenses/gpl-2.0.html)
 [![Donate](https://img.shields.io/badge/donate-paypal-blue.svg?style=flat-square)](https://www.paypal.com/paypalme/amanstacker)
 
-A powerful and customizable TOC plugin for WordPress. Boost SEO, enhance readability, and effortlessly navigate your content with advanced features and flexible styling.
+**Digital Table of Contents** is a powerful yet lightweight modular TOC (Table of Contents) system that helps you effortlessly generate and manage tables of contents across your website.
+
+Built to be bloat free and efficient, Digital TOC focuses on performance, flexibility, and simplicity. Its modular structure ensures a clean, well organized settings panel, allowing you to enable only the features you need.
+
+Gain full control over styling, behavior, and placement, all from one intuitive dashboard. Customize colors, typography, icons, and toggle behavior without touching any code.
+
+The built in **Live Preview** feature lets you see your design changes instantly. No need to rely on your website theme or reload pages. You don’t have to depend on any theme styling or pre built TOC designs. Simply customize everything live, save your settings, and make it truly your own.
+
+This is not just another TOC plugin. It’s a complete content organization system designed for creators who care about precision and performance. Once you try it, you’ll love how effortlessly you can create a visually appealing, user-friendly table of contents that perfectly fits your site’s style.
 
 ---
 
