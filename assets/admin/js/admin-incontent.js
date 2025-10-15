@@ -471,7 +471,13 @@ function dtocGetTocLinkStyle(options = {}, type = '') {
                         }</span>
                         ${dtocGetHeaderIcon(options)}
                     </div>` : ''}                    
-                    <div class="dtoc-box-body" style="${ ( options.toggle_body &&  options.toggle_initial === 'show' ) ? '' : 'display:none;'}">
+                    <div class="dtoc-box-body" 
+                        style="${
+                            options.toggle_body
+                                ? (options.toggle_initial === 'show' ? '' : 'display:none;')
+                                : ''
+                        }">
+                    
                         <ul>                            
                             <li><a href="#" class="dtoc-link dtoc-heading-2" aria-label="Introduction">Introduction</a></li>
                             <li><a href="#" class="dtoc-link dtoc-heading-3" aria-label="Why a TOC Is Important">Why a TOC Is Important</a></li>
