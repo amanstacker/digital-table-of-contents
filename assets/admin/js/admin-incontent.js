@@ -457,7 +457,7 @@ function dtocGetTocLinkStyle(options = {}, type = '') {
 
     function renderLivePreview(){
 
-            $('.dtoc-preview-body').append('');
+            $('.dtoc-preview-body').html('');
         	                        
             const html = `${dtocGetCustomStyle( options ) + dtocGetTocLinkStyle( options, 'incontent' ) }
             
