@@ -303,6 +303,10 @@ function dtocGetTitleStyle(options = {}) {
         }
     }
 
+    if (options.toggle_body) {
+		style += 'cursor:pointer;';
+	}
+
     return style;
 }
 
@@ -322,7 +326,9 @@ function dtocGetTitleStyle(options = {}) {
 			font-family: auto;
 			line-height: 1.25;
 		}        
-
+        .dtoc-title-str{
+            padding-right:10px;
+        }
 		.dtoc-toggle-label {
 			display: flex;    
 			justify-content: space-between;        
