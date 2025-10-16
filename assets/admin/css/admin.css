@@ -34,6 +34,7 @@
     display: flex;
     justify-content: center;
     padding: 15px;
+    position: relative;
 }
 .dtoc-preview-note{
   padding-left: 15px;

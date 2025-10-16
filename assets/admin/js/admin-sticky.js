@@ -315,19 +315,18 @@ function dtocGetTitleStyle(options = {}) {
 	// Default TOC CSS
 	const defaultCSS = `
 		.dtoc-sliding-sticky-container {
-  position: fixed;  
-  background: #f5f5f5;
-  border: 1px solid #ddd;
-  box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
-  transition: transform 0.3s;
-  z-index: 1000;  
-  width: auto;           /* grows with content */
-  max-width: 350px;      /* don’t exceed this width */  
-  padding: 0; 
-  margin: 0;           /* padding inside inner wrapper */
-  box-sizing: border-box;
-  position:relative;
-}
+            position: absolute;  
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+            z-index: 1000;  
+            width: auto;           /* grows with content */
+            max-width: 350px;      /* don’t exceed this width */  
+            padding: 0; 
+            margin: 0;           /* padding inside inner wrapper */
+            box-sizing: border-box;  
+        }
 
 /* Inner wrapper scrollable content */
 .dtoc-sliding-sticky-inner {
@@ -566,15 +565,84 @@ function dtocGetToggleBtnStyle(options = {}) {
 }
 
 
+function dtocGetTitleStyle(options = {}) {
+    let style = '';
+
+    // Background color
+    if (options.title_bg_color) {
+        style += `background:${options.title_bg_color};`;
+    }
+
+    // Foreground color
+    if (options.title_fg_color) {
+        style += `color:${options.title_fg_color};`;
+    }
+
+    // Font size
+    if (
+        options.title_font_size_mode === 'custom' &&
+        options.title_font_size &&
+        !isNaN(options.title_font_size) &&
+        Number(options.title_font_size) > 0 &&
+        options.title_font_size_unit
+    ) {
+        style += `font-size:${options.title_font_size}${options.title_font_size_unit};`;
+    }
+
+    // Font weight
+    if (
+        options.title_font_weight_mode === 'custom' &&
+        options.title_font_weight &&
+        !isNaN(options.title_font_weight) &&
+        Number(options.title_font_weight) > 0
+    ) {
+        style += `font-weight:${options.title_font_weight};`;
+    }
+
+    // Padding (only if mode is custom and any value > 0)
+    if (options.title_padding_mode === 'custom') {
+        const top = parseInt(options.title_padding_top) || 0;
+        const right = parseInt(options.title_padding_right) || 0;
+        const bottom = parseInt(options.title_padding_bottom) || 0;
+        const left = parseInt(options.title_padding_left) || 0;
+
+        if (top > 0 || right > 0 || bottom > 0 || left > 0) {
+            const unit = options.title_padding_unit || 'px';
+            style += `padding:${top}${unit} ${right}${unit} ${bottom}${unit} ${left}${unit};`;
+        }
+    }
+
+    return style;
+}
+
     function renderLivePreview(){
 
             $('.dtoc-preview-body').html('');
+            
+            const initialState = options.toggle_initial ? options.toggle_initial : 'hide';
+            const initialClass = initialState === 'show' ? ' dtoc-open' : ' dtoc-closed';
+
+            // Detect if positioned on the left
+            const isLeft = options.display_position && options.display_position.includes('left');
+            
+            let dbcStyle = dtocBoxContainerStyle( options );
+            if (initialState === 'show') {
+                dbcStyle += isLeft ? 'left:0;' : 'right:0;';
+            } else {
+                dbcStyle += isLeft ? 'left:-300px;visibility:hidden;' : 'right:-300px;visibility:hidden;';
+            }            
+
         	                        
             const html = `${dtocGetCustomStyle( options ) + dtocGetTocLinkStyle( options, 'sliding_sticky' ) }
-                <div class="dtoc-sliding-sticky-container dtoc-left-top dtoc-open" style="${dtocBoxContainerStyle(options)}">
+                <div class="dtoc-sliding-sticky-container dtoc-${options.display_position || ''}${initialClass}" style="${dbcStyle}">
                 <button type="button" class="dtoc-sliding-sticky-toggle-btn" style="${dtocGetToggleBtnStyle(options)}">Index</button>
                 <div class="dtoc-sliding-sticky-inner">
-                    <span class="dtoc-sliding-sticky-title-str" style="background:#f9f9f9;color:#222222;">Table of Contents</span>                    
+
+                ${options.display_title ? `
+                    <span class="dtoc-sliding-sticky-title-str" style="${dtocGetTitleStyle(options)}">
+                ${options.header_text || ''}
+                    </span>
+                ` : ''}
                     <div class="dtoc-sliding-sticky-box-body">
                         <ul>
                                 <li><a href="#" class="dtoc-link dtoc-heading-2" aria-label="Introduction">Introduction</a></li>
@@ -597,6 +665,79 @@ function dtocGetToggleBtnStyle(options = {}) {
             </div>`;
 
         $('.dtoc-preview-body').append(html);
+
+        $(".dtoc-sliding-sticky-container").each(function() {
+        let $container = $(this);
+        let isLeft = $container.hasClass("dtoc-left-top") ||
+                     $container.hasClass("dtoc-left-middle") ||
+                     $container.hasClass("dtoc-left-bottom");
+
+        // If it's closed initially, correct safe offset and show
+        if ($container.hasClass("dtoc-closed")) {
+            if (isLeft) {
+                $container.css("left", -$container.outerWidth());
+            } else {
+                $container.css("right", -$container.outerWidth());
+            }
+            $container.css("visibility", "visible");
+        }
+    });
+
+    $(".dtoc-sliding-sticky-toggle-btn").on("click", function() {
+        let $container = $(this).closest(".dtoc-sliding-sticky-container");
+        let isLeft = $container.hasClass("dtoc-left-top") ||
+                     $container.hasClass("dtoc-left-middle") ||
+                     $container.hasClass("dtoc-left-bottom");
+
+        if ($container.hasClass("dtoc-open")) {
+            // Closing
+            if (isLeft) {
+                $container.animate(
+                    { left: -$container.outerWidth() },
+                    400,
+                    function() { $container.removeClass("dtoc-open").addClass("dtoc-closed"); }
+                );
+            } else {
+                $container.animate(
+                    { right: -$container.outerWidth() },
+                    400,
+                    function() { $container.removeClass("dtoc-open").addClass("dtoc-closed"); }
+                );
+            }
+        } else {
+            // Opening
+            if (isLeft) {
+                $container.animate(
+                    { left: 0 },
+                    400,
+                    function() { $container.removeClass("dtoc-closed").addClass("dtoc-open"); }
+                );
+            } else {
+                $container.animate(
+                    { right: 0 },
+                    400,
+                    function() { $container.removeClass("dtoc-closed").addClass("dtoc-open"); }
+                );
+            }
+        }
+        
+    });
+
+    // Optional: fix offset dynamically on resize
+    $(window).on("resize", function() {
+        $(".dtoc-sliding-sticky-container.dtoc-closed").each(function() {
+            let $container = $(this);
+            let isLeft = $container.hasClass("dtoc-left-top") ||
+                         $container.hasClass("dtoc-left-middle") ||
+                         $container.hasClass("dtoc-left-bottom");
+
+            if (isLeft) {
+                $container.css("left", -$container.outerWidth());
+            } else {
+                $container.css("right", -$container.outerWidth());
+            }
+        });
+    });
             
     }
 
