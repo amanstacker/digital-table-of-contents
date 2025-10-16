@@ -57,11 +57,11 @@ function dtoc_enqueue_admin_assets( $hook ) {
 				break;
             case 'dtoc_sliding_sticky':				            
                 $admin_data['module_state'] = $dtoc_sliding_sticky;      
-                $reg_url = DTOC_URL . 'assets/admin/js/admin-sticky.js';                   
+                $reg_url = DTOC_URL . 'assets/admin/js/admin-sliding-sticky.js';                   
             break;            
             case 'dtoc_sliding_sticky_mobile':				
                 $admin_data['module_state'] = $dtoc_sliding_sticky_mobile;      
-                $reg_url = DTOC_URL . 'assets/admin/js/admin-sticky.js';                   
+                $reg_url = DTOC_URL . 'assets/admin/js/admin-sliding-sticky-mobile.js';
             break;
             case 'dtoc_shortcode':				
                 $admin_data['module_state'] = $dtoc_shortcode;

@@ -11,6 +11,363 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
+function dtocGetHeaderIcon(options = {}) {
+    if (!options.header_icon || options.header_icon === 'none') return '';
+
+    let iconHtml = '';
+    let cStyle = '';
+
+    // Accessibility setup
+    const addAccessibility = options.accessibility === 1;
+    const ariaLabel = 'Icon';
+
+    // Border style
+    if (options.icon_border_type && options.icon_border_type !== 'default') {
+        cStyle += `border-style:${options.icon_border_type};`;
+    }
+
+    // Border color
+    if (options.icon_border_color) {
+        cStyle += `border-color:${options.icon_border_color};`;
+    }
+
+    // Border width
+    if (options.icon_border_width_mode === 'custom') {
+        ['top', 'right', 'bottom', 'left'].forEach(side => {
+            const key = `icon_border_width_${side}`;
+            if (options[key] != null && options.icon_border_width_unit) {
+                cStyle += `border-${side}-width:${options[key]}${options.icon_border_width_unit};`;
+            }
+        });
+    }
+
+    // Border radius
+    if (options.icon_border_radius_mode === 'custom') {
+        const corners = {
+            top_left: 'top-left',
+            top_right: 'top-right',
+            bottom_right: 'bottom-right',
+            bottom_left: 'bottom-left'
+        };
+        for (let key in corners) {
+            const field = `icon_border_radius_${key}`;
+            if (options[field] != null && options.icon_border_radius_unit) {
+                cStyle += `border-${corners[key]}-radius:${options[field]}${options.icon_border_radius_unit};`;
+            }
+        }
+    }
+
+    // Margin
+    if (options.icon_margin_mode === 'custom') {
+        ['top', 'right', 'bottom', 'left'].forEach(side => {
+            const key = `icon_margin_${side}`;
+            if (options[key] != null && options.icon_margin_unit) {
+                cStyle += `margin-${side}:${options[key]}${options.icon_margin_unit};`;
+            }
+        });
+    }
+
+    // Padding
+    if (options.icon_padding_mode === 'custom') {
+        ['top', 'right', 'bottom', 'left'].forEach(side => {
+            const key = `icon_padding_${side}`;
+            if (options[key] != null && options.icon_padding_unit) {
+                cStyle += `padding-${side}:${options[key]}${options.icon_padding_unit};`;
+            }
+        });
+    }
+
+    // Size
+    let iconWidth = '';
+    let iconHeight = '';
+    if (options.icon_size_mode === 'custom') {
+        iconWidth = options.icon_width ? options.icon_width + (options.icon_size_unit || 'px') : '';
+        iconHeight = options.icon_height ? options.icon_height + (options.icon_size_unit || 'px') : '';
+        if (iconWidth) cStyle += `width:${iconWidth};`;
+        if (iconHeight) cStyle += `height:${iconHeight};`;
+    }
+
+    const bgColor = options.icon_bg_color || 'transparent';
+    const fgColor = options.icon_fg_color || '#000';
+
+    // ICON HTML OUTPUT
+    switch (options.header_icon) {
+        case 'list_icon':
+            if (options.icon_size_mode === 'custom') {
+                iconWidth = options.icon_width ? options.icon_width + (options.icon_size_unit || 'px') : '35px';
+                iconHeight = options.icon_height ? options.icon_height + (options.icon_size_unit || 'px') : '35px';
+            } else {
+                iconWidth = '35px';
+                iconHeight = '35px';
+            }
+
+            iconHtml = `<span class="dtoc_icon_toggle"${addAccessibility ? ` role="button" aria-label="${ariaLabel}"` : ''}>
+                <svg style="${cStyle}" width="${iconWidth}" height="${iconHeight}" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill="none" aria-hidden="true">
+                    <rect x="1" y="1" width="46" height="46" rx="4" stroke="#aaa" fill="${bgColor}"></rect>
+                    <circle cx="10" cy="14" r="1.5" fill="${fgColor}"></circle>
+                    <rect x="14" y="13" width="14" height="2" rx="1" fill="${fgColor}"></rect>
+                    <circle cx="10" cy="24" r="1.5" fill="${fgColor}"></circle>
+                    <rect x="14" y="23" width="14" height="2" rx="1" fill="${fgColor}"></rect>
+                    <circle cx="10" cy="34" r="1.5" fill="${fgColor}"></circle>
+                    <rect x="14" y="33" width="14" height="2" rx="1" fill="${fgColor}"></rect>
+                    <path d="M36 18L32 22H40L36 18Z" fill="${fgColor}"></path>
+                    <path d="M36 30L40 26H32L36 30Z" fill="${fgColor}"></path>
+                </svg>
+            </span>`;
+            break;
+
+        case 'plus_minus':
+            iconHtml = `<span class="dtoc_icon_toggle" style="${cStyle}"${addAccessibility ? ` role="button" aria-label="${ariaLabel}"` : ''}>
+                <span class="dtoc_icon_brackets">[</span>
+                <span class="dtoc-show-text dtoc-plus">+</span>
+                <span class="dtoc-hide-text dtoc-minus">-</span>
+                <span class="dtoc_icon_brackets">]</span>
+            </span>`;
+            break;
+
+        case 'show_hide':
+            iconHtml = `<span class="dtoc_icon_toggle" style="${cStyle}"${addAccessibility ? ` role="button" aria-label="${ariaLabel}"` : ''}>
+                <span class="dtoc_icon_brackets">[</span>
+                <span class="dtoc-show-text">${options.show_text || 'Show'}</span>
+                <span class="dtoc-hide-text">${options.hide_text || 'Hide'}</span>
+                <span class="dtoc_icon_brackets">]</span>
+            </span>`;
+            break;
+
+        case 'custom_icon':
+            iconHtml = `<span class="dtoc_icon_toggle" style="${cStyle}"${addAccessibility ? ` role="button" aria-label="${ariaLabel}"` : ''}>
+                <img src="${options.custom_icon_url || ''}" alt="${addAccessibility ? ariaLabel : 'Icon'}" />
+            </span>`;
+            break;
+    }
+
+    return iconHtml;
+}
+
+function dtocGetTitleStyle(options = {}) {
+    let style = '';
+
+    // Background color
+    if (options.title_bg_color) {
+        style += `background:${options.title_bg_color};`;
+    }
+
+    // Foreground color
+    if (options.title_fg_color) {
+        style += `color:${options.title_fg_color};`;
+    }
+
+    // Font size
+    if (
+        options.title_font_size_mode === 'custom' &&
+        options.title_font_size &&
+        !isNaN(options.title_font_size) &&
+        Number(options.title_font_size) > 0 &&
+        options.title_font_size_unit
+    ) {
+        style += `font-size:${options.title_font_size}${options.title_font_size_unit};`;
+    }
+
+    // Font weight
+    if (
+        options.title_font_weight_mode === 'custom' &&
+        options.title_font_weight &&
+        !isNaN(options.title_font_weight) &&
+        Number(options.title_font_weight) > 0
+    ) {
+        style += `font-weight:${options.title_font_weight};`;
+    }
+
+    // Padding (only if mode is custom and any value > 0)
+    if (options.title_padding_mode === 'custom') {
+        const top = parseInt(options.title_padding_top) || 0;
+        const right = parseInt(options.title_padding_right) || 0;
+        const bottom = parseInt(options.title_padding_bottom) || 0;
+        const left = parseInt(options.title_padding_left) || 0;
+
+        if (top > 0 || right > 0 || bottom > 0 || left > 0) {
+            const unit = options.title_padding_unit || 'px';
+            style += `padding:${top}${unit} ${right}${unit} ${bottom}${unit} ${left}${unit};`;
+        }
+    }
+
+    return style;
+}
+
+function dtocGetTocLinkStyle(options = {}, type = '') {
+    
+	let css = '.dtoc-box-body .dtoc-link {';
+
+	if (type === 'sliding_sticky') {
+		css = '.dtoc-sliding-sticky-box-body .dtoc-link {';
+	}
+
+	// Link color
+	if (options.link_color) {
+		css += `color: ${options.link_color};`;
+	}
+
+	// Padding
+	if (options.link_padding_mode) {
+		if (options.link_padding_mode === 'auto') {
+			css += 'padding: auto;';
+		} else if (options.link_padding_mode === 'custom') {
+			const unit = options.link_padding_unit || 'px';
+			const top = options.link_padding_top ? `${parseInt(options.link_padding_top)}${unit}` : `0${unit}`;
+			const right = options.link_padding_right ? `${parseInt(options.link_padding_right)}${unit}` : `0${unit}`;
+			const bottom = options.link_padding_bottom ? `${parseInt(options.link_padding_bottom)}${unit}` : `0${unit}`;
+			const left = options.link_padding_left ? `${parseInt(options.link_padding_left)}${unit}` : `0${unit}`;
+			css += `padding: ${top} ${right} ${bottom} ${left};`;
+		}
+	}
+
+	// Margin
+	if (options.link_margin_mode) {
+		if (options.link_margin_mode === 'auto') {
+			css += 'margin: auto;';
+		} else if (options.link_margin_mode === 'custom') {
+			const unit = options.link_margin_unit || 'px';
+			const top = options.link_margin_top ? `${parseInt(options.link_margin_top)}${unit}` : `0${unit}`;
+			const right = options.link_margin_right ? `${parseInt(options.link_margin_right)}${unit}` : `0${unit}`;
+			const bottom = options.link_margin_bottom ? `${parseInt(options.link_margin_bottom)}${unit}` : `0${unit}`;
+			const left = options.link_margin_left ? `${parseInt(options.link_margin_left)}${unit}` : `0${unit}`;
+			css += `margin: ${top} ${right} ${bottom} ${left};`;
+		}
+	}
+
+	css += '}';
+
+	// Hover color
+	if (options.link_hover_color) {
+		if (type === 'sliding_sticky') {
+			css += ' .dtoc-sliding-sticky-box-body .dtoc-link:hover {';
+		} else {
+			css += ' .dtoc-box-body .dtoc-link:hover {';
+		}
+		css += `color: ${options.link_hover_color};`;
+		css += '}';
+	}
+
+	// Visited color
+	if (options.link_visited_color) {
+		if (type === 'sliding_sticky') {
+			css += ' .dtoc-sliding-sticky-box-body .dtoc-link:visited {';
+		} else {
+			css += ' .dtoc-box-body .dtoc-link:visited {';
+		}
+		css += `color: ${options.link_visited_color};`;
+		css += '}';
+	}
+
+	// Return full style element
+	return `<style id="dtoc-link-css">${css}</style>`;
+}
+
+function dtocBoxContainerStyle(options = {}) {
+    let style = '';
+
+    // Background color
+    if (options.bg_color) {
+        style += `background-color:${options.bg_color};`;
+    }
+
+    // Width
+    if (options.container_width_mode) {
+        switch (options.container_width_mode) {
+            case 'auto':
+                style += 'width:auto;';
+                break;
+            case 'full':
+                style += 'width:100%;';
+                break;
+            case 'fit-content':
+                style += 'width:fit-content;';
+                break;
+            case 'custom':
+                if (options.container_width && options.container_width_unit) {
+                    style += `width:${options.container_width}${options.container_width_unit};`;
+                }
+                break;
+        }
+    }
+
+    // Height
+    if (options.container_height_mode) {
+        switch (options.container_height_mode) {
+            case 'auto':
+                style += 'height:auto;';
+                break;
+            case 'full':
+                style += 'height:100%;';
+                break;
+            case 'fit-content':
+                style += 'height:fit-content;';
+                break;
+            case 'custom':
+                if (options.container_height && options.container_height_unit) {
+                    style += `height:${options.container_height}${options.container_height_unit};`;
+                }
+                break;
+        }
+    }
+
+    // Margin
+    if (options.container_margin_mode) {
+        if (options.container_margin_mode === 'auto') {
+            style += 'margin:auto;';
+        } else if (options.container_margin_mode === 'custom') {
+            const unit = options.container_margin_unit || 'px';
+            style += `margin-top:${options.container_margin_top}${unit};`;
+            style += `margin-right:${options.container_margin_right}${unit};`;
+            style += `margin-bottom:${options.container_margin_bottom}${unit};`;
+            style += `margin-left:${options.container_margin_left}${unit};`;
+        }
+    }
+
+    // Padding
+    if (options.container_padding_mode) {
+        if (options.container_padding_mode === 'auto') {
+            style += 'padding:auto;';
+        } else if (options.container_padding_mode === 'custom') {
+            const unit = options.container_padding_unit || 'px';
+            style += `padding-top:${options.container_padding_top}${unit};`;
+            style += `padding-right:${options.container_padding_right}${unit};`;
+            style += `padding-bottom:${options.container_padding_bottom}${unit};`;
+            style += `padding-left:${options.container_padding_left}${unit};`;
+        }
+    }
+
+    // Border type (style)
+    if (options.border_type && options.border_type !== 'default') {
+        style += `border-style:${options.border_type};`;
+    }
+
+    // Border color
+    if (options.border_color) {
+        style += `border-color:${options.border_color};`;
+    }
+
+    // Border width (custom mode only)
+    if (options.border_width_mode === 'custom' && options.border_width_unit) {
+        const unit = options.border_width_unit;
+        style += `border-top-width:${options.border_width_top}${unit};`;
+        style += `border-right-width:${options.border_width_right}${unit};`;
+        style += `border-bottom-width:${options.border_width_bottom}${unit};`;
+        style += `border-left-width:${options.border_width_left}${unit};`;
+    }
+
+    // Border radius (custom mode only)
+    if (options.border_radius_mode === 'custom' && options.border_radius_unit) {
+        const unit = options.border_radius_unit;
+        style += `border-top-left-radius:${options.border_radius_top_left}${unit};`;
+        style += `border-top-right-radius:${options.border_radius_top_right}${unit};`;
+        style += `border-bottom-right-radius:${options.border_radius_bottom_right}${unit};`;
+        style += `border-bottom-left-radius:${options.border_radius_bottom_left}${unit};`;
+    }
+
+    return style;
+}
+
 jQuery(document).ready(function($){
 
   // accordion js starts here
