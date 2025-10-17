@@ -50,6 +50,7 @@
     border-radius: 5px;    
     margin-left: 10px;    
     max-height: 1200px;
+    overflow: hidden;
 }
 .dtoc-preview-heading{
     text-align: center;
