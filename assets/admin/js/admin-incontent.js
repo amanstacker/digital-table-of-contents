@@ -29,7 +29,7 @@ jQuery(document).ready(function($) {
 			max-width: 100%;            
 			overflow: hidden;
 			height: fit-content;
-			font-size: 20px;
+			font-size: 18px;
 			font-family: auto;
 			line-height: 1.25;
 		}        

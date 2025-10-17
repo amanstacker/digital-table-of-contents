@@ -35,6 +35,8 @@ jQuery(document).ready(function($) {
             padding: 0; 
             margin: 0;           /* padding inside inner wrapper */
             box-sizing: border-box;  
+            font-size: 18px;
+			font-family: auto;
         }
 
 /* Inner wrapper scrollable content */
@@ -42,11 +44,12 @@ jQuery(document).ready(function($) {
   max-height: 100vh;
   overflow-y: auto;  
   padding: 15px; /* inner padding */
+  padding-left:38px;
 }
 
 /* TOC list */
 .dtoc-sliding-sticky-container ul {
-  list-style: none;
+  list-style-type: ${listStyleType};
   padding-left: 0;
 }
 .dtoc-sliding-sticky-container li {
@@ -89,7 +92,7 @@ jQuery(document).ready(function($) {
 /* ---------------- LEFT SIDE ---------------- */
 .dtoc-left-top { top: 0; left: 0; }
 .dtoc-left-middle { top: 0; left: 0; }
-.dtoc-left-bottom { bottom: 0; left: 0; top: 0; }
+.dtoc-left-bottom { top: 0; left: 0;}
 
 /* Toggle button left side */
 .dtoc-left-top .dtoc-sliding-sticky-toggle-btn { top: 60px; right: -54px; transform: rotate(-90deg); }
@@ -99,7 +102,7 @@ jQuery(document).ready(function($) {
 /* ---------------- RIGHT SIDE ---------------- */
 .dtoc-right-top { top: 0; right: 0; left: auto;  }
 .dtoc-right-middle { top: 0; right: 0; left: auto;  }
-.dtoc-right-bottom { bottom: 0; top: 0; right: 0; left: auto;  }
+.dtoc-right-bottom { top: 0; right: 0; left: auto;  }
 
 /* Toggle button right side */
 .dtoc-right-top .dtoc-sliding-sticky-toggle-btn { top: 60px; left: -54px; transform: rotate(90deg); }
@@ -221,7 +224,7 @@ function dtocGetToggleBtnStyle(options = {}) {
         	                        
             const html = `${dtocGetCustomStyle( options ) + dtocGetTocLinkStyle( options, 'sliding_sticky' ) }
                 <div class="dtoc-sliding-sticky-container dtoc-${options.display_position || ''}${initialClass}" style="${dbcStyle}">
-                <button type="button" class="dtoc-sliding-sticky-toggle-btn" style="${dtocGetToggleBtnStyle(options)}">Index</button>
+                <button type="button" class="dtoc-sliding-sticky-toggle-btn" style="${dtocGetToggleBtnStyle(options)}">${options.toggle_btn_text ? options.toggle_btn_text : 'Index'}</button>
                 <div class="dtoc-sliding-sticky-inner">
 
                 ${options.display_title ? `
@@ -385,7 +388,7 @@ function dtocGetToggleBtnStyle(options = {}) {
     });
 
     // Change handler
-    $('.dtoc-settings-form').on('change', '.smpg-input', function (e) {
+    $('.dtoc-settings-form').on('input change', '.smpg-input', function (e) {
         const $input = $(e.target);
         const dataId = $input.data('id') || $input.attr('id');
         if (!dataId) return;
