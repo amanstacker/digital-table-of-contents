@@ -35,6 +35,8 @@ function dtocGetCustomStyle(options) {
   border-radius: 15px 15px 0 0;
   box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.3);
   max-height: 70%;
+  font-size : 18px;
+  font-family: auto;
   transition: transform 0.3s ease-in-out;
   z-index: 1000;  
 }
@@ -111,8 +113,11 @@ function dtocGetCustomStyle(options) {
    ========================= */
 .dtoc-sliding-sticky-mobile-box-body {
   overflow-y: auto;
-  max-height: 300px;
+  max-height: 300px;  
 }
+ .dtoc-preview-body{
+    overflow:hidden;
+ } 
 `;
 
     // If no custom CSS provided
