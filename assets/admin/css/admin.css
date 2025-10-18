@@ -30,12 +30,12 @@
     border-radius: 5px;    
     
 }
-.dtoc-preview-body{
-    display: flex;
-    justify-content: center;
+.dtoc-preview-body{        
     padding: 15px;
     position: relative;
     min-height: 435px;
+    max-height: 650px;
+    overflow-y: auto,
 }
 .dtoc-preview-note{
   padding-left: 15px;

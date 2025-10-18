@@ -168,59 +168,161 @@ function dtocGetTocLinkStyle(options = {}, type = '') {
 }
 
 
-    function renderLivePreview(){
+    function renderLivePreview() {
+    $('.dtoc-preview-body').html('');
 
-            $('.dtoc-preview-body').html('');
-        	                        
-            const html = `${dtocGetCustomStyle( options ) + dtocGetTocLinkStyle( options, 'incontent' ) }
-            
-                <div class="dtoc-box-container" style="${dtocBoxContainerStyle(options)}">
-                ${options.display_title ? `
-                    <div class="dtoc-toggle-label" style="${dtocGetTitleStyle(options)}">
-                        <span class="dtoc-title-str">${
-                            options.header_text === 'Table of Contents'
-                                ? 'Table of Contents'
-                                : options.header_text
-                        }</span>
-                        ${dtocGetHeaderIcon(options)}
-                    </div>` : ''}                    
-                    <div class="dtoc-box-body" 
-                        style="${
-                            options.toggle_body
-                                ? (options.toggle_initial === 'show' ? '' : 'display:none;')
-                                : ''
-                        }">
-                    
-                        <ul>                            
-                            <li><a href="#" class="dtoc-link dtoc-heading-2" aria-label="Introduction">Introduction</a></li>
-                            <li><a href="#" class="dtoc-link dtoc-heading-3" aria-label="Why a TOC Is Important">Why a TOC Is Important</a></li>
-                            <li><a href="#" class="dtoc-link dtoc-heading-4" aria-label="Improves Readability">Improves Readability</a></li>
-                            <li><a href="#" class="dtoc-link dtoc-heading-5" aria-label="Enhances SEO">Enhances SEO</a></li>
-                            <li><a href="#" class="dtoc-link dtoc-heading-13" aria-label="Formatting Elements">Formatting Elements</a></li>
-                            <li><a href="#" class="dtoc-link dtoc-heading-14" aria-label="Bold, Italic, and Links">Bold, Italic, and Links</a></li>
-                            <li><a href="#" class="dtoc-link dtoc-heading-16" aria-label="Code Snippets">Code Snippets</a></li>
-                            <li><a href="#" class="dtoc-link dtoc-heading-18" aria-label="Unordered List">Unordered List</a></li>
-                            <li><a href="#" class="dtoc-link dtoc-heading-20" aria-label="Table Example">Table Example</a></li>
-                            <li><a href="#" class="dtoc-link dtoc-heading-25" aria-label="Advanced TOC Testing">Advanced TOC Testing</a></li>
-                            <li><a href="#" class="dtoc-link dtoc-heading-27" aria-label="Dynamic Headings (JavaScript Loaded)">Dynamic Headings (JavaScript Loaded)</a></li>
-                            <li><a href="#" class="dtoc-link dtoc-heading-29" aria-label="Accessibility & Performance">Accessibility & Performance</a></li>
-                            <li><a href="#" class="dtoc-link dtoc-heading-33" aria-label="Best Practices for Developers">Best Practices for Developers</a></li>
-                            <li><a href="#" class="dtoc-link dtoc-heading-37" aria-label="Conclusion">Conclusion</a></li>
-                        </ul>
-                    </div>
-                </div>
-                `;
-            $('.dtoc-preview-body').append(html);
+    // Determine scroll behavior based on jump_links
+    const scrollBehavior = options.jump_links ? options.scroll_behavior : 'auto';
 
-            if (options.toggle_body) {
-                $('.dtoc-toggle-label').off('click').on('click', function () {
-                    const $container = $(this).closest('.dtoc-box-container');
-                    const $body = $container.find('.dtoc-box-body');
-                    $body.slideToggle(200);
-                    $(this).toggleClass('dtoc-open');
-                });
-            }
+    // TOC container alignment
+    let tocContainerStyle = dtocBoxContainerStyle(options);
+    if (options.alignment === 'left') tocContainerStyle += ' margin-left: 0; margin-right: auto;';
+    else if (options.alignment === 'center') tocContainerStyle += ' margin-left: auto; margin-right: auto;';
+    else if (options.alignment === 'right') tocContainerStyle += ' margin-left: auto; margin-right: 0;';
+
+    // TOC hierarchy classes
+    const hierarchyClass = options.hierarchy ? 'dtoc-hierarchy' : '';
+
+    // Wrap content container
+    const wrapContentStart = options.wrap_content ? '<div class="dtoc-wrap-content">' : '';
+    const wrapContentEnd = options.wrap_content ? '</div>' : '';
+
+    // Helper to generate TOC links
+    function getTocLink(headingId, headingClass, headingText) {
+        const href = options.jump_links ? `#${headingId}` : 'javascript:void(0)';
+        return `<li><a href="${href}" class="dtoc-link ${headingClass}">${headingText}</a></li>`;
     }
+
+    // Build TOC HTML
+    const tocHtml = `${dtocGetCustomStyle(options) + dtocGetTocLinkStyle(options, 'incontent')}
+        <div class="dtoc-box-container ${hierarchyClass}" style="${tocContainerStyle}">
+            ${options.display_title ? `
+                <div class="dtoc-toggle-label" style="${dtocGetTitleStyle(options)}">
+                    <span class="dtoc-title-str">${
+                        options.header_text === 'Table of Contents'
+                            ? 'Table of Contents'
+                            : options.header_text
+                    }</span>
+                    ${dtocGetHeaderIcon(options)}
+                </div>` : ''}                    
+            <div class="dtoc-box-body" style="${
+                options.toggle_body
+                    ? (options.toggle_initial === 'show' ? '' : 'display:none;')
+                    : ''
+            }">
+                <ul>
+                    ${getTocLink('heading1', 'dtoc-heading-1', 'Introduction')}
+                    ${getTocLink('heading2', 'dtoc-heading-2', 'Key Features Overview')}
+                    ${getTocLink('heading3', 'dtoc-heading-3', 'Modular TOC System')}
+                    ${getTocLink('heading4', 'dtoc-heading-4', 'Auto Insertion & Positioning')}
+                    ${getTocLink('heading5', 'dtoc-heading-5', 'Heading Hierarchy Support')}
+                    ${getTocLink('heading6', 'dtoc-heading-2', 'Smooth Scrolling & Accessibility')}
+                    ${getTocLink('heading7', 'dtoc-heading-3', 'Rendering Styles & Icons')}
+                    ${getTocLink('heading8', 'dtoc-heading-4', 'Full Customization & CSS')}
+                    ${getTocLink('heading9', 'dtoc-heading-5', 'Import / Export & Reset')}
+                    ${getTocLink('heading10', 'dtoc-heading-3', 'Shortcode Module')}
+                    ${getTocLink('heading11', 'dtoc-heading-4', 'Available Modules')}
+                    ${getTocLink('heading12', 'dtoc-heading-2', 'Conclusion & Testing')}
+                </ul>
+            </div>
+        </div>
+    `;
+
+    // Build content HTML
+    const contentHtml = `
+        ${wrapContentStart}
+        <div class="dtoc-demo-content">
+            <h1 id="heading1">Introduction</h1>
+            <p>This section introduces the Digital TOC plugin and demonstrates live preview behavior.</p>
+            <h2 id="heading2">Key Features Overview</h2>
+            <p>Digital TOC offers a modular system with full customization and accessibility features.</p>
+            <h3 id="heading3">Modular TOC System</h3>
+            <p>Each TOC feature is separated into modules for easier management and flexibility.</p>
+            <h4 id="heading4">Auto Insertion & Positioning</h4>
+            <p>Automatically insert TOC before/after headings, top/bottom, or after a specific paragraph.</p>
+            <h5 id="heading5">Heading Hierarchy Support</h5>
+            <p>Supports H1 to H6 headings for proper hierarchical TOC generation.</p>
+            <h2 id="heading6">Smooth Scrolling & Accessibility</h2>
+            <p>Enables smooth scrolling and adds ARIA attributes for better accessibility.</p>
+            <h3 id="heading7">Rendering Styles & Icons</h3>
+            <p>Choose CSS or JavaScript rendering with multiple icon styles.</p>
+            <h4 id="heading8">Full Customization & CSS</h4>
+            <p>Customize colors, backgrounds, borders, links, and add custom CSS if needed.</p>
+            <h5 id="heading9">Import / Export & Reset</h5>
+            <p>Backup and transfer TOC settings, or reset plugin data completely.</p>
+            <h3 id="heading10">Shortcode Module</h3>
+            <p>Insert TOC anywhere using a simple shortcode with live preview.</p>
+            <h4 id="heading11">Available Modules</h4>
+            <p>In-Content, Mobile, Shortcode, Sliding Sticky, and Floating TOC modules available.</p>
+            <h2 id="heading12">Conclusion & Testing</h2>
+            <p>All headings are jump-link enabled, making it easy to test TOC hierarchy and toggle behavior.</p>
+        </div>
+        ${wrapContentEnd}
+    `;
+
+    // Apply scroll behavior and max height
+    $('.dtoc-preview-body').css({
+        'max-height': '450px',
+        'overflow-y': 'auto',
+        'scroll-behavior': scrollBehavior
+    });
+
+    // Insert TOC and content at the chosen position
+    switch (options.display_position) {
+        case 'before_first_heading':
+            $('.dtoc-preview-body').append(tocHtml + contentHtml);
+            break;
+        case 'after_first_heading':
+            $('.dtoc-preview-body').append(contentHtml.replace(/(<h1 id="heading1">.*?<\/h1>)/, `$1${tocHtml}`));
+            break;
+        case 'top_of_the_content':
+            $('.dtoc-preview-body').prepend(tocHtml + contentHtml);
+            break;
+        case 'bottom_of_the_content':
+            $('.dtoc-preview-body').append(contentHtml + tocHtml);
+            break;
+        case 'after_paragraph_number':
+            const $tempContent = $('<div>').html(contentHtml);
+            const paragraphs = $tempContent.find('p');
+            if (paragraphs.length >= 3) {
+                paragraphs.eq(2).after(tocHtml);
+                $('.dtoc-preview-body').append($tempContent.html());
+            } else {
+                $('.dtoc-preview-body').append(tocHtml + contentHtml);
+            }
+            break;
+        default:
+            $('.dtoc-preview-body').append(tocHtml + contentHtml);
+    }
+
+    // TOC toggle functionality
+    if (options.toggle_body) {
+        $('.dtoc-toggle-label').off('click').on('click', function () {
+            const $container = $(this).closest('.dtoc-box-container');
+            const $body = $container.find('.dtoc-box-body');
+            $body.slideToggle(200);
+            $(this).toggleClass('dtoc-open');
+        });
+    }
+
+    // Jump link click behavior
+    if (options.jump_links) {
+        $('.dtoc-link').off('click').on('click', function (e) {
+            e.preventDefault();
+            const target = $($(this).attr('href'));
+            if (target.length) {
+                $('.dtoc-preview-body').animate(
+                    { scrollTop: target.offset().top - $('.dtoc-preview-body').offset().top + $('.dtoc-preview-body').scrollTop() },
+                    400
+                );
+            }
+        });
+    }
+}
+
+
+
+
 
 
     function updateShortcode() {
