@@ -256,7 +256,7 @@ function dtocGetTocLinkStyle(options = {}, type = '') {
 
     // Apply scroll behavior and max height
     $('.dtoc-preview-body').css({
-        'max-height': '450px',
+        'max-height': '600px',        
         'overflow-y': 'auto',
         'scroll-behavior': scrollBehavior
     });
