@@ -18,29 +18,81 @@ jQuery(document).ready(function($) {
 
     
 function dtocGetCustomStyle(options) {
-    // Extract list style type safely
-    const listStyleType = options?.list_style_type || 'decimal';
+    
+const listStyleType = options?.list_style_type || 'decimal';
 
-    // Default TOC CSS
-    const defaultCSS = `
-/* TOC Panel Common */
+const defaultCSS = `
+
 .dtoc-sliding-sticky-mobile-container {
-  position: absolute;
-  left: 0;
-  right: 0;
-  width: 100vw;
-  max-width: 100%;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 15px 15px 0 0;
-  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.3);
-  max-height: 70%;
-  font-size : 18px;
-  font-family: auto;
-  transition: transform 0.3s ease-in-out;
-  z-index: 1000;  
+    position: absolute;
+	left: 0;
+	right: 0;
+	bottom: -100%;
+	width: 100%;
+	max-height: 80%;
+	background: #fff;
+	border-radius: 15px 15px 0 0;
+	box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.15);
+	transition: bottom 0.4s ease;
+	overflow-y: auto;
+	z-index: 10;            
+    font-size : 18px;
+    font-family: auto;    
 }
-
+    .dtoc-mobile-screen-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	background: #f3f3f3;
+	padding: 30px 0;
+	box-sizing: border-box;
+}
+.dtoc-mobile-screen {
+	position: relative;
+	width: 360px;
+	height: 640px;
+	background: #fff;
+	border: 12px solid #222;
+	border-radius: 30px;
+	box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+	overflow: hidden;
+}
+.dtoc-mobile-screen::before {
+	content: "";
+	position: absolute;
+	top: 8px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 100px;
+	height: 8px;
+	background: #111;
+	border-radius: 8px;
+}
+.dtoc-sliding-sticky-mobile-container.active {
+	bottom: 0;
+}
+.dtoc-sliding-sticky-mobile-header {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	padding: 12px 15px;
+	background: #0073aa;
+	color: #fff;
+	text-align: center;
+	cursor: pointer;
+	font-weight: 600;
+	z-index: 20;
+}
+.dtoc-sliding-sticky-mobile-box-body {
+	padding: 20px;
+	margin-bottom: 40px;
+}
+.dtoc-sliding-sticky-mobile-box-body a:hover {
+	text-decoration: underline;
+}
 .dtoc-sliding-sticky-mobile-container ul {
   padding: 15px;
   margin: 0;
@@ -53,8 +105,6 @@ function dtocGetCustomStyle(options) {
   text-decoration: none;
   color: #0073aa;
 }
-
-/* Header / Handle */
 .dtoc-sliding-sticky-mobile-header {
   text-align: center;
   padding: 8px;
@@ -65,8 +115,6 @@ function dtocGetCustomStyle(options) {
   cursor: pointer;
   position: relative;  
 }
-
-/* Default arrow */
 .dtoc-sliding-sticky-mobile-header::after {
   content: "";
   display: block;
@@ -74,10 +122,6 @@ function dtocGetCustomStyle(options) {
   margin-top: 3px;
   opacity: 0.6;
 }
-
-/* =========================
-   BOTTOM SHEET VARIANT
-   ========================= */
 .dtoc-bottom-sheet {
   bottom: 0;
   transform: translateY(calc(100% - 40px)); /* collapsed: only header visible */    
@@ -85,10 +129,6 @@ function dtocGetCustomStyle(options) {
 .dtoc-bottom-sheet.active {
   transform: translateY(0); /* expanded */
 }
-
-/* =========================
-   TOP SHEET VARIANT
-   ========================= */
 .dtoc-top-sheet {
   top: 0;
   transform: translateY(-100%); /* collapsed: hide panel above viewport */  
@@ -96,8 +136,6 @@ function dtocGetCustomStyle(options) {
 .dtoc-top-sheet.active {
   transform: translateY(0); /* expanded: full panel slides down */
 }
-
-/* BUT: leave header visible when collapsed */
 .dtoc-top-sheet .dtoc-sliding-sticky-mobile-header {
   position: absolute;
   top: 100%;   /* push header below the hidden panel */
@@ -107,10 +145,6 @@ function dtocGetCustomStyle(options) {
   border-top: 1px solid #ddd;  
   background: #f1f1f1;
 }
-
-/* =========================
-   Body Scroll Area
-   ========================= */
 .dtoc-sliding-sticky-mobile-box-body {
   overflow-y: auto;
   max-height: 300px;  
@@ -118,6 +152,7 @@ function dtocGetCustomStyle(options) {
  .dtoc-preview-body{
     overflow:hidden;
  } 
+    
 `;
 
     // If no custom CSS provided
@@ -135,55 +170,64 @@ function dtocGetCustomStyle(options) {
 }
 
 
-    function renderLivePreview(){
+    function renderLivePreview() {
 
-            $('.dtoc-preview-body').html('');
-                                           	                        
-            const html = `
-                <div class="dtoc-sliding-sticky-mobile-container dtoc-${options.display_position}" 
-                    style="${dtocBoxContainerStyle(options)}">
-                    
-                    <div class="dtoc-sliding-sticky-mobile-header" 
-                        style="${dtocGetTitleStyle(options)}">
-                        ${options.header_text || ''}
-                    </div>
+    $('.dtoc-preview-body').html('');
 
-                    ${dtocGetCustomStyle(options)}
-                    ${dtocGetTocLinkStyle(options, 'sliding_sticky_mobile')}
+    const tocHTML = `
+        <div class="dtoc-sliding-sticky-mobile-container dtoc-${options.display_position}" 
+            style="${dtocBoxContainerStyle(options)}">
+            
+            <div class="dtoc-sliding-sticky-mobile-header" 
+                style="${dtocGetTitleStyle(options)}">
+                ${options.header_text || ''}
+            </div>
 
-                    <div class="dtoc-sliding-sticky-mobile-box-body">
-                        <ul>
-                                <li><a href="#" class="dtoc-link dtoc-heading-2" aria-label="Introduction">Introduction</a></li>
-                                <li><a href="#" class="dtoc-link dtoc-heading-3" aria-label="Why a TOC Is Important">Why a TOC Is Important</a></li>
-                                <li><a href="#" class="dtoc-link dtoc-heading-4" aria-label="Improves Readability">Improves Readability</a></li>
-                                <li><a href="#" class="dtoc-link dtoc-heading-5" aria-label="Enhances SEO">Enhances SEO</a></li>
-                                <li><a href="#" class="dtoc-link dtoc-heading-13" aria-label="Formatting Elements">Formatting Elements</a></li>
-                                <li><a href="#" class="dtoc-link dtoc-heading-14" aria-label="Bold, Italic, and Links">Bold, Italic, and Links</a></li>
-                                <li><a href="#" class="dtoc-link dtoc-heading-16" aria-label="Code Snippets">Code Snippets</a></li>
-                                <li><a href="#" class="dtoc-link dtoc-heading-18" aria-label="Unordered List">Unordered List</a></li>
-                                <li><a href="#" class="dtoc-link dtoc-heading-20" aria-label="Table Example">Table Example</a></li>
-                                <li><a href="#" class="dtoc-link dtoc-heading-25" aria-label="Advanced TOC Testing">Advanced TOC Testing</a></li>
-                                <li><a href="#" class="dtoc-link dtoc-heading-27" aria-label="Dynamic Headings (JavaScript Loaded)">Dynamic Headings (JavaScript Loaded)</a></li>
-                                <li><a href="#" class="dtoc-link dtoc-heading-29" aria-label="Accessibility & Performance">Accessibility & Performance</a></li>
-                                <li><a href="#" class="dtoc-link dtoc-heading-33" aria-label="Best Practices for Developers">Best Practices for Developers</a></li>
-                                <li><a href="#" class="dtoc-link dtoc-heading-37" aria-label="Conclusion">Conclusion</a></li>
-                        </ul>
-                    </div>
-                </div>
-            `;
+            ${dtocGetCustomStyle(options)}
+            ${dtocGetTocLinkStyle(options, 'sliding_sticky_mobile')}
 
+            <div class="dtoc-sliding-sticky-mobile-box-body">
+                <ul>
+                    <li><a href="#">Introduction</a></li>
+                    <li><a href="#">Why a TOC Is Important</a></li>
+                    <li><a href="#">Improves Readability</a></li>
+                    <li><a href="#">Enhances SEO</a></li>
+                    <li><a href="#">Formatting Elements</a></li>
+                    <li><a href="#">Bold, Italic, and Links</a></li>
+                    <li><a href="#">Code Snippets</a></li>
+                    <li><a href="#">Unordered List</a></li>
+                    <li><a href="#">Table Example</a></li>
+                    <li><a href="#">Advanced TOC Testing</a></li>
+                    <li><a href="#">Dynamic Headings (JavaScript Loaded)</a></li>
+                    <li><a href="#">Accessibility & Performance</a></li>
+                    <li><a href="#">Best Practices for Developers</a></li>
+                    <li><a href="#">Conclusion</a></li>
+                </ul>
+            </div>
+        </div>
+    `;
 
-        $('.dtoc-preview-body').append(html);
-              
-            var $tocPanel = $(".dtoc-sliding-sticky-mobile-container");
-            var $tocHeader = $tocPanel.find(".dtoc-sliding-sticky-mobile-header");
+    // 🧩 Wrap TOC in a mock mobile screen
+    const html = `
+        <div class="dtoc-mobile-screen-wrapper">
+            <div class="dtoc-mobile-screen">
+                ${tocHTML}
+            </div>
+        </div>
+    `;
 
-            $tocHeader.on("click", function(e) {
-                e.preventDefault();
-                $tocPanel.toggleClass("active");
-            });
+    $('.dtoc-preview-body').append(html);
 
-    }
+    // Toggle
+    const $tocPanel = $(".dtoc-sliding-sticky-mobile-container");
+    const $tocHeader = $tocPanel.find(".dtoc-sliding-sticky-mobile-header");
+
+    $tocHeader.on("click", function (e) {
+        e.preventDefault();
+        $tocPanel.toggleClass("active");
+    });
+}
+
 
     function updateSettings() {
         
