@@ -183,10 +183,6 @@ function dtocGetTocLinkStyle(options = {}, type = '') {
     // TOC hierarchy classes
     const hierarchyClass = options.hierarchy ? 'dtoc-hierarchy' : '';
 
-    // Wrap content container
-    const wrapContentStart = options.wrap_content ? '<div class="dtoc-wrap-content">' : '';
-    const wrapContentEnd = options.wrap_content ? '</div>' : '';
-
     // Helper to generate TOC links
     function getTocLink(headingId, headingClass, headingText) {
         const href = options.jump_links ? `#${headingId}` : 'javascript:void(0)';
@@ -228,9 +224,8 @@ function dtocGetTocLinkStyle(options = {}, type = '') {
         </div>
     `;
 
-    // Build content HTML
+    // Build content HTML (wrap removed)
     const contentHtml = `
-        ${wrapContentStart}
         <div class="dtoc-demo-content">
             <h1 id="heading1">Introduction</h1>
             <p>This section introduces the Digital TOC plugin and demonstrates live preview behavior.</p>
@@ -257,7 +252,6 @@ function dtocGetTocLinkStyle(options = {}, type = '') {
             <h2 id="heading12">Conclusion & Testing</h2>
             <p>All headings are jump-link enabled, making it easy to test TOC hierarchy and toggle behavior.</p>
         </div>
-        ${wrapContentEnd}
     `;
 
     // Apply scroll behavior and max height
@@ -319,6 +313,7 @@ function dtocGetTocLinkStyle(options = {}, type = '') {
         });
     }
 }
+
 
 
 
