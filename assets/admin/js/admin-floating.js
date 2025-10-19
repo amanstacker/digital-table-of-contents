@@ -7,80 +7,234 @@ jQuery(document).ready(function($) {
     console.log(dtoc_admin_modules_cdata);
 
     // Proxy to trigger on any top-level set
-    const reactive = new Proxy(current_state, {
+    const options = new Proxy(current_state, {
         set(target, prop, value) {
             target[prop] = value;
-            updatePreview();
-            updateShortcode();
+            updateSettings();
+            renderLivePreview();            
             return true;
         }
     });
 
-    function updateShortcode() {
-    let params = [];
+    function dtocGetCustomStyle(options) {
+	// Extract list style type safely
+	const listStyleType = options?.list_style_type || 'decimal';
 
-    for (let key in reactive) {
-        if (!reactive.hasOwnProperty(key)) continue;
-
-        let currentVal = reactive[key];
-        let defaultVal = default_state[key];
-
-        // Special handling for headings_include → always include 1 to 6
-        if (key === 'headings_include' && typeof currentVal === 'object') {
-            let fixedObj = {};
-            for (let i = 1; i <= 6; i++) {
-                fixedObj[i] = currentVal[i] ? 1 : 0; // force 0/1
-            }
-            if (JSON.stringify(fixedObj) !== JSON.stringify(defaultVal)) {
-                params.push(`${key}=${JSON.stringify(fixedObj)}`);
-            }
+	// Default TOC CSS
+	const defaultCSS = `
+		.dtoc-box-container {                    
+			display: table;       
+			width: fit-content;     
+			max-width: 100%;            
+			overflow: hidden;
+			height: fit-content;
+			font-size: 18px;
+			font-family: auto;
+			line-height: 1.25;
+		}        
+        .dtoc-title-str{
+            padding-right:10px;
         }
-        else if (typeof currentVal === 'object' && currentVal !== null) {
-            if (JSON.stringify(currentVal) !== JSON.stringify(defaultVal)) {
-                params.push(`${key}=${JSON.stringify(currentVal)}`);
-            }
-        } 
-        else {
-            if (!isNaN(currentVal) && currentVal !== '' && currentVal !== null) {
-                currentVal = Number(currentVal);
-            }
-            if (!isNaN(defaultVal) && defaultVal !== '' && defaultVal !== null) {
-                defaultVal = Number(defaultVal);
-            }
+		.dtoc-toggle-label {
+			display: flex;    
+			justify-content: space-between;        
+			font-weight: 600;
+			font-size: 100%;   
+			padding: 10px;     
+		}        
 
-            if (currentVal !== defaultVal) {
-                if (typeof currentVal === 'number' || typeof currentVal === 'boolean') {
-                    params.push(`${key}=${currentVal}`);
-                } else {
-                    params.push(`${key}='${currentVal}'`);
-                }
-            }
-        }
-    }
+		span.dtoc_icon_toggle svg {
+			vertical-align: middle;
+		}
 
-    const shortcode = `[digital_toc${params.length ? ' ' + params.join(' ') : ''}]`;
-    $('#dtoc_shortcode_source_textarea').val(shortcode);
+		.dtoc_icon_toggle img {
+			width: 30px;
+		}
+
+		.dtoc_icon_toggle {
+			font-weight: 400;
+			font-size: 90%;
+		}
+
+		.dtoc-box-container ul {
+			margin: auto;
+			padding-left: 25px;
+			list-style-type: ${listStyleType};
+		}
+
+		.dtoc-box-container ul ul {
+			margin: revert;
+			padding-left: 25px;
+			list-style-type: ${listStyleType};
+		}
+
+		.dtoc-box-container ul li {
+			font-size: 100%;
+			margin-bottom: 0;
+		}
+
+		.dtoc-box-container a {                        
+			text-decoration: none;                                    
+		}         
+
+		.dtoc-box-body {
+			padding: 10px;
+		}
+	`;
+
+	// If no custom CSS provided
+	if (!options.custom_css) {
+		return `<style id="dtoc-custom-css">${defaultCSS}</style>`;
+	}
+
+	// Sanitize custom CSS: strip HTML tags and trim
+	const customCSS = options.custom_css.replace(/<\/?[^>]+(>|$)/g, '').trim();
+
+	// Combine default + custom CSS safely
+	const finalCSS = defaultCSS + (customCSS ? `\n${customCSS}` : '');
+
+	return `<style id="dtoc-custom-css">${finalCSS}</style>`;
 }
 
+    function renderLivePreview() {
+    $('.dtoc-preview-body').html('');
 
-    function updatePreview() {
-        if (reactive.jump_links) {
+    // Determine scroll behavior based on jump_links
+    const scrollBehavior = options.jump_links ? options.scroll_behavior : 'auto';
+
+    // TOC container alignment
+    let tocContainerStyle = dtocBoxContainerStyle(options);
+    if (options.alignment === 'left') tocContainerStyle += ' margin-left: 0; margin-right: auto;';
+    else if (options.alignment === 'center') tocContainerStyle += ' margin-left: auto; margin-right: auto;';
+    else if (options.alignment === 'right') tocContainerStyle += ' margin-left: auto; margin-right: 0;';
+
+    // TOC hierarchy classes
+    const hierarchyClass = options.hierarchy ? 'dtoc-hierarchy' : '';
+
+    // Helper to generate TOC links
+    function getTocLink(headingId, headingClass, headingText) {
+        const href = options.jump_links ? `#${headingId}` : 'javascript:void(0)';
+        return `<li><a href="${href}" class="dtoc-link ${headingClass}">${headingText}</a></li>`;
+    }
+
+    // Build TOC HTML
+    const tocHtml = `${dtocGetCustomStyle(options) + dtocGetTocLinkStyle(options, 'incontent')}
+        <div class="dtoc-box-container ${hierarchyClass}" style="${tocContainerStyle}">
+            ${options.display_title ? `
+                <div class="dtoc-toggle-label" style="${dtocGetTitleStyle(options)}">
+                    <span class="dtoc-title-str">${
+                        options.header_text === 'Table of Contents'
+                            ? 'Table of Contents'
+                            : options.header_text
+                    }</span>
+                    ${dtocGetHeaderIcon(options)}
+                </div>` : ''}                    
+            <div class="dtoc-box-body" style="${
+                options.toggle_body
+                    ? (options.toggle_initial === 'show' ? '' : 'display:none;')
+                    : ''
+            }">
+                <ul>
+                    ${getTocLink('heading1', 'dtoc-heading-1', 'Introduction')}
+                    ${getTocLink('heading2', 'dtoc-heading-2', 'Key Features Overview')}
+                    ${getTocLink('heading3', 'dtoc-heading-3', 'Modular TOC System')}
+                    ${getTocLink('heading4', 'dtoc-heading-4', 'Auto Insertion & Positioning')}
+                    ${getTocLink('heading5', 'dtoc-heading-5', 'Heading Hierarchy Support')}
+                    ${getTocLink('heading6', 'dtoc-heading-2', 'Smooth Scrolling & Accessibility')}
+                    ${getTocLink('heading7', 'dtoc-heading-3', 'Rendering Styles & Icons')}
+                    ${getTocLink('heading8', 'dtoc-heading-4', 'Full Customization & CSS')}
+                    ${getTocLink('heading9', 'dtoc-heading-5', 'Import / Export & Reset')}
+                    ${getTocLink('heading10', 'dtoc-heading-3', 'Shortcode Module')}
+                    ${getTocLink('heading11', 'dtoc-heading-4', 'Available Modules')}
+                    ${getTocLink('heading12', 'dtoc-heading-2', 'Conclusion & Testing')}
+                </ul>
+            </div>
+        </div>
+    `;
+
+    // Build content HTML (wrap removed)
+    const contentHtml = `
+        <div class="dtoc-demo-content">
+            <h1 id="heading1">Introduction</h1>
+            <p>This section introduces the Digital TOC plugin and demonstrates live preview behavior.</p>
+            <h2 id="heading2">Key Features Overview</h2>
+            <p>Digital TOC offers a modular system with full customization and accessibility features.</p>
+            <h3 id="heading3">Modular TOC System</h3>
+            <p>Each TOC feature is separated into modules for easier management and flexibility.</p>
+            <h4 id="heading4">Auto Insertion & Positioning</h4>
+            <p>Automatically insert TOC before/after headings, top/bottom, or after a specific paragraph.</p>
+            <h5 id="heading5">Heading Hierarchy Support</h5>
+            <p>Supports H1 to H6 headings for proper hierarchical TOC generation.</p>
+            <h2 id="heading6">Smooth Scrolling & Accessibility</h2>
+            <p>Enables smooth scrolling and adds ARIA attributes for better accessibility.</p>
+            <h3 id="heading7">Rendering Styles & Icons</h3>
+            <p>Choose CSS or JavaScript rendering with multiple icon styles.</p>
+            <h4 id="heading8">Full Customization & CSS</h4>
+            <p>Customize colors, backgrounds, borders, links, and add custom CSS if needed.</p>
+            <h5 id="heading9">Import / Export & Reset</h5>
+            <p>Backup and transfer TOC settings, or reset plugin data completely.</p>
+            <h3 id="heading10">Shortcode Module</h3>
+            <p>Insert TOC anywhere using a simple shortcode with live preview.</p>
+            <h4 id="heading11">Available Modules</h4>
+            <p>In-Content, Mobile, Shortcode, Sliding Sticky, and Floating TOC modules available.</p>
+            <h2 id="heading12">Conclusion & Testing</h2>
+            <p>All headings are jump-link enabled, making it easy to test TOC hierarchy and toggle behavior.</p>
+        </div>
+    `;
+
+    // Apply scroll behavior and max height
+    $('.dtoc-preview-body').css({
+        'max-height': '600px',        
+        'overflow-y': 'auto',
+        'scroll-behavior': scrollBehavior
+    });
+        
+    $('.dtoc-preview-body').append(tocHtml + contentHtml);
+
+    // TOC toggle functionality
+    if (options.toggle_body) {
+        $('.dtoc-toggle-label').off('click').on('click', function () {
+            const $container = $(this).closest('.dtoc-box-container');
+            const $body = $container.find('.dtoc-box-body');
+            $body.slideToggle(200);
+            $(this).toggleClass('dtoc-open');
+        });
+    }
+
+    // Jump link click behavior
+    if (options.jump_links) {
+        $('.dtoc-link').off('click').on('click', function (e) {
+            e.preventDefault();
+            const target = $($(this).attr('href'));
+            if (target.length) {
+                $('.dtoc-preview-body').animate(
+                    { scrollTop: target.offset().top - $('.dtoc-preview-body').offset().top + $('.dtoc-preview-body').scrollTop() },
+                    400
+                );
+            }
+        });
+    }
+    
+}
+   
+    function updateSettings() {
+        if (options.jump_links) {
             $('.dtoc_jump_links').show();
         } else {
             $('.dtoc_jump_links').hide();
         }
 
-        if (reactive.display_title) {
+        if (options.display_title) {
             $('.dtoc_display_title').show();
 
-            if (reactive.toggle_body) {
+            if (options.toggle_body) {
                 $('.dtoc_display_title.dtoc_2_label_child_opt').show();
                 $('.dtoc_display_title.dtoc_3_label_child_opt').hide();
 
-                if (reactive.header_icon === 'show_hide') {
+                if (options.header_icon === 'show_hide') {
                     $('.dtoc_display_title.dtoc_3_label_child_opt').show();
                 }
-                if (reactive.header_icon === 'custom_icon') {
+                if (options.header_icon === 'custom_icon') {
                     $('#custom-icon-wrapper').show();
                 } else {
                     $('#custom-icon-wrapper').hide();
@@ -97,7 +251,7 @@ jQuery(document).ready(function($) {
         $('.smpg-mode-select').each(function () {
             const $select = $(this);
             const group = $select.data('group');
-            const value = reactive[$select.attr('id')];
+            const value = options[$select.attr('id')];
             const $related = $('[data-group="' + group + '"]').not($select);
 
             if (value === 'custom') {
@@ -139,24 +293,24 @@ jQuery(document).ready(function($) {
         if (!dataId) return;
 
         if ($input.is(':checkbox') && dataId === 'headings_include') {
-            if (!reactive[dataId]) {
-                reactive[dataId] = {};
+            if (!options[dataId]) {
+                options[dataId] = {};
             }
             const number = $input.data('number');
             if (number !== undefined) {
-                const updated = { ...reactive[dataId] }; // clone object
+                const updated = { ...options[dataId] }; // clone object
                 updated[number] = $input.is(':checked') ? 1 : 0;
-                reactive[dataId] = updated; // replace → triggers Proxy set()
+                options[dataId] = updated; // replace → triggers Proxy set()
             }
         }
         else if ($input.is(':checkbox')) {
-            reactive[dataId] = $input.is(':checked') ? 1 : 0;
+            options[dataId] = $input.is(':checked') ? 1 : 0;
         }
         else if ($input.is(':radio')) {
-            reactive[dataId] = $input.val();
+            options[dataId] = $input.val();
         }
         else {
-            reactive[dataId] = $input.val();
+            options[dataId] = $input.val();
         }
     });
      
@@ -211,13 +365,13 @@ jQuery(document).ready(function($) {
             // Update textarea & trigger preview on change
             editor.session.on('change', function () {
                 $customCssTarget.val(editor.session.getValue());
-                reactive.custom_css = editor.session.getValue(); // bind to state
+                options.custom_css = editor.session.getValue(); // bind to state
             });
         });
     }
 
-    updatePreview();
-    updateShortcode();
+    updateSettings();    
+    renderLivePreview();
 });
 
 

@@ -347,19 +347,7 @@ function renderLivePreview() {
             }
         });
     }
-
-    // Fix offset on window resize
-    $(window).on("resize", function () {
-        $(".dtoc-sliding-sticky-container.dtoc-closed").each(function () {
-            let $container = $(this);
-            let isLeft = $container.hasClass("dtoc-left-top") ||
-                         $container.hasClass("dtoc-left-middle") ||
-                         $container.hasClass("dtoc-left-bottom");
-            if (isLeft) $container.css("left", -$container.outerWidth());
-            else $container.css("right", -$container.outerWidth());
-        });
-    });
-
+    
     // Set preview container scroll
     $('.dtoc-demo-content').css({
         'max-height': '600px',
