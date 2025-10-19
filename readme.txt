@@ -5,7 +5,7 @@ Tags: table of contents, toc, navigation, headings, sticky toc
 Requires at least: 5.0  
 Tested up to: 6.8  
 Requires PHP: 7.4
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -13,11 +13,20 @@ A powerful and customizable TOC plugin. Effortlessly navigate your content with 
 
 == Description ==
 
-**Digital Table of Contents** is a powerful, modular toc system that lets you effortlessly generate and manage table of contents across your content. With full control over styling, behavior, and placement, it offers a user-friendly and highly customizable experience.
+**Digital Table of Contents** is a powerful yet lightweight modular TOC (Table of Contents) system that helps you effortlessly generate and manage tables of contents across your website.
+
+Built to be bloat free and efficient, Digital TOC focuses on performance, flexibility, and simplicity. Its modular structure ensures a clean, well organized settings panel, allowing you to enable only the features you need.
+
+Gain full control over styling, behavior, and placement, all from one intuitive dashboard. Customize colors, typography, icons, and toggle behavior without touching any code.
+
+The built in **Live Preview** feature lets you see your design changes instantly. No need to rely on your website theme or reload pages. You don’t have to depend on any theme styling or pre built TOC designs. Simply customize everything live, save your settings, and make it truly your own.
+
+This is not just another TOC plugin. It’s a complete content organization system designed for creators who care about precision and performance. Once you try it, you’ll love how effortlessly you can create a visually appealing, user-friendly table of contents that perfectly fits your site’s style.
 
 **Key Features:**
 
 * <strong>Modular TOC System</strong>: Each major TOC feature is separated into its own module for better management and flexibility. Comes with a dedicated settings panel for full control — ensuring smooth operation without conflicts and making it stand out from other plugins.
+* <strong>Live Preview</strong>: Instantly see your TOC design changes as you customize, without relying on reloading pages.
 * <strong>Auto Insertion of TOC</strong>: Automatically insert a table of contents across all post types with a single setup.
 * <strong>Flexible TOC Positioning</strong>: Choose where to place the TOC — before the first heading, after the first heading, top of the content, bottom of the content, or after a specific paragraph number.
 * <strong>Heading Hierarchy Support</strong>: Automatically generate a hierarchical TOC based on headings from H1 to H6.
@@ -104,6 +113,9 @@ Yes. Use the Tools section to reset or export/import your settings.
 
 == Changelog ==
 
+= 1.0.5 =
+* Live Preview Panel added for all toc modules
+* Minor bug fixes
 
 = 1.0.4 =
 * Sliding Sticky Mobile module added.
@@ -126,14 +138,6 @@ Yes. Use the Tools section to reset or export/import your settings.
 * Initial release with In-Content TOC module  
 * General, Advanced, Placement, and Customization tabs included  
 * Tools section with Import/Export and Reset options  
-
-== Roadmap ==
-
-- Sticky and Floating TOC  
-- Mobile-specific layout and controls  
-- Shortcode & Widget support  
-- Live Preview UI in Admin  
-- Accessibility enhancements  
 
 == Credits ==
 

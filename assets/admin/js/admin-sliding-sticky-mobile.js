@@ -4,97 +4,169 @@ jQuery(document).ready(function($) {
 
     const default_state = dtoc_admin_modules_cdata.module_default_state;    
     const current_state = dtoc_admin_modules_cdata.module_state;        
-    console.log(dtoc_admin_modules_cdata);
 
     // Proxy to trigger on any top-level set
     const options = new Proxy(current_state, {
         set(target, prop, value) {
             target[prop] = value;
-            updateSettings();
-            renderLivePreview();            
+            updateSettings();  
+            renderLivePreview();          
             return true;
         }
+
     });
 
-    function dtocGetCustomStyle(options) {
-	// Extract list style type safely
-	const listStyleType = options?.list_style_type || 'decimal';
+    
+function dtocGetCustomStyle(options) {
+    
+const listStyleType = options?.list_style_type || 'decimal';
 
-	// Default TOC CSS
-	const defaultCSS = `
-		.dtoc-box-container {                    
-			display: table;       
-			width: fit-content;     
-			max-width: 100%;            
-			overflow: hidden;
-			height: fit-content;
-			font-size: 18px;
-			font-family: auto;
-			line-height: 1.25;
-		}        
-        .dtoc-title-str{
-            padding-right:10px;
-        }
-		.dtoc-toggle-label {
-			display: flex;    
-			justify-content: space-between;        
-			font-weight: 600;
-			font-size: 100%;   
-			padding: 10px;     
-		}        
+const defaultCSS = `
 
-		span.dtoc_icon_toggle svg {
-			vertical-align: middle;
-		}
-
-		.dtoc_icon_toggle img {
-			width: 30px;
-		}
-
-		.dtoc_icon_toggle {
-			font-weight: 400;
-			font-size: 90%;
-		}
-
-		.dtoc-box-container ul {
-			margin: auto;
-			padding-left: 25px;
-			list-style-type: ${listStyleType};
-		}
-
-		.dtoc-box-container ul ul {
-			margin: revert;
-			padding-left: 25px;
-			list-style-type: ${listStyleType};
-		}
-
-		.dtoc-box-container ul li {
-			font-size: 100%;
-			margin-bottom: 0;
-		}
-
-		.dtoc-box-container a {                        
-			text-decoration: none;                                    
-		}         
-
-		.dtoc-box-body {
-			padding: 10px;
-		}
-	`;
-
-	// If no custom CSS provided
-	if (!options.custom_css) {
-		return `<style id="dtoc-custom-css">${defaultCSS}</style>`;
-	}
-
-	// Sanitize custom CSS: strip HTML tags and trim
-	const customCSS = options.custom_css.replace(/<\/?[^>]+(>|$)/g, '').trim();
-
-	// Combine default + custom CSS safely
-	const finalCSS = defaultCSS + (customCSS ? `\n${customCSS}` : '');
-
-	return `<style id="dtoc-custom-css">${finalCSS}</style>`;
+.dtoc-sliding-sticky-mobile-container {
+    position: absolute;
+	left: 0;
+	right: 0;
+	bottom: -100%;
+	width: 100%;
+	max-height: 80%;
+	background: #fff;
+	border-radius: 15px 15px 0 0;
+	box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.15);
+	transition: bottom 0.4s ease;
+	overflow-y: auto;
+	z-index: 10;            
+    font-size : 18px;
+    font-family: auto;    
 }
+    .dtoc-mobile-screen-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;		
+	box-sizing: border-box;
+}
+.dtoc-mobile-screen {
+	position: relative;
+	width: 360px;
+	height: 640px;
+	background: #fff;
+	border: 12px solid #222;
+	border-radius: 30px;
+	box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+	overflow: hidden;
+}
+.dtoc-mobile-screen::before {
+	content: "";
+	position: absolute;
+	top: 8px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 100px;
+	height: 8px;
+	background: #111;
+	border-radius: 8px;
+}
+.dtoc-sliding-sticky-mobile-container.active {
+	bottom: 0;
+}
+.dtoc-sliding-sticky-mobile-header {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	padding: 12px 15px;
+	background: #0073aa;
+	color: #fff;
+	text-align: center;
+	cursor: pointer;
+	font-weight: 600;
+	z-index: 20;
+}
+.dtoc-sliding-sticky-mobile-box-body {
+	padding: 20px;
+	margin-bottom: 40px;
+}
+.dtoc-sliding-sticky-mobile-box-body a:hover {
+	text-decoration: underline;
+}
+.dtoc-sliding-sticky-mobile-container ul {
+  padding: 15px;
+  margin: 0;
+  list-style: ${listStyleType};
+}
+.dtoc-sliding-sticky-mobile-container li {
+  margin-bottom: 10px;
+}
+.dtoc-sliding-sticky-mobile-container a {
+  text-decoration: none;
+  color: #0073aa;
+}
+.dtoc-sliding-sticky-mobile-header {
+  text-align: center;
+  padding: 8px;
+  background: #f1f1f1;
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+  border-radius: 15px 15px 0 0;
+  cursor: pointer;
+  position: relative;  
+}
+.dtoc-sliding-sticky-mobile-header::after {
+  content: "";
+  display: block;
+  font-size: 14px;
+  margin-top: 3px;
+  opacity: 0.6;
+}
+.dtoc-bottom-sheet {
+  bottom: 0;
+  transform: translateY(calc(100% - 40px)); /* collapsed: only header visible */    
+}
+.dtoc-bottom-sheet.active {
+  transform: translateY(0); /* expanded */
+}
+.dtoc-top-sheet {
+  top: 0;
+  transform: translateY(-100%); /* collapsed: hide panel above viewport */  
+}
+.dtoc-top-sheet.active {
+  transform: translateY(0); /* expanded: full panel slides down */
+}
+.dtoc-top-sheet .dtoc-sliding-sticky-mobile-header {
+  position: absolute;
+  top: 100%;   /* push header below the hidden panel */
+  left: 0;
+  right: 0;
+  border-bottom: none;
+  border-top: 1px solid #ddd;  
+  background: #f1f1f1;
+}
+.dtoc-sliding-sticky-mobile-box-body {
+  overflow-y: auto;
+  max-height: 300px;  
+}
+ .dtoc-preview-body{
+    overflow:hidden;
+ } 
+    
+`;
+
+    // If no custom CSS provided
+    if (!options.custom_css) {
+        return `<style id="dtoc-custom-css">${defaultCSS}</style>`;
+    }
+
+    // Sanitize custom CSS: strip HTML tags and trim
+    const customCSS = options.custom_css.replace(/<\/?[^>]+(>|$)/g, '').trim();
+
+    // Combine default + custom CSS safely
+    const finalCSS = defaultCSS + (customCSS ? `\n${customCSS}` : '');
+
+    return `<style id="dtoc-custom-css">${finalCSS}</style>`;
+}
+
 
     function renderLivePreview() {
     $('.dtoc-preview-body').html('');
@@ -102,38 +174,23 @@ jQuery(document).ready(function($) {
     // Determine scroll behavior based on jump_links
     const scrollBehavior = options.jump_links ? options.scroll_behavior : 'auto';
 
-    // TOC container alignment
-    let tocContainerStyle = dtocBoxContainerStyle(options);
-    if (options.alignment === 'left') tocContainerStyle += ' margin-left: 0; margin-right: auto;';
-    else if (options.alignment === 'center') tocContainerStyle += ' margin-left: auto; margin-right: auto;';
-    else if (options.alignment === 'right') tocContainerStyle += ' margin-left: auto; margin-right: 0;';
-
-    // TOC hierarchy classes
-    const hierarchyClass = options.hierarchy ? 'dtoc-hierarchy' : '';
-
-    // Helper to generate TOC links
+    // Helper to generate TOC links (same as in-content)
     function getTocLink(headingId, headingClass, headingText) {
         const href = options.jump_links ? `#${headingId}` : 'javascript:void(0)';
         return `<li><a href="${href}" class="dtoc-link ${headingClass}">${headingText}</a></li>`;
     }
 
-    // Build TOC HTML
-    const tocHtml = `${dtocGetCustomStyle(options) + dtocGetTocLinkStyle(options, 'incontent')}
-        <div class="dtoc-box-container ${hierarchyClass}" style="${tocContainerStyle}">
-            ${options.display_title ? `
-                <div class="dtoc-toggle-label" style="${dtocGetTitleStyle(options)}">
-                    <span class="dtoc-title-str">${
-                        options.header_text === 'Table of Contents'
-                            ? 'Table of Contents'
-                            : options.header_text
-                    }</span>
-                    ${dtocGetHeaderIcon(options)}
-                </div>` : ''}                    
-            <div class="dtoc-box-body" style="${
-                options.toggle_body
-                    ? (options.toggle_initial === 'show' ? '' : 'display:none;')
-                    : ''
-            }">
+    // Build Mobile TOC HTML
+    const tocHTML = `
+        <div class="dtoc-sliding-sticky-mobile-container dtoc-${options.display_position}" style="${dtocBoxContainerStyle(options)}">
+            <div class="dtoc-sliding-sticky-mobile-header" style="${dtocGetTitleStyle(options)}">
+                ${options.header_text || ''}
+            </div>
+
+            ${dtocGetCustomStyle(options)}
+            ${dtocGetTocLinkStyle(options, 'sliding_sticky_mobile')}
+
+            <div class="dtoc-sliding-sticky-mobile-box-body">
                 <ul>
                     ${getTocLink('heading1', 'dtoc-heading-1', 'Introduction')}
                     ${getTocLink('heading2', 'dtoc-heading-2', 'Key Features Overview')}
@@ -151,10 +208,9 @@ jQuery(document).ready(function($) {
             </div>
         </div>
     `;
-
-    // Build content HTML (wrap removed)
+    
     const contentHtml = `
-        <div class="dtoc-demo-content">
+        <div class="dtoc-demo-content" style="overflow-y:auto; max-height:600px;padding:15px;">
             <h1 id="heading1">Introduction</h1>
             <p>This section introduces the Digital TOC plugin and demonstrates live preview behavior.</p>
             <h2 id="heading2">Key Features Overview</h2>
@@ -182,29 +238,30 @@ jQuery(document).ready(function($) {
         </div>
     `;
 
-    // Apply scroll behavior and max height
-    $('.dtoc-preview-body').css({
-        'max-height': '600px',        
-        'overflow-y': 'auto',
-        'scroll-behavior': scrollBehavior
-    });
-    $('.dtoc-demo-content').css({
-        'max-height': '600px',
-        'overflow-y': 'auto',
-        'scroll-behavior': options.jump_links ? options.scroll_behavior : 'auto'
-    });
-        
-    $('.dtoc-preview-body').append(tocHtml + contentHtml);
+    // Append TOC and content
+    $('.dtoc-preview-body').append(`
+        <div class="dtoc-mobile-screen-wrapper">
+            <div class="dtoc-mobile-screen">
+                ${tocHTML}
+                ${contentHtml}
+            </div>
+        </div>
+    `);
 
-    // TOC toggle functionality
-    if (options.toggle_body) {
-        $('.dtoc-toggle-label').off('click').on('click', function () {
-            const $container = $(this).closest('.dtoc-box-container');
-            const $body = $container.find('.dtoc-box-body');
-            $body.slideToggle(200);
-            $(this).toggleClass('dtoc-open');
-        });
+    // Toggle mobile TOC
+    const $tocPanel = $(".dtoc-sliding-sticky-mobile-container");
+    const $tocHeader = $tocPanel.find(".dtoc-sliding-sticky-mobile-header");
+
+    if(options.toggle_initial){
+        $tocPanel.addClass("active"); 
+    }else{
+        $tocPanel.removeClass("active");
     }
+
+    $tocHeader.on("click", function (e) {
+        e.preventDefault();        
+        $tocPanel.toggleClass("active");
+    });
 
     // Jump link click behavior
     if (options.jump_links) {
@@ -220,79 +277,30 @@ jQuery(document).ready(function($) {
         });
     }
 
-
-    // Make TOC draggable inside the preview
-    const $tocBox = $('.dtoc-box-container');
-    $tocBox.css({
-        'cursor': 'move',
-        'position': 'absolute',
-        'z-index': 99
+    // Apply scroll behavior to preview
+    $('.dtoc-demo-content').css({
+        'overflow-y': 'auto',
+        'max-height': '600px',
+        'scroll-behavior': scrollBehavior
     });
-
-    let isDragging = false;
-    let offsetX, offsetY;
-
-    $tocBox.off('mousedown').on('mousedown', function (e) {
-        isDragging = true;
-        offsetX = e.pageX - $(this).offset().left;
-        offsetY = e.pageY - $(this).offset().top;
-        $(this).css('opacity', 0.85);
-    });
-
-    $(document).off('mousemove').on('mousemove', function (e) {
-        if (isDragging) {
-            const $preview = $('.dtoc-preview-body');
-            const previewOffset = $preview.offset();
-            const maxLeft = previewOffset.left + $preview.width() - $tocBox.outerWidth();
-            const maxTop = previewOffset.top + $preview.height() - $tocBox.outerHeight();
-
-            // Constrain movement inside preview
-            let left = Math.min(Math.max(e.pageX - offsetX, previewOffset.left), maxLeft);
-            let top = Math.min(Math.max(e.pageY - offsetY, previewOffset.top), maxTop);
-
-            $tocBox.css({
-                left: left - previewOffset.left + 'px',
-                top: top - previewOffset.top + 'px'
-            });
-        }
-    });
-
-    $(document).off('mouseup').on('mouseup', function () {
-        if (isDragging) {
-            isDragging = false;
-            $tocBox.css('opacity', 1);
-        }
-    });
-    
 }
-   
+
+
     function updateSettings() {
+        
         if (options.jump_links) {
             $('.dtoc_jump_links').show();
         } else {
             $('.dtoc_jump_links').hide();
         }
+        if (options.toggle_body) {
+            $('.dtoc_toggle_body').show();
+        } else {
+            $('.dtoc_toggle_body').hide();
+        }
 
         if (options.display_title) {
-            $('.dtoc_display_title').show();
-
-            if (options.toggle_body) {
-                $('.dtoc_display_title.dtoc_2_label_child_opt').show();
-                $('.dtoc_display_title.dtoc_3_label_child_opt').hide();
-
-                if (options.header_icon === 'show_hide') {
-                    $('.dtoc_display_title.dtoc_3_label_child_opt').show();
-                }
-                if (options.header_icon === 'custom_icon') {
-                    $('#custom-icon-wrapper').show();
-                } else {
-                    $('#custom-icon-wrapper').hide();
-                }
-
-            } else {
-                $('.dtoc_display_title.dtoc_2_label_child_opt').hide();
-            }
-
+            $('.dtoc_display_title').show();            
         } else {
             $('.dtoc_display_title').hide();
         }
@@ -334,7 +342,7 @@ jQuery(document).ready(function($) {
 
         file_frame.open();
     });
-    
+
     // Change handler
     $('.dtoc-settings-form').on('input change', '.smpg-input', function (e) {
         const $input = $(e.target);

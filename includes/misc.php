@@ -96,11 +96,11 @@ function dtoc_sliding_sticky_mobile_modules_enqueue() {
         $data = [];        
 
         $data['scroll_behaviour'] = isset( $dtoc_sliding_sticky_mobile['scroll_behavior'] ) ? $dtoc_sliding_sticky_mobile['scroll_behavior'] : 'auto';
-        $data['toggle_body']      = isset( $dtoc_sliding_sticky_mobile['toggle_body'] ) ? 1 : 0;
+        $data['toggle_initial']      = isset( $dtoc_sliding_sticky_mobile['toggle_initial'] ) ? 1 : 0;
         $data['display_position'] = $dtoc_sliding_sticky_mobile['display_position'];                                                
 
         wp_register_script( 'dtoc-sliding-sticky-mobile-frontend', DTOC_URL  . 'assets/frontend/js/dtoc-sliding-sticky-mobile.js', array('jquery'), DTOC_VERSION , true );                        
-        wp_localize_script( 'dtoc-sliding-sticky-mobile-frontend', 'dtoc_localize_frontend_sticky_data', $data );        
+        wp_localize_script( 'dtoc-sliding-sticky-mobile-frontend', 'dtoc_localize_frontend_sticky_mobile', $data );        
         wp_enqueue_script( 'dtoc-sliding-sticky-mobile-frontend' );                        
         wp_enqueue_style( 'dtoc-sliding-sticky-mobile-frontend', DTOC_URL  . 'assets/frontend/css/dtoc-sliding-sticky-mobile.css', false , DTOC_VERSION );
                                             
@@ -161,7 +161,7 @@ function dtoc_sliding_sticky_modules_enqueue() {
                 $data['display_position'] = $dtoc_sliding_sticky['display_position'];                                                
 
                 wp_register_script( 'dtoc-sliding-sticky-frontend', DTOC_URL  . 'assets/frontend/js/dtoc-sliding-sticky.js', array('jquery'), DTOC_VERSION , true );                        
-                wp_localize_script( 'dtoc-sliding-sticky-frontend', 'dtoc_localize_frontend_sticky_data', $data );        
+                wp_localize_script( 'dtoc-sliding-sticky-frontend', 'dtoc_localize_frontend_sticky', $data );        
                 wp_enqueue_script( 'dtoc-sliding-sticky-frontend' );                        
                 wp_enqueue_style( 'dtoc-sliding-sticky-frontend', DTOC_URL  . 'assets/frontend/css/dtoc-sliding-sticky-js-based.css', false , DTOC_VERSION );
 
