@@ -188,6 +188,11 @@ jQuery(document).ready(function($) {
         'overflow-y': 'auto',
         'scroll-behavior': scrollBehavior
     });
+    $('.dtoc-demo-content').css({
+        'max-height': '600px',
+        'overflow-y': 'auto',
+        'scroll-behavior': options.jump_links ? options.scroll_behavior : 'auto'
+    });
         
     $('.dtoc-preview-body').append(tocHtml + contentHtml);
 
@@ -207,13 +212,57 @@ jQuery(document).ready(function($) {
             e.preventDefault();
             const target = $($(this).attr('href'));
             if (target.length) {
-                $('.dtoc-preview-body').animate(
-                    { scrollTop: target.offset().top - $('.dtoc-preview-body').offset().top + $('.dtoc-preview-body').scrollTop() },
+                $('.dtoc-demo-content').animate(
+                    { scrollTop: target.offset().top - $('.dtoc-demo-content').offset().top + $('.dtoc-demo-content').scrollTop() },
                     400
                 );
             }
         });
     }
+
+
+    // Make TOC draggable inside the preview
+    const $tocBox = $('.dtoc-box-container');
+    $tocBox.css({
+        'cursor': 'move',
+        'position': 'absolute',
+        'z-index': 99
+    });
+
+    let isDragging = false;
+    let offsetX, offsetY;
+
+    $tocBox.off('mousedown').on('mousedown', function (e) {
+        isDragging = true;
+        offsetX = e.pageX - $(this).offset().left;
+        offsetY = e.pageY - $(this).offset().top;
+        $(this).css('opacity', 0.85);
+    });
+
+    $(document).off('mousemove').on('mousemove', function (e) {
+        if (isDragging) {
+            const $preview = $('.dtoc-preview-body');
+            const previewOffset = $preview.offset();
+            const maxLeft = previewOffset.left + $preview.width() - $tocBox.outerWidth();
+            const maxTop = previewOffset.top + $preview.height() - $tocBox.outerHeight();
+
+            // Constrain movement inside preview
+            let left = Math.min(Math.max(e.pageX - offsetX, previewOffset.left), maxLeft);
+            let top = Math.min(Math.max(e.pageY - offsetY, previewOffset.top), maxTop);
+
+            $tocBox.css({
+                left: left - previewOffset.left + 'px',
+                top: top - previewOffset.top + 'px'
+            });
+        }
+    });
+
+    $(document).off('mouseup').on('mouseup', function () {
+        if (isDragging) {
+            isDragging = false;
+            $tocBox.css('opacity', 1);
+        }
+    });
     
 }
    
