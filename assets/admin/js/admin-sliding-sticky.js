@@ -340,8 +340,8 @@ function renderLivePreview() {
             e.preventDefault();
             const target = $($(this).attr('href'));
             if (target.length) {
-                $('.dtoc-preview-body').animate(
-                    { scrollTop: target.offset().top - $('.dtoc-preview-body').offset().top + $('.dtoc-preview-body').scrollTop() },
+                $('.dtoc-demo-content').animate(
+                    { scrollTop: target.offset().top - $('.dtoc-demo-content').offset().top + $('.dtoc-demo-content').scrollTop() },
                     400
                 );
             }
@@ -361,7 +361,7 @@ function renderLivePreview() {
     });
 
     // Set preview container scroll
-    $('.dtoc-preview-body').css({
+    $('.dtoc-demo-content').css({
         'max-height': '600px',
         'overflow-y': 'auto',
         'scroll-behavior': options.jump_links ? options.scroll_behavior : 'auto'
