@@ -44,9 +44,7 @@ const defaultCSS = `
 	justify-content: center;
 	align-items: center;
 	width: 100%;
-	height: 100%;
-	background: #f3f3f3;
-	padding: 30px 0;
+	height: 100%;		
 	box-sizing: border-box;
 }
 .dtoc-mobile-screen {
@@ -171,15 +169,21 @@ const defaultCSS = `
 
 
     function renderLivePreview() {
-
     $('.dtoc-preview-body').html('');
 
+    // Determine scroll behavior based on jump_links
+    const scrollBehavior = options.jump_links ? options.scroll_behavior : 'auto';
+
+    // Helper to generate TOC links (same as in-content)
+    function getTocLink(headingId, headingClass, headingText) {
+        const href = options.jump_links ? `#${headingId}` : 'javascript:void(0)';
+        return `<li><a href="${href}" class="dtoc-link ${headingClass}">${headingText}</a></li>`;
+    }
+
+    // Build Mobile TOC HTML
     const tocHTML = `
-        <div class="dtoc-sliding-sticky-mobile-container dtoc-${options.display_position}" 
-            style="${dtocBoxContainerStyle(options)}">
-            
-            <div class="dtoc-sliding-sticky-mobile-header" 
-                style="${dtocGetTitleStyle(options)}">
+        <div class="dtoc-sliding-sticky-mobile-container dtoc-${options.display_position}" style="${dtocBoxContainerStyle(options)}">
+            <div class="dtoc-sliding-sticky-mobile-header" style="${dtocGetTitleStyle(options)}">
                 ${options.header_text || ''}
             </div>
 
@@ -188,43 +192,90 @@ const defaultCSS = `
 
             <div class="dtoc-sliding-sticky-mobile-box-body">
                 <ul>
-                    <li><a href="#">Introduction</a></li>
-                    <li><a href="#">Why a TOC Is Important</a></li>
-                    <li><a href="#">Improves Readability</a></li>
-                    <li><a href="#">Enhances SEO</a></li>
-                    <li><a href="#">Formatting Elements</a></li>
-                    <li><a href="#">Bold, Italic, and Links</a></li>
-                    <li><a href="#">Code Snippets</a></li>
-                    <li><a href="#">Unordered List</a></li>
-                    <li><a href="#">Table Example</a></li>
-                    <li><a href="#">Advanced TOC Testing</a></li>
-                    <li><a href="#">Dynamic Headings (JavaScript Loaded)</a></li>
-                    <li><a href="#">Accessibility & Performance</a></li>
-                    <li><a href="#">Best Practices for Developers</a></li>
-                    <li><a href="#">Conclusion</a></li>
+                    ${getTocLink('heading1', 'dtoc-heading-1', 'Introduction')}
+                    ${getTocLink('heading2', 'dtoc-heading-2', 'Key Features Overview')}
+                    ${getTocLink('heading3', 'dtoc-heading-3', 'Modular TOC System')}
+                    ${getTocLink('heading4', 'dtoc-heading-4', 'Auto Insertion & Positioning')}
+                    ${getTocLink('heading5', 'dtoc-heading-5', 'Heading Hierarchy Support')}
+                    ${getTocLink('heading6', 'dtoc-heading-2', 'Smooth Scrolling & Accessibility')}
+                    ${getTocLink('heading7', 'dtoc-heading-3', 'Rendering Styles & Icons')}
+                    ${getTocLink('heading8', 'dtoc-heading-4', 'Full Customization & CSS')}
+                    ${getTocLink('heading9', 'dtoc-heading-5', 'Import / Export & Reset')}
+                    ${getTocLink('heading10', 'dtoc-heading-3', 'Shortcode Module')}
+                    ${getTocLink('heading11', 'dtoc-heading-4', 'Available Modules')}
+                    ${getTocLink('heading12', 'dtoc-heading-2', 'Conclusion & Testing')}
                 </ul>
             </div>
         </div>
     `;
-
-    // 🧩 Wrap TOC in a mock mobile screen
-    const html = `
-        <div class="dtoc-mobile-screen-wrapper">
-            <div class="dtoc-mobile-screen">
-                ${tocHTML}
-            </div>
+    
+    const contentHtml = `
+        <div class="dtoc-demo-content" style="overflow-y:auto; max-height:600px;padding:15px;">
+            <h1 id="heading1">Introduction</h1>
+            <p>This section introduces the Digital TOC plugin and demonstrates live preview behavior.</p>
+            <h2 id="heading2">Key Features Overview</h2>
+            <p>Digital TOC offers a modular system with full customization and accessibility features.</p>
+            <h3 id="heading3">Modular TOC System</h3>
+            <p>Each TOC feature is separated into modules for easier management and flexibility.</p>
+            <h4 id="heading4">Auto Insertion & Positioning</h4>
+            <p>Automatically insert TOC before/after headings, top/bottom, or after a specific paragraph.</p>
+            <h5 id="heading5">Heading Hierarchy Support</h5>
+            <p>Supports H1 to H6 headings for proper hierarchical TOC generation.</p>
+            <h2 id="heading6">Smooth Scrolling & Accessibility</h2>
+            <p>Enables smooth scrolling and adds ARIA attributes for better accessibility.</p>
+            <h3 id="heading7">Rendering Styles & Icons</h3>
+            <p>Choose CSS or JavaScript rendering with multiple icon styles.</p>
+            <h4 id="heading8">Full Customization & CSS</h4>
+            <p>Customize colors, backgrounds, borders, links, and add custom CSS if needed.</p>
+            <h5 id="heading9">Import / Export & Reset</h5>
+            <p>Backup and transfer TOC settings, or reset plugin data completely.</p>
+            <h3 id="heading10">Shortcode Module</h3>
+            <p>Insert TOC anywhere using a simple shortcode with live preview.</p>
+            <h4 id="heading11">Available Modules</h4>
+            <p>In-Content, Mobile, Shortcode, Sliding Sticky, and Floating TOC modules available.</p>
+            <h2 id="heading12">Conclusion & Testing</h2>
+            <p>All headings are jump-link enabled, making it easy to test TOC hierarchy and toggle behavior.</p>
         </div>
     `;
 
-    $('.dtoc-preview-body').append(html);
+    // Append TOC and content
+    $('.dtoc-preview-body').append(`
+        <div class="dtoc-mobile-screen-wrapper">
+            <div class="dtoc-mobile-screen">
+                ${tocHTML}
+                ${contentHtml}
+            </div>
+        </div>
+    `);
 
-    // Toggle
+    // Toggle mobile TOC
     const $tocPanel = $(".dtoc-sliding-sticky-mobile-container");
     const $tocHeader = $tocPanel.find(".dtoc-sliding-sticky-mobile-header");
 
     $tocHeader.on("click", function (e) {
         e.preventDefault();
         $tocPanel.toggleClass("active");
+    });
+
+    // Jump link click behavior
+    if (options.jump_links) {
+        $('.dtoc-link').off('click').on('click', function (e) {
+            e.preventDefault();
+            const target = $($(this).attr('href'));
+            if (target.length) {
+                $('.dtoc-demo-content').animate(
+                    { scrollTop: target.offset().top - $('.dtoc-demo-content').offset().top + $('.dtoc-demo-content').scrollTop() },
+                    400
+                );
+            }
+        });
+    }
+
+    // Apply scroll behavior to preview
+    $('.dtoc-demo-content').css({
+        'overflow-y': 'auto',
+        'max-height': '600px',
+        'scroll-behavior': scrollBehavior
     });
 }
 
