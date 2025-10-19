@@ -114,7 +114,7 @@ Yes. Use the Tools section to reset or export/import your settings.
 == Changelog ==
 
 = 1.0.5 =
-* Live Preview Panel added for Incontent and shortcode module
+* Live Preview Panel added for all toc modules
 * Minor bug fixes
 
 = 1.0.4 =
