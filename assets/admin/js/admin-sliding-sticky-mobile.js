@@ -252,8 +252,14 @@ const defaultCSS = `
     const $tocPanel = $(".dtoc-sliding-sticky-mobile-container");
     const $tocHeader = $tocPanel.find(".dtoc-sliding-sticky-mobile-header");
 
+    if(options.toggle_initial){
+        $tocPanel.addClass("active"); 
+    }else{
+        $tocPanel.removeClass("active");
+    }
+
     $tocHeader.on("click", function (e) {
-        e.preventDefault();
+        e.preventDefault();        
         $tocPanel.toggleClass("active");
     });
 
@@ -338,7 +344,7 @@ const defaultCSS = `
     });
 
     // Change handler
-    $('.dtoc-settings-form').on('change', '.smpg-input', function (e) {
+    $('.dtoc-settings-form').on('input change', '.smpg-input', function (e) {
         const $input = $(e.target);
         const dataId = $input.data('id') || $input.attr('id');
         if (!dataId) return;

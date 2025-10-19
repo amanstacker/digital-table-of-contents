@@ -133,7 +133,7 @@ jQuery(document).ready(function($) {
     });
     
     // Change handler
-    $('.dtoc-settings-form').on('change', '.smpg-input', function (e) {
+    $('.dtoc-settings-form').on('input change', '.smpg-input', function (e) {
         const $input = $(e.target);
         const dataId = $input.data('id') || $input.attr('id');
         if (!dataId) return;
