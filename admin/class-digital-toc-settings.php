@@ -764,7 +764,7 @@ public function dtoc_settings_initiate(){
 		'callback' => 'dtoc_display_hierarchy_max_depth_cb',
 		'section'  => 'dtoc_advanced_setting_section',
 		'pages'    => [ 'dtoc_incontent' ],
-		'args'     => [ 'label_for' => 'exp_col_subheadings', 'class' => 'dtoc_child_opt dtoc_hierarchy' ],
+		'args'     => [ 'label_for' => 'hierarchy_max_depth', 'class' => 'dtoc_child_opt dtoc_hierarchy' ],
 	],    
     'dtoc_display_exp_col_subheadings' => [
 		'title'    => __( 'Expand / Collapse', 'digital-table-of-contents' ),
@@ -778,14 +778,14 @@ public function dtoc_settings_initiate(){
 		'callback' => 'dtoc_display_exp_col_initial_state_cb',
 		'section'  => 'dtoc_advanced_setting_section',
 		'pages'    => [ 'dtoc_incontent' ],
-		'args'     => [ 'label_for' => 'exp_col_subheadings', 'class' => 'dtoc_child_opt dtoc_hierarchy' ],
+		'args'     => [ 'label_for' => 'exp_col_subheadings', 'class' => 'dtoc_child_opt dtoc_2_label_child_opt dtoc_hierarchy' ],
 	],
     'dtoc_display_exp_col_remember_state' => [
 		'title'    => __( 'Remember State', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_display_exp_col_remember_state_cb',
 		'section'  => 'dtoc_advanced_setting_section',
 		'pages'    => [ 'dtoc_incontent' ],
-		'args'     => [ 'label_for' => 'exp_col_remember_state', 'class' => 'dtoc_child_opt dtoc_hierarchy' ],
+		'args'     => [ 'label_for' => 'exp_col_remember_state', 'class' => 'dtoc_child_opt dtoc_2_label_child_opt dtoc_hierarchy' ],
 	],	
 
 	// 'dtoc_display_show_more' => [
@@ -1880,14 +1880,14 @@ public function dtoc_display_exp_col_initial_state_cb() {
 	?>
         <input class="smpg-input" data-id="exp_col_initial_state" type="radio" id="exp_col_initial_state_collapsed" name="<?php echo esc_attr( $this->_setting_name ); ?>[exp_col_initial_state]" value="collapsed" 
             <?php checked( isset( $this->_setting_option['exp_col_initial_state'] ) && $this->_setting_option['exp_col_initial_state'] === 'collapsed' ); ?>>
-        <label for="exp_col_initial_state_hide"><?php esc_html_e( 'Collapsed', 'digital-table-of-contents' ); ?></label>
+        <label for="exp_col_initial_state_collapsed" style="margin-right: 15px;"><?php esc_html_e( 'Collapsed', 'digital-table-of-contents' ); ?></label>
 
         <input class="smpg-input" data-id="exp_col_initial_state" type="radio" id="exp_col_initial_state_expanded" name="<?php echo esc_attr( $this->_setting_name ); ?>[exp_col_initial_state]" value="expanded" 
             <?php checked( isset( $this->_setting_option['exp_col_initial_state'] ) && $this->_setting_option['exp_col_initial_state'] === 'expanded' ); ?>>
-        <label for="exp_col_initial_state_show" style="margin-right: 15px;"><?php esc_html_e( 'Expanded', 'digital-table-of-contents' ); ?></label>	
+        <label for="exp_col_initial_state_expanded"><?php esc_html_e( 'Expanded', 'digital-table-of-contents' ); ?></label>	
 
 	<?php
-    
+
 }
 
 
