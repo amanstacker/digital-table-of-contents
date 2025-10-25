@@ -221,8 +221,9 @@ function dtoc_incontent_and_shortcode_modules_enqueue() {
 
                 if ( $dtoc_incontent[ 'rendering_style' ] == 'js' ) {
 
-                        $data['scroll_behaviour'] = isset( $dtoc_incontent['scroll_behavior'] ) ? $dtoc_incontent['scroll_behavior'] : 'auto';
-                        $data['toggle_body']      = isset( $dtoc_incontent['toggle_body'] ) ? 1 : 0;
+                        $data['scroll_behaviour']     = isset( $dtoc_incontent['scroll_behavior'] ) ? $dtoc_incontent['scroll_behavior'] : 'auto';
+                        $data['toggle_body']          = isset( $dtoc_incontent['toggle_body'] ) ? 1 : 0;
+                        $data['exp_col_subheadings']  = isset( $dtoc_incontent['exp_col_subheadings'] ) ? 1 : 0;
                                         
                         $data = apply_filters( 'dtoc_localize_frontend_assets', $data, 'dtoc_localize_frontend_data' );
 
@@ -244,12 +245,12 @@ function dtoc_incontent_and_shortcode_modules_enqueue() {
                                         
                 }
                 $custom_css = "";
-                $custom_css = "
+                $custom_css = "                        
                         .dtoc-box-container ul{
                                 counter-reset: dtoc_item;
                                 list-style-type: none;                 
                         }
-                        .dtoc-box-container ul li::before{
+                        .dtoc-box-container ul .dtoc-marker-text::before{
                                 counter-increment: dtoc_item;
                                 content: counters(dtoc_item,'.', $list_style_type) $counter_end;
                                                         padding-right: 4px;
@@ -287,6 +288,20 @@ function dtoc_incontent_and_shortcode_modules_enqueue() {
 
                                 
                         }                        
+
+                        if ( ! empty( $dtoc_incontent['hierarchy'] ) &&  ! empty( $dtoc_incontent['exp_col_subheadings'] ) ) {
+                                $custom_css .= ".dtoc-box-container li ul {
+                                        display: none;
+                                }
+                                .dtoc-tree-toggle{
+                                        cursor: pointer;
+                                        font-weight: bold;
+                                        margin-right: 8px;
+                                }
+                                .dtoc-box-container li.dtoc-tree-expanded > ul {
+                                        display: block;
+                                }";
+                        }
                 }
 
                         

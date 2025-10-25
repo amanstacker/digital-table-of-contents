@@ -76,17 +76,31 @@ function dtoc_box_hierarchy_heading_list($matches,   $options = []){
 
 				$title = isset( $matches[ $i ]['alternate'] ) ? $matches[ $i ]['alternate'] : $matches[ $i ][0];
 				$title = strip_tags( $title );
+
+                if ( ! empty( $options['exp_col_subheadings'] ) ) {
+
+                    $has_child = ( isset( $matches[ $i + 1 ] ) && (int) $matches[ $i + 1 ][2] > (int) $matches[ $i ][2] );
+                    if ( $has_child ) {
+                        $html .= '<span class="dtoc-tree-toggle">[+]</span>';
+                    }
+
+                }                
+
 				if ( ! empty( $options['jump_links'] ) ) {
+
+                    $html .= '<span class="dtoc-marker-text">';
+
 					$html .= sprintf(
 							 '<a class="dtoc-link dtoc-heading-' . $count . '" href="%1$s" title="%2$s">%3$s</a>',
 								esc_attr( trailingslashit( get_permalink() )  . ($matches[ $i ]['page'] > 1 ? $matches[ $i ]['page'] : '') . '#' . $matches[ $i ]['id'] ),
 								esc_attr( strip_tags( $title ) ),
 								$title
 					);
-				}else{
-					
-					$html .= $title;
-				
+
+                    $html .= '</span>';
+
+				}else{					
+					$html .= '<span class="dtoc-marker-text">' . esc_html( $title ) . '</span>';				
 				}
 				
 				// end lists

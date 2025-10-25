@@ -759,13 +759,13 @@ public function dtoc_settings_initiate(){
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 		'args'     => [ 'label_for' => 'hierarchy' ],
 	],
-	// 'dtoc_display_exp_col_subheadings' => [
-	// 	'title'    => __( 'Expand / Collapse', 'digital-table-of-contents' ),
-	// 	'callback' => 'dtoc_display_exp_col_subheadings_cb',
-	// 	'section'  => 'dtoc_advanced_setting_section',
-	// 	'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
-	// 	'args'     => [ 'label_for' => 'exp_col_subheadings', 'class' => 'dtoc_child_opt dtoc_hierarchy' ],
-	// ],
+	'dtoc_display_exp_col_subheadings' => [
+		'title'    => __( 'Expand / Collapse', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_display_exp_col_subheadings_cb',
+		'section'  => 'dtoc_advanced_setting_section',
+		'pages'    => [ 'dtoc_incontent' ],
+		'args'     => [ 'label_for' => 'exp_col_subheadings', 'class' => 'dtoc_child_opt dtoc_hierarchy' ],
+	],
 	// 'dtoc_display_show_more' => [
 	// 	'title'    => __( 'Show More', 'digital-table-of-contents' ),
 	// 	'callback' => 'dtoc_display_show_more_cb',
