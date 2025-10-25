@@ -759,13 +759,42 @@ public function dtoc_settings_initiate(){
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 		'args'     => [ 'label_for' => 'hierarchy' ],
 	],
-	'dtoc_display_exp_col_subheadings' => [
+    'dtoc_display_hierarchy_max_depth' => [
+		'title'    => __( 'Maximum Depth', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_display_hierarchy_max_depth_cb',
+		'section'  => 'dtoc_advanced_setting_section',
+		'pages'    => [ 'dtoc_incontent' ],
+		'args'     => [ 'label_for' => 'exp_col_subheadings', 'class' => 'dtoc_child_opt dtoc_hierarchy' ],
+	],
+    'dtoc_display_skip_empty_parents' => [
+		'title'    => __( 'Skip Empty Parents', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_display_skip_empty_parents_cb',
+		'section'  => 'dtoc_advanced_setting_section',
+		'pages'    => [ 'dtoc_incontent' ],
+		'args'     => [ 'label_for' => 'skip_empty_parents', 'class' => 'dtoc_child_opt dtoc_hierarchy' ],
+	],
+    'dtoc_display_exp_col_subheadings' => [
 		'title'    => __( 'Expand / Collapse', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_display_exp_col_subheadings_cb',
 		'section'  => 'dtoc_advanced_setting_section',
 		'pages'    => [ 'dtoc_incontent' ],
 		'args'     => [ 'label_for' => 'exp_col_subheadings', 'class' => 'dtoc_child_opt dtoc_hierarchy' ],
+	],    	
+    'dtoc_display_exp_col_initial_state' => [
+		'title'    => __( 'Initial State', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_display_exp_col_initial_state_cb',
+		'section'  => 'dtoc_advanced_setting_section',
+		'pages'    => [ 'dtoc_incontent' ],
+		'args'     => [ 'label_for' => 'exp_col_subheadings', 'class' => 'dtoc_child_opt dtoc_hierarchy' ],
 	],
+    'dtoc_display_exp_col_remember_state' => [
+		'title'    => __( 'Remember State', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_display_exp_col_remember_state_cb',
+		'section'  => 'dtoc_advanced_setting_section',
+		'pages'    => [ 'dtoc_incontent' ],
+		'args'     => [ 'label_for' => 'exp_col_remember_state', 'class' => 'dtoc_child_opt dtoc_hierarchy' ],
+	],	
+
 	// 'dtoc_display_show_more' => [
 	// 	'title'    => __( 'Show More', 'digital-table-of-contents' ),
 	// 	'callback' => 'dtoc_display_show_more_cb',
@@ -860,13 +889,43 @@ public function dtoc_display_hierarchy_cb(){
         <input class="dtoc_parent_option smpg-input" name="<?php echo $this->_setting_name; ?>[hierarchy]" id="hierarchy" type="checkbox" value="1" <?php echo (isset($this->_setting_option['hierarchy']) && $this->_setting_option['hierarchy'] == 1 ? 'checked' : '' ) ?>>
     <?php
 }
+public function dtoc_display_exp_col_remember_state_cb(){
+    $this->dtoc_resolve_meta_settings_name(); 		
+    ?>  
+        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[exp_col_remember_state]" id="exp_col_remember_state" type="checkbox" value="1" <?php echo (isset($this->_setting_option['exp_col_remember_state']) && $this->_setting_option['exp_col_remember_state'] == 1 ? 'checked' : '' ) ?>>
+    <?php
+}
 public function dtoc_display_exp_col_subheadings_cb(){
     $this->dtoc_resolve_meta_settings_name(); 		
     ?>  
         <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[exp_col_subheadings]" id="exp_col_subheadings" type="checkbox" value="1" <?php echo (isset($this->_setting_option['exp_col_subheadings']) && $this->_setting_option['exp_col_subheadings'] == 1 ? 'checked' : '' ) ?>>
     <?php
 }
+public function dtoc_display_skip_empty_parents_cb(){
+    $this->dtoc_resolve_meta_settings_name(); 		
+    ?>  
+        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[skip_empty_parents]" id="skip_empty_parents" type="checkbox" value="1" <?php echo (isset($this->_setting_option['skip_empty_parents']) && $this->_setting_option['skip_empty_parents'] == 1 ? 'checked' : '' ) ?>>
+    <?php
+}
+public function dtoc_display_hierarchy_max_depth_cb(){
 
+    $value = 6;
+
+    if ( isset( $this->_setting_option['hierarchy_max_depth'] ) ) {
+        $value = $this->_setting_option['hierarchy_max_depth'];
+    }
+
+    ?>
+    <select class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[hierarchy_max_depth]" id="hierarchy_max_depth">	
+		<option value="2" <?php selected( $value, 2 ); ?>><?php esc_html_e( 'Up to H2', 'digital-table-of-contents' ); ?></option>
+		<option value="3" <?php selected( $value, 3 ); ?>><?php esc_html_e( 'Up to H3', 'digital-table-of-contents' ); ?></option>
+		<option value="4" <?php selected( $value, 4 ); ?>><?php esc_html_e( 'Up to H4', 'digital-table-of-contents' ); ?></option>
+		<option value="5" <?php selected( $value, 5 ); ?>><?php esc_html_e( 'Up to H5', 'digital-table-of-contents' ); ?></option>
+		<option value="6" <?php selected( $value, 6 ); ?>><?php esc_html_e( 'Up to H6 (All Levels)', 'digital-table-of-contents' ); ?></option>
+	</select>
+	<p class="description"><?php esc_html_e( 'Limit how deep the TOC hierarchy goes. For example, selecting H3 includes H1, H2, and H3 headings only.', 'digital-table-of-contents' ); ?></p>
+	<?php
+}
 public function dtoc_general_list_style_type_cb() {
     $this->dtoc_resolve_meta_settings_name();
 
@@ -1819,6 +1878,19 @@ public function dtoc_display_toggle_initial_cb() {
 	<input class="smpg-input" data-id="toggle_initial" type="radio" id="toggle_initial_hide" name="<?php echo esc_attr( $this->_setting_name ); ?>[toggle_initial]" value="hide" 
 		<?php checked( isset( $this->_setting_option['toggle_initial'] ) && $this->_setting_option['toggle_initial'] === 'hide' ); ?>>
 	<label for="toggle_initial_hide"><?php esc_html_e( 'Hide', 'digital-table-of-contents' ); ?></label>
+	<?php
+}
+
+public function dtoc_display_exp_col_initial_state_cb() {
+	$this->dtoc_resolve_meta_settings_name();
+	?>
+	<input class="smpg-input" data-id="exp_col_initial_state" type="radio" id="exp_col_initial_state_expanded" name="<?php echo esc_attr( $this->_setting_name ); ?>[exp_col_initial_state]" value="expanded" 
+		<?php checked( isset( $this->_setting_option['exp_col_initial_state'] ) && $this->_setting_option['exp_col_initial_state'] === 'expanded' ); ?>>
+	<label for="exp_col_initial_state_show" style="margin-right: 15px;"><?php esc_html_e( 'Expanded', 'digital-table-of-contents' ); ?></label>
+
+	<input class="smpg-input" data-id="exp_col_initial_state" type="radio" id="exp_col_initial_state_collapsed" name="<?php echo esc_attr( $this->_setting_name ); ?>[exp_col_initial_state]" value="collapsed" 
+		<?php checked( isset( $this->_setting_option['exp_col_initial_state'] ) && $this->_setting_option['exp_col_initial_state'] === 'collapsed' ); ?>>
+	<label for="exp_col_initial_state_hide"><?php esc_html_e( 'Collapsed', 'digital-table-of-contents' ); ?></label>
 	<?php
 }
 

@@ -426,11 +426,13 @@ function dtoc_default_incontent_options(){
                 "5" => 1,
                 "6" => 1,
             ],
-            "hierarchy"          => 0,
-            "combine_page_break" => 0,
-            "accessibility"     => 1,
+            "hierarchy"            => 0,
+            "hierarchy_max_depth"  => 6,
+            "exp_col_subheadings"  => 0,            
+            "combine_page_break"   => 0,
+            "accessibility"        => 1,
             "preserve_line_breaks" => 0,
-            "exclude_headings"  => '',
+            "exclude_headings"     => '',
             "placement" => [
                 "post" => [
                     "is_enabled" => 1,

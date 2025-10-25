@@ -38,13 +38,15 @@ function dtoc_box_on_css( $matches , $options = [] ) {
     return $html;
 }
 
-function dtoc_box_hierarchy_heading_list($matches,   $options = []){
+function dtoc_box_hierarchy_heading_list( $matches,   $options = [] ) {
+
 			$html               = '';            
             $current_depth      = 100;    // headings can't be larger than h6 but 100 as a default to be sure
 			$numbered_items     = [];
 			$numbered_items_min = null;
 
-			// find the minimum heading to establish our baseline
+            $max_depth = ! empty( $options['hierarchy_max_depth'] ) ? (int) $options['hierarchy_max_depth'] : 6;
+			
 			foreach ( $matches as $i => $match ) {
 				if ( $current_depth > $matches[ $i ][2] ) {
 					$current_depth = (int) $matches[ $i ][2];
@@ -57,6 +59,12 @@ function dtoc_box_hierarchy_heading_list($matches,   $options = []){
 			foreach ( $matches as $i => $match ) {
 
 				$level = $matches[ $i ][2];
+
+                // Skip headings deeper than the max depth
+                if ( $level > $max_depth ) {
+                    continue;
+                }
+
 				$count = $i + 1;
 
 				if ( $current_depth == (int) $matches[ $i ][2] ) {
@@ -76,15 +84,19 @@ function dtoc_box_hierarchy_heading_list($matches,   $options = []){
 
 				$title = isset( $matches[ $i ]['alternate'] ) ? $matches[ $i ]['alternate'] : $matches[ $i ][0];
 				$title = strip_tags( $title );
-
+                                
+                // Add expand/collapse toggle only if subheadings exist AND within max depth
                 if ( ! empty( $options['exp_col_subheadings'] ) ) {
+                    $next_has_child = (
+                        isset( $matches[ $i + 1 ] ) &&
+                        (int) $matches[ $i + 1 ][2] > $level &&
+                        (int) $matches[ $i + 1 ][2] <= $max_depth
+                    );
 
-                    $has_child = ( isset( $matches[ $i + 1 ] ) && (int) $matches[ $i + 1 ][2] > (int) $matches[ $i ][2] );
-                    if ( $has_child ) {
-                        $html .= '<span class="dtoc-tree-toggle">[+]</span>';
+                    if ( $next_has_child ) {
+                        $html .= '<span class="dtoc-tree-toggle" aria-label="Toggle Subheadings">[+]</span>';
                     }
-
-                }                
+                }
 
 				if ( ! empty( $options['jump_links'] ) ) {
 
