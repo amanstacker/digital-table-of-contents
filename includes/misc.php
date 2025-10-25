@@ -221,10 +221,11 @@ function dtoc_incontent_and_shortcode_modules_enqueue() {
 
                 if ( $dtoc_incontent[ 'rendering_style' ] == 'js' ) {
 
-                        $data['scroll_behaviour']     = isset( $dtoc_incontent['scroll_behavior'] ) ? $dtoc_incontent['scroll_behavior'] : 'auto';
-                        $data['toggle_body']          = isset( $dtoc_incontent['toggle_body'] ) ? 1 : 0;
-                        $data['exp_col_subheadings']  = isset( $dtoc_incontent['exp_col_subheadings'] ) ? 1 : 0;
-                                        
+                        $data['scroll_behaviour']       = isset( $dtoc_incontent['scroll_behavior'] ) ? $dtoc_incontent['scroll_behavior'] : 'auto';
+                        $data['toggle_body']            = isset( $dtoc_incontent['toggle_body'] ) ? 1 : 0;
+                        $data['exp_col_subheadings']    = isset( $dtoc_incontent['exp_col_subheadings'] ) ? 1 : 0;
+                        $data['exp_col_initial_state']  = isset( $dtoc_incontent['exp_col_initial_state'] ) ? $dtoc_incontent['exp_col_initial_state'] : 'collapsed';
+
                         $data = apply_filters( 'dtoc_localize_frontend_assets', $data, 'dtoc_localize_frontend_data' );
 
                         wp_register_script( 'dtoc-frontend', DTOC_URL  . 'assets/frontend/js/dtoc_incontent.js', array('jquery'), DTOC_VERSION , true );                        
@@ -290,18 +291,19 @@ function dtoc_incontent_and_shortcode_modules_enqueue() {
                         }                        
 
                         if ( ! empty( $dtoc_incontent['hierarchy'] ) &&  ! empty( $dtoc_incontent['exp_col_subheadings'] ) ) {
+                                                                                                                                        
                                 $custom_css .= ".dtoc-box-container li ul {
-                                        display: none;
+                                                        display: none;
+                                                }
+                                                .dtoc-tree-toggle{
+                                                        cursor: pointer;
+                                                        font-weight: bold;
+                                                        margin-right: 8px;
+                                                }
+                                                .dtoc-box-container li.dtoc-tree-expanded > ul {
+                                                        display: block;
+                                                }";
                                 }
-                                .dtoc-tree-toggle{
-                                        cursor: pointer;
-                                        font-weight: bold;
-                                        margin-right: 8px;
-                                }
-                                .dtoc-box-container li.dtoc-tree-expanded > ul {
-                                        display: block;
-                                }";
-                        }
                 }
 
                         

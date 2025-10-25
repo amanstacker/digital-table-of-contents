@@ -2,6 +2,18 @@ jQuery(document).ready(function($){
 
 
    if (dtoc_localize_frontend_data.exp_col_subheadings == 1) {
+
+       $('.dtoc-box-body .dtoc-tree-toggle').each(function() {
+        let li = $(this).closest('li');
+
+        if (dtoc_localize_frontend_data.exp_col_initial_state === 'expanded') {
+            li.addClass('dtoc-tree-expanded');
+            $(this).text('[-]');
+        } else if (dtoc_localize_frontend_data.exp_col_initial_state === 'collapsed') {
+            li.removeClass('dtoc-tree-expanded');
+            $(this).text('[+]');
+        }
+    });
       
       $('.dtoc-box-body').on('click', '.dtoc-tree-toggle', function(e) {
          e.stopPropagation();
