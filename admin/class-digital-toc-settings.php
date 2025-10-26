@@ -76,7 +76,7 @@ if(function_exists('get_current_screen')){
 		
 		$screen_id = get_current_screen()->id;
 		$this->_setting_name = str_replace('digital-toc_page_','',$screen_id);
-		global $dtoc_incontent, $dtoc_incontent_mobile,$dtoc_incontent_tablet, $dtoc_sliding_sticky, $dtoc_sliding_sticky_mobile, $dtoc_sliding_sticky_tablet, $dtoc_floating, $dtoc_floating_mobile, $dtoc_floating_tablet, $dtoc_shortcode, $dtoc_shortcode_mobile, $dtoc_shortcode_tablet;
+		global $dtoc_incontent, $dtoc_incontent_mobile, $dtoc_sliding_sticky, $dtoc_sliding_sticky_mobile, $dtoc_floating, $dtoc_shortcode;
 		
 		switch ($this->_setting_name) {
 			case 'dtoc_incontent':				
@@ -86,11 +86,7 @@ if(function_exists('get_current_screen')){
 			case 'dtoc_incontent_mobile':	
 				$this->_page_title     = 'In-Content Mobile';			
 				$this->_setting_option = $dtoc_incontent_mobile;
-				break;
-			case 'dtoc_incontent_tablet':	
-				$this->_page_title     = 'In-Content Tablet';			
-				$this->_setting_option = $dtoc_incontent_tablet;
-				break;
+				break;			
 			case 'dtoc_sliding_sticky':				
 				$this->_page_title     = 'Sliding Sticky';
 				$this->_setting_option = $dtoc_sliding_sticky;
@@ -98,35 +94,15 @@ if(function_exists('get_current_screen')){
 			case 'dtoc_sliding_sticky_mobile':		
 				$this->_page_title     = 'Sliding Sticky Mobile';		
 				$this->_setting_option = $dtoc_sliding_sticky_mobile;
-				break;
-			case 'dtoc_sliding_sticky_tablet':		
-				$this->_page_title     = 'Sticky Tablet';		
-				$this->_setting_option = $dtoc_sliding_sticky_tablet;
-				break;
+				break;			
 			case 'dtoc_floating':			
 				$this->_page_title     = 'Floating';	
 				$this->_setting_option = $dtoc_floating;
-				break;
-			case 'dtoc_floating_mobile':	
-				$this->_page_title     = 'Floating Mobile';			
-				$this->_setting_option = $dtoc_floating_mobile;
-				break;
-			case 'dtoc_floating_tablet':	
-				$this->_page_title     = 'Floating Tablet';			
-				$this->_setting_option = $dtoc_floating_tablet;
-				break;
+				break;						
 			case 'dtoc_shortcode':			
 				$this->_page_title     = 'Shortcode';	
 				$this->_setting_option = $dtoc_shortcode;
-				break;
-			case 'dtoc_shortcode_mobile':				
-				$this->_page_title     = 'Shortcode Mobile';
-				$this->_setting_option = $dtoc_shortcode_mobile;
-				break;
-			case 'dtoc_shortcode_tablet':	
-				$this->_page_title     = 'Shortcode Tablet';			
-				$this->_setting_option = $dtoc_shortcode_tablet;
-				break;
+				break;			
 			default:
 				# code...
 				break;
@@ -148,6 +124,7 @@ public function dtoc_settings_page_render(){
     $tab_array         = [];
     $tab_array[]       = 'general';
     $tab_array[]       = 'advanced';        
+    $tab_array[]       = 'exclude';        
     if(!in_array($this->_setting_name, $this->_shortcode_modules)){
         $tab_array[]       = 'placement';    
     }    
@@ -167,6 +144,7 @@ public function dtoc_settings_page_render(){
                      <?php					
                          echo '<a href="' . esc_url(dtoc_admin_tab_link('general', $this->_setting_name)) . '" class="nav-tab ' . esc_attr( $tab == 'general' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-welcome-view-site"></span> ' . esc_html__('General','digital-table-of-contents') . '</a>';                                                
                          echo '<a href="' . esc_url(dtoc_admin_tab_link('advanced', $this->_setting_name)) . '" class="nav-tab ' . esc_attr( $tab == 'advanced' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-admin-tools"></span> ' . esc_html__('Advanced','digital-table-of-contents') . '</a>';		                                    
+                         echo '<a href="' . esc_url(dtoc_admin_tab_link('exclude', $this->_setting_name)) . '" class="nav-tab ' . esc_attr( $tab == 'exclude' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-admin-tools"></span> ' . esc_html__('Exclude','digital-table-of-contents') . '</a>';
                          if(!in_array($this->_setting_name, $this->_shortcode_modules)){
                             echo '<a href="' . esc_url(dtoc_admin_tab_link('placement', $this->_setting_name)) . '" class="nav-tab ' . esc_attr( $tab == 'placement' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-location"></span> ' . esc_html__('Placement','digital-table-of-contents') . '</a>';		                                    
                          }                         
@@ -187,6 +165,9 @@ public function dtoc_settings_page_render(){
                  //Display tab
                  echo "<div class='dtoc-advanced' ".( $tab != 'advanced' ? 'style="display:none;"' : '').">";                
                      do_settings_sections( 'dtoc_advanced_setting_section' );	
+                 echo "</div>";
+                 echo "<div class='dtoc-exclude' ".( $tab != 'exclude' ? 'style="display:none;"' : '').">";                
+                     do_settings_sections( 'dtoc_exclude_setting_section' );	
                  echo "</div>"; 
                  if(!in_array($this->_setting_name, $this->_shortcode_modules)){
                     //Placement
@@ -347,6 +328,7 @@ public function dtoc_settings_initiate(){
 		'dtoc_customization_border_section',
 		'dtoc_customization_link_section',
 		'dtoc_advanced_setting_section',
+        'dtoc_exclude_setting_section',
 	];
 
 	foreach ( $sections as $section ) {
@@ -366,6 +348,8 @@ public function dtoc_settings_initiate(){
 			'title'    => __( 'Rendering Style', 'digital-table-of-contents' ),
 			'callback' => 'dtoc_general_rendering_style_cb',
 			'section'  => 'dtoc_general_setting_section',
+            'id'       => 'rendering_style',            
+            'tooltip'  => __( 'this is tooltip text and tis good byas  asdu lktoas dodod d ', 'digital-table-of-contents' ),
 			'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 		],
 		'dtoc_display_title' => [
@@ -464,16 +448,16 @@ public function dtoc_settings_initiate(){
 			'class' => 'dtoc_child_opt dtoc_jump_links',
 		],
 	],
-	// 'dtoc_general_scroll_back_to_toc' => [
-	// 	'title'    => __( 'Scroll Back to TOC', 'digital-table-of-contents' ),
-	// 	'callback' => 'dtoc_general_scroll_back_to_toc_cb',
-	// 	'section'  => 'dtoc_general_setting_section',
-	// 	'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_shortcode' ],
-	// 	'args'     => [
-	// 		'label_for' => 'scroll_back_to_toc',
-	// 		'class'     => 'dtoc_child_opt dtoc_jump_links',
-	// 	],
-	// ],
+	'dtoc_general_scroll_back_to_toc' => [
+		'title'    => __( 'Scroll Back to TOC', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_general_scroll_back_to_toc_cb',
+		'section'  => 'dtoc_general_setting_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_shortcode' ],
+		'args'     => [
+			'label_for' => 'scroll_back_to_toc',
+			'class'     => 'dtoc_child_opt dtoc_jump_links',
+		],
+	],
 	'dtoc_general_alignment' => [
 		'title'    => __( 'Alignment', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_general_alignment_cb',
@@ -528,13 +512,7 @@ public function dtoc_settings_initiate(){
 		'callback' => 'dtoc_general_list_style_type_cb',
 		'section'  => 'dtoc_general_setting_section',
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
-	],
-	'dtoc_general_headings_include' => [
-		'title'    => __( 'Select Heading Tags', 'digital-table-of-contents' ),
-		'callback' => 'dtoc_general_headings_include_cb',
-		'section'  => 'dtoc_general_setting_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky','dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
-	],
+	],	
     'dtoc_customization_title_bg_color' => [
 		'title'    => __( 'Background Color', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_title_bg_color_cb',
@@ -772,7 +750,28 @@ public function dtoc_settings_initiate(){
 		'section'  => 'dtoc_advanced_setting_section',
 		'pages'    => [ 'dtoc_incontent' ],
 		'args'     => [ 'label_for' => 'exp_col_subheadings', 'class' => 'dtoc_child_opt dtoc_hierarchy' ],
-	],    	
+	],    	    
+    'dtoc_display_exp_col_icon_position' => [
+		'title'    => __( 'Icon Position', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_display_exp_col_icon_position_cb',
+		'section'  => 'dtoc_advanced_setting_section',
+		'pages'    => [ 'dtoc_incontent' ],
+		'args'     => [ 'label_for' => 'exp_col_icon_position', 'class' => 'dtoc_child_opt dtoc_2_label_child_opt dtoc_hierarchy' ],
+	],
+    'dtoc_display_exp_col_icon' => [
+		'title'    => __( 'Icon', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_display_exp_col_icon_cb',
+		'section'  => 'dtoc_advanced_setting_section',
+		'pages'    => [ 'dtoc_incontent' ],
+		'args'     => [ 'label_for' => 'exp_col_icon', 'class' => 'dtoc_child_opt dtoc_2_label_child_opt dtoc_hierarchy' ],
+	],
+    'dtoc_display_exp_col_icon_position' => [
+		'title'    => __( 'Icon Position', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_display_exp_col_icon_position_cb',
+		'section'  => 'dtoc_advanced_setting_section',
+		'pages'    => [ 'dtoc_incontent' ],
+		'args'     => [ 'label_for' => 'exp_col_icon_position', 'class' => 'dtoc_child_opt dtoc_2_label_child_opt dtoc_hierarchy' ],
+	],
     'dtoc_display_exp_col_initial_state' => [
 		'title'    => __( 'Initial State', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_display_exp_col_initial_state_cb',
@@ -815,15 +814,80 @@ public function dtoc_settings_initiate(){
 		'section'  => 'dtoc_advanced_setting_section',
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 		'args'     => [ 'label_for' => 'preserve_line_breaks' ],
+	],	     
+	'dtoc_exclude_selectors' => [
+		'title'    => __( 'Exclude by CSS Selectors', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_exclude_selectors_cb',
+		'section'  => 'dtoc_exclude_setting_section',
+		'pages'    => [
+			'dtoc_incontent',
+			'dtoc_incontent_mobile',
+			'dtoc_floating',
+			'dtoc_sliding_sticky',
+			'dtoc_sliding_sticky_mobile',
+			'dtoc_shortcode',
+		],
+		'args'     => [ 'label_for' => 'exclude_selectors' ],
 	],
-	'dtoc_display_exclude_headings' => [
+
+	'dtoc_exclude_tags' => [
+		'title'    => __( 'Exclude by HTML Tags', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_exclude_tags_cb',
+		'section'  => 'dtoc_exclude_setting_section',
+		'pages'    => [
+			'dtoc_incontent',
+			'dtoc_incontent_mobile',
+			'dtoc_floating',
+			'dtoc_sliding_sticky',
+			'dtoc_sliding_sticky_mobile',
+			'dtoc_shortcode',
+		],
+		'args'     => [ 'label_for' => 'exclude_tags' ],
+	],
+
+	'dtoc_exclude_blocks' => [
+		'title'    => __( 'Exclude Gutenberg Blocks', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_exclude_blocks_cb',
+		'section'  => 'dtoc_exclude_setting_section',
+		'pages'    => [
+			'dtoc_incontent',
+			'dtoc_incontent_mobile',
+			'dtoc_floating',
+			'dtoc_sliding_sticky',
+			'dtoc_sliding_sticky_mobile',
+			'dtoc_shortcode',
+		],
+		'args'     => [ 'label_for' => 'exclude_blocks' ],
+	],
+
+	'dtoc_exclude_comments' => [
+		'title'    => __( 'Exclude by Comment Markers', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_exclude_comments_cb',
+		'section'  => 'dtoc_exclude_setting_section',
+		'pages'    => [
+			'dtoc_incontent',
+			'dtoc_incontent_mobile',
+			'dtoc_floating',
+			'dtoc_sliding_sticky',
+			'dtoc_sliding_sticky_mobile',
+			'dtoc_shortcode',
+		],
+		'args'     => [ 'label_for' => 'exclude_comments' ],
+	],  
+    'dtoc_exclude_headings' => [
 		'title'    => __( 'Exclude Headings', 'digital-table-of-contents' ),
-		'callback' => 'dtoc_display_exclude_headings_cb',
-		'section'  => 'dtoc_advanced_setting_section',
+		'callback' => 'dtoc_exclude_headings_cb',
+		'section'  => 'dtoc_exclude_setting_section',
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 		'args'     => [ 'label_for' => 'exclude_headings' ],
-	],
-	];
+    ],
+    'dtoc_exclude_headings_include' => [
+		'title'    => __( 'Exclude Heading Tags', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_exclude_headings_include_cb',
+		'section'  => 'dtoc_exclude_setting_section',
+		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky','dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
+	], 
+];
     
     // Dynamically register fields for this page
 	foreach ( $fields as $id => $field ) {
@@ -831,7 +895,7 @@ public function dtoc_settings_initiate(){
 		if ( in_array( $page, $pages, true ) ) {
 			add_settings_field(
 				$id,
-				esc_html( $field['title'] ),
+				dtoc_tooltip( $field['tooltip'], '33') .esc_html( $field['title'] ),
 				[ $this, $field['callback'] ],
 				$field['section'],
 				$field['section'],
@@ -842,17 +906,86 @@ public function dtoc_settings_initiate(){
                        
 }
 
-public function dtoc_display_exclude_headings_cb(){
+public function dtoc_exclude_headings_cb() {
 	$this->dtoc_resolve_meta_settings_name(); 	
-    ?>  
-        <textarea cols="45" rows="3" class="smpg-input" name="<?php echo $this->_setting_name; ?>[exclude_headings]" id="exclude_headings"><?php echo (isset($this->_setting_option['exclude_headings']) ? $this->_setting_option['exclude_headings'] : '' ) ?></textarea>        
-        <p>Separate multiple headings with a pipe |. Use an asterisk * as a wildcard to match other text.</p>
-        <strong>Example:</strong>
-        <p>Fruit* : Ignore headings starting with "Fruit".</p>
-        <p>*Fruit Diet* Ignore headings with "Fruit Diet" somewhere in the heading.</p>
-        <p>Apple Tree|Oranges|Yellow Bananas Ignore headings that are exactly "Apple Tree", "Oranges" or "Yellow Bananas".</p>
-    <?php
+	?>  
+	<textarea cols="45" rows="2" class="smpg-input"
+		name="<?php echo $this->_setting_name; ?>[exclude_headings]" 
+		id="exclude_headings"
+		placeholder="Fruit* | *Fruit Diet* | Apple Tree|Oranges|Yellow Bananas"><?php 
+			echo ( isset( $this->_setting_option['exclude_headings'] ) ? esc_textarea( $this->_setting_option['exclude_headings'] ) : '' ); 
+		?></textarea>        
+	<p>Separate multiple headings with a pipe <code>|</code>. Use an asterisk <code>*</code> as a wildcard to match other text.</p>
+	<strong>Example:</strong>
+	<p><code>Fruit*</code> : Ignore headings starting with "Fruit".</p>
+	<p><code>*Fruit Diet*</code> : Ignore headings with "Fruit Diet" somewhere in the heading.</p>
+	<p><code>Apple Tree|Oranges|Yellow Bananas</code> : Ignore headings that are exactly "Apple Tree", "Oranges" or "Yellow Bananas".</p>
+	<?php
 }
+
+public function dtoc_exclude_selectors_cb() {
+	$this->dtoc_resolve_meta_settings_name(); 	
+	?>
+	<textarea cols="45" rows="2" class="smpg-input" 
+		name="<?php echo $this->_setting_name; ?>[exclude_selectors]" 
+		id="exclude_selectors"
+		placeholder=".no-toc, [data-toc-exclude], .skip-section"><?php 
+			echo ( isset( $this->_setting_option['exclude_selectors'] ) ? esc_textarea( $this->_setting_option['exclude_selectors'] ) : '' ); 
+		?></textarea>
+	<p>Enter comma-separated CSS selectors to skip sections from TOC.</p>
+	<strong>Example:</strong>
+	<p><code>.no-toc, [data-toc-exclude], .skip-section</code></p>
+	<?php
+}
+
+public function dtoc_exclude_tags_cb() {
+	$this->dtoc_resolve_meta_settings_name(); 	
+	?>
+	<textarea cols="45" rows="2" class="smpg-input"
+		name="<?php echo $this->_setting_name; ?>[exclude_tags]" 
+		id="exclude_tags"
+		placeholder="aside, footer, nav, section"><?php 
+			echo ( isset( $this->_setting_option['exclude_tags'] ) ? esc_textarea( $this->_setting_option['exclude_tags'] ) : '' ); 
+		?></textarea>
+	<p>Enter comma-separated HTML tags to skip from TOC.</p>
+	<strong>Example:</strong>
+	<p><code>aside, footer, nav</code></p>
+	<?php
+}
+
+public function dtoc_exclude_blocks_cb() {
+	$this->dtoc_resolve_meta_settings_name(); 	
+	?>
+	<textarea cols="45" rows="2" class="smpg-input"
+		name="<?php echo $this->_setting_name; ?>[exclude_blocks]" 
+		id="exclude_blocks"
+		placeholder="core/quote, yoast/faq-block, core/gallery"><?php 
+			echo ( isset( $this->_setting_option['exclude_blocks'] ) ? esc_textarea( $this->_setting_option['exclude_blocks'] ) : '' ); 
+		?></textarea>
+	<p>Enter comma-separated Gutenberg block names to skip from TOC generation.</p>
+	<p>You can find a block’s name by inspecting the frontend source. Look for a class like <code>wp-block-quote</code>, which corresponds to <code>core/quote</code>.</p>
+	<strong>Example:</strong>
+	<p><code>core/quote, yoast/faq-block, core/gallery</code></p>
+	<?php
+}
+
+public function dtoc_exclude_comments_cb() {
+	$this->dtoc_resolve_meta_settings_name(); 	
+	?>
+	<textarea cols="45" rows="2" class="smpg-input"
+		name="<?php echo $this->_setting_name; ?>[exclude_comments]" 
+		id="exclude_comments"
+		placeholder="&lt;!--toc-exclude-start--&gt;
+&lt;!--toc-exclude-end--&gt;"><?php 
+			echo ( isset( $this->_setting_option['exclude_comments'] ) ? esc_textarea( $this->_setting_option['exclude_comments'] ) : '' ); 
+		?></textarea>
+	<p>Enter start and end HTML comment markers to skip sections of content from the TOC.</p>
+	<strong>Example:</strong>
+	<p><code>&lt;!--toc-exclude-start--&gt;</code> and <code>&lt;!--toc-exclude-end--&gt;</code></p>
+	<p>Any content placed between these markers will be ignored while generating the Table of Contents.</p>
+	<?php
+}
+
 public function dtoc_display_preserve_line_breaks_cb(){
 	$this->dtoc_resolve_meta_settings_name(); 	
     ?>  
@@ -1604,6 +1737,24 @@ public function dtoc_general_header_icon_cb(){
     
     <?php
 }
+public function dtoc_display_exp_col_icon_cb(){
+	$this->dtoc_resolve_meta_settings_name(); 	
+    ?>    
+		    
+    <div style="display: flex;">
+    <select class="smpg-input" name="<?php echo esc_attr($this->_setting_name); ?>[exp_col_icon]" id="exp_col_icon">                
+        <option value="plus_minus" <?php echo (isset($this->_setting_option['exp_col_icon']) && $this->_setting_option['exp_col_icon'] == 'plus_minus' ? 'selected' : '' ) ?>><?php echo esc_html__('[ + / - ]', 'digital-table-of-contents'); ?></option>                
+        <option value="arrow" <?php echo (isset($this->_setting_option['exp_col_icon']) && $this->_setting_option['exp_col_icon'] == 'arrow' ? 'selected' : '' ) ?>><?php echo esc_html__('[ > / v ]', 'digital-table-of-contents'); ?></option>
+        <option value="arrow_triangle" <?php echo (isset($this->_setting_option['exp_col_icon']) && $this->_setting_option['exp_col_icon'] == 'arrow_triangle' ? 'selected' : '' ) ?>><?php echo esc_html__('[ ▶ / ▼ ]', 'digital-table-of-contents'); ?></option>
+    </select>    
+    <?php 
+        dtoc_tooltip(__('Choose the icon that switches between expanded and collapsed states.', 'digital-table-of-contents'), 'header_icon'); 
+    ?>
+</div>
+
+    
+    <?php
+}
 public function dtoc_general_show_text_cb() {
     $this->dtoc_resolve_meta_settings_name(); 	
     ?>    
@@ -1669,7 +1820,7 @@ public function dtoc_customization_remove_css_js_cb(){
     <?php
     // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'remove_unused_css_js'); 
 }
-public function dtoc_general_headings_include_cb(){
+public function dtoc_exclude_headings_include_cb(){
     $this->dtoc_resolve_meta_settings_name();
     ?>        
         <input class="smpg-input" data-id="headings_include" data-number="1" name="<?php echo $this->_setting_name; ?>[headings_include][1]" id="headings_include_1" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][1]) && $this->_setting_option['headings_include'][1] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_1"><?php echo esc_html__('H1', 'digital-table-of-contents'); ?></label>
@@ -1890,7 +2041,21 @@ public function dtoc_display_exp_col_initial_state_cb() {
 
 }
 
+public function dtoc_display_exp_col_icon_position_cb() {
 
+	$this->dtoc_resolve_meta_settings_name();
+	?>
+        <input class="smpg-input" data-id="exp_col_icon_position" type="radio" id="exp_col_icon_position_left" name="<?php echo esc_attr( $this->_setting_name ); ?>[exp_col_icon_position]" value="left" 
+            <?php checked( isset( $this->_setting_option['exp_col_icon_position'] ) && $this->_setting_option['exp_col_icon_position'] === 'left' ); ?>>
+        <label for="exp_col_icon_position_left" style="margin-right: 15px;"><?php esc_html_e( 'Left', 'digital-table-of-contents' ); ?></label>
+
+        <input class="smpg-input" data-id="exp_col_icon_position" type="radio" id="exp_col_icon_position_right" name="<?php echo esc_attr( $this->_setting_name ); ?>[exp_col_icon_position]" value="right" 
+            <?php checked( isset( $this->_setting_option['exp_col_icon_position'] ) && $this->_setting_option['exp_col_icon_position'] === 'right' ); ?>>
+        <label for="exp_col_icon_position_right"><?php esc_html_e( 'Right', 'digital-table-of-contents' ); ?></label>	
+
+	<?php
+
+}
 
 public function dtoc_resolve_meta_settings_name() {
 

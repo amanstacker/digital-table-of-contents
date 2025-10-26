@@ -30,6 +30,10 @@
     border-radius: 5px;    
     
 }
+.dtoc-tabs a{
+  margin-left: 3px;
+  padding : 4px 8px;
+}
 .dtoc-preview-body{        
     padding: 15px;
     position: relative;

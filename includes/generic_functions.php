@@ -67,9 +67,12 @@ function dtoc_box_hierarchy_heading_list( $matches,   $options = [] ) {
 
 				$count = $i + 1;
 
+                $li_attr = "data-dtoc-id='" . esc_attr( $match['id'] ) . "'";
+
 				if ( $current_depth == (int) $matches[ $i ][2] ) {
 
-					$html .= "<li class='dtoc-page-" . $matches[ $i ]['page'] . " dtoc-heading-level-" . $current_depth . "'>";
+					$html .= "<li class='dtoc-page-" . $matches[ $i ]['page'] . " dtoc-heading-level-" . $current_depth . "' " . $li_attr . ">";
+
 				}
 
 				// start lists
@@ -78,7 +81,8 @@ function dtoc_box_hierarchy_heading_list( $matches,   $options = [] ) {
 					for ( $current_depth; $current_depth < (int) $matches[ $i ][2]; $current_depth++ ) {
 
 						$numbered_items[ $current_depth + 1 ] = 0;
-						$html .= "<ul class='dtoc-list-level-" . $level . "'><li class='dtoc-heading-level-" . $level . "'>";
+						$html .= "<ul class='dtoc-list-level-" . $level . "'><li class='dtoc-heading-level-" . $level . "' " . $li_attr . ">";
+
 					}
 				}
 
