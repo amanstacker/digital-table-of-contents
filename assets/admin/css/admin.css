@@ -472,12 +472,15 @@ input:checked + .dtoc-slider:before {
     position: relative;
     display: inline-block;
     cursor: default;
+    vertical-align: middle;
+    margin-right: 6px;
 }
 
 .dtoc-tooltip-wrapper .dashicons-editor-help {
+    color: #646970;
     margin-left: 10px;    
-    cursor: pointer;
-    font-size: 22px;
+    cursor: help;
+    font-size: 20px;
     vertical-align: initial;    
 }
 
@@ -500,7 +503,17 @@ input:checked + .dtoc-slider:before {
     white-space: normal;
     box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
-
+/* Arrow pointing down */
+.dtoc-tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%; /* Position below the tooltip box */
+    left: 10px; /* Adjust horizontally as needed */
+    margin-left: 5px;
+    border-width: 6px; /* Size of the arrow */
+    border-style: solid;
+    border-color: #333 transparent transparent transparent; /* Only top border colored */
+}
 .dtoc-tooltip-wrapper:hover .dtoc-tooltip-text {
     visibility: visible;
     opacity: 1;
