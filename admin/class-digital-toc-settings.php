@@ -948,7 +948,7 @@ public function dtoc_settings_initiate(){
 		'callback' => 'dtoc_exclude_selectors_cb',
 		'section'  => 'dtoc_exclude_setting_section',
         'id'       => 'rendering_style',            
-            'tooltip'  => __( 'A', 'digital-table-of-contents' ),
+        'tooltip'  => __( 'Enter comma-separated CSS selectors to skip sections from TOC. Example: .no-toc, [data-toc-exclude], .skip-section', 'digital-table-of-contents' ),
 		'pages'    => [
 			'dtoc_incontent',
 			'dtoc_incontent_mobile',
@@ -962,10 +962,10 @@ public function dtoc_settings_initiate(){
 
 	'dtoc_exclude_tags' => [
 		'title'    => __( 'By HTML Tags', 'digital-table-of-contents' ),
-		'callback' => 'dtoc_exclude_tags_cb',
+		'callback' => 'dtoc_exclude_html_tags_cb',
 		'section'  => 'dtoc_exclude_setting_section',
         'id'       => 'rendering_style',            
-            'tooltip'  => __( 'A', 'digital-table-of-contents' ),
+        'tooltip'  => __( 'Enter comma-separated HTML tags to skip from TOC. Example: aside, footer, nav', 'digital-table-of-contents' ),
 		'pages'    => [
 			'dtoc_incontent',
 			'dtoc_incontent_mobile',
@@ -981,7 +981,7 @@ public function dtoc_settings_initiate(){
 		'callback' => 'dtoc_exclude_comments_cb',
 		'section'  => 'dtoc_exclude_setting_section',
         'id'       => 'rendering_style',            
-            'tooltip'  => __( 'A', 'digital-table-of-contents' ),
+        'tooltip'  => __( 'Enter start and end HTML comment markers to skip sections of content from the TOC. Example: <!--toc-exclude-start--> and <!--toc-exclude-end--> Any content placed between these markers will be ignored while generating the Table of Contents.', 'digital-table-of-contents' ),
 		'pages'    => [
 			'dtoc_incontent',
 			'dtoc_incontent_mobile',
@@ -997,7 +997,7 @@ public function dtoc_settings_initiate(){
 		'callback' => 'dtoc_exclude_blocks_cb',
 		'section'  => 'dtoc_exclude_setting_section',
         'id'       => 'rendering_style',            
-            'tooltip'  => __( 'A', 'digital-table-of-contents' ),
+        'tooltip'  => __( 'Enter comma-separated Gutenberg block names to skip from TOC generation. You can find a block’s name by inspecting the frontend source. Look for a class like wp-block-quote, which corresponds to core/quote. Example: core/quote, yoast/faq-block, core/gallery', 'digital-table-of-contents' ),
 		'pages'    => [
 			'dtoc_incontent',
 			'dtoc_incontent_mobile',
@@ -1013,7 +1013,7 @@ public function dtoc_settings_initiate(){
 		'callback' => 'dtoc_exclude_headings_cb',
 		'section'  => 'dtoc_exclude_setting_section',
         'id'       => 'rendering_style',            
-            'tooltip'  => __( 'A', 'digital-table-of-contents' ),
+        'tooltip'  => __( 'Separate multiple headings with a pipe |. Use an asterisk * as a wildcard to match other text. Example: Fruit* : Ignore headings starting with "Fruit". *Fruit Diet* : Ignore headings with "Fruit Diet" somewhere in the heading. Apple Tree|Oranges|Yellow Bananas : Ignore headings that are exactly "Apple Tree", "Oranges" or "Yellow Bananas".', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 		'args'     => [ 'label_for' => 'exclude_headings' ],
     ],
@@ -1022,7 +1022,7 @@ public function dtoc_settings_initiate(){
 		'callback' => 'dtoc_exclude_headings_include_cb',
 		'section'  => 'dtoc_exclude_setting_section',
         'id'       => 'rendering_style',            
-            'tooltip'  => __( 'A', 'digital-table-of-contents' ),
+        'tooltip'  => __( 'Select the headings to be added when the table of contents is being created. Deselecting it will exclude them.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky','dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 	], 
 ];
@@ -1052,12 +1052,7 @@ public function dtoc_exclude_headings_cb() {
 		id="exclude_headings"
 		placeholder="Fruit* | *Fruit Diet* | Apple Tree|Oranges|Yellow Bananas"><?php 
 			echo ( isset( $this->_setting_option['exclude_headings'] ) ? esc_textarea( $this->_setting_option['exclude_headings'] ) : '' ); 
-		?></textarea>        
-	<p>Separate multiple headings with a pipe <code>|</code>. Use an asterisk <code>*</code> as a wildcard to match other text.</p>
-	<strong>Example:</strong>
-	<p><code>Fruit*</code> : Ignore headings starting with "Fruit".</p>
-	<p><code>*Fruit Diet*</code> : Ignore headings with "Fruit Diet" somewhere in the heading.</p>
-	<p><code>Apple Tree|Oranges|Yellow Bananas</code> : Ignore headings that are exactly "Apple Tree", "Oranges" or "Yellow Bananas".</p>
+		?></textarea>        	
 	<?php
 }
 
@@ -1069,14 +1064,11 @@ public function dtoc_exclude_selectors_cb() {
 		id="exclude_selectors"
 		placeholder=".no-toc, [data-toc-exclude], .skip-section"><?php 
 			echo ( isset( $this->_setting_option['exclude_selectors'] ) ? esc_textarea( $this->_setting_option['exclude_selectors'] ) : '' ); 
-		?></textarea>
-	<p>Enter comma-separated CSS selectors to skip sections from TOC.</p>
-	<strong>Example:</strong>
-	<p><code>.no-toc, [data-toc-exclude], .skip-section</code></p>
+		?></textarea>	
 	<?php
 }
 
-public function dtoc_exclude_tags_cb() {
+public function dtoc_exclude_html_tags_cb() {
 	$this->dtoc_resolve_meta_settings_name(); 	
 	?>
 	<textarea cols="45" rows="2" class="smpg-input"
@@ -1084,10 +1076,7 @@ public function dtoc_exclude_tags_cb() {
 		id="exclude_tags"
 		placeholder="aside, footer, nav, section"><?php 
 			echo ( isset( $this->_setting_option['exclude_tags'] ) ? esc_textarea( $this->_setting_option['exclude_tags'] ) : '' ); 
-		?></textarea>
-	<p>Enter comma-separated HTML tags to skip from TOC.</p>
-	<strong>Example:</strong>
-	<p><code>aside, footer, nav</code></p>
+		?></textarea>	
 	<?php
 }
 
@@ -1099,11 +1088,7 @@ public function dtoc_exclude_blocks_cb() {
 		id="exclude_blocks"
 		placeholder="core/quote, yoast/faq-block, core/gallery"><?php 
 			echo ( isset( $this->_setting_option['exclude_blocks'] ) ? esc_textarea( $this->_setting_option['exclude_blocks'] ) : '' ); 
-		?></textarea>
-	<p>Enter comma-separated Gutenberg block names to skip from TOC generation.</p>
-	<p>You can find a block’s name by inspecting the frontend source. Look for a class like <code>wp-block-quote</code>, which corresponds to <code>core/quote</code>.</p>
-	<strong>Example:</strong>
-	<p><code>core/quote, yoast/faq-block, core/gallery</code></p>
+		?></textarea>	
 	<?php
 }
 
@@ -1116,11 +1101,7 @@ public function dtoc_exclude_comments_cb() {
 		placeholder="&lt;!--toc-exclude-start--&gt;
 &lt;!--toc-exclude-end--&gt;"><?php 
 			echo ( isset( $this->_setting_option['exclude_comments'] ) ? esc_textarea( $this->_setting_option['exclude_comments'] ) : '' ); 
-		?></textarea>
-	<p>Enter start and end HTML comment markers to skip sections of content from the TOC.</p>
-	<strong>Example:</strong>
-	<p><code>&lt;!--toc-exclude-start--&gt;</code> and <code>&lt;!--toc-exclude-end--&gt;</code></p>
-	<p>Any content placed between these markers will be ignored while generating the Table of Contents.</p>
+		?></textarea>	
 	<?php
 }
 
@@ -1971,10 +1952,7 @@ public function dtoc_exclude_headings_include_cb(){
         <br>
         <input class="smpg-input" data-id="headings_include" data-number="5" name="<?php echo $this->_setting_name; ?>[headings_include][5]" id="headings_include_5" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][5]) && $this->_setting_option['headings_include'][5] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_5"><?php echo esc_html__('H5', 'digital-table-of-contents'); ?></label>
         <br>
-        <input class="smpg-input" data-id="headings_include" data-number="6" name="<?php echo $this->_setting_name; ?>[headings_include][6]" id="headings_include_6" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][6]) && $this->_setting_option['headings_include'][6] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_6"><?php echo esc_html__('H6', 'digital-table-of-contents'); ?></label>
-
-        <p class="description"><?php echo esc_html__('Select the headings to be added when the table of contents being created. Deselecting it will be excluded.', 'digital-table-of-contents'); ?></p>
-                        
+        <input class="smpg-input" data-id="headings_include" data-number="6" name="<?php echo $this->_setting_name; ?>[headings_include][6]" id="headings_include_6" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][6]) && $this->_setting_option['headings_include'][6] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_6"><?php echo esc_html__('H6', 'digital-table-of-contents'); ?></label>                                
     <?php
 
 }
