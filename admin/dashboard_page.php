@@ -26,66 +26,122 @@ function dtoc_add_dashboard_menu_links() {
 }
 
 
-function dtoc_dashboard_page_render(){
+function dtoc_dashboard_page_render() {
 
-    // Authentication
+	// Authentication
 	if ( ! current_user_can( 'manage_options' ) ) {
 		return;
 	}
-    // Handing save settings
+
+	// Handle settings save notice
 	if ( isset( $_GET['settings-updated'] ) ) {
-		settings_errors();               
+		settings_errors();
 	}
 
-    $tab = dtoc_admin_get_tab( 'modules', array( 'modules','tools', 'compatibility', 'support' ) );
-    ?>
-    <div class="wrap dtoc-main-container">
-    <h1 class="wp-heading-inline"><?php echo esc_html__('Digital Table of Contents', 'digital-table-of-contents'); ?></h1>    
-    <!-- setting form start here -->
-    <div class="dtoc-dashboard-wrapper">
-     
-    <h2 class="nav-tab-wrapper dtoc-tabs">
-					<?php					                        
-                        echo '<a href="' . esc_url(dtoc_admin_tab_link('modules', 'dtoc')) . '" class="nav-tab ' . esc_attr( $tab == 'modules' ? 'nav-tab-active' : '') . '"> ' . esc_html__('Modules','digital-table-of-contents') . '</a>';                                                
-                        echo '<a href="' . esc_url(dtoc_admin_tab_link('tools', 'dtoc')) . '" class="nav-tab ' . esc_attr( $tab == 'tools' ? 'nav-tab-active' : '') . '"> ' . esc_html__('Tools','digital-table-of-contents') . '</a>';
-                        // echo '<a href="' . esc_url(dtoc_admin_tab_link('compatibility', 'dtoc')) . '" class="nav-tab ' . esc_attr( $tab == 'compatibility' ? 'nav-tab-active' : '') . '"> ' . esc_html__('Compatibility','digital-table-of-contents') . '</a>';
-                        echo '<a href="' . esc_url(dtoc_admin_tab_link('support', 'dtoc')) . '" class="nav-tab ' . esc_attr( $tab == 'support' ? 'nav-tab-active' : '') . '"> ' . esc_html__('Support Center','digital-table-of-contents') . '</a>';                                                                        
+	/**
+	 * Filter: Modify admin dashboard tabs.
+	 *
+	 * Allows adding, removing, or reordering tabs in the DToC dashboard.
+	 *
+	 * Example:
+	 * add_filter( 'dtoc_admin_tabs', function( $tabs ) {
+	 *     $tabs['settings'] = __( 'Settings', 'digital-table-of-contents' );
+	 *     return $tabs;
+	 * } );
+	 */
+	$tabs = apply_filters(
+		'dtoc_admin_tabs',
+		[
+			'modules'       => __( 'Modules', 'digital-table-of-contents' ),
+			'tools'         => __( 'Tools', 'digital-table-of-contents' ),			
+			'compatibility' => __( 'Compatibility', 'digital-table-of-contents' ),
+			'support'       => __( 'Support Center', 'digital-table-of-contents' ),
+		]
+	);
+
+	$tab = dtoc_admin_get_tab( 'modules', array_keys( $tabs ) );
+	?>
+	<div class="wrap dtoc-main-container">
+		<h1 class="wp-heading-inline">
+			<?php echo esc_html__( 'Digital Table of Contents', 'digital-table-of-contents' ); ?>
+		</h1>
+
+		<div class="dtoc-dashboard-wrapper">
+
+			<!-- Tabs Navigation -->
+			<h2 class="nav-tab-wrapper dtoc-tabs">
+				<?php
+				foreach ( $tabs as $tab_key => $tab_label ) {
+					$active_class = $tab === $tab_key ? 'nav-tab-active' : '';
+					printf(
+						'<a href="%1$s" class="nav-tab %2$s">%3$s</a>',
+						esc_url( dtoc_admin_tab_link( $tab_key, 'dtoc' ) ),
+						esc_attr( $active_class ),
+						esc_html( $tab_label )
+					);
+				}
+				?>
+			</h2>
+
+			<!-- Settings Form -->
+			<form action="options.php" method="post" enctype="multipart/form-data" class="dtoc-settings-form">
+				<div class="dtoc-settings-form-wrap">                    
+					<?php
+					settings_fields( 'dtoc_dashboard_options_group' );
+
+					/**
+					 * Render each tab’s content.
+					 *
+					 * Default DToC tabs are rendered here.
+					 * Other plugins can hook into `dtoc_admin_tab_content` to add their own.
+					 */
+					foreach ( $tabs as $tab_key => $tab_label ) {
+						echo '<div class="dtoc-tab-content dtoc-' . esc_attr( $tab_key ) . '" ' . ( $tab !== $tab_key ? 'style="display:none;"' : '' ) . '>';
+
+						switch ( $tab_key ) {
+							case 'modules':
+								dtoc_dashboard_modules();
+								break;
+
+							case 'tools':
+								do_settings_sections( 'dtoc_dashboard_tools_setting_section_hook' );
+								break;
+							
+							case 'compatibility':
+								do_settings_sections( 'dtoc_dashboard_compatibility_setting_section_hook' );
+								break;
+
+							case 'support':
+								dtoc_dashboard_support();
+								break;
+
+							default:
+								/**
+								 * Action: Custom tab content.
+								 *
+								 * Example:
+								 * add_action( 'dtoc_admin_tab_content_settings', function() {
+								 *     echo '<h3>My Custom Settings Tab Content</h3>';
+								 * } );
+								 */
+								do_action( 'dtoc_admin_tab_content_' . $tab_key );
+								break;
+						}
+
+						echo '</div>';
+					}
 					?>
-				</h2>
-    <form action="options.php" method="post" enctype="multipart/form-data" class="dtoc-settings-form">
-			<div class="dtoc-settings-form-wrap">
-			<?php
-                settings_fields( 'dtoc_dashboard_options_group' );	                
-                //Digital tab
-                echo "<div class='dtoc-modules' ".( $tab != 'modules' ? 'style="display:none;"' : '').">"; 
-                    dtoc_dashboard_modules();                                                  
-                echo "</div>";                 
-                //Tools tab
-                echo "<div class='dtoc-tools' ".( $tab != 'tools' ? 'style="display:none;"' : '').">";
-                    do_settings_sections( 'dtoc_dashboard_tools_setting_section_hook' );	
-                echo "</div>";
-                //Compatibility tab
-                // echo "<div class='dtoc-compatibility' ".( $tab != 'compatibility' ? 'style="display:none;"' : '').">";
-                //     do_settings_sections( 'dtoc_dashboard_compatibility_setting_section_hook' );	
-                // echo "</div>";
-                //Support tab
-                echo "<div class='dtoc-support' ".( $tab != 'support' ? 'style="display:none;"' : '').">";                
-                    dtoc_dashboard_support();   
-                echo "</div>";                
-			?>
+				</div>
+
+				<div class="button-wrapper">
+					<?php submit_button( esc_html__( 'Save Settings', 'digital-table-of-contents' ) ); ?>
+				</div>
+			</form>
 		</div>
-
-			<div class="button-wrapper">                                                                
-                <?php submit_button( esc_html__('Save Settings', 'digital-table-of-contents') ); ?>                                
-			</div>  
-            
-		</form>
-    </div>
-    <!-- setting form ends here -->
-    </div>
-    <?php
-
+	</div>
+	<?php
 }
+
 
 function dtoc_dashboard_modules(){
 
@@ -327,9 +383,8 @@ function dtoc_dashboard_support() {
                     </div>
 
                     <!-- Middle Column: Support Links -->
-                    <div class="dtoc-support-resources postbox">
-                        <h2 class="hndle"><span><?php esc_html_e('Coming Soon', 'digital-table-of-contents'); ?></span></h2>
-                        <!-- <h2 class="hndle"><span><?php esc_html_e('Help & Resources', 'digital-table-of-contents'); ?></span></h2>
+                    <div class="dtoc-support-resources postbox">                        
+                        <h2 class="hndle"><span><?php esc_html_e('Help & Resources', 'digital-table-of-contents'); ?></span></h2>
                         <div class="inside">
                             <ul>
                                 <li><a href="#" target="_blank"><?php esc_html_e('Documentation', 'digital-table-of-contents'); ?></a></li>
@@ -338,13 +393,12 @@ function dtoc_dashboard_support() {
                                 <li><a href="#" target="_blank"><?php esc_html_e('Feature Requests', 'digital-table-of-contents'); ?></a></li>
                                 <li><a href="#" target="_blank"><?php esc_html_e('Contact Support', 'digital-table-of-contents'); ?></a></li>
                             </ul>
-                        </div> -->
+                        </div>
                     </div>
                     
                     <!-- Right Column: Upgrade to Pro -->
-                    <div class="dtoc-upgrade-to-pro postbox">
-                        <h2 class="hndle"><span><?php esc_html_e('Coming Soon', 'digital-table-of-contents'); ?></span></h2>
-                        <!-- <h2 class="hndle"><span><?php esc_html_e('Upgrade to Pro: Unlock Premium Features', 'digital-table-of-contents'); ?></span></h2>
+                    <div class="dtoc-upgrade-to-pro postbox">                        
+                        <h2 class="hndle"><span><?php esc_html_e('Upgrade to Pro: Unlock Premium Features', 'digital-table-of-contents'); ?></span></h2>
                         <div class="inside">
                             <p><?php esc_html_e('Get access to exclusive premium features and priority support.', 'digital-table-of-contents'); ?></p>
                             <ul>
@@ -355,7 +409,7 @@ function dtoc_dashboard_support() {
                             <p>
                                 <a href="#" class="button button-primary"><?php esc_html_e('Upgrade Now', 'digital-table-of-contents'); ?></a>
                             </p>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
             </div>
