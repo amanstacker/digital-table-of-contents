@@ -528,3 +528,58 @@ input:checked + .dtoc-slider:before {
 #dtoc_shortcode_source_textarea {
   cursor: pointer;
 }
+
+
+.dtoc-upgrade-msg {
+	color: #d63638; /* WordPress red tone */
+	margin-top: 4px;
+	font-weight: 500;
+}
+input[disabled] {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+/* dtoc plugin admin header css starts */
+.dtoc-admin-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f9f9f9;
+  border-bottom: 1px solid #ddd;
+  padding: 14px 20px;
+  margin-bottom: 20px;
+        margin-left:-20px;
+}
+.dtoc-page-title {
+  font-size: 18px;
+  margin: 0;
+  color: #23282d;
+  font-weight: 600;
+}
+.dtoc-bar-right a {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  font-weight: 500;
+}
+.dtoc-premium-btn {
+  background: #0073aa;
+  color: #fff !important;
+  padding: 8px 14px;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+.dtoc-premium-btn:hover {
+  background: #005177;
+}
+.dtoc-knowledge-link {
+  font-size: 20px;
+  color: #0073aa;
+  transition: color 0.3s ease;
+}
+.dtoc-knowledge-link:hover {
+  color: #005177;
+}
+/* dtoc plugin admin header css ends */

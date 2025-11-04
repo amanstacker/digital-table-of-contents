@@ -61,13 +61,8 @@ function dtoc_dashboard_page_render() {
 
 	$tab = dtoc_admin_get_tab( 'modules', array_keys( $tabs ) );
 	?>
-	<div class="wrap dtoc-main-container">
-		<h1 class="wp-heading-inline">
-			<?php echo esc_html__( 'Digital Table of Contents', 'digital-table-of-contents' ); ?>
-		</h1>
-
+	<div class="wrap dtoc-main-container">		
 		<div class="dtoc-dashboard-wrapper">
-
 			<!-- Tabs Navigation -->
 			<h2 class="nav-tab-wrapper dtoc-tabs">
 				<?php
@@ -269,8 +264,7 @@ function dtoc_dashboard_export_cb(){
          <div class="wrap">			
             <button type="button" name="export" class="button button-primary" id="dtoc-export-button"><?php echo esc_html__('Export Options', 'digital-table-of-contents'); ?></button>
 			<div id="dtoc-export-loader" style="display: none;"><?php echo esc_html__('Loading...', 'digital-table-of-contents'); ?></div>   
-            <?php 
-                // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'header_icon'); 
+            <?php                 
             ?>
 		</div>
     <?php    
@@ -282,8 +276,7 @@ function dtoc_dashboard_reset_cb(){
         <button type="button" id="dtoc-reset-button" class="button button-secondary" disabled>
             <?php echo esc_html__('Reset Options', 'digital-table-of-contents'); ?>
         </button>
-        <?php 
-	        // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'dtoc-reset-input'); 
+        <?php 	        
         ?>
         <p><?php echo esc_html__('Type "reset" in the box above to enable the reset button.', 'digital-table-of-contents'); ?></p>
         <div id="dtoc-reset-message"></div>
@@ -294,8 +287,7 @@ function dtoc_dashboard_delete_cb(){
     global $dtoc_dashboard;	
     ?>              
         <input type="checkbox" id="delete_plugin_data" name="dtoc_dashboard[delete_plugin_data]" value="1" <?php checked(1, $dtoc_dashboard['delete_plugin_data']); ?> />                        
-    <?php
-    // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'delete_plugin_data'); 
+    <?php    
 }
 
 
@@ -309,9 +301,7 @@ function dtoc_dashboard_import_cb() {
             <button type="button" id="dtoc-import-button" class="button button-primary">
                 <?php esc_html_e('Import Options', 'digital-table-of-contents'); ?>
             </button>
-            <?php 
-            	// dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'dtoc-import-file'); 
-            ?>
+            
         </div>
 
         <div id="dtoc-import-loader" style="display: none; margin-top: 10px;">            

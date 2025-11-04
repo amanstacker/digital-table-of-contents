@@ -134,8 +134,7 @@ public function dtoc_settings_page_render(){
     }
     $tab = dtoc_admin_get_tab('general', $tab_array);
     ?>
-    <div class="wrap dtoc-main-container">
-    <h1 class="wp-heading-inline"><?php echo esc_html__('Digital Table of Contents', 'digital-table-of-contents'); ?> | <?php echo $this->_page_title; ?></h1>    
+    <div class="wrap dtoc-main-container">    
     <!-- setting form start here -->
     <div class="dtoc-main-wrapper">
     <div class="dtoc-form-options">
@@ -857,7 +856,7 @@ public function dtoc_settings_initiate(){
 		'callback' => 'dtoc_display_hierarchy_max_depth_cb',
 		'section'  => 'dtoc_advanced_setting_section',
         'id'       => 'rendering_style',            
-            'tooltip'  => __( 'Set how many heading levels to include in the hierarchy.', 'digital-table-of-contents' ),
+        'tooltip'  => __( 'Limit how deep the TOC hierarchy goes. For example, selecting H3 includes H1, H2, and H3 headings only.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent' ],
 		'args'     => [ 'label_for' => 'hierarchy_max_depth', 'class' => 'dtoc_child_opt dtoc_hierarchy' ],
 	],    
@@ -1136,21 +1135,31 @@ public function dtoc_display_hierarchy_cb(){
 }
 public function dtoc_display_exp_col_remember_state_cb(){
     $this->dtoc_resolve_meta_settings_name(); 		
+    $disabled_attr = dtoc_is_premium_active() ? '' : 'disabled';
     ?>  
-        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[exp_col_remember_state]" id="exp_col_remember_state" type="checkbox" value="1" <?php echo (isset($this->_setting_option['exp_col_remember_state']) && $this->_setting_option['exp_col_remember_state'] == 1 ? 'checked' : '' ) ?>>
+        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[exp_col_remember_state]" id="exp_col_remember_state" type="checkbox" value="1" <?php echo (isset($this->_setting_option['exp_col_remember_state']) && $this->_setting_option['exp_col_remember_state'] == 1 ? 'checked' : '' ) ?> <?php echo $disabled_attr; ?>>
     <?php
+    if ( ! dtoc_is_premium_active() ) {
+		dtoc_display_premium_notice();
+	}
 }
 public function dtoc_display_exp_col_subheadings_cb(){
     $this->dtoc_resolve_meta_settings_name(); 		
+    	$disabled_attr = dtoc_is_premium_active() ? '' : 'disabled';
+
     ?>  
-        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[exp_col_subheadings]" id="exp_col_subheadings" type="checkbox" value="1" <?php echo (isset($this->_setting_option['exp_col_subheadings']) && $this->_setting_option['exp_col_subheadings'] == 1 ? 'checked' : '' ) ?>>
+        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[exp_col_subheadings]" id="exp_col_subheadings" type="checkbox" value="1" <?php echo (isset($this->_setting_option['exp_col_subheadings']) && $this->_setting_option['exp_col_subheadings'] == 1 ? 'checked' : '' ) ?> <?php echo $disabled_attr; ?>>
     <?php
+    if ( ! dtoc_is_premium_active() ) {
+		dtoc_display_premium_notice();
+	}
 }
 public function dtoc_display_skip_empty_parents_cb(){
     $this->dtoc_resolve_meta_settings_name(); 		
     ?>  
         <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[skip_empty_parents]" id="skip_empty_parents" type="checkbox" value="1" <?php echo (isset($this->_setting_option['skip_empty_parents']) && $this->_setting_option['skip_empty_parents'] == 1 ? 'checked' : '' ) ?>>
     <?php
+    
 }
 public function dtoc_display_hierarchy_max_depth_cb(){
 
@@ -1160,16 +1169,21 @@ public function dtoc_display_hierarchy_max_depth_cb(){
         $value = $this->_setting_option['hierarchy_max_depth'];
     }
 
+    $disabled_attr = dtoc_is_premium_active() ? '' : 'disabled';
+
     ?>
-    <select class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[hierarchy_max_depth]" id="hierarchy_max_depth">	
+    <select class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[hierarchy_max_depth]" id="hierarchy_max_depth" <?php echo $disabled_attr; ?>>	
 		<option value="2" <?php selected( $value, 2 ); ?>><?php esc_html_e( 'Up to H2', 'digital-table-of-contents' ); ?></option>
 		<option value="3" <?php selected( $value, 3 ); ?>><?php esc_html_e( 'Up to H3', 'digital-table-of-contents' ); ?></option>
 		<option value="4" <?php selected( $value, 4 ); ?>><?php esc_html_e( 'Up to H4', 'digital-table-of-contents' ); ?></option>
 		<option value="5" <?php selected( $value, 5 ); ?>><?php esc_html_e( 'Up to H5', 'digital-table-of-contents' ); ?></option>
 		<option value="6" <?php selected( $value, 6 ); ?>><?php esc_html_e( 'Up to H6 (All Levels)', 'digital-table-of-contents' ); ?></option>
 	</select>
-	<p class="description"><?php esc_html_e( 'Limit how deep the TOC hierarchy goes. For example, selecting H3 includes H1, H2, and H3 headings only.', 'digital-table-of-contents' ); ?></p>
+	
 	<?php
+    if ( ! dtoc_is_premium_active() ) {
+		dtoc_display_premium_notice();
+	}
 }
 public function dtoc_general_list_style_type_cb() {
     $this->dtoc_resolve_meta_settings_name();
@@ -1754,8 +1768,7 @@ public function dtoc_customization_border_type_cb(){
         <option value="groove" <?php echo (isset($this->_setting_option['border_type']) && $this->_setting_option['border_type'] == 'groove' ? 'selected' : '' ) ?>><?php echo esc_html__('Groove', 'digital-table-of-contents'); ?></option>
     </select>
 	
-    <?php
-    // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'border_type'); 
+    <?php    
 }
 public function dtoc_customization_icon_border_type_cb(){
 	$this->dtoc_resolve_meta_settings_name(); 	
@@ -1769,8 +1782,7 @@ public function dtoc_customization_icon_border_type_cb(){
         <option value="dashed" <?php echo (isset($this->_setting_option['icon_border_type']) && $this->_setting_option['icon_border_type'] == 'dashed' ? 'selected' : '' ) ?>><?php echo esc_html__('Dashed', 'digital-table-of-contents'); ?></option>
         <option value="groove" <?php echo (isset($this->_setting_option['icon_border_type']) && $this->_setting_option['icon_border_type'] == 'groove' ? 'selected' : '' ) ?>><?php echo esc_html__('Groove', 'digital-table-of-contents'); ?></option>
     </select>	
-    <?php
-    // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'icon_border_type'); 
+    <?php    
 }
 public function dtoc_customization_toggle_btn_border_type_cb(){
 	$this->dtoc_resolve_meta_settings_name(); 	
@@ -1784,8 +1796,7 @@ public function dtoc_customization_toggle_btn_border_type_cb(){
         <option value="dashed" <?php echo (isset($this->_setting_option['toggle_btn_border_type']) && $this->_setting_option['toggle_btn_border_type'] == 'dashed' ? 'selected' : '' ) ?>><?php echo esc_html__('Dashed', 'digital-table-of-contents'); ?></option>
         <option value="groove" <?php echo (isset($this->_setting_option['toggle_btn_border_type']) && $this->_setting_option['toggle_btn_border_type'] == 'groove' ? 'selected' : '' ) ?>><?php echo esc_html__('Groove', 'digital-table-of-contents'); ?></option>
     </select>	
-    <?php
-    // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'toggle_btn_border_type'); 
+    <?php    
 }
 public function dtoc_general_rendering_style_cb(){ 
     $this->dtoc_resolve_meta_settings_name(); 	   	                
@@ -1848,8 +1859,7 @@ public function dtoc_general_header_icon_cb(){
         <img id="custom-icon-preview" src="" alt="Icon Preview" style="max-height: 40px; margin-left: 10px; display: none;" />
         <input type="hidden" name="<?php echo esc_attr($this->_setting_name); ?>[custom_icon_url]" id="custom_icon_url" value="<?php echo esc_attr($this->_setting_option['custom_icon_url'] ?? ''); ?>">
     </div>    
-    <?php 
-        // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'header_icon'); 
+    <?php         
     ?>
 </div>
 
@@ -1858,86 +1868,77 @@ public function dtoc_general_header_icon_cb(){
 }
 public function dtoc_display_exp_col_icon_cb(){
 	$this->dtoc_resolve_meta_settings_name(); 	
+    $disabled_attr = dtoc_is_premium_active() ? '' : 'disabled';
     ?>    
 		    
     <div style="display: flex;">
-    <select class="smpg-input" name="<?php echo esc_attr($this->_setting_name); ?>[exp_col_icon]" id="exp_col_icon">                
-        <option value="plus_minus" <?php echo (isset($this->_setting_option['exp_col_icon']) && $this->_setting_option['exp_col_icon'] == 'plus_minus' ? 'selected' : '' ) ?>><?php echo esc_html__('[ + / - ]', 'digital-table-of-contents'); ?></option>                
-        <option value="arrow" <?php echo (isset($this->_setting_option['exp_col_icon']) && $this->_setting_option['exp_col_icon'] == 'arrow' ? 'selected' : '' ) ?>><?php echo esc_html__('[ > / v ]', 'digital-table-of-contents'); ?></option>
-        <option value="arrow_triangle" <?php echo (isset($this->_setting_option['exp_col_icon']) && $this->_setting_option['exp_col_icon'] == 'arrow_triangle' ? 'selected' : '' ) ?>><?php echo esc_html__('[ ▶ / ▼ ]', 'digital-table-of-contents'); ?></option>
-    </select>    
-    <?php 
-        dtoc_tooltip(__('Choose the icon that switches between expanded and collapsed states.', 'digital-table-of-contents'), 'header_icon'); 
-    ?>
-</div>
-
-    
+        <select class="smpg-input" name="<?php echo esc_attr($this->_setting_name); ?>[exp_col_icon]" id="exp_col_icon" <?php echo esc_attr( $disabled_attr ); ?>>                
+            <option value="plus_minus" <?php echo (isset($this->_setting_option['exp_col_icon']) && $this->_setting_option['exp_col_icon'] == 'plus_minus' ? 'selected' : '' ) ?>><?php echo esc_html__('[ + / - ]', 'digital-table-of-contents'); ?></option>                
+            <option value="arrow" <?php echo (isset($this->_setting_option['exp_col_icon']) && $this->_setting_option['exp_col_icon'] == 'arrow' ? 'selected' : '' ) ?>><?php echo esc_html__('[ > / v ]', 'digital-table-of-contents'); ?></option>
+            <option value="arrow_triangle" <?php echo (isset($this->_setting_option['exp_col_icon']) && $this->_setting_option['exp_col_icon'] == 'arrow_triangle' ? 'selected' : '' ) ?>><?php echo esc_html__('[ ▶ / ▼ ]', 'digital-table-of-contents'); ?></option>
+        </select>        
+    </div>    
     <?php
+    if ( ! dtoc_is_premium_active() ) {
+		dtoc_display_premium_notice();
+	}
 }
 public function dtoc_general_show_text_cb() {
     $this->dtoc_resolve_meta_settings_name(); 	
     ?>    
-    <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[show_text]" id="show_text" type="text" value="<?php echo (isset($this->_setting_option['show_text']) ? $this->_setting_option['show_text'] : 'show' ) ?>">
-    <?php
-    // dtoc_tooltip(__('text', 'digital-table-of-contents'), 'show_text');
+        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[show_text]" id="show_text" type="text" value="<?php echo (isset($this->_setting_option['show_text']) ? $this->_setting_option['show_text'] : 'show' ) ?>">
+    <?php    
 }
 public function dtoc_general_hide_text_cb() {
     $this->dtoc_resolve_meta_settings_name(); 	
     ?>    
-    <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[hide_text]" id="hide_text" type="text" value="<?php echo (isset($this->_setting_option['hide_text']) ? $this->_setting_option['hide_text'] : 'hide' ) ?>">
+        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[hide_text]" id="hide_text" type="text" value="<?php echo (isset($this->_setting_option['hide_text']) ? $this->_setting_option['hide_text'] : 'hide' ) ?>">
     <?php
-    // dtoc_tooltip(__('text', 'digital-table-of-contents'), 'hide_text');
+    
 }
 public function dtoc_general_header_text_cb() {
     $this->dtoc_resolve_meta_settings_name(); 	
     ?>    
     <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[header_text]" id="header_text" type="text" value="<?php echo (isset($this->_setting_option['header_text']) ? $this->_setting_option['header_text'] : 'Table of Contents' ) ?>">
-    <?php
-    // dtoc_tooltip(__('text', 'digital-table-of-contents'), 'header_text');
+    <?php    
 }
 
 public function dtoc_general_toggle_btn_text_cb() {
     $this->dtoc_resolve_meta_settings_name(); 	
     ?>    
-    <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[toggle_btn_text]" id="toggle_btn_text" type="text" value="<?php echo (isset($this->_setting_option['toggle_btn_text']) ? $this->_setting_option['toggle_btn_text'] : 'Index' ) ?>">
-    <?php
-    // dtoc_tooltip(__('text', 'digital-table-of-contents'), 'header_text');
+        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[toggle_btn_text]" id="toggle_btn_text" type="text" value="<?php echo (isset($this->_setting_option['toggle_btn_text']) ? $this->_setting_option['toggle_btn_text'] : 'Index' ) ?>">
+    <?php    
 }
 
 public function dtoc_display_title_cb(){  
     $this->dtoc_resolve_meta_settings_name(); 	  	                        
     ?>  
         <input class="smpg-input dtoc_parent_option" name="<?php echo $this->_setting_name; ?>[display_title]" id="display_title" type="checkbox" value="1" <?php echo (isset($this->_setting_option['display_title']) && $this->_setting_option['display_title'] == 1 ? 'checked' : '' ) ?>>
-    <?php
-    // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'display_title'); 
+    <?php    
 }
 public function dtoc_general_scroll_back_to_toc_cb(){  
     $this->dtoc_resolve_meta_settings_name(); 	  	                        
     ?>  
         <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[scroll_back_to_top]" id="scroll_back_to_toc" type="checkbox" value="1" <?php echo (isset($this->_setting_option['scroll_back_to_top']) && $this->_setting_option['scroll_back_to_top'] == 1 ? 'checked' : '' ) ?>>
-    <?php
-    // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'scroll_back_to_top'); 
+    <?php    
 }
 public function dtoc_general_wrap_content_cb(){ 
     $this->dtoc_resolve_meta_settings_name(); 	   	                        
     ?>  
         <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[wrap_content]" id="wrap_content" type="checkbox" value="1" <?php echo (isset($this->_setting_option['wrap_content']) && $this->_setting_option['wrap_content'] == 1 ? 'checked' : '' ) ?>>
-    <?php
-    // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'wrap_content'); 
+    <?php    
 }
 public function dtoc_display_toggle_body_cb(){  
     $this->dtoc_resolve_meta_settings_name(); 	                        
     ?>  
         <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[toggle_body]" id="toggle_body" type="checkbox" value="1" <?php echo (isset($this->_setting_option['toggle_body']) && $this->_setting_option['toggle_body'] == 1 ? 'checked' : '' ) ?>>        
-    <?php
-    // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'toggle_body'); 
+    <?php    
 }
 public function dtoc_customization_remove_css_js_cb(){ 
     $this->dtoc_resolve_meta_settings_name();   	                        
     ?>  
         <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[remove_unused_css_js]" id="remove_unused_css_js" type="checkbox" value="1" <?php echo (isset($this->_setting_option['remove_unused_css_js']) && $this->_setting_option['remove_unused_css_js'] == 1 ? 'checked' : '' ) ?>>
-    <?php
-    // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'remove_unused_css_js'); 
+    <?php    
 }
 public function dtoc_exclude_headings_include_cb(){
     $this->dtoc_resolve_meta_settings_name();
@@ -2144,33 +2145,40 @@ public function dtoc_display_toggle_initial_cb() {
 public function dtoc_display_exp_col_initial_state_cb() {
 
 	$this->dtoc_resolve_meta_settings_name();
+    $disabled_attr = dtoc_is_premium_active() ? '' : 'disabled';
 	?>
         <input class="smpg-input" data-id="exp_col_initial_state" type="radio" id="exp_col_initial_state_collapsed" name="<?php echo esc_attr( $this->_setting_name ); ?>[exp_col_initial_state]" value="collapsed" 
-            <?php checked( isset( $this->_setting_option['exp_col_initial_state'] ) && $this->_setting_option['exp_col_initial_state'] === 'collapsed' ); ?>>
+            <?php checked( isset( $this->_setting_option['exp_col_initial_state'] ) && $this->_setting_option['exp_col_initial_state'] === 'collapsed' ); ?> <?php echo esc_attr( $disabled_attr ); ?>>
         <label for="exp_col_initial_state_collapsed" style="margin-right: 15px;"><?php esc_html_e( 'Collapsed', 'digital-table-of-contents' ); ?></label>
 
         <input class="smpg-input" data-id="exp_col_initial_state" type="radio" id="exp_col_initial_state_expanded" name="<?php echo esc_attr( $this->_setting_name ); ?>[exp_col_initial_state]" value="expanded" 
-            <?php checked( isset( $this->_setting_option['exp_col_initial_state'] ) && $this->_setting_option['exp_col_initial_state'] === 'expanded' ); ?>>
+            <?php checked( isset( $this->_setting_option['exp_col_initial_state'] ) && $this->_setting_option['exp_col_initial_state'] === 'expanded' ); ?> <?php echo esc_attr( $disabled_attr ); ?>>
         <label for="exp_col_initial_state_expanded"><?php esc_html_e( 'Expanded', 'digital-table-of-contents' ); ?></label>	
 
 	<?php
+    if ( ! dtoc_is_premium_active() ) {
+		dtoc_display_premium_notice();
+	}
 
 }
 
 public function dtoc_display_exp_col_icon_position_cb() {
 
 	$this->dtoc_resolve_meta_settings_name();
+    $disabled_attr = dtoc_is_premium_active() ? '' : 'disabled';
 	?>
         <input class="smpg-input" data-id="exp_col_icon_position" type="radio" id="exp_col_icon_position_left" name="<?php echo esc_attr( $this->_setting_name ); ?>[exp_col_icon_position]" value="left" 
-            <?php checked( isset( $this->_setting_option['exp_col_icon_position'] ) && $this->_setting_option['exp_col_icon_position'] === 'left' ); ?>>
+            <?php checked( isset( $this->_setting_option['exp_col_icon_position'] ) && $this->_setting_option['exp_col_icon_position'] === 'left' ); ?> <?php echo esc_attr( $disabled_attr ); ?>>
         <label for="exp_col_icon_position_left" style="margin-right: 15px;"><?php esc_html_e( 'Left', 'digital-table-of-contents' ); ?></label>
 
         <input class="smpg-input" data-id="exp_col_icon_position" type="radio" id="exp_col_icon_position_right" name="<?php echo esc_attr( $this->_setting_name ); ?>[exp_col_icon_position]" value="right" 
-            <?php checked( isset( $this->_setting_option['exp_col_icon_position'] ) && $this->_setting_option['exp_col_icon_position'] === 'right' ); ?>>
+            <?php checked( isset( $this->_setting_option['exp_col_icon_position'] ) && $this->_setting_option['exp_col_icon_position'] === 'right' ); ?> <?php echo esc_attr( $disabled_attr ); ?>>
         <label for="exp_col_icon_position_right"><?php esc_html_e( 'Right', 'digital-table-of-contents' ); ?></label>	
 
 	<?php
-
+    if ( ! dtoc_is_premium_active() ) {
+		dtoc_display_premium_notice();
+	}
 }
 
 public function dtoc_resolve_meta_settings_name() {

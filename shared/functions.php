@@ -1198,3 +1198,39 @@ foreach( $options_types as $option ){
 
 return $return_array;
 }
+
+/**
+ * Check if Digital TOC Premium is active and licensed.
+ *
+ * @return bool
+ */
+function dtoc_is_premium_active() {
+
+	if ( defined( 'DTOCP_VERSION' ) && DTOCP_VERSION ) {
+
+		$license_data = get_option( 'dtoc_license_data1' );
+
+		if ( isset( $license_data['license'] ) && $license_data['license'] === 'valid' ) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
+/**
+ * Display a standard premium upgrade message.
+ */
+function dtoc_display_premium_notice() {
+	printf(
+		'<p class="description dtoc-upgrade-msg">%s</p>',
+		wp_kses(
+			sprintf(
+				__( 'This feature is available in Premium <a href="%s" target="_blank">Upgrade</a>.', 'digital-toc' ),
+				'https://schemapackage.com/digital-toc-premium/'
+			),
+			[ 'a' => [ 'href' => [], 'target' => [] ] ]
+		)
+	);
+}
