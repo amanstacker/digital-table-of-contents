@@ -149,7 +149,7 @@ public function dtoc_settings_page_render(){
                          }                         
                          echo '<a href="' . esc_url(dtoc_admin_tab_link('customization', $this->_setting_name)) . '" class="nav-tab ' . esc_attr( $tab == 'customization' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-admin-customizer"></span> ' . esc_html__('Customization','digital-table-of-contents') . '</a>';                                                
                          if(in_array($this->_setting_name, $this->_shortcode_modules)){
-                            echo '<a href="' . esc_url(dtoc_admin_tab_link('shortcode_source', $this->_setting_name)) . '" class="nav-tab ' . esc_attr( $tab == 'shortcode_source' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-shortcode"></span> ' . esc_html__('Shortcode Source','digital-table-of-contents') . '</a>';
+                            echo '<a href="' . esc_url(dtoc_admin_tab_link('shortcode_source', $this->_setting_name)) . '" class="nav-tab ' . esc_attr( $tab == 'shortcode_source' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-shortcode"></span> ' . esc_html__('Source','digital-table-of-contents') . '</a>';
                          }
                      ?>
                  </h2>
@@ -941,7 +941,24 @@ public function dtoc_settings_initiate(){
             'tooltip'  => __( 'Maintain the same line breaks from your content headings within the TOC display.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 		'args'     => [ 'label_for' => 'preserve_line_breaks' ],
-	],	     
+	],
+    'dtoc_exclude_headings_include' => [
+		'title'    => __( 'Heading Tags', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_exclude_headings_include_cb',
+		'section'  => 'dtoc_exclude_setting_section',
+        'id'       => 'rendering_style',            
+        'tooltip'  => __( 'Select the headings to be added when the table of contents is being created. Deselecting it will exclude them.', 'digital-table-of-contents' ),
+		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky','dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
+	],	
+    'dtoc_exclude_headings' => [
+		'title'    => __( 'Headings', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_exclude_headings_cb',
+		'section'  => 'dtoc_exclude_setting_section',
+        'id'       => 'rendering_style',            
+        'tooltip'  => __( 'Separate multiple headings with a pipe |. Use an asterisk * as a wildcard to match other text. Example: Fruit* : Ignore headings starting with "Fruit". *Fruit Diet* : Ignore headings with "Fruit Diet" somewhere in the heading. Apple Tree|Oranges|Yellow Bananas : Ignore headings that are exactly "Apple Tree", "Oranges" or "Yellow Bananas".', 'digital-table-of-contents' ),
+		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
+		'args'     => [ 'label_for' => 'exclude_headings' ],
+    ],         
 	'dtoc_exclude_selectors' => [
 		'title'    => __( 'By CSS Selectors', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_exclude_selectors_cb',
@@ -1006,24 +1023,7 @@ public function dtoc_settings_initiate(){
 			'dtoc_shortcode',
 		],
 		'args'     => [ 'label_for' => 'exclude_blocks' ],
-	],  
-    'dtoc_exclude_headings' => [
-		'title'    => __( 'Headings', 'digital-table-of-contents' ),
-		'callback' => 'dtoc_exclude_headings_cb',
-		'section'  => 'dtoc_exclude_setting_section',
-        'id'       => 'rendering_style',            
-        'tooltip'  => __( 'Separate multiple headings with a pipe |. Use an asterisk * as a wildcard to match other text. Example: Fruit* : Ignore headings starting with "Fruit". *Fruit Diet* : Ignore headings with "Fruit Diet" somewhere in the heading. Apple Tree|Oranges|Yellow Bananas : Ignore headings that are exactly "Apple Tree", "Oranges" or "Yellow Bananas".', 'digital-table-of-contents' ),
-		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
-		'args'     => [ 'label_for' => 'exclude_headings' ],
-    ],
-    'dtoc_exclude_headings_include' => [
-		'title'    => __( 'Heading Tags', 'digital-table-of-contents' ),
-		'callback' => 'dtoc_exclude_headings_include_cb',
-		'section'  => 'dtoc_exclude_setting_section',
-        'id'       => 'rendering_style',            
-        'tooltip'  => __( 'Select the headings to be added when the table of contents is being created. Deselecting it will exclude them.', 'digital-table-of-contents' ),
-		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky','dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
-	], 
+	],       
 ];
     
     // Dynamically register fields for this page
@@ -1056,16 +1056,27 @@ public function dtoc_exclude_headings_cb() {
 }
 
 public function dtoc_exclude_selectors_cb() {
-	$this->dtoc_resolve_meta_settings_name(); 	
+	$this->dtoc_resolve_meta_settings_name();
+
+	$disabled_attr = dtoc_is_premium_active() ? '' : 'disabled';
 	?>
-	<textarea cols="45" rows="2" class="smpg-input" 
+	<textarea 
+		cols="45" 
+		rows="2" 
+		class="smpg-input" 
 		name="<?php echo $this->_setting_name; ?>[exclude_selectors]" 
 		id="exclude_selectors"
-		placeholder=".no-toc, [data-toc-exclude], .skip-section"><?php 
-			echo ( isset( $this->_setting_option['exclude_selectors'] ) ? esc_textarea( $this->_setting_option['exclude_selectors'] ) : '' ); 
-		?></textarea>	
+		placeholder=".no-toc, [data-toc-exclude], .skip-section"
+		<?php echo $disabled_attr; ?>
+	><?php 
+		echo ( isset( $this->_setting_option['exclude_selectors'] ) ? esc_textarea( $this->_setting_option['exclude_selectors'] ) : '' ); 
+	?></textarea>
 	<?php
+	if ( ! dtoc_is_premium_active() ) {
+		dtoc_display_premium_notice();
+	}
 }
+
 
 public function dtoc_exclude_html_tags_cb() {
 	$this->dtoc_resolve_meta_settings_name(); 	
@@ -1940,22 +1951,29 @@ public function dtoc_customization_remove_css_js_cb(){
         <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[remove_unused_css_js]" id="remove_unused_css_js" type="checkbox" value="1" <?php echo (isset($this->_setting_option['remove_unused_css_js']) && $this->_setting_option['remove_unused_css_js'] == 1 ? 'checked' : '' ) ?>>
     <?php    
 }
-public function dtoc_exclude_headings_include_cb(){
-    $this->dtoc_resolve_meta_settings_name();
-    ?>        
-        <input class="smpg-input" data-id="headings_include" data-number="1" name="<?php echo $this->_setting_name; ?>[headings_include][1]" id="headings_include_1" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][1]) && $this->_setting_option['headings_include'][1] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_1"><?php echo esc_html__('H1', 'digital-table-of-contents'); ?></label>
-        <br>
-        <input class="smpg-input" data-id="headings_include" data-number="2" name="<?php echo $this->_setting_name; ?>[headings_include][2]" id="headings_include_2" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][2]) && $this->_setting_option['headings_include'][2] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_2"><?php echo esc_html__('H2', 'digital-table-of-contents'); ?></label>
-        <br>
-        <input class="smpg-input" data-id="headings_include" data-number="3" name="<?php echo $this->_setting_name; ?>[headings_include][3]" id="headings_include_3" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][3]) && $this->_setting_option['headings_include'][3] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_3"><?php echo esc_html__('H3', 'digital-table-of-contents'); ?></label>
-        <br>
-        <input class="smpg-input" data-id="headings_include" data-number="4" name="<?php echo $this->_setting_name; ?>[headings_include][4]" id="headings_include_4" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][4]) && $this->_setting_option['headings_include'][4] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_4"><?php echo esc_html__('H4', 'digital-table-of-contents'); ?></label>
-        <br>
-        <input class="smpg-input" data-id="headings_include" data-number="5" name="<?php echo $this->_setting_name; ?>[headings_include][5]" id="headings_include_5" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][5]) && $this->_setting_option['headings_include'][5] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_5"><?php echo esc_html__('H5', 'digital-table-of-contents'); ?></label>
-        <br>
-        <input class="smpg-input" data-id="headings_include" data-number="6" name="<?php echo $this->_setting_name; ?>[headings_include][6]" id="headings_include_6" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][6]) && $this->_setting_option['headings_include'][6] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_6"><?php echo esc_html__('H6', 'digital-table-of-contents'); ?></label>                                
-    <?php
+public function dtoc_exclude_headings_include_cb() {
+	$this->dtoc_resolve_meta_settings_name();
+	?>
 
+	<div class="dtoc-headings-include-wrap">
+		<?php for ( $i = 1; $i <= 6; $i++ ) : ?>
+			<label class="dtoc-heading-label" for="headings_include_<?php echo esc_attr( $i ); ?>">
+				<input
+					class="smpg-input"
+					data-id="headings_include"
+					data-number="<?php echo esc_attr( $i ); ?>"
+					name="<?php echo esc_attr( $this->_setting_name ); ?>[headings_include][<?php echo esc_attr( $i ); ?>]"
+					id="headings_include_<?php echo esc_attr( $i ); ?>"
+					type="checkbox"
+					value="1"
+					<?php checked( isset( $this->_setting_option['headings_include'][ $i ] ) && $this->_setting_option['headings_include'][ $i ] == 1 ); ?>
+				/>
+				<span><?php echo esc_html( 'H' . $i ); ?></span>
+			</label>
+		<?php endfor; ?>
+	</div>	
+
+	<?php
 }
 
 public function dtoc_placement_setting_section_cb(){
