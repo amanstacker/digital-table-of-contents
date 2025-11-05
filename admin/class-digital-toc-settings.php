@@ -842,6 +842,33 @@ public function dtoc_settings_initiate(){
             'tooltip'  => __( 'Set how rounded the corners of the TOC container appear.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 	],
+    'dtoc_display_combine_page_break' => [
+		'title'    => __( 'Combine Page Break', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_display_combine_page_break_cb',
+		'section'  => 'dtoc_advanced_setting_section',
+        'id'       => 'combine_page_break',            
+        'tooltip'  => __( 'Include headings from all pages of a paginated post or article in one combined Table of Contents.', 'digital-table-of-contents' ),
+		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
+		'args'     => [ 'label_for' => 'combine_page_break' ],
+	],	
+	'dtoc_display_accessibility' => [
+		'title'    => __( 'Accessibility', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_display_accessibility_cb',
+		'section'  => 'dtoc_advanced_setting_section',
+        'id'       => 'rendering_style',            
+        'tooltip'  => __( 'Enable features that make the TOC easier to use for all users, including screen reader and keyboard navigation support.', 'digital-table-of-contents' ),
+		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
+		'args'     => [ 'label_for' => 'accessibility' ],
+	],
+	'dtoc_display_preserve_line_breaks' => [
+		'title'    => __( 'Preserve Line Breaks', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_display_preserve_line_breaks_cb',
+		'section'  => 'dtoc_advanced_setting_section',
+        'id'       => 'rendering_style',            
+        'tooltip'  => __( 'Maintain the same line breaks from your content headings within the TOC display.', 'digital-table-of-contents' ),
+		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
+		'args'     => [ 'label_for' => 'preserve_line_breaks' ],
+	],
 	'dtoc_display_hierarchy' => [
 		'title'    => __( 'Hierarchy', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_display_hierarchy_cb',
@@ -915,33 +942,15 @@ public function dtoc_settings_initiate(){
 	// 	'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 	// 	'args'     => [ 'label_for' => 'show_more' ],
 	// ],
-	'dtoc_display_combine_page_break' => [
-		'title'    => __( 'Combine Page Break', 'digital-table-of-contents' ),
-		'callback' => 'dtoc_display_combine_page_break_cb',
+    'dtoc_display_child_page' => [
+		'title'    => __( 'Parent/Child Page', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_display_child_page_cb',
 		'section'  => 'dtoc_advanced_setting_section',
-        'id'       => 'rendering_style',            
-        'tooltip'  => __( 'Include headings from all pages of a paginated post or article in one combined Table of Contents.', 'digital-table-of-contents' ),
+        'id'       => 'child_page',            
+        'tooltip'  => __( 'Automatically include child page headings in the parent page’s Table of Contents, and display parent page headings in child pages.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
-		'args'     => [ 'label_for' => 'combine_page_break' ],
-	],
-	'dtoc_display_accessibility' => [
-		'title'    => __( 'Accessibility', 'digital-table-of-contents' ),
-		'callback' => 'dtoc_display_accessibility_cb',
-		'section'  => 'dtoc_advanced_setting_section',
-        'id'       => 'rendering_style',            
-        'tooltip'  => __( 'Enable features that make the TOC easier to use for all users, including screen reader and keyboard navigation support.', 'digital-table-of-contents' ),
-		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
-		'args'     => [ 'label_for' => 'accessibility' ],
-	],
-	'dtoc_display_preserve_line_breaks' => [
-		'title'    => __( 'Preserve Line Breaks', 'digital-table-of-contents' ),
-		'callback' => 'dtoc_display_preserve_line_breaks_cb',
-		'section'  => 'dtoc_advanced_setting_section',
-        'id'       => 'rendering_style',            
-            'tooltip'  => __( 'Maintain the same line breaks from your content headings within the TOC display.', 'digital-table-of-contents' ),
-		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
-		'args'     => [ 'label_for' => 'preserve_line_breaks' ],
-	],
+		'args'     => [ 'label_for' => 'child_page' ],
+	],    
     'dtoc_exclude_headings_include' => [
 		'title'    => __( 'Heading Tags', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_exclude_headings_include_cb',
@@ -1079,41 +1088,73 @@ public function dtoc_exclude_selectors_cb() {
 
 
 public function dtoc_exclude_html_tags_cb() {
-	$this->dtoc_resolve_meta_settings_name(); 	
+	$this->dtoc_resolve_meta_settings_name();
+
+	$disabled_attr = dtoc_is_premium_active() ? '' : 'disabled';
 	?>
-	<textarea cols="45" rows="2" class="smpg-input"
+	<textarea 
+		cols="45" 
+		rows="2" 
+		class="smpg-input"
 		name="<?php echo $this->_setting_name; ?>[exclude_tags]" 
 		id="exclude_tags"
-		placeholder="aside, footer, nav, section"><?php 
-			echo ( isset( $this->_setting_option['exclude_tags'] ) ? esc_textarea( $this->_setting_option['exclude_tags'] ) : '' ); 
-		?></textarea>	
+		placeholder="aside, footer, nav, section"
+		<?php echo $disabled_attr; ?>
+	><?php 
+		echo ( isset( $this->_setting_option['exclude_tags'] ) ? esc_textarea( $this->_setting_option['exclude_tags'] ) : '' ); 
+	?></textarea>
 	<?php
+	if ( ! dtoc_is_premium_active() ) {
+		dtoc_display_premium_notice();
+	}
 }
+
 
 public function dtoc_exclude_blocks_cb() {
-	$this->dtoc_resolve_meta_settings_name(); 	
+	$this->dtoc_resolve_meta_settings_name();
+
+	$disabled_attr = dtoc_is_premium_active() ? '' : 'disabled';
 	?>
-	<textarea cols="45" rows="2" class="smpg-input"
+	<textarea 
+		cols="45" 
+		rows="2" 
+		class="smpg-input"
 		name="<?php echo $this->_setting_name; ?>[exclude_blocks]" 
 		id="exclude_blocks"
-		placeholder="core/quote, yoast/faq-block, core/gallery"><?php 
-			echo ( isset( $this->_setting_option['exclude_blocks'] ) ? esc_textarea( $this->_setting_option['exclude_blocks'] ) : '' ); 
-		?></textarea>	
+		placeholder="core/quote, yoast/faq-block, core/gallery"
+		<?php echo $disabled_attr; ?>
+	><?php 
+		echo ( isset( $this->_setting_option['exclude_blocks'] ) ? esc_textarea( $this->_setting_option['exclude_blocks'] ) : '' ); 
+	?></textarea>
 	<?php
+	if ( ! dtoc_is_premium_active() ) {
+		dtoc_display_premium_notice();
+	}
 }
 
+
 public function dtoc_exclude_comments_cb() {
-	$this->dtoc_resolve_meta_settings_name(); 	
+	$this->dtoc_resolve_meta_settings_name();
+
+	$disabled_attr = dtoc_is_premium_active() ? '' : 'disabled';
 	?>
-	<textarea cols="45" rows="2" class="smpg-input"
+	<textarea 
+		cols="45" 
+		rows="2" 
+		class="smpg-input"
 		name="<?php echo $this->_setting_name; ?>[exclude_comments]" 
 		id="exclude_comments"
-		placeholder="&lt;!--toc-exclude-start--&gt;
-&lt;!--toc-exclude-end--&gt;"><?php 
-			echo ( isset( $this->_setting_option['exclude_comments'] ) ? esc_textarea( $this->_setting_option['exclude_comments'] ) : '' ); 
-		?></textarea>	
+		placeholder="&lt;!--toc-exclude-start--&gt;&#10;&lt;!--toc-exclude-end--&gt;"
+		<?php echo $disabled_attr; ?>
+	><?php 
+		echo ( isset( $this->_setting_option['exclude_comments'] ) ? esc_textarea( $this->_setting_option['exclude_comments'] ) : '' ); 
+	?></textarea>
 	<?php
+	if ( ! dtoc_is_premium_active() ) {
+		dtoc_display_premium_notice();
+	}
 }
+
 
 public function dtoc_display_preserve_line_breaks_cb(){
 	$this->dtoc_resolve_meta_settings_name(); 	
@@ -1129,7 +1170,16 @@ public function dtoc_display_accessibility_cb(){
         
     <?php
 }
-
+public function dtoc_display_child_page_cb(){
+	$this->dtoc_resolve_meta_settings_name(); 	
+    $disabled_attr = dtoc_is_premium_active() ? '' : 'disabled';
+    ?>  
+        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[child_page]" id="child_page" type="checkbox" value="1" <?php echo (isset($this->_setting_option['child_page']) && $this->_setting_option['child_page'] == 1 ? 'checked' : '' ) ?> <?php echo $disabled_attr; ?>>        
+    <?php
+    if ( ! dtoc_is_premium_active() ) {
+		dtoc_display_premium_notice();
+	}
+}
 public function dtoc_display_combine_page_break_cb(){
 	$this->dtoc_resolve_meta_settings_name(); 	
     ?>  

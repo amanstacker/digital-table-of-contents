@@ -108,7 +108,7 @@ function dtoc_box_hierarchy_heading_list( $matches,   $options = [] ) {
 
 					$html .= sprintf(
 							 '<a class="dtoc-link dtoc-heading-' . $count . '" href="%1$s" title="%2$s">%3$s</a>',
-								esc_attr( trailingslashit( get_permalink() )  . ($matches[ $i ]['page'] > 1 ? $matches[ $i ]['page'] : '') . '#' . $matches[ $i ]['id'] ),
+								esc_attr( trailingslashit( get_permalink( $match['post_id'] ) )  . ($matches[ $i ]['page'] > 1 ? $matches[ $i ]['page'] : '') . '#' . $matches[ $i ]['id'] ),
 								esc_attr( strip_tags( $title ) ),
 								$title
 					);
@@ -155,8 +155,7 @@ function dtoc_box_hierarchy_heading_list( $matches,   $options = [] ) {
 function dtoc_box_heading_list( $matches, $options = [] ) {
     
     $html = '';
-    $dtoc_current_permalink = trailingslashit( get_permalink() );
-
+    
     foreach ( $matches as $i => $match ) {
         $count = $i + 1;
 
@@ -171,7 +170,7 @@ function dtoc_box_heading_list( $matches, $options = [] ) {
         $html .= '<li>';
 
         if ( ! empty( $options['jump_links'] ) ) {
-            $link = esc_attr( $dtoc_current_permalink . ( $match['page'] > 1 ? $match['page'] : '' ) . '#' . $match['id'] );
+            $link = esc_attr( trailingslashit( get_permalink( $match['post_id'] ) ) . ( $match['page'] > 1 ? $match['page'] : '' ) . '#' . $match['id'] );
 
             $accessibility_attrs = '';
             if ( ! empty( $options['accessibility'] ) ) {
@@ -195,13 +194,13 @@ function dtoc_box_heading_list( $matches, $options = [] ) {
     return $html;
 }
 
-function dtoc_get_plain_toc_html($matches, $options){
+function dtoc_get_plain_toc_html($matches, $options) {
     $html = '';
     $html .= '<ul>';    
     if ( ! empty( $options['hierarchy'] ) ) {
-        $html .= dtoc_box_hierarchy_heading_list($matches , $options);
+        $html .= dtoc_box_hierarchy_heading_list($matches , $options );
     }else{
-        $html .= dtoc_box_heading_list($matches, $options);
+        $html .= dtoc_box_heading_list($matches, $options );
     }    
     $html .= '</ul>';
     return $html;
@@ -324,11 +323,12 @@ function dtoc_generate_Heading_id( $heading ) {
     return $response_id;
 }
 
-function dtoc_heading_ids( $matches ) {
+function dtoc_heading_ids( $matches, $post_id = null ) {
         
     foreach ( $matches as $i => $match ) {
 
-        $matches[ $i ]['id'] = dtoc_generate_Heading_id( $matches[ $i ][0] );
+        $matches[ $i ]['id']      = dtoc_generate_Heading_id( $matches[ $i ][0] );
+        $matches[ $i ]['post_id'] = $post_id;
     }    
     return $matches;
 }
@@ -355,7 +355,7 @@ function dtoc_next_page( $matches, $page ){
     return $matches;
 }
 
-function dtoc_filter_headings_by_content( $content, $page, $type, $options ) { 
+function dtoc_filter_headings_by_content( $content, $page, $type, $options, $post_id = null ) { 
 
     $matches = [];
     $regex = apply_filters( "dtoc_regex_filter_{$type}", '/(<h([1-6]{1})[^>]*>)(.*)<\/h\2>/msuU' );
@@ -391,7 +391,7 @@ function dtoc_filter_headings_by_content( $content, $page, $type, $options ) {
                     $matches = dtoc_filter_exclude_heading_matches( $matches, $options['exclude_headings'] );
                 }                
 
-                $matches = dtoc_heading_ids( $matches );
+                $matches = dtoc_heading_ids( $matches, $post_id );
                 $matches = dtoc_next_page( $matches, $page );                
 
             } else {
@@ -457,7 +457,7 @@ function dtoc_filter_exclude_heading_matches( $matches, $exclude_patterns ) {
 }
 
 
-function dtoc_filter_heading( $content, $options = [] ) {
+function dtoc_filter_heading( $content, $options = [], $post_id = null ) {
 
     global $post,$page;
     
@@ -473,14 +473,14 @@ function dtoc_filter_heading( $content, $options = [] ) {
 			foreach ( $splited_content as $sp_content ) {
 				$result = [];
 				 if(isset($options['combine_page_break'])){
-					$result = dtoc_filter_headings_by_content( $sp_content, $post_page, $type, $options );
+					$result = dtoc_filter_headings_by_content( $sp_content, $post_page, $type, $options, $post_id );
 					 if($result){
 						$response = array_merge($response, $result);
 					 }
 					 
 				 }else{
 					 if($page == $post_page){
-						$result = dtoc_filter_headings_by_content( $sp_content, $post_page, $type, $options );
+						$result = dtoc_filter_headings_by_content( $sp_content, $post_page, $type, $options, $post_id );
 						 if($result){
 							$response = array_merge($response, $result);
 						 }
@@ -493,7 +493,7 @@ function dtoc_filter_heading( $content, $options = [] ) {
 		}
 
     }else{
-        $response = dtoc_filter_headings_by_content( $content, 1, $type, $options );				
+        $response = dtoc_filter_headings_by_content( $content, 1, $type, $options, $post_id );
     }
     
     return $response;

@@ -1208,7 +1208,7 @@ function dtoc_is_premium_active() {
 
 	if ( defined( 'DTOCP_VERSION' ) && DTOCP_VERSION ) {
 
-		$license_data = get_option( 'dtoc_license_data1' );
+		$license_data = get_option( 'dtoc_license_data' );
 
 		if ( isset( $license_data['license'] ) && $license_data['license'] === 'valid' ) {
 			return true;
