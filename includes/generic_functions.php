@@ -400,7 +400,7 @@ function dtoc_filter_headings_by_content( $content, $page, $type, $options, $pos
             }
 
         }
-        
+        $matches = apply_filters( 'dtoc_exclude_headings_by', $matches, $options, $content );
         return array_values( $matches ); 
 
 }
