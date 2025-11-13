@@ -3,7 +3,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 function dtoc_sanitize_register_setting( $input = [] ) {
-    
+
 	$output = [];
 
 	foreach ( $input as $key => $value ) {
@@ -13,7 +13,6 @@ function dtoc_sanitize_register_setting( $input = [] ) {
 		} else {
 			// Determine sanitization type
 			if ( is_numeric( $value ) ) {
-				// Keep integers/floats as numbers (no quotes)
 				$output[ sanitize_key( $key ) ] = ( strpos( $value, '.' ) !== false ) ? floatval( $value ) : intval( $value );
 			} elseif ( filter_var( $value, FILTER_VALIDATE_URL ) ) {
 				$output[ sanitize_key( $key ) ] = esc_url_raw( $value );
@@ -21,11 +20,29 @@ function dtoc_sanitize_register_setting( $input = [] ) {
 				// Hex colors
 				$output[ sanitize_key( $key ) ] = sanitize_hex_color( $value );
 			} else {
-				$output[ sanitize_key( $key ) ] = sanitize_text_field( $value );
+				// Default sanitization
+				$sanitized = sanitize_text_field( $value );
+
+				/**
+				 * Per-field sanitization filter.
+				 *
+				 * @param string $sanitized The sanitized value.
+				 * @param string $key       The field key.
+				 * @param string $value     The original value.
+				 */
+				$sanitized = apply_filters( 'dtoc_sanitize_field_value', $sanitized, $key, $value );
+
+				$output[ sanitize_key( $key ) ] = $sanitized;
 			}
 		}
 	}
-    
+
+	// Global filter for full sanitized array.
+	$output = apply_filters( 'dtoc_sanitize_register_setting', $output, $input );
+
+	// Second-stage filter — restore HTML comments or other patterns.
+	$output = apply_filters( 'dtoc_restore_html_comments', $output, $input );
+
 	return $output;
 }
 

@@ -1075,7 +1075,7 @@ public function dtoc_exclude_selectors_cb() {
 		class="smpg-input" 
 		name="<?php echo $this->_setting_name; ?>[exclude_selectors]" 
 		id="exclude_selectors"
-		placeholder=".no-toc, [data-toc-exclude], .skip-section"
+		placeholder="#no-toc, .skip-section, [data-toc-exclude]"
 		<?php echo $disabled_attr; ?>
 	><?php 
 		echo ( isset( $this->_setting_option['exclude_selectors'] ) ? esc_textarea( $this->_setting_option['exclude_selectors'] ) : '' ); 
