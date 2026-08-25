@@ -426,11 +426,13 @@ function dtoc_default_incontent_options(){
                 "5" => 1,
                 "6" => 1,
             ],
-            "hierarchy"          => 0,
-            "combine_page_break" => 0,
-            "accessibility"     => 1,
+            "hierarchy"            => 0,
+            "hierarchy_max_depth"  => 6,
+            "exp_col_subheadings"  => 0,            
+            "combine_page_break"   => 0,
+            "accessibility"        => 1,
             "preserve_line_breaks" => 0,
-            "exclude_headings"  => '',
+            "exclude_headings"     => '',
             "placement" => [
                 "post" => [
                     "is_enabled" => 1,
@@ -1195,4 +1197,40 @@ foreach( $options_types as $option ){
 }
 
 return $return_array;
+}
+
+/**
+ * Check if Digital TOC Premium is active and licensed.
+ *
+ * @return bool
+ */
+function dtoc_is_premium_active() {
+
+	if ( defined( 'DTOCP_VERSION' ) && DTOCP_VERSION ) {
+
+		$license_data = get_option( 'dtoc_license_data' );
+
+		if ( isset( $license_data['license'] ) && $license_data['license'] === 'valid' ) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
+/**
+ * Display a standard premium upgrade message.
+ */
+function dtoc_display_premium_notice() {
+	printf(
+		'<p class="description dtoc-upgrade-msg">%s</p>',
+		wp_kses(
+			sprintf(
+				__( 'This feature is available in Premium <a href="%s" target="_blank">Upgrade</a>.', 'digital-toc' ),
+				'https://schemapackage.com/digital-toc-premium/'
+			),
+			[ 'a' => [ 'href' => [], 'target' => [] ] ]
+		)
+	);
 }

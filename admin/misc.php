@@ -358,3 +358,66 @@ function dtoc_reset_options_cb() {
     wp_send_json_success(['message' => esc_html__('Options have been reset successfully.', 'digital-table-of-contents')]);
 
 }
+
+
+/**
+ * Display top header bar on all Digital TOC admin pages.
+ */
+function dtoc_display_top_header_bar() {
+	$screen = get_current_screen();
+
+	// Only show on plugin-related admin pages.
+	if ( empty( $screen->id ) || false === strpos( $screen->id, 'dtoc' ) ) {
+		return;
+	}
+
+	// Get current page name dynamically.
+	$page_title = '';
+	if ( isset( $_GET['page'] ) ) {
+		$tab = sanitize_text_field( wp_unslash( $_GET['page'] ) );
+		switch ( $tab ) {
+			case 'dtoc':
+				$page_title = __( 'Dashboard', 'digital-toc' );
+				break;
+			case 'dtoc_incontent':
+				$page_title = __( 'In Contents', 'digital-toc' );
+				break;
+			case 'dtoc_incontent_mobile':
+				$page_title = __( 'In Contents Mobile', 'digital-toc' );
+				break;
+			case 'dtoc_floating':
+				$page_title = __( 'Floating', 'digital-toc' );
+				break;			
+            case 'dtoc_shortcode':
+				$page_title = __( 'Shortcode', 'digital-toc' );
+				break;			
+            case 'dtoc_sliding_sticky':
+				$page_title = __( 'Sliding Sticky', 'digital-toc' );
+				break;			
+            case 'dtoc_sliding_sticky_mobile':
+				$page_title = __( 'Sliding Sticky Mobile', 'digital-toc' );
+				break;
+			default:
+				$page_title = __( 'Dashboard', 'digital-toc' );
+				break;
+		}
+	} else {
+		$page_title = __( 'Dashboard', 'digital-toc' );
+	}
+	?>
+	<div class="dtoc-admin-top-bar">
+		<div class="dtoc-bar-left">
+			<h2 class="dtoc-page-title"><?php echo esc_html( $page_title ); ?></h2>
+		</div>
+		<div class="dtoc-bar-right">
+			<a href="https://schemapackage.com/digital-toc-premium/" target="_blank" class="dtoc-premium-btn">
+				⭐ <?php esc_html_e( 'Try Premium', 'digital-toc' ); ?>
+			</a>
+			<a href="https://schemapackage.com/docs-category/digital-toc/" target="_blank" class="dtoc-knowledge-link" title="<?php esc_attr_e( 'Knowledge Base', 'digital-toc' ); ?>">
+				📘
+			</a>
+		</div>
+	</div>
+	<?php
+}
+add_action( 'in_admin_header', 'dtoc_display_top_header_bar' );

@@ -1,5 +1,33 @@
 jQuery(document).ready(function($){
 
+
+   if (dtoc_localize_frontend_data.exp_col_subheadings == 1) {
+
+       $('.dtoc-box-body .dtoc-tree-toggle').each(function() {
+        let li = $(this).closest('li');
+
+        if (dtoc_localize_frontend_data.exp_col_initial_state === 'expanded') {
+            li.addClass('dtoc-tree-expanded');
+            $(this).text('[-]');
+        } else if (dtoc_localize_frontend_data.exp_col_initial_state === 'collapsed') {
+            li.removeClass('dtoc-tree-expanded');
+            $(this).text('[+]');
+        }
+    });
+      
+      $('.dtoc-box-body').on('click', '.dtoc-tree-toggle', function(e) {
+         e.stopPropagation();
+         let li = $(this).closest('li');
+         li.toggleClass('dtoc-tree-expanded');
+         if (li.hasClass('dtoc-tree-expanded')) {
+            $(this).text('[-]');
+         } else {
+            $(this).text('[+]');
+         }
+      });
+
+   }
+   
  if (dtoc_localize_frontend_data.toggle_body == 1) {
   $(".dtoc-toggle-label").click(function () {
     var $this = $(this);

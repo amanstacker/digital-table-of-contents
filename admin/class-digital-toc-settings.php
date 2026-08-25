@@ -76,7 +76,7 @@ if(function_exists('get_current_screen')){
 		
 		$screen_id = get_current_screen()->id;
 		$this->_setting_name = str_replace('digital-toc_page_','',$screen_id);
-		global $dtoc_incontent, $dtoc_incontent_mobile,$dtoc_incontent_tablet, $dtoc_sliding_sticky, $dtoc_sliding_sticky_mobile, $dtoc_sliding_sticky_tablet, $dtoc_floating, $dtoc_floating_mobile, $dtoc_floating_tablet, $dtoc_shortcode, $dtoc_shortcode_mobile, $dtoc_shortcode_tablet;
+		global $dtoc_incontent, $dtoc_incontent_mobile, $dtoc_sliding_sticky, $dtoc_sliding_sticky_mobile, $dtoc_floating, $dtoc_shortcode;
 		
 		switch ($this->_setting_name) {
 			case 'dtoc_incontent':				
@@ -86,11 +86,7 @@ if(function_exists('get_current_screen')){
 			case 'dtoc_incontent_mobile':	
 				$this->_page_title     = 'In-Content Mobile';			
 				$this->_setting_option = $dtoc_incontent_mobile;
-				break;
-			case 'dtoc_incontent_tablet':	
-				$this->_page_title     = 'In-Content Tablet';			
-				$this->_setting_option = $dtoc_incontent_tablet;
-				break;
+				break;			
 			case 'dtoc_sliding_sticky':				
 				$this->_page_title     = 'Sliding Sticky';
 				$this->_setting_option = $dtoc_sliding_sticky;
@@ -98,35 +94,15 @@ if(function_exists('get_current_screen')){
 			case 'dtoc_sliding_sticky_mobile':		
 				$this->_page_title     = 'Sliding Sticky Mobile';		
 				$this->_setting_option = $dtoc_sliding_sticky_mobile;
-				break;
-			case 'dtoc_sliding_sticky_tablet':		
-				$this->_page_title     = 'Sticky Tablet';		
-				$this->_setting_option = $dtoc_sliding_sticky_tablet;
-				break;
+				break;			
 			case 'dtoc_floating':			
 				$this->_page_title     = 'Floating';	
 				$this->_setting_option = $dtoc_floating;
-				break;
-			case 'dtoc_floating_mobile':	
-				$this->_page_title     = 'Floating Mobile';			
-				$this->_setting_option = $dtoc_floating_mobile;
-				break;
-			case 'dtoc_floating_tablet':	
-				$this->_page_title     = 'Floating Tablet';			
-				$this->_setting_option = $dtoc_floating_tablet;
-				break;
+				break;						
 			case 'dtoc_shortcode':			
 				$this->_page_title     = 'Shortcode';	
 				$this->_setting_option = $dtoc_shortcode;
-				break;
-			case 'dtoc_shortcode_mobile':				
-				$this->_page_title     = 'Shortcode Mobile';
-				$this->_setting_option = $dtoc_shortcode_mobile;
-				break;
-			case 'dtoc_shortcode_tablet':	
-				$this->_page_title     = 'Shortcode Tablet';			
-				$this->_setting_option = $dtoc_shortcode_tablet;
-				break;
+				break;			
 			default:
 				# code...
 				break;
@@ -148,6 +124,7 @@ public function dtoc_settings_page_render(){
     $tab_array         = [];
     $tab_array[]       = 'general';
     $tab_array[]       = 'advanced';        
+    $tab_array[]       = 'exclude';        
     if(!in_array($this->_setting_name, $this->_shortcode_modules)){
         $tab_array[]       = 'placement';    
     }    
@@ -157,8 +134,7 @@ public function dtoc_settings_page_render(){
     }
     $tab = dtoc_admin_get_tab('general', $tab_array);
     ?>
-    <div class="wrap dtoc-main-container">
-    <h1 class="wp-heading-inline"><?php echo esc_html__('Digital Table of Contents', 'digital-table-of-contents'); ?> | <?php echo $this->_page_title; ?></h1>    
+    <div class="wrap dtoc-main-container">    
     <!-- setting form start here -->
     <div class="dtoc-main-wrapper">
     <div class="dtoc-form-options">
@@ -167,12 +143,13 @@ public function dtoc_settings_page_render(){
                      <?php					
                          echo '<a href="' . esc_url(dtoc_admin_tab_link('general', $this->_setting_name)) . '" class="nav-tab ' . esc_attr( $tab == 'general' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-welcome-view-site"></span> ' . esc_html__('General','digital-table-of-contents') . '</a>';                                                
                          echo '<a href="' . esc_url(dtoc_admin_tab_link('advanced', $this->_setting_name)) . '" class="nav-tab ' . esc_attr( $tab == 'advanced' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-admin-tools"></span> ' . esc_html__('Advanced','digital-table-of-contents') . '</a>';		                                    
+                         echo '<a href="' . esc_url(dtoc_admin_tab_link('exclude', $this->_setting_name)) . '" class="nav-tab ' . esc_attr( $tab == 'exclude' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-admin-tools"></span> ' . esc_html__('Exclude','digital-table-of-contents') . '</a>';
                          if(!in_array($this->_setting_name, $this->_shortcode_modules)){
                             echo '<a href="' . esc_url(dtoc_admin_tab_link('placement', $this->_setting_name)) . '" class="nav-tab ' . esc_attr( $tab == 'placement' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-location"></span> ' . esc_html__('Placement','digital-table-of-contents') . '</a>';		                                    
                          }                         
                          echo '<a href="' . esc_url(dtoc_admin_tab_link('customization', $this->_setting_name)) . '" class="nav-tab ' . esc_attr( $tab == 'customization' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-admin-customizer"></span> ' . esc_html__('Customization','digital-table-of-contents') . '</a>';                                                
                          if(in_array($this->_setting_name, $this->_shortcode_modules)){
-                            echo '<a href="' . esc_url(dtoc_admin_tab_link('shortcode_source', $this->_setting_name)) . '" class="nav-tab ' . esc_attr( $tab == 'shortcode_source' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-shortcode"></span> ' . esc_html__('Shortcode Source','digital-table-of-contents') . '</a>';
+                            echo '<a href="' . esc_url(dtoc_admin_tab_link('shortcode_source', $this->_setting_name)) . '" class="nav-tab ' . esc_attr( $tab == 'shortcode_source' ? 'nav-tab-active' : '') . '"><span class="dashicons dashicons-shortcode"></span> ' . esc_html__('Source','digital-table-of-contents') . '</a>';
                          }
                      ?>
                  </h2>
@@ -187,6 +164,9 @@ public function dtoc_settings_page_render(){
                  //Display tab
                  echo "<div class='dtoc-advanced' ".( $tab != 'advanced' ? 'style="display:none;"' : '').">";                
                      do_settings_sections( 'dtoc_advanced_setting_section' );	
+                 echo "</div>";
+                 echo "<div class='dtoc-exclude' ".( $tab != 'exclude' ? 'style="display:none;"' : '').">";                
+                     do_settings_sections( 'dtoc_exclude_setting_section' );	
                  echo "</div>"; 
                  if(!in_array($this->_setting_name, $this->_shortcode_modules)){
                     //Placement
@@ -347,6 +327,7 @@ public function dtoc_settings_initiate(){
 		'dtoc_customization_border_section',
 		'dtoc_customization_link_section',
 		'dtoc_advanced_setting_section',
+        'dtoc_exclude_setting_section',
 	];
 
 	foreach ( $sections as $section ) {
@@ -366,18 +347,24 @@ public function dtoc_settings_initiate(){
 			'title'    => __( 'Rendering Style', 'digital-table-of-contents' ),
 			'callback' => 'dtoc_general_rendering_style_cb',
 			'section'  => 'dtoc_general_setting_section',
+            'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Select how the Table of Contents should render on the page. CSS: Uses static styling for faster loading. JS: Uses JavaScript for dynamic rendering and advanced effects.', 'digital-table-of-contents' ),
 			'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 		],
 		'dtoc_display_title' => [
 			'title'    => __( 'Title', 'digital-table-of-contents' ),
 			'callback' => 'dtoc_display_title_cb',
 			'section'  => 'dtoc_general_setting_section',
+            'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Show or hide the title (heading) of the Table of Contents box.', 'digital-table-of-contents' ),
 			'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 			'args'     => [ 'label_for' => 'display_title' ],
 		],
         'dtoc_general_header_text' => [
 			'title'    => __( 'Text', 'digital-table-of-contents' ),
 			'callback' => 'dtoc_general_header_text_cb',
+            'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Set the title text displayed for the Table of Contents box.', 'digital-table-of-contents' ),
 			'section'  => 'dtoc_general_setting_section',
 			'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
 			'args'     => [ 'class' => 'dtoc_child_opt dtoc_display_title' ],
@@ -386,12 +373,16 @@ public function dtoc_settings_initiate(){
 			'title'    => __( 'Title Text', 'digital-table-of-contents' ),
 			'callback' => 'dtoc_general_header_text_cb',
 			'section'  => 'dtoc_general_setting_section',
+            'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Set the title text displayed for the Table of Contents box.', 'digital-table-of-contents' ),
 			'pages'    => [ 'dtoc_sliding_sticky_mobile' ],			
 		],	
         'dtoc_display_toggle_body' => [
 		'title'    => __( 'Toggle', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_display_toggle_body_cb',
 		'section'  => 'dtoc_general_setting_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Allow users to show or hide the Table of Contents body by clicking the title.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_shortcode' ],
 		'args'     => [
 			'class'     => 'dtoc_child_opt dtoc_display_title',
@@ -402,6 +393,8 @@ public function dtoc_settings_initiate(){
 		'title'    => __( 'Initial Body View', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_display_toggle_initial_cb',
 		'section'  => 'dtoc_general_setting_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Set if the TOC body should be shown or hidden by default.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_shortcode' ],
 		'args'     => [
 			'class' => 'dtoc_child_opt dtoc_2_label_child_opt dtoc_display_title',
@@ -411,18 +404,24 @@ public function dtoc_settings_initiate(){
 		'title'    => __( 'Initial Body View', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_display_toggle_initial_cb',
 		'section'  => 'dtoc_general_setting_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Set if the TOC body should be shown or hidden by default.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile' ],		
 	], 
     'dtoc_general_toggle_btn_text' => [
 			'title'    => __( 'Toggle Button Text', 'digital-table-of-contents' ),
 			'callback' => 'dtoc_general_toggle_btn_text_cb',
 			'section'  => 'dtoc_general_setting_section',
+            'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Set the button text.', 'digital-table-of-contents' ),
 			'pages'    => [ 'dtoc_sliding_sticky' ]			
 	],	   
 	'dtoc_general_header_icon' => [
 		'title'    => __( 'Icon', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_general_header_icon_cb',
 		'section'  => 'dtoc_general_setting_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Select the icons used for showing and hiding the TOC body.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_shortcode' ],
 		'args'     => [
 			'class' => 'dtoc_child_opt dtoc_2_label_child_opt dtoc_display_title',
@@ -432,6 +431,8 @@ public function dtoc_settings_initiate(){
 		'title'    => __( 'Show Text', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_general_show_text_cb',
 		'section'  => 'dtoc_general_setting_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Enter the text label displayed when the TOC body is hidden (e.g., “Show”).', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_shortcode' ],
 		'args'     => [
 			'class' => 'dtoc_child_opt dtoc_2_label_child_opt dtoc_3_label_child_opt dtoc_display_title',
@@ -441,6 +442,8 @@ public function dtoc_settings_initiate(){
 		'title'    => __( 'Hide Text', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_general_hide_text_cb',
 		'section'  => 'dtoc_general_setting_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Enter the text label displayed when the TOC body is visible (e.g., “Hide”).', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_shortcode' ],
 		'args'     => [
 			'class' => 'dtoc_child_opt dtoc_2_label_child_opt dtoc_3_label_child_opt dtoc_display_title',
@@ -450,6 +453,8 @@ public function dtoc_settings_initiate(){
 		'title'    => __( 'Jump Links', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_general_jump_links_cb',
 		'section'  => 'dtoc_general_setting_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Turn on or off the jump behavior when clicking TOC headings.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile',  'dtoc_shortcode' ],
 		'args'     => [
 			'label_for' => 'jump_links',
@@ -459,31 +464,39 @@ public function dtoc_settings_initiate(){
 		'title'    => __( 'Scroll Behavior', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_general_scroll_behavior_cb',
 		'section'  => 'dtoc_general_setting_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Choose how scrolling works when TOC links are clicked. Smooth: adds an animated scroll effect. Auto: jumps instantly to the section.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 		'args'     => [
 			'class' => 'dtoc_child_opt dtoc_jump_links',
 		],
 	],
-	// 'dtoc_general_scroll_back_to_toc' => [
-	// 	'title'    => __( 'Scroll Back to TOC', 'digital-table-of-contents' ),
-	// 	'callback' => 'dtoc_general_scroll_back_to_toc_cb',
-	// 	'section'  => 'dtoc_general_setting_section',
-	// 	'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_shortcode' ],
-	// 	'args'     => [
-	// 		'label_for' => 'scroll_back_to_toc',
-	// 		'class'     => 'dtoc_child_opt dtoc_jump_links',
-	// 	],
-	// ],
+	'dtoc_general_scroll_back_to_toc' => [
+		'title'    => __( 'Scroll Back to TOC', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_general_scroll_back_to_toc_cb',
+		'section'  => 'dtoc_general_setting_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Show a link that lets users quickly scroll back to the Table of Contents.', 'digital-table-of-contents' ),
+		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_shortcode' ],
+		'args'     => [
+			'label_for' => 'scroll_back_to_toc',
+			'class'     => 'dtoc_child_opt dtoc_jump_links',
+		],
+	],
 	'dtoc_general_alignment' => [
 		'title'    => __( 'Alignment', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_general_alignment_cb',
 		'section'  => 'dtoc_general_setting_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Choose the position of the Table of Contents box. Options: Left, Center, or Right.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_shortcode' ],
 	],
 	'dtoc_general_wrap_content' => [
 		'title'    => __( 'Wrap Content Around', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_general_wrap_content_cb',
 		'section'  => 'dtoc_general_setting_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Allow page content to wrap around the Table of Contents box for a compact layout.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_shortcode' ],
 		'args'     => [
 			'label_for' => 'wrap_content',
@@ -493,30 +506,40 @@ public function dtoc_settings_initiate(){
 		'title'    => __( 'Display When', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_general_when_cb',
 		'section'  => 'dtoc_general_setting_section',
+        'id'       => 'rendering_style',            
+        'tooltip'  => __( 'Show the Table of Contents only when the content contains at least the specified number of headings.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 	],
 	'dtoc_position' => [
 		'title'    => __( 'Position', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_general_position_cb',
 		'section'  => 'dtoc_general_setting_section',
+        'id'       => 'rendering_style',            
+        'tooltip'  => __( 'Choose where the Table of Contents should appear within your post or page content.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_shortcode' ],
 	],
     'dtoc_position_ss' => [
 		'title'    => __( 'Position', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_general_sticky_position_cb',
 		'section'  => 'dtoc_general_setting_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Choose where the Table of Contents should appear within your post or page content.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_sliding_sticky'],
 	],
     'dtoc_position_sm' => [
 		'title'    => __( 'Position', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_general_sticky_mobile_position_cb',
 		'section'  => 'dtoc_general_setting_section',
+        'id'       => 'rendering_style',            
+        'tooltip'  => __( 'Choose where the Table of Contents should appear within your post or page content.', 'digital-table-of-contents' ),
 		'pages'    => ['dtoc_sliding_sticky_mobile'],
 	],
 	'dtoc_paragraph_number' => [
 		'title'    => __( 'Paragraph Number', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_general_paragraph_number_cb',
 		'section'  => 'dtoc_general_setting_section',
+        'id'       => 'rendering_style',            
+        'tooltip'  => __( 'Enter the paragraph number after which the Table of Contents should be inserted.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 		'args'     => [
 			'label_for' => 'paragraph_number',
@@ -527,263 +550,313 @@ public function dtoc_settings_initiate(){
 		'title'    => __( 'List Style Type', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_general_list_style_type_cb',
 		'section'  => 'dtoc_general_setting_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Choose the list style for TOC items, such as numbered, bulleted, or more', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
-	],
-	'dtoc_general_headings_include' => [
-		'title'    => __( 'Select Heading Tags', 'digital-table-of-contents' ),
-		'callback' => 'dtoc_general_headings_include_cb',
-		'section'  => 'dtoc_general_setting_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky','dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
-	],
+	],	
     'dtoc_customization_title_bg_color' => [
 		'title'    => __( 'Background Color', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_title_bg_color_cb',
 		'section'  => 'dtoc_customization_title_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Set the background color of the TOC title bar.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_title_fg_color' => [
 		'title'    => __( 'Foreground Color', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_title_fg_color_cb',
 		'section'  => 'dtoc_customization_title_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Choose the color of the text displayed in the TOC title area.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_title_font_size' => [
 		'title'    => __( 'Font Size', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_title_font_size_cb',
 		'section'  => 'dtoc_customization_title_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Set the font size for the Table of Contents title text.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_title_font_weight' => [
 		'title'    => __( 'Font Weight', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_title_font_weight_cb',
 		'section'  => 'dtoc_customization_title_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Set how thick or bold the Table of Contents title text should appear.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_title_padding' => [
 		'title'    => __( 'Padding', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_title_padding_cb',
 		'section'  => 'dtoc_customization_title_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Set the inner spacing around the Table of Contents title text.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 	],
     'dtoc_customization_toggle_btn_bg_color' => [
 		'title'    => __( 'Background Color', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_toggle_btn_bg_color_cb',
 		'section'  => 'dtoc_customization_toggle_btn_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Set the background color for the toggle button in the TOC title bar.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_sliding_sticky' ],
 	],
 	'dtoc_customization_toggle_btn_fg_color' => [
 		'title'    => __( 'Foreground Color', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_toggle_btn_fg_color_cb',
 		'section'  => 'dtoc_customization_toggle_btn_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Set the icon or text color of the toggle button in the TOC title bar.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_sliding_sticky' ],
 	],
 	'dtoc_customization_toggle_btn_size_color' => [
 		'title'    => __( 'Size', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_toggle_btn_size_cb',
 		'section'  => 'dtoc_customization_toggle_btn_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Set the size of the toggle button in the TOC title area.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_sliding_sticky' ],
 	],
 	'dtoc_customization_toggle_btn_border_type' => [
 		'title'    => __( 'Border Type', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_toggle_btn_border_type_cb',
 		'section'  => 'dtoc_customization_toggle_btn_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Select the border style for the TOC toggle button, such as solid, dashed, or none.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_sliding_sticky'],
 	],
 	'dtoc_customization_toggle_btn_border_color' => [
 		'title'    => __( 'Border Color', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_toggle_btn_border_color_cb',
 		'section'  => 'dtoc_customization_toggle_btn_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Set the border color of the TOC toggle button.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_sliding_sticky' ],
 	],
 	'dtoc_customization_toggle_btn_border_width' => [
 		'title'    => __( 'Border Width', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_toggle_btn_border_width_cb',
 		'section'  => 'dtoc_customization_toggle_btn_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Set the thickness of the border around the TOC toggle button.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_sliding_sticky' ],
 	],
 	'dtoc_customization_toggle_btn_border_radius' => [
 		'title'    => __( 'Border Radius', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_toggle_btn_border_radius_cb',
 		'section'  => 'dtoc_customization_toggle_btn_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Set how rounded the corners of the TOC toggle button should be.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_sliding_sticky' ],
 	],
 	'dtoc_customization_toggle_btn_padding' => [
 		'title'    => __( 'Padding', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_toggle_btn_padding_cb',
 		'section'  => 'dtoc_customization_toggle_btn_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Set the inner spacing inside the TOC toggle button for better visual balance.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_sliding_sticky' ],
 	],	
     'dtoc_customization_icon_bg_color' => [
 		'title'    => __( 'Background Color', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_icon_bg_color_cb',
 		'section'  => 'dtoc_customization_icon_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Set the background color for the title icon.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_icon_fg_color' => [
 		'title'    => __( 'Foreground Color', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_icon_fg_color_cb',
 		'section'  => 'dtoc_customization_icon_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Set the color of the title icon.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_shortcode' ],
 	],
-	'dtoc_customization_icon_size_color' => [
+	'dtoc_customization_icon_size' => [
 		'title'    => __( 'Size', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_icon_size_cb',
 		'section'  => 'dtoc_customization_icon_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Adjust the size of the title icon.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_icon_border_type' => [
 		'title'    => __( 'Border Type', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_icon_border_type_cb',
 		'section'  => 'dtoc_customization_icon_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Select the border style for the title icon.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_icon_border_color' => [
 		'title'    => __( 'Border Color', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_icon_border_color_cb',
 		'section'  => 'dtoc_customization_icon_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Set the border color of the title icon.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_icon_border_width' => [
 		'title'    => __( 'Border Width', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_icon_border_width_cb',
 		'section'  => 'dtoc_customization_icon_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Set the thickness of the title icon border.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_icon_border_radius' => [
 		'title'    => __( 'Border Radius', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_icon_border_radius_cb',
 		'section'  => 'dtoc_customization_icon_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Adjust the roundness of the title icon corners.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_icon_padding' => [
 		'title'    => __( 'Padding', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_icon_padding_cb',
 		'section'  => 'dtoc_customization_icon_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Set the inner spacing around the title icon.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_icon_margin' => [
 		'title'    => __( 'Margin', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_icon_margin_cb',
 		'section'  => 'dtoc_customization_icon_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Set the outer spacing around the title icon.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
-	],
-    
-	'dtoc_customization_bg_color' => [
-		'title'    => __( 'Background Color', 'digital-table-of-contents' ),
-		'callback' => 'dtoc_customization_bg_color_cb',
-		'section'  => 'dtoc_customization_container_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
-	],
+	],    	
 	'dtoc_customization_link_color' => [
 		'title'    => __( 'Color', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_link_color_cb',
 		'section'  => 'dtoc_customization_link_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Choose the text color for links inside the Table of Contents.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_link_hover_color' => [
 		'title'    => __( 'Hover Color', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_link_hover_color_cb',
 		'section'  => 'dtoc_customization_link_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Choose the color that appears when a user hovers over a TOC link.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_link_visited_color' => [
 		'title'    => __( 'Visited Color', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_link_visited_color_cb',
 		'section'  => 'dtoc_customization_link_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Choose the color used for TOC links that have already been clicked or visited.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_link_padding' => [
 		'title'    => __( 'Padding', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_link_padding_cb',
 		'section'  => 'dtoc_customization_link_section',
+        'id'       => 'rendering_style',            
+        'tooltip'  => __( 'Adjust the spacing inside TOC links to control distance between link text and its edges.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_link_margin' => [
 		'title'    => __( 'Margin', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_link_margin_cb',
 		'section'  => 'dtoc_customization_link_section',
+        'id'       => 'rendering_style',            
+        'tooltip'  => __( 'Adjust the space between TOC links and surrounding elements for cleaner spacing.', 'digital-table-of-contents' ),
+		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
+	],
+    'dtoc_customization_bg_color' => [
+		'title'    => __( 'Background Color', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_customization_bg_color_cb',
+		'section'  => 'dtoc_customization_container_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Choose the background color for the Table of Contents container.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_container_width' => [
 		'title'    => __( 'Width', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_container_width_cb',
 		'section'  => 'dtoc_customization_container_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Set the overall width of the TOC box.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_container_height' => [
 		'title'    => __( 'Height', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_container_height_cb',
 		'section'  => 'dtoc_customization_container_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Adjust how tall the Table of Contents container appears on the page.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_container_margin' => [
 		'title'    => __( 'Margin', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_container_margin_cb',
 		'section'  => 'dtoc_customization_container_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Adjust the space between the TOC container and surrounding page elements.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_container_padding' => [
 		'title'    => __( 'Padding', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_container_padding_cb',
 		'section'  => 'dtoc_customization_container_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Adjust the space between the TOC content and the container edges.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_border_type' => [
 		'title'    => __( 'Type', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_border_type_cb',
 		'section'  => 'dtoc_customization_border_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Select the border style for the TOC box.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_border_color' => [
 		'title'    => __( 'Color', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_border_color_cb',
 		'section'  => 'dtoc_customization_border_section',
+        'id'       => 'rendering_style',            
+        'tooltip'  => __( 'Choose the color for the border surrounding the Table of Contents box.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_border_width' => [
 		'title'    => __( 'Width', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_border_width_cb',
 		'section'  => 'dtoc_customization_border_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Choose the color for the border surrounding the TOC container.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 	],
 	'dtoc_customization_border_radius' => [
 		'title'    => __( 'Radius', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_customization_border_radius_cb',
 		'section'  => 'dtoc_customization_border_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Set how rounded the corners of the TOC container appear.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 	],
-	'dtoc_display_hierarchy' => [
-		'title'    => __( 'Hierarchy', 'digital-table-of-contents' ),
-		'callback' => 'dtoc_display_hierarchy_cb',
-		'section'  => 'dtoc_advanced_setting_section',
-		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
-		'args'     => [ 'label_for' => 'hierarchy' ],
-	],
-	// 'dtoc_display_exp_col_subheadings' => [
-	// 	'title'    => __( 'Expand / Collapse', 'digital-table-of-contents' ),
-	// 	'callback' => 'dtoc_display_exp_col_subheadings_cb',
-	// 	'section'  => 'dtoc_advanced_setting_section',
-	// 	'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
-	// 	'args'     => [ 'label_for' => 'exp_col_subheadings', 'class' => 'dtoc_child_opt dtoc_hierarchy' ],
-	// ],
-	// 'dtoc_display_show_more' => [
-	// 	'title'    => __( 'Show More', 'digital-table-of-contents' ),
-	// 	'callback' => 'dtoc_display_show_more_cb',
-	// 	'section'  => 'dtoc_advanced_setting_section',
-	// 	'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
-	// 	'args'     => [ 'label_for' => 'show_more' ],
-	// ],
-	'dtoc_display_combine_page_break' => [
+    'dtoc_display_combine_page_break' => [
 		'title'    => __( 'Combine Page Break', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_display_combine_page_break_cb',
 		'section'  => 'dtoc_advanced_setting_section',
+        'id'       => 'combine_page_break',            
+        'tooltip'  => __( 'Include headings from all pages of a paginated post or article in one combined Table of Contents.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 		'args'     => [ 'label_for' => 'combine_page_break' ],
-	],
+	],	
 	'dtoc_display_accessibility' => [
 		'title'    => __( 'Accessibility', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_display_accessibility_cb',
 		'section'  => 'dtoc_advanced_setting_section',
+        'id'       => 'rendering_style',            
+        'tooltip'  => __( 'Enable features that make the TOC easier to use for all users, including screen reader and keyboard navigation support.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 		'args'     => [ 'label_for' => 'accessibility' ],
 	],
@@ -791,17 +864,176 @@ public function dtoc_settings_initiate(){
 		'title'    => __( 'Preserve Line Breaks', 'digital-table-of-contents' ),
 		'callback' => 'dtoc_display_preserve_line_breaks_cb',
 		'section'  => 'dtoc_advanced_setting_section',
+        'id'       => 'rendering_style',            
+        'tooltip'  => __( 'Maintain the same line breaks from your content headings within the TOC display.', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 		'args'     => [ 'label_for' => 'preserve_line_breaks' ],
 	],
-	'dtoc_display_exclude_headings' => [
-		'title'    => __( 'Exclude Headings', 'digital-table-of-contents' ),
-		'callback' => 'dtoc_display_exclude_headings_cb',
+	'dtoc_display_hierarchy' => [
+		'title'    => __( 'Hierarchy', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_display_hierarchy_cb',
 		'section'  => 'dtoc_advanced_setting_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Show headings in a nested format to reflect their levels (H2 under H1, H3 under H2, etc.).', 'digital-table-of-contents' ),
+		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_shortcode' ],
+		'args'     => [ 'label_for' => 'hierarchy' ],
+	],
+    'dtoc_display_hierarchy_max_depth' => [
+		'title'    => __( 'Maximum Depth', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_display_hierarchy_max_depth_cb',
+		'section'  => 'dtoc_advanced_setting_section',
+        'id'       => 'rendering_style',            
+        'tooltip'  => __( 'Limit how deep the TOC hierarchy goes. For example, selecting H3 includes H1, H2, and H3 headings only.', 'digital-table-of-contents' ),
+		'pages'    => [ 'dtoc_incontent' ],
+		'args'     => [ 'label_for' => 'hierarchy_max_depth', 'class' => 'dtoc_child_opt dtoc_hierarchy' ],
+	],    
+    'dtoc_display_exp_col_subheadings' => [
+		'title'    => __( 'Expand / Collapse', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_display_exp_col_subheadings_cb',
+		'section'  => 'dtoc_advanced_setting_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Let users expand or collapse the hierarchical TOC structure, making it easier to navigate through long content with multiple heading levels.', 'digital-table-of-contents' ),
+		'pages'    => [ 'dtoc_incontent' ],
+		'args'     => [ 'label_for' => 'exp_col_subheadings', 'class' => 'dtoc_child_opt dtoc_hierarchy' ],
+	],    	        
+    'dtoc_display_exp_col_icon' => [
+		'title'    => __( 'Icon', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_display_exp_col_icon_cb',
+		'section'  => 'dtoc_advanced_setting_section',
+        'id'       => 'rendering_style',            
+            'tooltip'  => __( 'Choose the icon style for expanding or collapsing headings.', 'digital-table-of-contents' ),
+		'pages'    => [ 'dtoc_incontent' ],
+		'args'     => [ 'label_for' => 'exp_col_icon', 'class' => 'dtoc_child_opt dtoc_2_label_child_opt dtoc_hierarchy' ],
+	],
+    'dtoc_display_exp_col_icon_position' => [
+		'title'    => __( 'Icon Position', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_display_exp_col_icon_position_cb',
+		'section'  => 'dtoc_advanced_setting_section',
+        'id'       => 'rendering_style',            
+        'tooltip'  => __( 'Choose the position of the expand/collapse icon — display it on either the left or right side of each heading.', 'digital-table-of-contents' ),
+		'pages'    => [ 'dtoc_incontent' ],
+		'args'     => [ 'label_for' => 'exp_col_icon_position', 'class' => 'dtoc_child_opt dtoc_2_label_child_opt dtoc_hierarchy' ],
+	],
+    'dtoc_display_exp_col_initial_state' => [
+		'title'    => __( 'Initial State', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_display_exp_col_initial_state_cb',
+		'section'  => 'dtoc_advanced_setting_section',
+        'id'       => 'rendering_style',            
+        'tooltip'  => __( 'Choose how the TOC hierarchy appears on load — all headings expanded or collapsed by default.', 'digital-table-of-contents' ),
+		'pages'    => [ 'dtoc_incontent' ],
+		'args'     => [ 'label_for' => 'exp_col_subheadings', 'class' => 'dtoc_child_opt dtoc_2_label_child_opt dtoc_hierarchy' ],
+	],
+    'dtoc_display_exp_col_remember_state' => [
+		'title'    => __( 'Remember State', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_display_exp_col_remember_state_cb',
+		'section'  => 'dtoc_advanced_setting_section',
+        'id'       => 'rendering_style',            
+        'tooltip'  => __( 'Keep the TOC expand/collapse state as the user navigates or reloads the page.', 'digital-table-of-contents' ),
+		'pages'    => [ 'dtoc_incontent' ],
+		'args'     => [ 'label_for' => 'exp_col_remember_state', 'class' => 'dtoc_child_opt dtoc_2_label_child_opt dtoc_hierarchy' ],
+	],	
+
+	// 'dtoc_display_show_more' => [
+	// 	'title'    => __( 'Show More', 'digital-table-of-contents' ),
+	// 	'callback' => 'dtoc_display_show_more_cb',
+	// 	'section'  => 'dtoc_advanced_setting_section',
+    //'id'       => 'rendering_style',            
+      //      'tooltip'  => __( 'A', 'digital-table-of-contents' ),
+	// 	'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
+	// 	'args'     => [ 'label_for' => 'show_more' ],
+	// ],
+    'dtoc_display_child_page' => [
+		'title'    => __( 'Parent/Child Page', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_display_child_page_cb',
+		'section'  => 'dtoc_advanced_setting_section',
+        'id'       => 'child_page',            
+        'tooltip'  => __( 'Automatically include child page headings in the parent page’s Table of Contents, and display parent page headings in child pages.', 'digital-table-of-contents' ),
+		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
+		'args'     => [ 'label_for' => 'child_page' ],
+	],    
+    'dtoc_exclude_headings_include' => [
+		'title'    => __( 'Heading Tags', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_exclude_headings_include_cb',
+		'section'  => 'dtoc_exclude_setting_section',
+        'id'       => 'rendering_style',            
+        'tooltip'  => __( 'Select the headings to be added when the table of contents is being created. Deselecting it will exclude them.', 'digital-table-of-contents' ),
+		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky','dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
+	],	
+    'dtoc_exclude_headings' => [
+		'title'    => __( 'Headings', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_exclude_headings_cb',
+		'section'  => 'dtoc_exclude_setting_section',
+        'id'       => 'rendering_style',            
+        'tooltip'  => __( 'Separate multiple headings with a pipe |. Use an asterisk * as a wildcard to match other text. Example: Fruit* : Ignore headings starting with "Fruit". *Fruit Diet* : Ignore headings with "Fruit Diet" somewhere in the heading. Apple Tree|Oranges|Yellow Bananas : Ignore headings that are exactly "Apple Tree", "Oranges" or "Yellow Bananas".', 'digital-table-of-contents' ),
 		'pages'    => [ 'dtoc_incontent', 'dtoc_incontent_mobile', 'dtoc_floating', 'dtoc_sliding_sticky', 'dtoc_sliding_sticky_mobile', 'dtoc_shortcode' ],
 		'args'     => [ 'label_for' => 'exclude_headings' ],
+    ],         
+	'dtoc_exclude_selectors' => [
+		'title'    => __( 'By CSS Selectors', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_exclude_selectors_cb',
+		'section'  => 'dtoc_exclude_setting_section',
+        'id'       => 'rendering_style',            
+        'tooltip'  => __( 'Enter comma-separated CSS selectors to skip sections from TOC. Example: .no-toc, [data-toc-exclude], .skip-section', 'digital-table-of-contents' ),
+		'pages'    => [
+			'dtoc_incontent',
+			'dtoc_incontent_mobile',
+			'dtoc_floating',
+			'dtoc_sliding_sticky',
+			'dtoc_sliding_sticky_mobile',
+			'dtoc_shortcode',
+		],
+		'args'     => [ 'label_for' => 'exclude_selectors' ],
 	],
-	];
+
+	'dtoc_exclude_tags' => [
+		'title'    => __( 'By HTML Tags', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_exclude_html_tags_cb',
+		'section'  => 'dtoc_exclude_setting_section',
+        'id'       => 'rendering_style',            
+        'tooltip'  => __( 'Enter comma-separated HTML tags to skip from TOC. Example: aside, footer, nav', 'digital-table-of-contents' ),
+		'pages'    => [
+			'dtoc_incontent',
+			'dtoc_incontent_mobile',
+			'dtoc_floating',
+			'dtoc_sliding_sticky',
+			'dtoc_sliding_sticky_mobile',
+			'dtoc_shortcode',
+		],
+		'args'     => [ 'label_for' => 'exclude_tags' ],
+	],	
+	'dtoc_exclude_comments' => [
+		'title'    => __( 'By Comment Markers', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_exclude_comments_cb',
+		'section'  => 'dtoc_exclude_setting_section',
+        'id'       => 'rendering_style',            
+        'tooltip'  => __( 'Enter start and end HTML comment markers to skip sections of content from the TOC. Example: <!--toc-exclude-start--> and <!--toc-exclude-end--> Any content placed between these markers will be ignored while generating the Table of Contents.', 'digital-table-of-contents' ),
+		'pages'    => [
+			'dtoc_incontent',
+			'dtoc_incontent_mobile',
+			'dtoc_floating',
+			'dtoc_sliding_sticky',
+			'dtoc_sliding_sticky_mobile',
+			'dtoc_shortcode',
+		],
+		'args'     => [ 'label_for' => 'exclude_comments' ],
+	],
+    'dtoc_exclude_blocks' => [
+		'title'    => __( 'Gutenberg Blocks', 'digital-table-of-contents' ),
+		'callback' => 'dtoc_exclude_blocks_cb',
+		'section'  => 'dtoc_exclude_setting_section',
+        'id'       => 'rendering_style',            
+        'tooltip'  => __( 'Enter comma-separated Gutenberg block names to skip from TOC generation. You can find a block’s name by inspecting the frontend source. Look for a class like wp-block-quote, which corresponds to core/quote. Example: core/quote, yoast/faq-block, core/gallery', 'digital-table-of-contents' ),
+		'pages'    => [
+			'dtoc_incontent',
+			'dtoc_incontent_mobile',
+			'dtoc_floating',
+			'dtoc_sliding_sticky',
+			'dtoc_sliding_sticky_mobile',
+			'dtoc_shortcode',
+		],
+		'args'     => [ 'label_for' => 'exclude_blocks' ],
+	],       
+];
     
     // Dynamically register fields for this page
 	foreach ( $fields as $id => $field ) {
@@ -809,7 +1041,7 @@ public function dtoc_settings_initiate(){
 		if ( in_array( $page, $pages, true ) ) {
 			add_settings_field(
 				$id,
-				esc_html( $field['title'] ),
+				dtoc_tooltip( $field['tooltip'], $field['id'] ) .esc_html( $field['title'] ),
 				[ $this, $field['callback'] ],
 				$field['section'],
 				$field['section'],
@@ -820,17 +1052,110 @@ public function dtoc_settings_initiate(){
                        
 }
 
-public function dtoc_display_exclude_headings_cb(){
+public function dtoc_exclude_headings_cb() {
 	$this->dtoc_resolve_meta_settings_name(); 	
-    ?>  
-        <textarea cols="45" rows="3" class="smpg-input" name="<?php echo $this->_setting_name; ?>[exclude_headings]" id="exclude_headings"><?php echo (isset($this->_setting_option['exclude_headings']) ? $this->_setting_option['exclude_headings'] : '' ) ?></textarea>        
-        <p>Separate multiple headings with a pipe |. Use an asterisk * as a wildcard to match other text.</p>
-        <strong>Example:</strong>
-        <p>Fruit* : Ignore headings starting with "Fruit".</p>
-        <p>*Fruit Diet* Ignore headings with "Fruit Diet" somewhere in the heading.</p>
-        <p>Apple Tree|Oranges|Yellow Bananas Ignore headings that are exactly "Apple Tree", "Oranges" or "Yellow Bananas".</p>
-    <?php
+	?>  
+	<textarea cols="45" rows="2" class="smpg-input"
+		name="<?php echo $this->_setting_name; ?>[exclude_headings]" 
+		id="exclude_headings"
+		placeholder="Fruit* | *Fruit Diet* | Apple Tree|Oranges|Yellow Bananas"><?php 
+			echo ( isset( $this->_setting_option['exclude_headings'] ) ? esc_textarea( $this->_setting_option['exclude_headings'] ) : '' ); 
+		?></textarea>        	
+	<?php
 }
+
+public function dtoc_exclude_selectors_cb() {
+	$this->dtoc_resolve_meta_settings_name();
+
+	$disabled_attr = dtoc_is_premium_active() ? '' : 'disabled';
+	?>
+	<textarea 
+		cols="45" 
+		rows="2" 
+		class="smpg-input" 
+		name="<?php echo $this->_setting_name; ?>[exclude_selectors]" 
+		id="exclude_selectors"
+		placeholder="#no-toc, .skip-section, [data-toc-exclude]"
+		<?php echo $disabled_attr; ?>
+	><?php 
+		echo ( isset( $this->_setting_option['exclude_selectors'] ) ? esc_textarea( $this->_setting_option['exclude_selectors'] ) : '' ); 
+	?></textarea>
+	<?php
+	if ( ! dtoc_is_premium_active() ) {
+		dtoc_display_premium_notice();
+	}
+}
+
+
+public function dtoc_exclude_html_tags_cb() {
+	$this->dtoc_resolve_meta_settings_name();
+
+	$disabled_attr = dtoc_is_premium_active() ? '' : 'disabled';
+	?>
+	<textarea 
+		cols="45" 
+		rows="2" 
+		class="smpg-input"
+		name="<?php echo $this->_setting_name; ?>[exclude_tags]" 
+		id="exclude_tags"
+		placeholder="aside, footer, nav, section"
+		<?php echo $disabled_attr; ?>
+	><?php 
+		echo ( isset( $this->_setting_option['exclude_tags'] ) ? esc_textarea( $this->_setting_option['exclude_tags'] ) : '' ); 
+	?></textarea>
+	<?php
+	if ( ! dtoc_is_premium_active() ) {
+		dtoc_display_premium_notice();
+	}
+}
+
+
+public function dtoc_exclude_blocks_cb() {
+	$this->dtoc_resolve_meta_settings_name();
+
+	$disabled_attr = dtoc_is_premium_active() ? '' : 'disabled';
+	?>
+	<textarea 
+		cols="45" 
+		rows="2" 
+		class="smpg-input"
+		name="<?php echo $this->_setting_name; ?>[exclude_blocks]" 
+		id="exclude_blocks"
+		placeholder="core/quote, yoast/faq-block, core/gallery"
+		<?php echo $disabled_attr; ?>
+	><?php 
+		echo ( isset( $this->_setting_option['exclude_blocks'] ) ? esc_textarea( $this->_setting_option['exclude_blocks'] ) : '' ); 
+	?></textarea>
+	<?php
+	if ( ! dtoc_is_premium_active() ) {
+		dtoc_display_premium_notice();
+	}
+}
+
+
+public function dtoc_exclude_comments_cb() {
+	$this->dtoc_resolve_meta_settings_name();
+
+	$disabled_attr = dtoc_is_premium_active() ? '' : 'disabled';
+	?>
+	<textarea 
+		cols="45" 
+		rows="2" 
+		class="smpg-input"
+		name="<?php echo $this->_setting_name; ?>[exclude_comments]" 
+		id="exclude_comments"
+		placeholder="&lt;!--toc-exclude-start--&gt;&#10;&lt;!--toc-exclude-end--&gt;"
+		<?php echo $disabled_attr; ?>
+	><?php 
+		echo ( isset( $this->_setting_option['exclude_comments'] ) ? esc_textarea( $this->_setting_option['exclude_comments'] ) : '' ); 
+	?></textarea>
+	<?php
+	if ( ! dtoc_is_premium_active() ) {
+		dtoc_display_premium_notice();
+	}
+}
+
+
 public function dtoc_display_preserve_line_breaks_cb(){
 	$this->dtoc_resolve_meta_settings_name(); 	
     ?>  
@@ -845,7 +1170,16 @@ public function dtoc_display_accessibility_cb(){
         
     <?php
 }
-
+public function dtoc_display_child_page_cb(){
+	$this->dtoc_resolve_meta_settings_name(); 	
+    $disabled_attr = dtoc_is_premium_active() ? '' : 'disabled';
+    ?>  
+        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[child_page]" id="child_page" type="checkbox" value="1" <?php echo (isset($this->_setting_option['child_page']) && $this->_setting_option['child_page'] == 1 ? 'checked' : '' ) ?> <?php echo $disabled_attr; ?>>        
+    <?php
+    if ( ! dtoc_is_premium_active() ) {
+		dtoc_display_premium_notice();
+	}
+}
 public function dtoc_display_combine_page_break_cb(){
 	$this->dtoc_resolve_meta_settings_name(); 	
     ?>  
@@ -860,13 +1194,58 @@ public function dtoc_display_hierarchy_cb(){
         <input class="dtoc_parent_option smpg-input" name="<?php echo $this->_setting_name; ?>[hierarchy]" id="hierarchy" type="checkbox" value="1" <?php echo (isset($this->_setting_option['hierarchy']) && $this->_setting_option['hierarchy'] == 1 ? 'checked' : '' ) ?>>
     <?php
 }
+public function dtoc_display_exp_col_remember_state_cb(){
+    $this->dtoc_resolve_meta_settings_name(); 		
+    $disabled_attr = dtoc_is_premium_active() ? '' : 'disabled';
+    ?>  
+        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[exp_col_remember_state]" id="exp_col_remember_state" type="checkbox" value="1" <?php echo (isset($this->_setting_option['exp_col_remember_state']) && $this->_setting_option['exp_col_remember_state'] == 1 ? 'checked' : '' ) ?> <?php echo $disabled_attr; ?>>
+    <?php
+    if ( ! dtoc_is_premium_active() ) {
+		dtoc_display_premium_notice();
+	}
+}
 public function dtoc_display_exp_col_subheadings_cb(){
     $this->dtoc_resolve_meta_settings_name(); 		
-    ?>  
-        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[exp_col_subheadings]" id="exp_col_subheadings" type="checkbox" value="1" <?php echo (isset($this->_setting_option['exp_col_subheadings']) && $this->_setting_option['exp_col_subheadings'] == 1 ? 'checked' : '' ) ?>>
-    <?php
-}
+    	$disabled_attr = dtoc_is_premium_active() ? '' : 'disabled';
 
+    ?>  
+        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[exp_col_subheadings]" id="exp_col_subheadings" type="checkbox" value="1" <?php echo (isset($this->_setting_option['exp_col_subheadings']) && $this->_setting_option['exp_col_subheadings'] == 1 ? 'checked' : '' ) ?> <?php echo $disabled_attr; ?>>
+    <?php
+    if ( ! dtoc_is_premium_active() ) {
+		dtoc_display_premium_notice();
+	}
+}
+public function dtoc_display_skip_empty_parents_cb(){
+    $this->dtoc_resolve_meta_settings_name(); 		
+    ?>  
+        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[skip_empty_parents]" id="skip_empty_parents" type="checkbox" value="1" <?php echo (isset($this->_setting_option['skip_empty_parents']) && $this->_setting_option['skip_empty_parents'] == 1 ? 'checked' : '' ) ?>>
+    <?php
+    
+}
+public function dtoc_display_hierarchy_max_depth_cb(){
+
+    $value = 6;
+
+    if ( isset( $this->_setting_option['hierarchy_max_depth'] ) ) {
+        $value = $this->_setting_option['hierarchy_max_depth'];
+    }
+
+    $disabled_attr = dtoc_is_premium_active() ? '' : 'disabled';
+
+    ?>
+    <select class="smpg-input smpg-mode-select" name="<?php echo $this->_setting_name; ?>[hierarchy_max_depth]" id="hierarchy_max_depth" <?php echo $disabled_attr; ?>>	
+		<option value="2" <?php selected( $value, 2 ); ?>><?php esc_html_e( 'Up to H2', 'digital-table-of-contents' ); ?></option>
+		<option value="3" <?php selected( $value, 3 ); ?>><?php esc_html_e( 'Up to H3', 'digital-table-of-contents' ); ?></option>
+		<option value="4" <?php selected( $value, 4 ); ?>><?php esc_html_e( 'Up to H4', 'digital-table-of-contents' ); ?></option>
+		<option value="5" <?php selected( $value, 5 ); ?>><?php esc_html_e( 'Up to H5', 'digital-table-of-contents' ); ?></option>
+		<option value="6" <?php selected( $value, 6 ); ?>><?php esc_html_e( 'Up to H6 (All Levels)', 'digital-table-of-contents' ); ?></option>
+	</select>
+	
+	<?php
+    if ( ! dtoc_is_premium_active() ) {
+		dtoc_display_premium_notice();
+	}
+}
 public function dtoc_general_list_style_type_cb() {
     $this->dtoc_resolve_meta_settings_name();
 
@@ -1450,8 +1829,7 @@ public function dtoc_customization_border_type_cb(){
         <option value="groove" <?php echo (isset($this->_setting_option['border_type']) && $this->_setting_option['border_type'] == 'groove' ? 'selected' : '' ) ?>><?php echo esc_html__('Groove', 'digital-table-of-contents'); ?></option>
     </select>
 	
-    <?php
-    // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'border_type'); 
+    <?php    
 }
 public function dtoc_customization_icon_border_type_cb(){
 	$this->dtoc_resolve_meta_settings_name(); 	
@@ -1465,8 +1843,7 @@ public function dtoc_customization_icon_border_type_cb(){
         <option value="dashed" <?php echo (isset($this->_setting_option['icon_border_type']) && $this->_setting_option['icon_border_type'] == 'dashed' ? 'selected' : '' ) ?>><?php echo esc_html__('Dashed', 'digital-table-of-contents'); ?></option>
         <option value="groove" <?php echo (isset($this->_setting_option['icon_border_type']) && $this->_setting_option['icon_border_type'] == 'groove' ? 'selected' : '' ) ?>><?php echo esc_html__('Groove', 'digital-table-of-contents'); ?></option>
     </select>	
-    <?php
-    // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'icon_border_type'); 
+    <?php    
 }
 public function dtoc_customization_toggle_btn_border_type_cb(){
 	$this->dtoc_resolve_meta_settings_name(); 	
@@ -1480,8 +1857,7 @@ public function dtoc_customization_toggle_btn_border_type_cb(){
         <option value="dashed" <?php echo (isset($this->_setting_option['toggle_btn_border_type']) && $this->_setting_option['toggle_btn_border_type'] == 'dashed' ? 'selected' : '' ) ?>><?php echo esc_html__('Dashed', 'digital-table-of-contents'); ?></option>
         <option value="groove" <?php echo (isset($this->_setting_option['toggle_btn_border_type']) && $this->_setting_option['toggle_btn_border_type'] == 'groove' ? 'selected' : '' ) ?>><?php echo esc_html__('Groove', 'digital-table-of-contents'); ?></option>
     </select>	
-    <?php
-    // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'toggle_btn_border_type'); 
+    <?php    
 }
 public function dtoc_general_rendering_style_cb(){ 
     $this->dtoc_resolve_meta_settings_name(); 	   	                
@@ -1544,98 +1920,110 @@ public function dtoc_general_header_icon_cb(){
         <img id="custom-icon-preview" src="" alt="Icon Preview" style="max-height: 40px; margin-left: 10px; display: none;" />
         <input type="hidden" name="<?php echo esc_attr($this->_setting_name); ?>[custom_icon_url]" id="custom_icon_url" value="<?php echo esc_attr($this->_setting_option['custom_icon_url'] ?? ''); ?>">
     </div>    
-    <?php 
-        // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'header_icon'); 
+    <?php         
     ?>
 </div>
 
     
     <?php
 }
+public function dtoc_display_exp_col_icon_cb(){
+	$this->dtoc_resolve_meta_settings_name(); 	
+    $disabled_attr = dtoc_is_premium_active() ? '' : 'disabled';
+    ?>    
+		    
+    <div style="display: flex;">
+        <select class="smpg-input" name="<?php echo esc_attr($this->_setting_name); ?>[exp_col_icon]" id="exp_col_icon" <?php echo esc_attr( $disabled_attr ); ?>>                
+            <option value="plus_minus" <?php echo (isset($this->_setting_option['exp_col_icon']) && $this->_setting_option['exp_col_icon'] == 'plus_minus' ? 'selected' : '' ) ?>><?php echo esc_html__('[ + / - ]', 'digital-table-of-contents'); ?></option>                
+            <option value="arrow" <?php echo (isset($this->_setting_option['exp_col_icon']) && $this->_setting_option['exp_col_icon'] == 'arrow' ? 'selected' : '' ) ?>><?php echo esc_html__('[ > / v ]', 'digital-table-of-contents'); ?></option>
+            <option value="arrow_triangle" <?php echo (isset($this->_setting_option['exp_col_icon']) && $this->_setting_option['exp_col_icon'] == 'arrow_triangle' ? 'selected' : '' ) ?>><?php echo esc_html__('[ ▶ / ▼ ]', 'digital-table-of-contents'); ?></option>
+        </select>        
+    </div>    
+    <?php
+    if ( ! dtoc_is_premium_active() ) {
+		dtoc_display_premium_notice();
+	}
+}
 public function dtoc_general_show_text_cb() {
     $this->dtoc_resolve_meta_settings_name(); 	
     ?>    
-    <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[show_text]" id="show_text" type="text" value="<?php echo (isset($this->_setting_option['show_text']) ? $this->_setting_option['show_text'] : 'show' ) ?>">
-    <?php
-    // dtoc_tooltip(__('text', 'digital-table-of-contents'), 'show_text');
+        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[show_text]" id="show_text" type="text" value="<?php echo (isset($this->_setting_option['show_text']) ? $this->_setting_option['show_text'] : 'show' ) ?>">
+    <?php    
 }
 public function dtoc_general_hide_text_cb() {
     $this->dtoc_resolve_meta_settings_name(); 	
     ?>    
-    <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[hide_text]" id="hide_text" type="text" value="<?php echo (isset($this->_setting_option['hide_text']) ? $this->_setting_option['hide_text'] : 'hide' ) ?>">
+        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[hide_text]" id="hide_text" type="text" value="<?php echo (isset($this->_setting_option['hide_text']) ? $this->_setting_option['hide_text'] : 'hide' ) ?>">
     <?php
-    // dtoc_tooltip(__('text', 'digital-table-of-contents'), 'hide_text');
+    
 }
 public function dtoc_general_header_text_cb() {
     $this->dtoc_resolve_meta_settings_name(); 	
     ?>    
     <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[header_text]" id="header_text" type="text" value="<?php echo (isset($this->_setting_option['header_text']) ? $this->_setting_option['header_text'] : 'Table of Contents' ) ?>">
-    <?php
-    // dtoc_tooltip(__('text', 'digital-table-of-contents'), 'header_text');
+    <?php    
 }
 
 public function dtoc_general_toggle_btn_text_cb() {
     $this->dtoc_resolve_meta_settings_name(); 	
     ?>    
-    <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[toggle_btn_text]" id="toggle_btn_text" type="text" value="<?php echo (isset($this->_setting_option['toggle_btn_text']) ? $this->_setting_option['toggle_btn_text'] : 'Index' ) ?>">
-    <?php
-    // dtoc_tooltip(__('text', 'digital-table-of-contents'), 'header_text');
+        <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[toggle_btn_text]" id="toggle_btn_text" type="text" value="<?php echo (isset($this->_setting_option['toggle_btn_text']) ? $this->_setting_option['toggle_btn_text'] : 'Index' ) ?>">
+    <?php    
 }
 
 public function dtoc_display_title_cb(){  
     $this->dtoc_resolve_meta_settings_name(); 	  	                        
     ?>  
         <input class="smpg-input dtoc_parent_option" name="<?php echo $this->_setting_name; ?>[display_title]" id="display_title" type="checkbox" value="1" <?php echo (isset($this->_setting_option['display_title']) && $this->_setting_option['display_title'] == 1 ? 'checked' : '' ) ?>>
-    <?php
-    // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'display_title'); 
+    <?php    
 }
 public function dtoc_general_scroll_back_to_toc_cb(){  
     $this->dtoc_resolve_meta_settings_name(); 	  	                        
     ?>  
         <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[scroll_back_to_top]" id="scroll_back_to_toc" type="checkbox" value="1" <?php echo (isset($this->_setting_option['scroll_back_to_top']) && $this->_setting_option['scroll_back_to_top'] == 1 ? 'checked' : '' ) ?>>
-    <?php
-    // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'scroll_back_to_top'); 
+    <?php    
 }
 public function dtoc_general_wrap_content_cb(){ 
     $this->dtoc_resolve_meta_settings_name(); 	   	                        
     ?>  
         <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[wrap_content]" id="wrap_content" type="checkbox" value="1" <?php echo (isset($this->_setting_option['wrap_content']) && $this->_setting_option['wrap_content'] == 1 ? 'checked' : '' ) ?>>
-    <?php
-    // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'wrap_content'); 
+    <?php    
 }
 public function dtoc_display_toggle_body_cb(){  
     $this->dtoc_resolve_meta_settings_name(); 	                        
     ?>  
         <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[toggle_body]" id="toggle_body" type="checkbox" value="1" <?php echo (isset($this->_setting_option['toggle_body']) && $this->_setting_option['toggle_body'] == 1 ? 'checked' : '' ) ?>>        
-    <?php
-    // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'toggle_body'); 
+    <?php    
 }
 public function dtoc_customization_remove_css_js_cb(){ 
     $this->dtoc_resolve_meta_settings_name();   	                        
     ?>  
         <input class="smpg-input" name="<?php echo $this->_setting_name; ?>[remove_unused_css_js]" id="remove_unused_css_js" type="checkbox" value="1" <?php echo (isset($this->_setting_option['remove_unused_css_js']) && $this->_setting_option['remove_unused_css_js'] == 1 ? 'checked' : '' ) ?>>
-    <?php
-    // dtoc_tooltip(__('tex1t', 'digital-table-of-contents'), 'remove_unused_css_js'); 
+    <?php    
 }
-public function dtoc_general_headings_include_cb(){
-    $this->dtoc_resolve_meta_settings_name();
-    ?>        
-        <input class="smpg-input" data-id="headings_include" data-number="1" name="<?php echo $this->_setting_name; ?>[headings_include][1]" id="headings_include_1" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][1]) && $this->_setting_option['headings_include'][1] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_1"><?php echo esc_html__('H1', 'digital-table-of-contents'); ?></label>
-        <br>
-        <input class="smpg-input" data-id="headings_include" data-number="2" name="<?php echo $this->_setting_name; ?>[headings_include][2]" id="headings_include_2" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][2]) && $this->_setting_option['headings_include'][2] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_2"><?php echo esc_html__('H2', 'digital-table-of-contents'); ?></label>
-        <br>
-        <input class="smpg-input" data-id="headings_include" data-number="3" name="<?php echo $this->_setting_name; ?>[headings_include][3]" id="headings_include_3" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][3]) && $this->_setting_option['headings_include'][3] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_3"><?php echo esc_html__('H3', 'digital-table-of-contents'); ?></label>
-        <br>
-        <input class="smpg-input" data-id="headings_include" data-number="4" name="<?php echo $this->_setting_name; ?>[headings_include][4]" id="headings_include_4" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][4]) && $this->_setting_option['headings_include'][4] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_4"><?php echo esc_html__('H4', 'digital-table-of-contents'); ?></label>
-        <br>
-        <input class="smpg-input" data-id="headings_include" data-number="5" name="<?php echo $this->_setting_name; ?>[headings_include][5]" id="headings_include_5" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][5]) && $this->_setting_option['headings_include'][5] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_5"><?php echo esc_html__('H5', 'digital-table-of-contents'); ?></label>
-        <br>
-        <input class="smpg-input" data-id="headings_include" data-number="6" name="<?php echo $this->_setting_name; ?>[headings_include][6]" id="headings_include_6" type="checkbox" value="1" <?php echo (isset($this->_setting_option['headings_include'][6]) && $this->_setting_option['headings_include'][6] == 1 ? 'checked' : '' ) ?>>&nbsp;<label for="headings_include_6"><?php echo esc_html__('H6', 'digital-table-of-contents'); ?></label>
+public function dtoc_exclude_headings_include_cb() {
+	$this->dtoc_resolve_meta_settings_name();
+	?>
 
-        <p class="description"><?php echo esc_html__('Select the headings to be added when the table of contents being created. Deselecting it will be excluded.', 'digital-table-of-contents'); ?></p>
-                        
-    <?php
+	<div class="dtoc-headings-include-wrap">
+		<?php for ( $i = 1; $i <= 6; $i++ ) : ?>
+			<label class="dtoc-heading-label" for="headings_include_<?php echo esc_attr( $i ); ?>">
+				<input
+					class="smpg-input"
+					data-id="headings_include"
+					data-number="<?php echo esc_attr( $i ); ?>"
+					name="<?php echo esc_attr( $this->_setting_name ); ?>[headings_include][<?php echo esc_attr( $i ); ?>]"
+					id="headings_include_<?php echo esc_attr( $i ); ?>"
+					type="checkbox"
+					value="1"
+					<?php checked( isset( $this->_setting_option['headings_include'][ $i ] ) && $this->_setting_option['headings_include'][ $i ] == 1 ); ?>
+				/>
+				<span><?php echo esc_html( 'H' . $i ); ?></span>
+			</label>
+		<?php endfor; ?>
+	</div>	
 
+	<?php
 }
 
 public function dtoc_placement_setting_section_cb(){
@@ -1822,7 +2210,44 @@ public function dtoc_display_toggle_initial_cb() {
 	<?php
 }
 
+public function dtoc_display_exp_col_initial_state_cb() {
 
+	$this->dtoc_resolve_meta_settings_name();
+    $disabled_attr = dtoc_is_premium_active() ? '' : 'disabled';
+	?>
+        <input class="smpg-input" data-id="exp_col_initial_state" type="radio" id="exp_col_initial_state_collapsed" name="<?php echo esc_attr( $this->_setting_name ); ?>[exp_col_initial_state]" value="collapsed" 
+            <?php checked( isset( $this->_setting_option['exp_col_initial_state'] ) && $this->_setting_option['exp_col_initial_state'] === 'collapsed' ); ?> <?php echo esc_attr( $disabled_attr ); ?>>
+        <label for="exp_col_initial_state_collapsed" style="margin-right: 15px;"><?php esc_html_e( 'Collapsed', 'digital-table-of-contents' ); ?></label>
+
+        <input class="smpg-input" data-id="exp_col_initial_state" type="radio" id="exp_col_initial_state_expanded" name="<?php echo esc_attr( $this->_setting_name ); ?>[exp_col_initial_state]" value="expanded" 
+            <?php checked( isset( $this->_setting_option['exp_col_initial_state'] ) && $this->_setting_option['exp_col_initial_state'] === 'expanded' ); ?> <?php echo esc_attr( $disabled_attr ); ?>>
+        <label for="exp_col_initial_state_expanded"><?php esc_html_e( 'Expanded', 'digital-table-of-contents' ); ?></label>	
+
+	<?php
+    if ( ! dtoc_is_premium_active() ) {
+		dtoc_display_premium_notice();
+	}
+
+}
+
+public function dtoc_display_exp_col_icon_position_cb() {
+
+	$this->dtoc_resolve_meta_settings_name();
+    $disabled_attr = dtoc_is_premium_active() ? '' : 'disabled';
+	?>
+        <input class="smpg-input" data-id="exp_col_icon_position" type="radio" id="exp_col_icon_position_left" name="<?php echo esc_attr( $this->_setting_name ); ?>[exp_col_icon_position]" value="left" 
+            <?php checked( isset( $this->_setting_option['exp_col_icon_position'] ) && $this->_setting_option['exp_col_icon_position'] === 'left' ); ?> <?php echo esc_attr( $disabled_attr ); ?>>
+        <label for="exp_col_icon_position_left" style="margin-right: 15px;"><?php esc_html_e( 'Left', 'digital-table-of-contents' ); ?></label>
+
+        <input class="smpg-input" data-id="exp_col_icon_position" type="radio" id="exp_col_icon_position_right" name="<?php echo esc_attr( $this->_setting_name ); ?>[exp_col_icon_position]" value="right" 
+            <?php checked( isset( $this->_setting_option['exp_col_icon_position'] ) && $this->_setting_option['exp_col_icon_position'] === 'right' ); ?> <?php echo esc_attr( $disabled_attr ); ?>>
+        <label for="exp_col_icon_position_right"><?php esc_html_e( 'Right', 'digital-table-of-contents' ); ?></label>	
+
+	<?php
+    if ( ! dtoc_is_premium_active() ) {
+		dtoc_display_premium_notice();
+	}
+}
 
 public function dtoc_resolve_meta_settings_name() {
 

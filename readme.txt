@@ -3,9 +3,9 @@ Contributors: amanstacker
 Donate link: https://www.paypal.com/paypalme/amanstacker  
 Tags: table of contents, toc, navigation, headings, sticky toc
 Requires at least: 5.0  
-Tested up to: 6.8  
+Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.0.5
+Stable tag: 1.0.7
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html  
 
@@ -57,12 +57,12 @@ With default settings, just use [digital_toc] for a quick, clean, and fully func
 
 **Available Modules :**
 
-- ✅ <strong>In-Content<strong> : Embed the table of contents directly within your post or page content for seamless navigation.
-- ✅ <strong>In-Content Mobile<strong> : Optimized version of In-Content specifically designed for mobile devices.
-- ✅ <strong>Shortcode<strong> : Easily insert the TOC anywhere using a simple shortcode, giving you full placement flexibility.
-- ✅ <strong>Sliding Sticky<strong> : A sticky TOC that stays hidden and slides in from the left or right when toggled. Best for users who want to save space and show TOC only when needed.
-- ✅ <strong>Sliding Sticky Mobile<strong> : A sticky TOC that stays hidden and slides in from the Bottom to Topp or Top to Bottom when toggled. Best for users who want to save space and show TOC only when needed.
-- ✅ <strong>Floating<strong> : A Floating TOC is a movable, draggable, or collapsible navigation element that isn't fixed, allowing repositioning and enhanced interaction
+- ✅ <strong>In-Content</strong> : Embed the table of contents directly within your post or page content for seamless navigation.
+- ✅ <strong>In-Content Mobile</strong> : Optimized version of In-Content specifically designed for mobile devices.
+- ✅ <strong>Shortcode</strong> : Easily insert the TOC anywhere using a simple shortcode, giving you full placement flexibility.
+- ✅ <strong>Sliding Sticky</strong> : A sticky TOC that stays hidden and slides in from the left or right when toggled. Best for users who want to save space and show TOC only when needed.
+- ✅ <strong>Sliding Sticky Mobile</strong> : A sticky TOC that stays hidden and slides in from the Bottom to Topp or Top to Bottom when toggled. Best for users who want to save space and show TOC only when needed.
+- ✅ <strong>Floating</strong> : A Floating TOC is a movable, draggable, or collapsible navigation element that isn't fixed, allowing repositioning and enhanced interaction
 
 == Screenshots ==
 
@@ -112,6 +112,12 @@ Mobile-specific modules are coming soon in future updates!
 Yes. Use the Tools section to reset or export/import your settings.
 
 == Changelog ==
+
+= 1.0.7 =
+* Tested with WordPress version 7.0
+
+= 1.0.6 =
+* Tested with WordPress version 6.9
 
 = 1.0.5 =
 * Live Preview Panel added for all toc modules

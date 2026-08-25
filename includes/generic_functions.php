@@ -38,13 +38,15 @@ function dtoc_box_on_css( $matches , $options = [] ) {
     return $html;
 }
 
-function dtoc_box_hierarchy_heading_list($matches,   $options = []){
+function dtoc_box_hierarchy_heading_list( $matches,   $options = [] ) {
+
 			$html               = '';            
             $current_depth      = 100;    // headings can't be larger than h6 but 100 as a default to be sure
 			$numbered_items     = [];
 			$numbered_items_min = null;
 
-			// find the minimum heading to establish our baseline
+            $max_depth = ! empty( $options['hierarchy_max_depth'] ) ? (int) $options['hierarchy_max_depth'] : 6;
+			
 			foreach ( $matches as $i => $match ) {
 				if ( $current_depth > $matches[ $i ][2] ) {
 					$current_depth = (int) $matches[ $i ][2];
@@ -57,11 +59,20 @@ function dtoc_box_hierarchy_heading_list($matches,   $options = []){
 			foreach ( $matches as $i => $match ) {
 
 				$level = $matches[ $i ][2];
+
+                // Skip headings deeper than the max depth
+                if ( $level > $max_depth ) {
+                    continue;
+                }
+
 				$count = $i + 1;
+
+                $li_attr = "data-dtoc-id='" . esc_attr( $match['id'] ) . "'";
 
 				if ( $current_depth == (int) $matches[ $i ][2] ) {
 
-					$html .= "<li class='dtoc-page-" . $matches[ $i ]['page'] . " dtoc-heading-level-" . $current_depth . "'>";
+					$html .= "<li class='dtoc-page-" . $matches[ $i ]['page'] . " dtoc-heading-level-" . $current_depth . "' " . $li_attr . ">";
+
 				}
 
 				// start lists
@@ -70,23 +81,42 @@ function dtoc_box_hierarchy_heading_list($matches,   $options = []){
 					for ( $current_depth; $current_depth < (int) $matches[ $i ][2]; $current_depth++ ) {
 
 						$numbered_items[ $current_depth + 1 ] = 0;
-						$html .= "<ul class='dtoc-list-level-" . $level . "'><li class='dtoc-heading-level-" . $level . "'>";
+						$html .= "<ul class='dtoc-list-level-" . $level . "'><li class='dtoc-heading-level-" . $level . "' " . $li_attr . ">";
+
 					}
 				}
 
 				$title = isset( $matches[ $i ]['alternate'] ) ? $matches[ $i ]['alternate'] : $matches[ $i ][0];
 				$title = strip_tags( $title );
+                                
+                // Add expand/collapse toggle only if subheadings exist AND within max depth
+                if ( ! empty( $options['exp_col_subheadings'] ) ) {
+                    $next_has_child = (
+                        isset( $matches[ $i + 1 ] ) &&
+                        (int) $matches[ $i + 1 ][2] > $level &&
+                        (int) $matches[ $i + 1 ][2] <= $max_depth
+                    );
+
+                    if ( $next_has_child ) {
+                        $html .= '<span class="dtoc-tree-toggle" aria-label="Toggle Subheadings">[+]</span>';
+                    }
+                }
+
 				if ( ! empty( $options['jump_links'] ) ) {
+
+                    $html .= '<span class="dtoc-marker-text">';
+
 					$html .= sprintf(
 							 '<a class="dtoc-link dtoc-heading-' . $count . '" href="%1$s" title="%2$s">%3$s</a>',
-								esc_attr( trailingslashit( get_permalink() )  . ($matches[ $i ]['page'] > 1 ? $matches[ $i ]['page'] : '') . '#' . $matches[ $i ]['id'] ),
+								esc_attr( trailingslashit( get_permalink( $match['post_id'] ) )  . ($matches[ $i ]['page'] > 1 ? $matches[ $i ]['page'] : '') . '#' . $matches[ $i ]['id'] ),
 								esc_attr( strip_tags( $title ) ),
 								$title
 					);
-				}else{
-					
-					$html .= $title;
-				
+
+                    $html .= '</span>';
+
+				}else{					
+					$html .= '<span class="dtoc-marker-text">' . esc_html( $title ) . '</span>';				
 				}
 				
 				// end lists
@@ -125,8 +155,7 @@ function dtoc_box_hierarchy_heading_list($matches,   $options = []){
 function dtoc_box_heading_list( $matches, $options = [] ) {
     
     $html = '';
-    $dtoc_current_permalink = trailingslashit( get_permalink() );
-
+    
     foreach ( $matches as $i => $match ) {
         $count = $i + 1;
 
@@ -141,7 +170,7 @@ function dtoc_box_heading_list( $matches, $options = [] ) {
         $html .= '<li>';
 
         if ( ! empty( $options['jump_links'] ) ) {
-            $link = esc_attr( $dtoc_current_permalink . ( $match['page'] > 1 ? $match['page'] : '' ) . '#' . $match['id'] );
+            $link = esc_attr( trailingslashit( get_permalink( $match['post_id'] ) ) . ( $match['page'] > 1 ? $match['page'] : '' ) . '#' . $match['id'] );
 
             $accessibility_attrs = '';
             if ( ! empty( $options['accessibility'] ) ) {
@@ -165,13 +194,13 @@ function dtoc_box_heading_list( $matches, $options = [] ) {
     return $html;
 }
 
-function dtoc_get_plain_toc_html($matches, $options){
+function dtoc_get_plain_toc_html($matches, $options) {
     $html = '';
     $html .= '<ul>';    
     if ( ! empty( $options['hierarchy'] ) ) {
-        $html .= dtoc_box_hierarchy_heading_list($matches , $options);
+        $html .= dtoc_box_hierarchy_heading_list($matches , $options );
     }else{
-        $html .= dtoc_box_heading_list($matches, $options);
+        $html .= dtoc_box_heading_list($matches, $options );
     }    
     $html .= '</ul>';
     return $html;
@@ -294,11 +323,12 @@ function dtoc_generate_Heading_id( $heading ) {
     return $response_id;
 }
 
-function dtoc_heading_ids( $matches ) {
+function dtoc_heading_ids( $matches, $post_id = null ) {
         
     foreach ( $matches as $i => $match ) {
 
-        $matches[ $i ]['id'] = dtoc_generate_Heading_id( $matches[ $i ][0] );
+        $matches[ $i ]['id']      = dtoc_generate_Heading_id( $matches[ $i ][0] );
+        $matches[ $i ]['post_id'] = $post_id;
     }    
     return $matches;
 }
@@ -325,7 +355,7 @@ function dtoc_next_page( $matches, $page ){
     return $matches;
 }
 
-function dtoc_filter_headings_by_content( $content, $page, $type, $options ) { 
+function dtoc_filter_headings_by_content( $content, $page, $type, $options, $post_id = null ) { 
 
     $matches = [];
     $regex = apply_filters( "dtoc_regex_filter_{$type}", '/(<h([1-6]{1})[^>]*>)(.*)<\/h\2>/msuU' );
@@ -361,7 +391,7 @@ function dtoc_filter_headings_by_content( $content, $page, $type, $options ) {
                     $matches = dtoc_filter_exclude_heading_matches( $matches, $options['exclude_headings'] );
                 }                
 
-                $matches = dtoc_heading_ids( $matches );
+                $matches = dtoc_heading_ids( $matches, $post_id );
                 $matches = dtoc_next_page( $matches, $page );                
 
             } else {
@@ -370,7 +400,7 @@ function dtoc_filter_headings_by_content( $content, $page, $type, $options ) {
             }
 
         }
-        
+        $matches = apply_filters( 'dtoc_exclude_headings_by', $matches, $options, $content );
         return array_values( $matches ); 
 
 }
@@ -427,7 +457,7 @@ function dtoc_filter_exclude_heading_matches( $matches, $exclude_patterns ) {
 }
 
 
-function dtoc_filter_heading( $content, $options = [] ) {
+function dtoc_filter_heading( $content, $options = [], $post_id = null ) {
 
     global $post,$page;
     
@@ -443,14 +473,14 @@ function dtoc_filter_heading( $content, $options = [] ) {
 			foreach ( $splited_content as $sp_content ) {
 				$result = [];
 				 if(isset($options['combine_page_break'])){
-					$result = dtoc_filter_headings_by_content( $sp_content, $post_page, $type, $options );
+					$result = dtoc_filter_headings_by_content( $sp_content, $post_page, $type, $options, $post_id );
 					 if($result){
 						$response = array_merge($response, $result);
 					 }
 					 
 				 }else{
 					 if($page == $post_page){
-						$result = dtoc_filter_headings_by_content( $sp_content, $post_page, $type, $options );
+						$result = dtoc_filter_headings_by_content( $sp_content, $post_page, $type, $options, $post_id );
 						 if($result){
 							$response = array_merge($response, $result);
 						 }
@@ -463,7 +493,7 @@ function dtoc_filter_heading( $content, $options = [] ) {
 		}
 
     }else{
-        $response = dtoc_filter_headings_by_content( $content, 1, $type, $options );				
+        $response = dtoc_filter_headings_by_content( $content, 1, $type, $options, $post_id );
     }
     
     return $response;

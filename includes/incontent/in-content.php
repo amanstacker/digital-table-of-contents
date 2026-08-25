@@ -6,7 +6,7 @@ add_filter( 'the_content', 'dtoc_in_content_callback' );
 
 function dtoc_in_content_callback( $content ) {
 
-    global $dtoc_dashboard;
+    global $dtoc_dashboard, $post;
     
     if ( empty( $dtoc_dashboard['modules']['incontent'] ) ) {
         return $content;
@@ -18,8 +18,10 @@ function dtoc_in_content_callback( $content ) {
 
         if ( ! empty( $options ) && dtoc_placement_condition_matched( $options ) ) {
             
-            $matches     = dtoc_filter_heading( $content, $options );
-                     
+            $matches     = dtoc_filter_heading( $content, $options, $post->ID );
+
+            $matches = apply_filters( 'dtoc_extend_matches', $matches, $options, $post );
+                                             
             if ( ! empty( $matches ) ) {
 
                 $headings    = dtoc_get_headings( $matches );
@@ -45,14 +47,14 @@ function dtoc_in_content_callback( $content ) {
     return $content;    
 }
 
-function dtoc_position_inside_content( $content, $matches, $options ) {
+function dtoc_position_inside_content( $content, $matches, $options) {
         
         if ( ! empty( $options['rendering_style'] ) && $options['rendering_style'] == 'css' ) {
             
-            $dtocbox     = dtoc_box_on_css($matches,$options);
+            $dtocbox     = dtoc_box_on_css( $matches, $options );
         }else{
             
-            $dtocbox     = dtoc_box_on_js($matches,$options);
+            $dtocbox     = dtoc_box_on_js( $matches, $options );
         }
         
         $display_position = 'top_of_the_content';
